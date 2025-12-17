@@ -93,10 +93,7 @@ const requirements = [
 ]
 
 const fees = [
-  { item: "Biaya Pendaftaran", amount: "Rp 200.000" },
-  { item: "Uang Pangkal", amount: "Rp 5.000.000" },
-  { item: "Seragam & Perlengkapan", amount: "Rp 1.500.000" },
-  { item: "SPP per bulan", amount: "Rp 500.000" },
+  { item: "Biaya Pendaftaran SPMB", amount: "Rp 300.000" },
 ]
 
 const faqs = [
@@ -226,7 +223,7 @@ export default function SPMBPage() {
                   <ul className="space-y-3">
                     {section.items.map((item, itemIndex) => (
                       <li key={itemIndex} className="flex items-start gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </li>
                     ))}

@@ -122,10 +122,10 @@ export default async function BeritaDetailPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <section className="relative bg-gradient-to-br from-primary via-primary/90 to-primary/80 text-white py-12">
-        <div className="container mx-auto px-4">
+      <section className="relative bg-linear-to-br from-primary via-primary/90 to-primary/80 text-white py-12 ">
+        <div className="container mx-auto px-5">
           <Link href="/berita">
-            <Button variant="ghost" className="text-white hover:bg-white/20 mb-4">
+            <Button variant="ghost" className="text-black bg-[#ffd166] mb-4 mt-12">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Kembali ke Berita
             </Button>

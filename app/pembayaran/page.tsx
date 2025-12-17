@@ -106,7 +106,7 @@ export default function PembayaranPage() {
   return (
     <div className="pt-24 pb-16">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
+      <section className="bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
         <div className="container mx-auto px-4">
           <Breadcrumb items={[{ label: "Pembayaran" }]} />
           <div className="max-w-4xl mx-auto text-center mt-8">
@@ -165,7 +165,7 @@ export default function PembayaranPage() {
             <div className="container mx-auto px-4">
               <Card className="max-w-6xl mx-auto p-6 rounded-3xl border-2 border-[#33b962]/20">
                 <div className="flex flex-col md:flex-row gap-6 items-center">
-                  <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-[#33b962] flex-shrink-0">
+                  <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-[#33b962] shrink-0">
                     <img
                       src={studentData.photo || "/placeholder.svg"}
                       alt={studentData.name}
@@ -211,7 +211,7 @@ export default function PembayaranPage() {
                     {/* Year Header */}
                     <button
                       onClick={() => toggleYear(year)}
-                      className="w-full p-6 bg-gradient-to-r from-[#33b962] to-[#2a9d52] text-white flex items-center justify-between hover:from-[#2a9d52] hover:to-[#238b45] transition-all"
+                      className="w-full p-6 bg-linear-to-r from-[#33b962] to-[#2a9d52] text-white flex items-center justify-between hover:from-[#2a9d52] hover:to-[#238b45] transition-all rounded-2xl"
                     >
                       <div className="flex items-center gap-4">
                         {expandedYears.includes(year) ? (
@@ -263,25 +263,22 @@ export default function PembayaranPage() {
                                   </div>
                                 </div>
                                 <div className="text-right">
-                                  <p className="text-xl font-bold text-gray-900">
-                                    Rp {totalAmount.toLocaleString("id-ID")}
-                                  </p>
                                   <Badge className={`mt-1 ${
                                     paidCount === categoryPayments.length 
                                       ? "bg-green-100 text-green-700" 
                                       : "bg-yellow-100 text-yellow-700"
                                   } border-0`}>
-                                    {paidCount === categoryPayments.length ? "Lunas" : `${paidCount} dari ${categoryPayments.length}`}
+                                    {paidCount === categoryPayments.length ? "Lunas" : `${paidCount} dari ${categoryPayments.length} Pembayaran`}
                                   </Badge>
                                 </div>
                               </button>
 
                               {/* SPP Monthly List or Payment Items */}
                               {isSPP && expandedCategories.includes(categoryKey) && (
-                                <div className="bg-gray-50 p-6">
-                                  <div className="grid gap-4">
+                                <div className="bg-gray-50 p-6 m-2">
+                                  <div className="grid gap-2">
                                     {categoryPayments.map((payment, idx) => (
-                                      <Card key={idx} className="p-4 hover:shadow-md transition-shadow">
+                                      <Card key={idx} className="p-4 hover:shadow-md transition-shadow ">
                                         <div className="flex items-center justify-between">
                                           <div className="flex items-center gap-4 flex-1">
                                             <div className="w-12 h-12 rounded-full bg-[#33b962]/10 flex items-center justify-center">
@@ -395,29 +392,7 @@ export default function PembayaranPage() {
                   </Card>
                 ))}
 
-                {/* Summary Card */}
-                <Card className="p-8 rounded-3xl border-0 shadow-xl bg-gradient-to-br from-white to-gray-50">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Ringkasan Pembayaran</h3>
-                  <div className="grid md:grid-cols-3 gap-6">
-                    <div className="text-center">
-                      <p className="text-sm text-gray-600 mb-2">Total Tagihan</p>
-                      <p className="text-3xl font-bold text-gray-900">Rp {totalBills.toLocaleString("id-ID")}</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-sm text-gray-600 mb-2">Sudah Dibayar</p>
-                      <p className="text-3xl font-bold text-green-600">Rp {totalPaid.toLocaleString("id-ID")}</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-sm text-gray-600 mb-2">Belum Dibayar</p>
-                      <p className="text-3xl font-bold text-red-600">Rp {totalUnpaid.toLocaleString("id-ID")}</p>
-                    </div>
-                  </div>
-                  {totalUnpaid > 0 && (
-                    <Button className="w-full mt-6 h-14 bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full text-lg font-semibold">
-                      Bayar Semua Tagihan
-                    </Button>
-                  )}
-                </Card>
+                {/* Summary Card */} 
               </div>
             </div>
           </section>

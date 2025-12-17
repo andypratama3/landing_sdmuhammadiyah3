@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import { Menu, X, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Image from 'next/image'
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -57,8 +58,8 @@ export default function Navigation() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 bg-[#ffd166] rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-              <span className="text-2xl">🎈</span>
+            <div className="w-12 h-12  rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+              <Image src="/SD3_logo1.png" width={100} height={100} alt="Logo Sekolah" />
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-[#33b962] text-lg leading-tight">Sekolah Kreatif</span>
@@ -82,7 +83,7 @@ export default function Navigation() {
                     </button>
                     {openDropdown === link.label && (
                       <div
-                        className="absolute top-full left-0 mt-1 bg-white shadow-xl rounded-xl py-2 min-w-[200px] border border-gray-100"
+                        className="absolute top-full left-0 mt-1 bg-white shadow-xl rounded-xl py-2 min-w-50 border border-gray-100"
                         onMouseEnter={() => setOpenDropdown(link.label)}
                         onMouseLeave={() => setOpenDropdown(null)}
                       >

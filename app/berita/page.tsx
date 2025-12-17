@@ -182,7 +182,7 @@ export default function BeritaPage() {
                   src={featuredNews.image || "/placeholder.svg"}
                   alt={featuredNews.title}
                   fill
-                  className="object-cover"
+                  className="object-cover rounded-2xl"
                 />
               </div>
               <div className="p-8 flex flex-col justify-center">
@@ -310,22 +310,6 @@ export default function BeritaPage() {
                       </li>
                     ))}
                   </ul>
-                </CardContent>
-              </Card>
-
-              {/* Newsletter */}
-              <Card className="bg-primary text-white">
-                <CardHeader>
-                  <CardTitle>Berlangganan Newsletter</CardTitle>
-                  <CardDescription className="text-white/80">
-                    Dapatkan update berita langsung ke email Anda
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Input type="email" placeholder="Email Anda" className="mb-4 bg-white text-foreground" />
-                  <Button variant="secondary" className="w-full">
-                    Berlangganan
-                  </Button>
                 </CardContent>
               </Card>
             </div>

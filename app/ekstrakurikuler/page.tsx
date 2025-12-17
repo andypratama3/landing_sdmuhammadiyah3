@@ -182,7 +182,7 @@ export default function EkstrakurikulerPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary via-primary/90 to-primary/80 text-white py-20">
+      <section className="relative bg-linear-to-br from-primary via-primary/90 to-primary/80 text-white py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="mb-4 bg-white/20 text-white border-white/30">Ekstrakurikuler</Badge>
@@ -283,7 +283,7 @@ export default function EkstrakurikulerPage() {
                 <ul className="space-y-4">
                   {requirements.map((requirement, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
                         <span className="text-sm font-semibold text-primary">{index + 1}</span>
                       </div>
                       <p className="text-foreground">{requirement}</p>

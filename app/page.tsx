@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import Image from 'next/image'
 import {
   Users,
   Award,
@@ -180,8 +181,8 @@ export default function Home() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-5xl mx-auto text-center animate-fade-in-up">
             <div className="mb-8">
-              <div className="w-24 h-24 bg-[#ffd166] rounded-full flex items-center justify-center shadow-2xl mx-auto mb-6 animate-bounce-slow">
-                <span className="text-5xl">🎈</span>
+              <div className="w-24 h-24 bg-transparent rounded-full flex items-center justify-center shadow-2xl mx-auto mb-6 animate-bounce-slow">
+                <Image src="/SD3_logo1.png" alt="Logo" width={100} height={100} className="object-contain" />
               </div>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 text-balance leading-tight">
@@ -339,7 +340,7 @@ export default function Home() {
                   <img
                     src={activity.image || "/placeholder.svg"}
                     alt={activity.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-110 rounded-2xl transition-transform duration-300"
                   />
                 </div>
                 <div className="p-4">
@@ -458,8 +459,8 @@ export default function Home() {
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-8">Kepala Sekolah SD Muhammadiyah 3 Samarinda</h2>
             <div className="relative inline-block mb-6">
-              <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-[#33b962] shadow-xl mx-auto">
-                <img src="/professional-school-principal.png" alt="Kepala Sekolah" className="w-full h-full object-cover" />
+              <div className="w-60 h-60 rounded-full overflow-hidden border-4 border-[#33b962] shadow-xl mx-auto">
+                <img src="/kepala-sekolah.jpeg" alt="Kepala Sekolah" className="w-full h-full object-contain" />
               </div>
             </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">Ansar HS. S.Pd.,M.M. Gr.</h3>
@@ -491,7 +492,7 @@ export default function Home() {
                   <img
                     src={achievement.image || "/placeholder.svg"}
                     alt={achievement.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 rounded-2xl"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -533,7 +534,10 @@ export default function Home() {
                 key={index}
                 className="px-6 py-4 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-all grayscale hover:grayscale-0"
               >
-                <span className="text-gray-600 font-medium text-sm">{partner}</span>
+                <span className="text-gray-600 font-medium text-sm">
+                  <img src={partner} alt={partner} className="w-32 h-32 object-contain" />
+                  {partner}
+                  </span>
               </div>
             ))}
           </div>

@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Facebook, Instagram, Youtube, Mail, Phone, MapPin, Clock } from "lucide-react"
+import Image from 'next/image'
 
 export default function Footer() {
   return (
@@ -9,8 +10,8 @@ export default function Footer() {
           {/* About Column */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-[#ffd166] rounded-full flex items-center justify-center">
-                <span className="text-xl">🎈</span>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center">
+                <Image src="/SD3_logo1.png" width={100} height={100} alt="Logo Sekolah" />
               </div>
               <div>
                 <h3 className="font-bold text-white">Sekolah Kreatif</h3>
@@ -22,26 +23,37 @@ export default function Footer() {
             </p>
             <div className="flex gap-3 mt-4">
               <a
-                href="#"
+                href="https://www.facebook.com/sekolahkreatif.muhammadiyahsamarinda/"
+                target="_blank"
                 className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#33b962] transition"
                 aria-label="Facebook"
               >
                 <Facebook className="w-4 h-4" />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/SekolahKreatifSamarinda/"
+                target="_blank"
                 className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#33b962] transition"
                 aria-label="Instagram"
               >
                 <Instagram className="w-4 h-4" />
               </a>
               <a
-                href="#"
+                href="https://www.youtube.com/@sekolahkreatifsdmuhammadiy2812"
+                target="_blank"
                 className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#33b962] transition"
                 aria-label="YouTube"
               >
                 <Youtube className="w-4 h-4" />
               </a>
+              {/* <a
+                href="https://id.wikipedia.org/wiki/Sd_Muhammadiyah_3_Samarinda"
+                target="_blank"
+                className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#33b962] transition"
+                aria-label="YouTube"
+              >
+                <Wikipedia className="w-4 h-4" />
+              </a> */}
             </div>
           </div>
 
@@ -114,23 +126,25 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4">Kontak</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 mt-1 flex-shrink-0 text-[#33b962]" />
-                <span>Jl. Pendidikan No. 123, Samarinda, Kalimantan Timur</span>
+                <MapPin className="w-4 h-4 mt-1 shrink-0 text-[#33b962]" />
+                <span>
+                    Jl. Dato Iba RT. 04/IV, Sungai Keledang, Kec. Samarinda Seberang, Kota Samarinda, Kalimantan Timur 75242
+                </span>
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4 flex-shrink-0 text-[#33b962]" />
+                <Phone className="w-4 h-4 shrink-0 text-[#33b962]" />
                 <a href="tel:+6254112345678" className="hover:text-[#33b962] transition">
                   (0541) 123-4567
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4 flex-shrink-0 text-[#33b962]" />
+                <Mail className="w-4 h-4 shrink-0 text-[#33b962]" />
                 <a href="mailto:info@sdmuhammadiyah3smd.com" className="hover:text-[#33b962] transition">
-                  info@sdmuhammadiyah3smd.com
+                  sdmuhammadiyah3smd@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-2">
-                <Clock className="w-4 h-4 mt-1 flex-shrink-0 text-[#33b962]" />
+                <Clock className="w-4 h-4 mt-1 shrink-0 text-[#33b962]" />
                 <div>
                   <p>Senin-Jumat: 07:00-15:00</p>
                   <p>Sabtu: 07:00-12:00</p>
@@ -141,7 +155,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+        <div className="border-t border-gray-800 mt-8 pt-8 flex col md:row justify-between items-center gap-4 text-sm">
           <p>&copy; 2025 SD Muhammadiyah 3 Samarinda. All rights reserved.</p>
           <div className="flex items-center gap-4 text-xs">
             <span>Hari Ini: 127</span>

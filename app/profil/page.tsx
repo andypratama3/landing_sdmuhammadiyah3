@@ -118,9 +118,9 @@ export default function ProfilPage() {
               <div className="flex flex-col items-center">
                 <div className="w-48 h-48 rounded-3xl overflow-hidden border-4 border-[#33b962] shadow-xl mb-4">
                   <img
-                    src="/professional-school-principal.png"
+                    src="/kepala-sekolah.jpeg"
                     alt="Kepala Sekolah"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain "
                   />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 text-center">Ansar HS. S.Pd.,M.M. Gr.</h3>

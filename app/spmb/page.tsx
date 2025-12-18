@@ -384,13 +384,6 @@ export default function SPMBPage() {
                     </div>
                   ))}
                 </div>
-
-                <div className="mt-6 p-4 bg-primary/10 rounded-lg">
-                  <p className="text-sm">
-                    <strong>Catatan:</strong> Tersedia program cicilan untuk uang pangkal. Hubungi kami untuk informasi
-                    lebih lanjut.
-                  </p>
-                </div>
               </CardContent>
             </Card>
           </div>

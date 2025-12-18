@@ -7,6 +7,7 @@ import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import BackToTop from "@/components/back-to-top"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const quicksand = Quicksand({ subsets: ["latin"], variable: "--font-sans" })
 const poppins = Poppins({
@@ -47,7 +48,10 @@ export const metadata: Metadata = {
 }
 
 export const viewport = {
-  themeColor: "#33b962",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#33b962" },
+    { media: "(prefers-color-scheme: dark)", color: "#1a4d2e" },
+  ],
   width: "device-width",
   initialScale: 1,
 }
@@ -58,18 +62,20 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="id">
+    <html lang="id" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className={`${poppins.className} font-sans antialiased`}>
-        <Navigation />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
-        <WhatsAppButton />
-        <BackToTop />
-        <Analytics />
+        {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange> */}
+          <Navigation />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+          <WhatsAppButton />
+          <BackToTop />
+          <Analytics />
+        {/* </ThemeProvider> */}
       </body>
     </html>
   )

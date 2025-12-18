@@ -184,7 +184,7 @@ export default function KontakClient() {
 
             <div className="rounded-lg overflow-hidden shadow-lg h-[400px] md:h-[500px]">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.662762647449!2d117.14538931475383!3d-0.4942029995987456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df67f96f18f3b75%3A0x7e3b0f0f0f0f0f0f!2sSamarinda%2C%20Kalimantan%20Timur!5e0!3m2!1sid!2sid!4v1234567890123!5m2!1sid!2sid"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9477.659215305792!2d117.12429426373527!3d-0.5122169736669224!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df67fb245dc458f%3A0xa8ef3e4834a26bd!2sSekolah%20Kreatif%20SD%20Muhammadiyah%203%20Samarinda!5e0!3m2!1sid!2sid!4v1722696990256!5m2!1sid!2sid"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -196,7 +196,7 @@ export default function KontakClient() {
 
             <div className="mt-6 text-center">
               <Button size="lg" asChild>
-                <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://maps.app.goo.gl/NAi8mFKdwBbPFgV87" target="_blank" rel="noopener noreferrer">
                   <MapPin className="w-5 h-5 mr-2" />
                   Buka di Google Maps
                 </a>

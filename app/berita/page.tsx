@@ -8,6 +8,7 @@ import { Calendar, Clock, User, Search, ArrowRight, TrendingUp } from "lucide-re
 import Image from "next/image"
 import Link from "next/link"
 
+
 export const metadata: Metadata = {
   title: "Berita & Pengumuman - SD Muhammadiyah 3 Samarinda",
   description: "Berita terkini, pengumuman, dan informasi kegiatan SD Muhammadiyah 3 Samarinda.",
@@ -148,23 +149,23 @@ const categories = [
 export default function BeritaPage() {
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-primary via-primary/90 to-primary/80 text-white py-20">
-        <div className="container mx-auto px-4">
+      <section className="relative py-20 mt-20 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80">
+        <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 bg-white/20 text-white border-white/30">Berita & Pengumuman</Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Berita Terkini</h1>
-            <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8">
+            <Badge className="mb-4 text-white bg-white/20 border-white/30">Berita & Pengumuman</Badge>
+            <h1 className="mb-4 text-4xl font-bold md:text-5xl">Berita Terkini</h1>
+            <p className="max-w-2xl mx-auto mb-8 text-lg md:text-xl text-white/90">
               Informasi terbaru tentang kegiatan, prestasi, dan pengumuman penting
             </p>
 
             {/* Search Bar */}
             <div className="max-w-2xl mx-auto">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                <Search className="absolute w-5 h-5 transform -translate-y-1/2 left-4 top-1/2 text-muted-foreground" />
                 <Input
                   type="text"
                   placeholder="Cari berita atau pengumuman..."
-                  className="pl-12 pr-4 py-6 text-lg bg-white text-foreground"
+                  className="py-6 pl-12 pr-4 text-lg bg-white text-foreground"
                 />
               </div>
             </div>
@@ -174,9 +175,9 @@ export default function BeritaPage() {
 
       {/* Featured News */}
       <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <Card className="overflow-hidden hover:shadow-xl transition-all">
-            <div className="grid md:grid-cols-2 gap-0">
+        <div className="container px-4 mx-auto">
+          <Card className="overflow-hidden transition-all hover:shadow-xl">
+            <div className="grid gap-0 md:grid-cols-2">
               <div className="relative h-64 md:h-auto">
                 <Image
                   src={featuredNews.image || "/placeholder.svg"}
@@ -185,11 +186,11 @@ export default function BeritaPage() {
                   className="object-cover rounded-2xl"
                 />
               </div>
-              <div className="p-8 flex flex-col justify-center">
-                <Badge className="w-fit mb-4">{featuredNews.category}</Badge>
-                <h2 className="text-3xl font-bold mb-4">{featuredNews.title}</h2>
-                <p className="text-muted-foreground mb-6 text-lg">{featuredNews.excerpt}</p>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
+              <div className="flex flex-col justify-center p-8">
+                <Badge className="mb-4 w-fit">{featuredNews.category}</Badge>
+                <h2 className="mb-4 text-3xl font-bold">{featuredNews.title}</h2>
+                <p className="mb-6 text-lg text-muted-foreground">{featuredNews.excerpt}</p>
+                <div className="flex items-center gap-4 mb-6 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
                     <span>{featuredNews.date}</span>
@@ -215,8 +216,8 @@ export default function BeritaPage() {
 
       {/* Main Content */}
       <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-3 gap-8">
+        <div className="container px-4 mx-auto">
+          <div className="grid gap-8 lg:grid-cols-3">
             {/* News List */}
             <div className="lg:col-span-2">
               <Tabs defaultValue="all" className="w-full">
@@ -246,7 +247,7 @@ export default function BeritaPage() {
               </Tabs>
 
               {/* Pagination */}
-              <div className="flex justify-center mt-8 gap-2">
+              <div className="flex justify-center gap-2 mt-8">
                 <Button variant="outline">Previous</Button>
                 <Button variant="outline">1</Button>
                 <Button>2</Button>
@@ -271,16 +272,16 @@ export default function BeritaPage() {
                       <li key={post.id}>
                         <Link
                           href={`/berita/${post.id}`}
-                          className="group flex items-start gap-3 hover:text-primary transition-colors"
+                          className="flex items-start gap-3 transition-colors group hover:text-primary"
                         >
-                          <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-semibold text-primary">
+                          <span className="flex items-center justify-center flex-shrink-0 w-8 h-8 text-sm font-semibold rounded-full bg-primary/10 text-primary">
                             {index + 1}
                           </span>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">
+                            <p className="text-sm font-medium transition-colors group-hover:text-primary line-clamp-2">
                               {post.title}
                             </p>
-                            <p className="text-xs text-muted-foreground mt-1">{post.views} views</p>
+                            <p className="mt-1 text-xs text-muted-foreground">{post.views} views</p>
                           </div>
                         </Link>
                       </li>
@@ -300,9 +301,9 @@ export default function BeritaPage() {
                       <li key={category.name}>
                         <Link
                           href={`/berita?category=${category.name.toLowerCase()}`}
-                          className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors group"
+                          className="flex items-center justify-between p-2 transition-colors rounded-lg hover:bg-muted group"
                         >
-                          <span className="text-sm font-medium group-hover:text-primary transition-colors">
+                          <span className="text-sm font-medium transition-colors group-hover:text-primary">
                             {category.name}
                           </span>
                           <Badge variant="secondary">{category.count}</Badge>
@@ -322,21 +323,21 @@ export default function BeritaPage() {
 
 function NewsCard({ news }: { news: NewsItem }) {
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all group">
-      <div className="grid md:grid-cols-3 gap-0">
+    <Card className="overflow-hidden transition-all hover:shadow-lg group">
+      <div className="grid gap-0 md:grid-cols-3">
         <div className="relative h-48 md:h-auto">
           <Image
             src={news.image || "/placeholder.svg"}
             alt={news.title}
             fill
-            className="object-cover group-hover:scale-110 transition-transform duration-300"
+            className="object-cover transition-transform duration-300 group-hover:scale-110"
           />
         </div>
-        <div className="md:col-span-2 p-6">
+        <div className="p-6 md:col-span-2">
           <Badge className="mb-3">{news.category}</Badge>
-          <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{news.title}</h3>
-          <p className="text-muted-foreground mb-4 line-clamp-2">{news.excerpt}</p>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+          <h3 className="mb-2 text-xl font-bold transition-colors group-hover:text-primary">{news.title}</h3>
+          <p className="mb-4 text-muted-foreground line-clamp-2">{news.excerpt}</p>
+          <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
               <Calendar className="w-4 h-4" />
               <span>{news.date}</span>

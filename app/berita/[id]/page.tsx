@@ -122,8 +122,8 @@ export default async function BeritaDetailPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <section className="relative bg-linear-to-br from-primary via-primary/90 to-primary/80 text-white py-12 ">
-        <div className="container mx-auto px-5">
+      <section className="relative py-12 text-white bg-linear-to-br from-primary via-primary/90 to-primary/80 ">
+        <div className="container px-5 mx-auto">
           <Link href="/berita">
             <Button variant="ghost" className="text-black bg-[#ffd166] mb-4 mt-12">
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -135,16 +135,16 @@ export default async function BeritaDetailPage({ params }: PageProps) {
 
       {/* Main Content */}
       <section className="py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-3 gap-8">
+        <div className="container px-4 mx-auto">
+          <div className="grid gap-8 lg:grid-cols-3">
             {/* Article Content */}
             <div className="lg:col-span-2">
               <article>
                 {/* Article Header */}
                 <div className="mb-8">
                   <Badge className="mb-4">{news.category}</Badge>
-                  <h1 className="text-4xl font-bold mb-4">{news.title}</h1>
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
+                  <h1 className="mb-4 text-4xl font-bold">{news.title}</h1>
+                  <div className="flex flex-wrap items-center gap-4 mb-6 text-sm text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       <span>{news.date}</span>
@@ -173,7 +173,7 @@ export default async function BeritaDetailPage({ params }: PageProps) {
 
                 {/* Article Body */}
                 <div 
-                  className="prose prose-lg max-w-none mb-8"
+                  className="mb-8 prose prose-lg max-w-none"
                   dangerouslySetInnerHTML={{ __html: news.content }}
                 />
 
@@ -206,7 +206,7 @@ export default async function BeritaDetailPage({ params }: PageProps) {
               <Card>
                 <CardHeader>
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                    <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10">
                       <User className="w-8 h-8 text-primary" />
                     </div>
                     <div>
@@ -227,23 +227,23 @@ export default async function BeritaDetailPage({ params }: PageProps) {
                     <Link
                       key={item.id}
                       href={`/berita/${item.id}`}
-                      className="group block"
+                      className="block group"
                     >
                       <div className="flex gap-4">
-                        <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                        <div className="relative flex-shrink-0 w-24 h-24 overflow-hidden rounded-lg">
                           <Image
                             src={item.image || "/placeholder.svg"}
                             alt={item.title}
                             fill
-                            className="object-cover group-hover:scale-110 transition-transform"
+                            className="object-cover transition-transform group-hover:scale-110"
                           />
                         </div>
                         <div className="flex-1 min-w-0">
                           <Badge className="mb-2 text-xs">{item.category}</Badge>
-                          <h4 className="text-sm font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+                          <h4 className="text-sm font-semibold transition-colors line-clamp-2 group-hover:text-primary">
                             {item.title}
                           </h4>
-                          <p className="text-xs text-muted-foreground mt-1">{item.date}</p>
+                          <p className="mt-1 text-xs text-muted-foreground">{item.date}</p>
                         </div>
                       </div>
                     </Link>

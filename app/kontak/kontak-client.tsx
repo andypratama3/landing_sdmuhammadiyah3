@@ -18,15 +18,16 @@ import {
   Send,
   User,
   MessageSquare,
+  BookOpen,
 } from "lucide-react"
 
 const contactInfo = [
   {
     icon: MapPin,
     title: "Alamat",
-    content: "Jl. Pendidikan No. 123, Samarinda Ulu, Kota Samarinda, Kalimantan Timur 75124",
+    content: "Jl. Dato Iba RT. 04/IV, Sungai Keledang, Kec. Samarinda Seberang, Kota Samarinda, Kalimantan Timur 75242",
     action: "Buka di Google Maps",
-    link: "#",
+    link: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9477.659215305792!2d117.12429426373527!3d-0.5122169736669224!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df67fb245dc458f%3A0xa8ef3e4834a26bd!2sSekolah%20Kreatif%20SD%20Muhammadiyah%203%20Samarinda!5e0!3m2!1sid!2sid!4v1722696990256!5m2!1sid!2sid",
   },
   {
     icon: Phone,
@@ -38,9 +39,9 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    content: "info@sdmuh3smd.sch.id",
+    content: "sekolahkreatifmuh3@gmail.com",
     action: "Kirim Email",
-    link: "mailto:info@sdmuh3smd.sch.id",
+    link: "mailto:sekolahkreatifmuh3@gmail.com",
   },
   {
     icon: MessageCircle,
@@ -76,23 +77,30 @@ const socialMedia = [
   {
     name: "Instagram",
     icon: Instagram,
-    handle: "@sdmuh3samarinda",
-    link: "https://instagram.com/sdmuh3samarinda",
+    handle: "@SekolahKreatifSamarinda",
+    link: "https://www.instagram.com/SekolahKreatifSamarinda",
     color: "bg-pink-500",
   },
   {
     name: "Facebook",
     icon: Facebook,
-    handle: "SD Muhammadiyah 3 Samarinda",
-    link: "https://facebook.com/sdmuh3samarinda",
+    handle: "Sekolah Kreatif Muhammadiyah Samarinda ",
+    link: "https://www.facebook.com/sekolahkreatif.muhammadiyahsamarinda/",
     color: "bg-blue-600",
   },
   {
     name: "YouTube",
     icon: Youtube,
-    handle: "SD Muhammadiyah 3 Samarinda",
-    link: "https://youtube.com/@sdmuh3samarinda",
+    handle: "Sekolah Kreatif SD Muhammadiyah 3 Samarinda",
+    link: "https://www.youtube.com/@sekolahkreatifsdmuhammadiy2812",
     color: "bg-red-600",
+  },
+  {
+    name: "Wikipedia",
+    icon: BookOpen,
+    handle: "SD Muhammadiyah 3 Samarinda",
+    link: "https://id.wikipedia.org/wiki/Sd_Muhammadiyah_3_Samarinda",
+    color: "bg-gray-800",
   },
 ]
 
@@ -100,12 +108,12 @@ export default function KontakClient() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary via-primary/90 to-primary/80 text-white py-20">
-        <div className="container mx-auto px-4">
+      <section className="relative py-20 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80">
+        <div className="container px-4 mx-auto mt-10">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 bg-white/20 text-white border-white/30">Kontak Kami</Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Hubungi Kami</h1>
-            <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
+            <Badge className="mb-4 text-white bg-white/20 border-white/30">Kontak Kami</Badge>
+            <h1 className="mb-4 text-4xl font-bold md:text-5xl">Hubungi Kami</h1>
+            <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/90">
               Ada pertanyaan? Tim kami siap membantu Anda. Hubungi kami melalui telepon, email, WhatsApp, atau kunjungi
               langsung sekolah kami.
             </p>
@@ -115,20 +123,20 @@ export default function KontakClient() {
 
       {/* Contact Information Cards */}
       <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <div className="container px-4 mx-auto">
+          <div className="grid max-w-6xl grid-cols-1 gap-6 mx-auto md:grid-cols-2 lg:grid-cols-4">
             {contactInfo.map((info, index) => {
               const Icon = info.icon
               return (
-                <Card key={index} className="text-center hover:shadow-lg transition-all">
+                <Card key={index} className="text-center transition-all hover:shadow-lg">
                   <CardHeader>
-                    <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10">
                       <Icon className="w-8 h-8 text-primary" />
                     </div>
                     <CardTitle className="text-lg">{info.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground mb-4">{info.content}</p>
+                    <p className="mb-4 text-sm text-muted-foreground">{info.content}</p>
                     <Button variant="outline" size="sm" className="w-full bg-transparent" asChild>
                       <a href={info.link} target="_blank" rel="noopener noreferrer">
                         {info.action}
@@ -141,10 +149,10 @@ export default function KontakClient() {
           </div>
 
           {/* Office Hours */}
-          <Card className="mt-8 max-w-2xl mx-auto">
+          <Card className="max-w-2xl mx-auto mt-8">
             <CardHeader>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
                   <Clock className="w-6 h-6 text-primary" />
                 </div>
                 <div>
@@ -155,17 +163,17 @@ export default function KontakClient() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                   <span className="font-medium">Senin - Jumat</span>
                   <span className="text-muted-foreground">07:00 - 15:00 WIB</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                   <span className="font-medium">Sabtu</span>
                   <span className="text-muted-foreground">07:00 - 12:00 WIB</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-red-500/10 rounded-lg">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-red-500/10">
                   <span className="font-medium">Minggu & Hari Libur</span>
-                  <span className="text-red-600 font-semibold">Tutup</span>
+                  <span className="font-semibold text-red-600">Tutup</span>
                 </div>
               </div>
             </CardContent>
@@ -175,10 +183,10 @@ export default function KontakClient() {
 
       {/* Google Maps */}
       <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
+        <div className="container px-4 mx-auto">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Lokasi Sekolah</h2>
+            <div className="mb-8 text-center">
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Lokasi Sekolah</h2>
               <p className="text-muted-foreground">Temukan kami di Google Maps</p>
             </div>
 
@@ -208,10 +216,10 @@ export default function KontakClient() {
 
       {/* Contact Form */}
       <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
+        <div className="container px-4 mx-auto">
           <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Kirim Pesan</h2>
+            <div className="mb-12 text-center">
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Kirim Pesan</h2>
               <p className="text-muted-foreground">
                 Isi formulir di bawah ini dan kami akan segera menghubungi Anda kembali
               </p>
@@ -220,13 +228,13 @@ export default function KontakClient() {
             <Card>
               <CardContent className="pt-6">
                 <form className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor="name">
                         Nama Lengkap <span className="text-red-500">*</span>
                       </Label>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                        <User className="absolute w-4 h-4 transform -translate-y-1/2 left-3 top-1/2 text-muted-foreground" />
                         <Input id="name" placeholder="Nama Anda" className="pl-10" required />
                       </div>
                     </div>
@@ -236,7 +244,7 @@ export default function KontakClient() {
                         Email <span className="text-red-500">*</span>
                       </Label>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                        <Mail className="absolute w-4 h-4 transform -translate-y-1/2 left-3 top-1/2 text-muted-foreground" />
                         <Input id="email" type="email" placeholder="email@contoh.com" className="pl-10" required />
                       </div>
                     </div>
@@ -247,7 +255,7 @@ export default function KontakClient() {
                       No. Telepon <span className="text-red-500">*</span>
                     </Label>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                      <Phone className="absolute w-4 h-4 transform -translate-y-1/2 left-3 top-1/2 text-muted-foreground" />
                       <Input id="phone" type="tel" placeholder="08xxxxxxxxxx" className="pl-10" required />
                     </div>
                   </div>
@@ -275,7 +283,7 @@ export default function KontakClient() {
                       Pesan <span className="text-red-500">*</span>
                     </Label>
                     <div className="relative">
-                      <MessageSquare className="absolute left-3 top-3 text-muted-foreground w-4 h-4" />
+                      <MessageSquare className="absolute w-4 h-4 left-3 top-3 text-muted-foreground" />
                       <Textarea
                         id="message"
                         placeholder="Tulis pesan Anda di sini..."
@@ -284,7 +292,7 @@ export default function KontakClient() {
                         required
                       />
                     </div>
-                    <p className="text-xs text-muted-foreground text-right">Maksimal 500 karakter</p>
+                    <p className="text-xs text-right text-muted-foreground">Maksimal 500 karakter</p>
                   </div>
 
                   <Button size="lg" className="w-full" type="submit">
@@ -304,30 +312,30 @@ export default function KontakClient() {
 
       {/* Department Contacts */}
       <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
+        <div className="container px-4 mx-auto">
           <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Kontak Departemen</h2>
+            <div className="mb-12 text-center">
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Kontak Departemen</h2>
               <p className="text-muted-foreground">Hubungi departemen terkait untuk keperluan spesifik</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid gap-6 md:grid-cols-3">
               {departments.map((dept, index) => (
-                <Card key={index} className="hover:shadow-lg transition-all">
+                <Card key={index} className="transition-all hover:shadow-lg">
                   <CardHeader>
                     <CardTitle className="text-xl">{dept.name}</CardTitle>
                     <CardDescription>PIC: {dept.pic}</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <div className="flex items-center gap-2 text-sm">
-                      <Phone className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-                      <a href={`tel:+62${dept.phone.substring(1)}`} className="hover:text-primary transition-colors">
+                      <Phone className="flex-shrink-0 w-4 h-4 text-muted-foreground" />
+                      <a href={`tel:+62${dept.phone.substring(1)}`} className="transition-colors hover:text-primary">
                         {dept.phone}
                       </a>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <Mail className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-                      <a href={`mailto:${dept.email}`} className="hover:text-primary transition-colors break-all">
+                      <Mail className="flex-shrink-0 w-4 h-4 text-muted-foreground" />
+                      <a href={`mailto:${dept.email}`} className="break-all transition-colors hover:text-primary">
                         {dept.email}
                       </a>
                     </div>
@@ -341,20 +349,20 @@ export default function KontakClient() {
 
       {/* Social Media */}
       <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
+        <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Ikuti Media Sosial Kami</h2>
+            <div className="mb-12 text-center">
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Ikuti Media Sosial Kami</h2>
               <p className="text-muted-foreground">Dapatkan update terkini tentang kegiatan sekolah</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid gap-6 md:grid-cols-3">
               {socialMedia.map((social, index) => {
                 const Icon = social.icon
                 return (
                   <Card
                     key={index}
-                    className="text-center hover:shadow-lg transition-all group cursor-pointer"
+                    className="text-center transition-all cursor-pointer hover:shadow-lg group"
                     onClick={() => window.open(social.link, "_blank")}
                   >
                     <CardHeader>
@@ -366,7 +374,7 @@ export default function KontakClient() {
                       <CardTitle className="text-xl">{social.name}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-muted-foreground mb-4">{social.handle}</p>
+                      <p className="mb-4 text-sm text-muted-foreground">{social.handle}</p>
                       <Button variant="outline" size="sm" className="w-full bg-transparent">
                         Kunjungi
                       </Button>

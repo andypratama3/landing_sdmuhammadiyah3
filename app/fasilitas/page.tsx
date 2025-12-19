@@ -90,13 +90,13 @@ export default function FasilitasPage() {
   return (
     <div className="pt-24 pb-16">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
-        <div className="container mx-auto px-4">
+      <section className="bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
+        <div className="container px-4 mx-auto">
           <Breadcrumb items={[{ label: "Sarana & Prasarana" }]} />
-          <div className="max-w-4xl mx-auto text-center mt-8">
-            <Badge className="mb-6 bg-white/20 text-white border-white/30 px-4 py-2">Fasilitas</Badge>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-balance">Sarana & Prasarana</h1>
-            <p className="text-xl text-white/90 text-balance leading-relaxed">
+          <div className="max-w-4xl mx-auto mt-8 text-center">
+            <Badge className="px-4 py-2 mb-6 text-white bg-white/20 border-white/30">Fasilitas</Badge>
+            <h1 className="mb-6 text-5xl font-bold md:text-6xl text-balance">Sarana & Prasarana</h1>
+            <p className="text-xl leading-relaxed text-white/90 text-balance">
               Fasilitas lengkap dan modern untuk mendukung pembelajaran yang optimal
             </p>
           </div>
@@ -105,43 +105,45 @@ export default function FasilitasPage() {
 
       {/* Hero Image */}
       <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl">
-            <img src="/school-building-aerial-view.jpg" alt="School Building" className="w-full h-auto object-cover" />
+        <div className="container px-4 mx-auto">
+          <h2 className="text-3xl font-bold text-center text-gray-900 ">Gedung Sekolah</h2>
+          <p className="mb-2 text-center text-gray-500">Sekolah Kreatif SD Muhammadiyah 3 Samarinda</p>
+          <div className="max-w-6xl mx-auto overflow-hidden shadow-2xl rounded-3xl">
+            <img src="/GedungSekolah.jpeg" alt="Gedung Sekolah" className="object-cover w-full h-auto" />
           </div>
         </div>
       </section>
 
       {/* Facilities List */}
       <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
+        <div className="container px-4 mx-auto">
           <div className="max-w-6xl mx-auto space-y-8">
             {facilities.map((facility, index) => (
               <Card
                 key={index}
-                className="overflow-hidden rounded-3xl border-0 shadow-lg hover:shadow-2xl transition-all"
+                className="overflow-hidden transition-all border-0 shadow-lg rounded-3xl hover:shadow-2xl"
               >
-                <div className="grid md:grid-cols-2 gap-6 p-8">
+                <div className="grid gap-6 p-8 md:grid-cols-2">
                   {/* Images */}
                   <div className="space-y-4">
-                    <div className="relative h-80 rounded-2xl overflow-hidden">
+                    <div className="relative overflow-hidden h-80 rounded-2xl">
                       <img
                         src={facility.images[0] || "/placeholder.svg"}
                         alt={facility.name}
-                        className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                        className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
                       />
                     </div>
                     {facility.images[1] && (
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="relative h-40 rounded-2xl overflow-hidden">
+                        <div className="relative h-40 overflow-hidden rounded-2xl">
                           <img
                             src={facility.images[1] || "/placeholder.svg"}
                             alt={facility.name}
-                            className="w-full h-full object-cover"
+                            className="object-cover w-full h-full"
                           />
                         </div>
-                        <div className="relative h-40 rounded-2xl overflow-hidden bg-gradient-to-br from-[#33b962]/10 to-[#ffd166]/10 flex items-center justify-center">
-                          <span className="text-gray-400 text-sm">360° View</span>
+                        <div className="relative h-40 rounded-2xl overflow-hidden bg-linear-to-br from-[#33b962]/10 to-[#ffd166]/10 flex items-center justify-center">
+                          <span className="text-sm text-gray-400">360° View</span>
                         </div>
                       </div>
                     )}
@@ -149,7 +151,7 @@ export default function FasilitasPage() {
 
                   {/* Details */}
                   <div>
-                    <h2 className="text-3xl font-bold text-gray-900 mb-4">{facility.name}</h2>
+                    <h2 className="mb-4 text-3xl font-bold text-gray-900">{facility.name}</h2>
                     <div className="grid grid-cols-2 gap-4 mb-6">
                       <div className="flex items-center gap-2">
                         <Users className="w-5 h-5 text-[#33b962]" />
@@ -169,13 +171,13 @@ export default function FasilitasPage() {
                         <Building className="w-5 h-5 text-[#33b962]" />
                         <div>
                           <p className="text-xs text-gray-500">Kondisi</p>
-                          <Badge className="bg-green-100 text-green-700 border-0">{facility.condition}</Badge>
+                          <Badge className="text-green-700 bg-green-100 border-0">{facility.condition}</Badge>
                         </div>
                       </div>
                     </div>
-                    <p className="text-gray-600 leading-relaxed mb-6">{facility.description}</p>
+                    <p className="mb-6 leading-relaxed text-gray-600">{facility.description}</p>
                     <div>
-                      <p className="font-semibold text-gray-900 mb-3">Fitur & Kelengkapan:</p>
+                      <p className="mb-3 font-semibold text-gray-900">Fitur & Kelengkapan:</p>
                       <div className="flex flex-wrap gap-2">
                         {facility.features.map((feature, idx) => (
                           <Badge key={idx} className="bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20">

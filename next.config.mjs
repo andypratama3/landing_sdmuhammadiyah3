@@ -5,6 +5,13 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'sdmuhammadiyah3smd.com',
+        pathname: '/storage/**',
+      },
+    ],
   },
 }
 

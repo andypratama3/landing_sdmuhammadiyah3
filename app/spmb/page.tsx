@@ -133,25 +133,25 @@ export default function SPMBPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary via-primary/90 to-primary/80 text-white py-20">
-        <div className="container mx-auto px-4">
+      <section className="relative py-20 mt-20 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80">
+        <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 bg-white/20 text-white border-white/30">PPDB 2025/2026</Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Pendaftaran Peserta Didik Baru</h1>
-            <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-6">Tahun Ajaran 2025/2026</p>
-            <Badge className="bg-green-500 text-white text-lg px-6 py-2 mb-8">
-              <CheckCircle2 className="w-5 h-5 mr-2 inline" />
+            <Badge className="mb-4 text-white bg-white/20 border-white/30">PPDB 2025/2026</Badge>
+            <h1 className="mb-4 text-4xl font-bold md:text-5xl">Pendaftaran Peserta Didik Baru</h1>
+            <p className="max-w-2xl mx-auto mb-6 text-lg md:text-xl text-white/90">Tahun Ajaran 2025/2026</p>
+            <Badge className="px-6 py-2 mb-8 text-lg text-white bg-green-500">
+              <CheckCircle2 className="inline w-5 h-5 mr-2" />
               Pendaftaran Dibuka
             </Badge>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="text-lg px-8">
+            <div className="flex flex-col justify-center gap-4 sm:flex-row">
+              <Button size="lg" variant="secondary" className="px-8 text-lg">
                 Daftar Sekarang
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="text-lg px-8 bg-white/10 border-white text-white hover:bg-white/20"
+                className="px-8 text-lg text-white border-white bg-white/10 hover:bg-white/20"
               >
                 <Phone className="w-5 h-5 mr-2" />
                 Hubungi Kami
@@ -163,10 +163,10 @@ export default function SPMBPage() {
 
       {/* Timeline */}
       <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Jadwal Penerimaan</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+        <div className="container px-4 mx-auto">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl">Jadwal Penerimaan</h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground">
               Timeline lengkap proses penerimaan peserta didik baru
             </p>
           </div>
@@ -178,12 +178,12 @@ export default function SPMBPage() {
                 return (
                   <div key={index} className="flex gap-6 group">
                     <div className="flex flex-col items-center">
-                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                      <div className="flex items-center justify-center w-12 h-12 transition-all rounded-full bg-primary/10 group-hover:bg-primary group-hover:text-white">
                         <Icon className="w-6 h-6" />
                       </div>
                       {index < timeline.length - 1 && <div className="w-0.5 h-full bg-border mt-2" />}
                     </div>
-                    <Card className="flex-1 hover:shadow-lg transition-all">
+                    <Card className="flex-1 transition-all hover:shadow-lg">
                       <CardHeader>
                         <CardTitle className="text-xl">{item.title}</CardTitle>
                         <CardDescription className="flex items-center gap-2 text-base">
@@ -205,15 +205,15 @@ export default function SPMBPage() {
 
       {/* Requirements */}
       <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Persyaratan Pendaftaran</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+        <div className="container px-4 mx-auto">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl">Persyaratan Pendaftaran</h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground">
               Dokumen dan persyaratan yang harus dipenuhi untuk mendaftar
             </p>
           </div>
 
-          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
+          <div className="grid max-w-5xl gap-8 mx-auto md:grid-cols-2">
             {requirements.map((section, index) => (
               <Card key={index}>
                 <CardHeader>
@@ -237,10 +237,10 @@ export default function SPMBPage() {
 
       {/* Registration Form Preview */}
       <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
+        <div className="container px-4 mx-auto">
           <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Formulir Pendaftaran</h2>
+            <div className="mb-12 text-center">
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Formulir Pendaftaran</h2>
               <p className="text-muted-foreground">Isi formulir berikut untuk mendaftar sebagai siswa baru</p>
             </div>
 
@@ -250,7 +250,7 @@ export default function SPMBPage() {
                 <CardDescription>Lengkapi semua informasi dengan benar</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="nama">Nama Lengkap *</Label>
                     <Input id="nama" placeholder="Nama lengkap sesuai akta" />
@@ -261,7 +261,7 @@ export default function SPMBPage() {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="tempat-lahir">Tempat Lahir *</Label>
                     <Input id="tempat-lahir" placeholder="Kota kelahiran" />
@@ -272,7 +272,7 @@ export default function SPMBPage() {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="jenis-kelamin">Jenis Kelamin *</Label>
                     <Select>
@@ -296,11 +296,11 @@ export default function SPMBPage() {
                   <Textarea id="alamat" placeholder="Alamat lengkap tempat tinggal" rows={3} />
                 </div>
 
-                <div className="border-t pt-6">
-                  <h3 className="text-lg font-semibold mb-4">Data Orang Tua</h3>
+                <div className="pt-6 border-t">
+                  <h3 className="mb-4 text-lg font-semibold">Data Orang Tua</h3>
 
                   <div className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid gap-4 md:grid-cols-2">
                       <div className="space-y-2">
                         <Label htmlFor="nama-ayah">Nama Ayah *</Label>
                         <Input id="nama-ayah" placeholder="Nama lengkap ayah" />
@@ -311,7 +311,7 @@ export default function SPMBPage() {
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid gap-4 md:grid-cols-2">
                       <div className="space-y-2">
                         <Label htmlFor="nama-ibu">Nama Ibu *</Label>
                         <Input id="nama-ibu" placeholder="Nama lengkap ibu" />
@@ -329,19 +329,19 @@ export default function SPMBPage() {
                   </div>
                 </div>
 
-                <div className="border-t pt-6">
-                  <h3 className="text-lg font-semibold mb-4">Upload Dokumen</h3>
+                <div className="pt-6 border-t">
+                  <h3 className="mb-4 text-lg font-semibold">Upload Dokumen</h3>
 
                   <div className="space-y-4">
-                    <div className="border-2 border-dashed rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer">
+                    <div className="p-6 text-center transition-colors border-2 border-dashed rounded-lg cursor-pointer hover:border-primary">
                       <Upload className="w-12 h-12 mx-auto mb-2 text-muted-foreground" />
-                      <p className="text-sm font-medium mb-1">Akta Kelahiran</p>
+                      <p className="mb-1 text-sm font-medium">Akta Kelahiran</p>
                       <p className="text-xs text-muted-foreground">PDF, JPG, PNG (Max. 2MB)</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-2 pt-4">
+                <div className="flex items-start pt-4 space-x-2">
                   <Checkbox id="terms" />
                   <label
                     htmlFor="terms"
@@ -367,10 +367,10 @@ export default function SPMBPage() {
 
       {/* Fees */}
       <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
+        <div className="container px-4 mx-auto">
           <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Biaya Pendaftaran</h2>
+            <div className="mb-12 text-center">
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Biaya Pendaftaran</h2>
               <p className="text-muted-foreground">Rincian biaya untuk tahun ajaran 2025/2026</p>
             </div>
 
@@ -378,7 +378,7 @@ export default function SPMBPage() {
               <CardContent className="pt-6">
                 <div className="space-y-4">
                   {fees.map((fee, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+                    <div key={index} className="flex items-center justify-between p-4 rounded-lg bg-muted/50">
                       <span className="font-medium">{fee.item}</span>
                       <span className="text-lg font-bold text-primary">{fee.amount}</span>
                     </div>
@@ -392,10 +392,10 @@ export default function SPMBPage() {
 
       {/* FAQ */}
       <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
+        <div className="container px-4 mx-auto">
           <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Pertanyaan yang Sering Diajukan</h2>
+            <div className="mb-12 text-center">
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Pertanyaan yang Sering Diajukan</h2>
               <p className="text-muted-foreground">Temukan jawaban untuk pertanyaan umum seputar PPDB</p>
             </div>
 
@@ -412,14 +412,14 @@ export default function SPMBPage() {
       </section>
 
       {/* Contact CTA */}
-      <section className="py-16 bg-primary text-white">
-        <div className="container mx-auto px-4">
+      <section className="py-16 text-white bg-primary">
+        <div className="container px-4 mx-auto">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Butuh Bantuan?</h2>
-            <p className="text-lg text-white/90 mb-8">Tim kami siap membantu Anda dalam proses pendaftaran</p>
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl">Butuh Bantuan?</h2>
+            <p className="mb-8 text-lg text-white/90">Tim kami siap membantu Anda dalam proses pendaftaran</p>
 
-            <div className="grid md:grid-cols-3 gap-6">
-              <Card className="bg-white/10 border-white/20 text-white hover:bg-white/20 transition-all">
+            <div className="grid gap-6 md:grid-cols-3">
+              <Card className="text-white transition-all bg-white/10 border-white/20 hover:bg-white/20">
                 <CardHeader>
                   <Phone className="w-8 h-8 mx-auto mb-2" />
                   <CardTitle>Telepon</CardTitle>
@@ -429,7 +429,7 @@ export default function SPMBPage() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/10 border-white/20 text-white hover:bg-white/20 transition-all">
+              <Card className="text-white transition-all bg-white/10 border-white/20 hover:bg-white/20">
                 <CardHeader>
                   <MessageCircle className="w-8 h-8 mx-auto mb-2" />
                   <CardTitle>WhatsApp</CardTitle>
@@ -439,7 +439,7 @@ export default function SPMBPage() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/10 border-white/20 text-white hover:bg-white/20 transition-all">
+              <Card className="text-white transition-all bg-white/10 border-white/20 hover:bg-white/20">
                 <CardHeader>
                   <Mail className="w-8 h-8 mx-auto mb-2" />
                   <CardTitle>Email</CardTitle>

@@ -26,7 +26,7 @@ export default function ProfilPage() {
     { label: "Provinsi", value: "Kalimantan Timur" },
     { label: "Kode Pos", value: "75117" },
     { label: "Telepon", value: "(0541) 123-4567" },
-    { label: "Email", value: "info@sdmuhammadiyah3smd.com" },
+    { label: "Email", value: "sdmuhammadiyah3smd.com" },
     { label: "Website", value: "www.sdmuhammadiyah3smd.com" },
   ]
 
@@ -72,13 +72,13 @@ export default function ProfilPage() {
   return (
     <div className="pt-24 pb-16">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
-        <div className="container mx-auto px-4">
+      <section className="bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
+        <div className="container px-4 mx-auto">
           <Breadcrumb items={[{ label: "Profil Sekolah" }]} />
-          <div className="max-w-4xl mx-auto text-center mt-8">
-            <Badge className="mb-6 bg-white/20 text-white border-white/30 px-4 py-2">Profil Sekolah</Badge>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-balance">Profil Lengkap Sekolah</h1>
-            <p className="text-xl text-white/90 text-balance leading-relaxed">
+          <div className="max-w-4xl mx-auto mt-8 text-center">
+            <Badge className="px-4 py-2 mb-6 text-white bg-white/20 border-white/30">Profil Sekolah</Badge>
+            <h1 className="mb-6 text-5xl font-bold md:text-6xl text-balance">Profil Lengkap Sekolah</h1>
+            <p className="text-xl leading-relaxed text-white/90 text-balance">
               Mengenal lebih dalam tentang identitas, struktur, dan sistem pendidikan kami
             </p>
           </div>
@@ -87,18 +87,18 @@ export default function ProfilPage() {
 
       {/* School Identity */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+        <div className="container px-4 mx-auto">
+          <div className="mb-16 text-center">
             <Badge className="mb-4 bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">Identitas</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Identitas Sekolah</h2>
-            <p className="text-gray-600 text-lg">Data lengkap sekolah kami</p>
+            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Identitas Sekolah</h2>
+            <p className="text-lg text-gray-600">Data lengkap sekolah kami</p>
           </div>
-          <Card className="max-w-4xl mx-auto p-10 rounded-3xl border-2">
+          <Card className="max-w-4xl p-10 mx-auto border-2 rounded-3xl">
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
               {schoolInfo.map((info, index) => (
-                <div key={index} className="flex justify-between items-start border-b border-gray-100 pb-4">
-                  <span className="text-gray-600 font-medium">{info.label}</span>
-                  <span className="text-gray-900 font-semibold text-right">{info.value}</span>
+                <div key={index} className="flex items-start justify-between pb-4 border-b border-gray-100">
+                  <span className="font-medium text-gray-600">{info.label}</span>
+                  <span className="font-semibold text-right text-gray-900">{info.value}</span>
                 </div>
               ))}
             </div>
@@ -108,40 +108,40 @@ export default function ProfilPage() {
 
       {/* Principal Message */}
       <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+        <div className="container px-4 mx-auto">
+          <div className="mb-12 text-center">
             <Badge className="mb-4 bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">Kepala Sekolah</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Sambutan Kepala Sekolah</h2>
+            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Sambutan Kepala Sekolah</h2>
           </div>
-          <Card className="max-w-5xl mx-auto p-10 md:p-12 rounded-3xl border-0 shadow-xl">
-            <div className="grid md:grid-cols-3 gap-8 items-center">
+          <Card className="max-w-5xl p-10 mx-auto border-0 shadow-xl md:p-12 rounded-3xl">
+            <div className="grid items-center gap-8 md:grid-cols-3">
               <div className="flex flex-col items-center">
                 <div className="w-48 h-48 rounded-3xl overflow-hidden border-4 border-[#33b962] shadow-xl mb-4">
                   <img
                     src="/kepala-sekolah.jpeg"
                     alt="Kepala Sekolah"
-                    className="w-full h-full object-contain "
+                    className="object-contain w-full h-full "
                   />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 text-center">Ansar HS. S.Pd.,M.M. Gr.</h3>
+                <h3 className="text-xl font-bold text-center text-gray-900">Ansar HS. S.Pd.,M.M. Gr.</h3>
                 <p className="text-[#33b962] font-semibold">Kepala Sekolah</p>
               </div>
               <div className="md:col-span-2">
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="mb-4 leading-relaxed text-gray-700">
                   <span className="font-semibold">Assalamu'alaikum Warahmatullahi Wabarakatuh,</span>
                 </p>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="mb-4 leading-relaxed text-gray-700">
                   Puji syukur kehadirat Allah SWT atas segala limpahan rahmat dan karunia-Nya. SD Muhammadiyah 3
                   Samarinda berkomitmen untuk memberikan pendidikan terbaik bagi putra-putri Anda. Kami tidak hanya
                   fokus pada pencapaian akademik, tetapi juga pembentukan karakter Islami yang kuat, kreativitas, dan
                   keterampilan abad 21.
                 </p>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="mb-4 leading-relaxed text-gray-700">
                   Melalui metode pembelajaran yang inovatif berbasis edutainment dan didukung oleh tenaga pengajar
                   profesional, kami yakin dapat menghasilkan generasi yang cerdas, berakhlak mulia, dan siap menghadapi
                   masa depan dengan penuh percaya diri.
                 </p>
-                <p className="text-gray-700 leading-relaxed italic">
+                <p className="italic leading-relaxed text-gray-700">
                   <span className="font-semibold">Wassalamu'alaikum Warahmatullahi Wabarakatuh</span>
                 </p>
               </div>
@@ -152,27 +152,27 @@ export default function ProfilPage() {
 
       {/* Organizational Structure */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+        <div className="container px-4 mx-auto">
+          <div className="mb-16 text-center">
             <Badge className="mb-4 bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">Organisasi</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Struktur Organisasi</h2>
-            <p className="text-gray-600 text-lg">Tim manajemen sekolah kami</p>
+            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Struktur Organisasi</h2>
+            <p className="text-lg text-gray-600">Tim manajemen sekolah kami</p>
           </div>
           <div className="max-w-5xl mx-auto">
             <div className="grid gap-6">
               {/* Kepala Sekolah */}
-              <Card className="p-8 text-center rounded-3xl bg-gradient-to-br from-[#33b962] to-[#2a9d52] text-white shadow-xl">
-                <h3 className="font-bold text-2xl mb-2">Kepala Sekolah</h3>
+              <Card className="p-8 text-center rounded-3xl bg-linear-to-br from-[#33b962] to-[#2a9d52] text-white shadow-xl">
+                <h3 className="mb-2 text-2xl font-bold">Kepala Sekolah</h3>
                 <p className="text-lg text-white/90">Ansar HS. S.Pd.,M.M. Gr.</p>
               </Card>
 
               {/* Wakil Kepala */}
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid gap-6 md:grid-cols-3">
                 <Card className="p-8 text-center rounded-3xl border-2 hover:border-[#33b962]/30 transition-all hover:shadow-lg">
                   <div className="w-16 h-16 bg-[#33b962]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <BookOpen className="w-8 h-8 text-[#33b962]" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">Wakil Kepala Kurikulum</h3>
+                  <h3 className="mb-2 text-lg font-bold">Bendahara Sekolah</h3>
                   <p className="text-sm text-gray-600">Siti Nurhaliza, S.Pd</p>
                 </Card>
 
@@ -180,7 +180,7 @@ export default function ProfilPage() {
                   <div className="w-16 h-16 bg-[#33b962]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <Users className="w-8 h-8 text-[#33b962]" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">Wakil Kepala Kesiswaan</h3>
+                  <h3 className="mb-2 text-lg font-bold">Wakil Kepala Kesiswaan</h3>
                   <p className="text-sm text-gray-600">Budi Santoso, M.Pd</p>
                 </Card>
 
@@ -188,7 +188,7 @@ export default function ProfilPage() {
                   <div className="w-16 h-16 bg-[#33b962]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <Heart className="w-8 h-8 text-[#33b962]" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">Wakil Kepala Humas</h3>
+                  <h3 className="mb-2 text-lg font-bold">Wakil Kepala Humas</h3>
                   <p className="text-sm text-gray-600">Rina Kusuma, S.Pd</p>
                 </Card>
               </div>
@@ -198,26 +198,26 @@ export default function ProfilPage() {
       </section>
 
       {/* School Philosophy & Values */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+      <section className="py-20 bg-linear-to-b from-gray-50 to-white">
+        <div className="container px-4 mx-auto">
+          <div className="mb-16 text-center">
             <Badge className="mb-4 bg-[#ffd166] text-gray-900 px-4 py-2">Nilai</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Nilai-Nilai Sekolah</h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Nilai-Nilai Sekolah</h2>
+            <p className="max-w-2xl mx-auto text-lg text-gray-600">
               Prinsip dan filosofi yang menjadi fondasi pendidikan kami
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="grid max-w-6xl gap-6 mx-auto md:grid-cols-2 lg:grid-cols-4">
             {values.map((value, index) => (
               <Card
                 key={index}
-                className="p-8 text-center rounded-3xl border-0 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 duration-300"
+                className="p-8 text-center transition-all duration-300 border-0 shadow-lg rounded-3xl hover:shadow-2xl hover:-translate-y-2"
               >
-                <div className="w-20 h-20 bg-gradient-to-br from-[#33b962] to-[#2a9d52] rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <div className="w-20 h-20 bg-linear-to-br from-[#33b962] to-[#2a9d52] rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
                   <value.icon className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{value.description}</p>
+                <h3 className="mb-3 text-xl font-bold text-gray-900">{value.title}</h3>
+                <p className="text-sm leading-relaxed text-gray-600">{value.description}</p>
               </Card>
             ))}
           </div>
@@ -226,15 +226,15 @@ export default function ProfilPage() {
 
       {/* Curriculum Overview */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+        <div className="container px-4 mx-auto">
+          <div className="mb-16 text-center">
             <Badge className="mb-4 bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">Kurikulum</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Kurikulum Pembelajaran</h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Kurikulum Pembelajaran</h2>
+            <p className="max-w-2xl mx-auto text-lg text-gray-600">
               Sistem pendidikan yang komprehensif dan terintegrasi
             </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid max-w-5xl gap-6 mx-auto md:grid-cols-2">
             {curriculum.map((item, index) => (
               <Card
                 key={index}
@@ -245,8 +245,8 @@ export default function ProfilPage() {
                     <CheckCircle className="w-6 h-6 text-[#33b962]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{item.description}</p>
+                    <h3 className="mb-2 text-xl font-bold text-gray-900">{item.title}</h3>
+                    <p className="leading-relaxed text-gray-600">{item.description}</p>
                   </div>
                 </div>
               </Card>
@@ -257,11 +257,11 @@ export default function ProfilPage() {
 
       {/* Facilities Overview */}
       <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+        <div className="container px-4 mx-auto">
+          <div className="mb-12 text-center">
             <Badge className="mb-4 bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">Fasilitas</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Fasilitas Sekolah</h2>
-            <p className="text-gray-600 text-lg mb-8">Sarana dan prasarana lengkap untuk mendukung pembelajaran</p>
+            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Fasilitas Sekolah</h2>
+            <p className="mb-8 text-lg text-gray-600">Sarana dan prasarana lengkap untuk mendukung pembelajaran</p>
             <Button asChild className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-8" size="lg">
               <Link href="/fasilitas">Lihat Semua Fasilitas</Link>
             </Button>
@@ -271,16 +271,16 @@ export default function ProfilPage() {
 
       {/* Academic Calendar & Regulations */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Dokumen & Informasi</h2>
+        <div className="container px-4 mx-auto">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-4xl font-bold text-gray-900">Dokumen & Informasi</h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid max-w-4xl gap-6 mx-auto md:grid-cols-2">
             <Card className="p-8 rounded-3xl border-2 hover:border-[#33b962]/30 transition-all hover:shadow-lg">
               <Calendar className="w-12 h-12 text-[#33b962] mb-4" />
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Kalender Akademik</h3>
-              <p className="text-gray-600 mb-4">Jadwal kegiatan akademik tahun ajaran 2025/2026</p>
-              <Button variant="outline" className="rounded-full bg-transparent">
+              <h3 className="mb-2 text-xl font-bold text-gray-900">Kalender Akademik</h3>
+              <p className="mb-4 text-gray-600">Jadwal kegiatan akademik tahun ajaran 2025/2026</p>
+              <Button variant="outline" className="bg-transparent rounded-full">
                 <Download className="w-4 h-4 mr-2" />
                 Download PDF
               </Button>
@@ -288,9 +288,9 @@ export default function ProfilPage() {
 
             <Card className="p-8 rounded-3xl border-2 hover:border-[#33b962]/30 transition-all hover:shadow-lg">
               <FileText className="w-12 h-12 text-[#33b962] mb-4" />
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Tata Tertib Sekolah</h3>
-              <p className="text-gray-600 mb-4">Peraturan dan tata tertib siswa</p>
-              <Button variant="outline" className="rounded-full bg-transparent">
+              <h3 className="mb-2 text-xl font-bold text-gray-900">Tata Tertib Sekolah</h3>
+              <p className="mb-4 text-gray-600">Peraturan dan tata tertib siswa</p>
+              <Button variant="outline" className="bg-transparent rounded-full">
                 <Download className="w-4 h-4 mr-2" />
                 Download PDF
               </Button>
@@ -300,36 +300,36 @@ export default function ProfilPage() {
       </section>
 
       {/* Accreditation */}
-      <section className="py-20 bg-gradient-to-br from-[#33b962]/5 to-[#ffd166]/5">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+      <section className="py-20 bg-linear-to-br from-[#33b962]/5 to-[#ffd166]/5">
+        <div className="container px-4 mx-auto">
+          <div className="mb-12 text-center">
             <Badge className="mb-4 bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">Sertifikasi</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Akreditasi & Penghargaan</h2>
-            <p className="text-gray-600 text-lg">Pengakuan kualitas pendidikan kami</p>
+            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Akreditasi & Penghargaan</h2>
+            <p className="text-lg text-gray-600">Pengakuan kualitas pendidikan kami</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="p-10 text-center rounded-3xl border-0 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2">
-              <div className="w-24 h-24 bg-gradient-to-br from-[#33b962] to-[#2a9d52] rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+          <div className="grid max-w-5xl gap-8 mx-auto md:grid-cols-3">
+            <Card className="p-10 text-center transition-all border-0 shadow-xl rounded-3xl hover:shadow-2xl hover:-translate-y-2">
+              <div className="w-24 h-24 bg-linear-to-br from-[#33b962] to-[#2a9d52] rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <Award className="w-12 h-12 text-white" />
               </div>
               <h3 className="text-5xl font-bold text-[#33b962] mb-3">UNGGUL</h3>
-              <p className="text-gray-600 font-medium">Akreditasi BAN-S/M</p>
+              <p className="font-medium text-gray-600">Akreditasi BAN-S/M</p>
             </Card>
 
-            <Card className="p-10 text-center rounded-3xl border-0 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2">
-              <div className="w-24 h-24 bg-gradient-to-br from-[#ffd166] to-[#ffca3a] rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <Card className="p-10 text-center transition-all border-0 shadow-xl rounded-3xl hover:shadow-2xl hover:-translate-y-2">
+              <div className="w-24 h-24 bg-linear-to-br from-[#ffd166] to-[#ffca3a] rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <Sparkles className="w-12 h-12 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">Sekolah Penggerak</h3>
-              <p className="text-gray-600 font-medium">Program Kemendikbud</p>
+              <h3 className="mb-3 text-2xl font-bold text-gray-900">Sekolah Penggerak</h3>
+              <p className="font-medium text-gray-600">Program Kemendikbud</p>
             </Card>
 
-            <Card className="p-10 text-center rounded-3xl border-0 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2">
-              <div className="w-24 h-24 bg-gradient-to-br from-[#06d6a0] to-[#05b88c] rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <Card className="p-10 text-center transition-all border-0 shadow-xl rounded-3xl hover:shadow-2xl hover:-translate-y-2">
+              <div className="w-24 h-24 bg-linear-to-br from-[#06d6a0] to-[#05b88c] rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <Shield className="w-12 h-12 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">Adiwiyata</h3>
-              <p className="text-gray-600 font-medium">Sekolah Peduli Lingkungan</p>
+              <h3 className="mb-3 text-2xl font-bold text-gray-900">Adiwiyata</h3>
+              <p className="font-medium text-gray-600">Sekolah Peduli Lingkungan</p>
             </Card>
           </div>
         </div>

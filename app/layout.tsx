@@ -7,6 +7,8 @@ import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import BackToTop from "@/components/back-to-top"
+import { ApiClient } from '@/lib/api';
+
 import { ThemeProvider } from "@/components/theme-provider"
 
 const quicksand = Quicksand({ subsets: ["latin"], variable: "--font-sans" })

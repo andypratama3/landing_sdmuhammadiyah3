@@ -1,8 +1,14 @@
+"use client";
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Image from 'next/image'
+import { useApi } from '@/hooks/useApi';
+import { GalleryCard } from "@/components/landing/gallery-component"
+import { Gallery } from '@/types/gallery.types'
+
 import {
   Users,
   Award,
@@ -26,13 +32,32 @@ import {
   ChevronRight,
 } from "lucide-react"
 
+
+interface CountData {
+  siswa: number;
+  guru: number;
+  fasilitas: number;
+  prestasis_siswa: number;
+  prestasis_sekolah: number;
+}
+
+
 export default function Home() {
+
+  const { data, loading, error, refetch } = useApi<CountData>('/count-landing', {
+      cache: true,
+      cacheTTL: 3600000,
+      immediate: true,
+  });
+
+  const formatCount = (num?: number) => (num !== undefined ? num.toLocaleString() + "+" : "-");
   const stats = [
-    { icon: Users, value: "486+", label: "Siswa" },
-    { icon: Trophy, value: "6+", label: "Prestasi Siswa" },
-    { icon: Award, value: "0+", label: "Prestasi Sekolah" },
-    { icon: Building, value: "0+", label: "Sarana & Prasarana" },
+    { icon: Users, value: formatCount(data?.siswa), label: "Siswa" },
+    { icon: Trophy, value: formatCount(data?.guru), label: "Guru" },
+    { icon: Award, value: formatCount(data?.prestasis_siswa), label: "Prestasi Siswa" },
+    { icon: Building, value: formatCount(data?.fasilitas), label: "Sarana & Prasarana" },
   ]
+
 
   const programs = [
     {
@@ -88,28 +113,11 @@ export default function Home() {
     { title: "PRESTASI SEKOLAH", image: "/placeholder.svg?height=300&width=400", link: "/prestasi-sekolah" },
   ]
 
-  const activities = [
-    {
-      title: "Pembelajaran Outdoor",
-      image: "/elementary-school-outdoor-learning.jpg",
-    },
-    {
-      title: "Kegiatan Seni & Budaya",
-      image: "/kids-art-activities.jpg",
-    },
-    {
-      title: "Kompetisi Matematika",
-      image: "/math-competition-kids.jpg",
-    },
-    { title: "Praktek Sains", image: "/science-experiment-kids.jpg" },
-    { title: "Olahraga & Kesehatan", image: "/kids-sports-activities.jpg" },
-    { title: "Tahfidz Al-Qur'an", image: "/kids-reading-quran.jpg" },
-    { title: "Ekstrakurikuler Tari", image: "/kids-traditional-dance.jpg" },
-    {
-      title: "Kunjungan Edukatif",
-      image: "/educational-field-trip-kids.jpg",
-    },
-  ]
+  const { data: galleries, loading: galleryLoading, error: galleryError } = useApi<Gallery[]>('/gallery-landing', {
+      cache: true,
+      cacheTTL: 3600000,
+      immediate: true,
+  });
 
   const systemInfo = [
     {
@@ -324,31 +332,28 @@ export default function Home() {
       </section>
 
       {/* Aktivitas Kami Section */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-800">
+     <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="container px-4 mx-auto">
           <div className="mb-12 text-center">
-            <Badge className="mb-4 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] dark:text-[#4ade80] border-[#33b962]/20 px-4 py-2 text-sm">Gallery</Badge>
-            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl dark:text-white">Aktivitas Kami</h2>
+            <Badge className="mb-4 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] dark:text-[#4ade80] border-[#33b962]/20 px-4 py-2 text-sm">
+              Gallery
+            </Badge>
+            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl dark:text-white">
+              Aktivitas Kami
+            </h2>
             <p className="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400 text-balance">
               Berbagai kegiatan menarik yang dilakukan siswa setiap harinya
             </p>
           </div>
+
           <div className="grid grid-cols-2 gap-4 mb-8 md:grid-cols-4">
-            {activities.map((activity, index) => (
-              <Card key={index} className="overflow-hidden transition-all bg-white border-0 hover:shadow-xl group rounded-2xl dark:bg-gray-700">
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={activity.image || "/placeholder.svg"}
-                    alt={activity.title}
-                    className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110 rounded-2xl"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2">{activity.title}</h3>
-                </div>
-              </Card>
+            {galleryLoading && <p>Loading...</p>}
+            {galleryError && <p>Error loading gallery</p>}
+            {galleries?.map((gallery) => (
+              <GalleryCard key={gallery.id} gallery={gallery} />
             ))}
           </div>
+
           <div className="text-center">
             <Button
               asChild

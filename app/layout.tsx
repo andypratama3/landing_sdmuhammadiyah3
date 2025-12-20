@@ -7,7 +7,8 @@ import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import BackToTop from "@/components/back-to-top"
-import { ApiClient } from '@/lib/api';
+import ApiInitializer from "@/components/api-initializer" 
+
 
 import { ThemeProvider } from "@/components/theme-provider"
 
@@ -16,7 +17,10 @@ const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
-})
+});
+
+
+
 
 export const metadata: Metadata = {
   title: "SD Muhammadiyah 3 Samarinda - Sekolah Kreatif",
@@ -29,23 +33,22 @@ export const metadata: Metadata = {
     description: "Mengembangkan potensi anak melalui pendidikan kreatif dan inovatif",
     type: "website",
   },
-  generator: "v0.app",
   icons: {
     icon: [
       {
-        url: "/icon-light-32x32.png",
+        url: "/SD3_logo1.png",
         media: "(prefers-color-scheme: light)",
       },
       {
-        url: "/icon-dark-32x32.png",
+        url: "/SD3_logo1.png",
         media: "(prefers-color-scheme: dark)",
       },
       {
-        url: "/icon.svg",
+        url: "/SD3_logo1.png",
         type: "image/svg+xml",
       },
     ],
-    apple: "/apple-icon.png",
+    apple: "/SD3_logo1.png",
   },
 }
 
@@ -71,6 +74,7 @@ export default function RootLayout({
       </head>
       <body className={`${poppins.className} font-sans antialiased`}>
         {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange> */}
+           <ApiInitializer />
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />

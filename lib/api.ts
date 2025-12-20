@@ -1,27 +1,9 @@
 import { JWTManager } from './jwt';
 import { CacheManager } from './cache';
-
-interface ApiResponse<T> {
-  success: boolean;
-  message?: string;
-  data?: T;
-  errors?: any;
-  pagination?: {
-    total: number;
-    per_page: number;
-    current_page: number;
-    last_page: number;
-  };
-}
-
-interface RequestOptions extends RequestInit {
-  cache?: boolean;
-  cacheTTL?: number;
-  useCache?: boolean;
-}
+import type { ApiResponse, RequestOptions } from '@/types';
 
 export class ApiClient {
-  private static baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+  private static baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v2';
   private static isRefreshing = false;
   private static refreshSubscribers: Array<(token: string) => void> = [];
 

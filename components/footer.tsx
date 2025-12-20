@@ -1,16 +1,32 @@
+'use client';
+
 import Link from "next/link"
 import { Facebook, Instagram, Youtube, Mail, Phone, MapPin, Clock } from "lucide-react"
 import Image from 'next/image'
+import { useApi } from '@/hooks/useApi';
+
+
+interface VisitorData {
+  visitor_by_day: number;
+  visitor_by_month: number;
+  visitor_by_year: number;
+}
 
 export default function Footer() {
+  const { data, loading, error, refetch } = useApi<VisitorData>('/views', {
+    cache: true,
+    cacheTTL: 3600000,
+    immediate: true,
+  });
+  
   return (
-    <footer className="bg-gray-900 text-gray-300 mt-20">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-4 gap-8">
+    <footer className="mt-20 text-gray-300 bg-gray-900">
+      <div className="container px-4 py-12 mx-auto">
+        <div className="grid gap-8 md:grid-cols-4">
           {/* About Column */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full">
                 <Image src="/SD3_logo1.png" width={100} height={100} alt="Logo Sekolah" />
               </div>
               <div>
@@ -18,7 +34,7 @@ export default function Footer() {
                 <p className="text-xs">SD Muhammadiyah 3</p>
               </div>
             </div>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm leading-relaxed text-gray-400">
               Sekolah Dasar Islam yang menghasilkan generasi kreatif, berakhlak mulia, dan berprestasi.
             </p>
             <div className="flex gap-3 mt-4">
@@ -59,7 +75,7 @@ export default function Footer() {
 
           {/* Quick Links Column */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Link Cepat</h4>
+            <h4 className="mb-4 font-semibold text-white">Link Cepat</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/" className="hover:text-[#33b962] transition">
@@ -91,7 +107,7 @@ export default function Footer() {
 
           {/* Informasi Column */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Informasi</h4>
+            <h4 className="mb-4 font-semibold text-white">Informasi</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/jadwal" className="hover:text-[#33b962] transition">
@@ -123,7 +139,7 @@ export default function Footer() {
 
           {/* Contact Column */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Kontak</h4>
+            <h4 className="mb-4 font-semibold text-white">Kontak</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 mt-1 shrink-0 text-[#33b962]" />
@@ -155,14 +171,22 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-800 mt-8 pt-8 flex col md:row justify-between items-center gap-4 text-sm">
+        <div className="flex flex-col items-center justify-between gap-4 pt-8 mt-8 text-sm border-t border-gray-800 md:flex-row">
           <p>&copy; 2025 SD Muhammadiyah 3 Samarinda. All rights reserved.</p>
           <div className="flex items-center gap-4 text-xs">
-            <span>Hari Ini: 127</span>
-            <span className="text-gray-700">|</span>
-            <span>Bulan Ini: 3,542</span>
-            <span className="text-gray-700">|</span>
-            <span>Tahun Ini: 42,156</span>
+            {loading ? (
+              <span>Memuat data pengunjung...</span>
+            ) : error ? (
+              <span>Gagal memuat data</span>
+            ) : (
+              <>
+                <span>Hari Ini: {data?.visitor_by_day.toLocaleString()}</span>
+                <span className="text-gray-700">|</span>
+                <span>Bulan Ini: {data?.visitor_by_month.toLocaleString()}</span>
+                <span className="text-gray-700">|</span>
+                <span>Tahun Ini: {data?.visitor_by_year.toLocaleString()}</span>
+              </>
+            )}
           </div>
         </div>
       </div>

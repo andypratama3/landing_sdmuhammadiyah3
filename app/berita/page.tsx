@@ -8,7 +8,6 @@ import { Calendar, Clock, User, Search, ArrowRight, TrendingUp } from "lucide-re
 import Image from "next/image"
 import Link from "next/link"
 
-
 export const metadata: Metadata = {
   title: "Berita & Pengumuman - SD Muhammadiyah 3 Samarinda",
   description: "Berita terkini, pengumuman, dan informasi kegiatan SD Muhammadiyah 3 Samarinda.",
@@ -149,7 +148,7 @@ const categories = [
 export default function BeritaPage() {
   return (
     <div className="min-h-screen">
-      <section className="relative py-20 mt-20 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80">
+      <section className="relative py-20 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80 mt-">
         <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="mb-4 text-white bg-white/20 border-white/30">Berita & Pengumuman</Badge>

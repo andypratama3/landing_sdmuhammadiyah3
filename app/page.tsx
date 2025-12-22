@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { useApi } from '@/hooks/useApi';
 import { GalleryCard } from "@/components/landing/gallery-component"
 import { Gallery } from '@/types/gallery.types'
-
+import { GalleryCardSkeleton } from "@/components/gallery/skeletons/GalleryCardSkeleton"
 import {
   Users,
   Award,
@@ -347,12 +347,23 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 gap-4 mb-8 md:grid-cols-4">
-            {galleryLoading && <p>Loading...</p>}
-            {galleryError && <p>Error loading gallery</p>}
-            {galleries?.map((gallery) => (
-              <GalleryCard key={gallery.id} gallery={gallery} />
-            ))}
+            {galleryLoading &&
+              Array.from({ length: 8 }).map((_, index) => (
+                <GalleryCardSkeleton key={index} />
+              ))}
+
+            {!galleryLoading && galleryError && (
+              <p className="text-center text-red-500 col-span-full">
+                Gagal memuat galeri
+              </p>
+            )}
+
+            {!galleryLoading &&
+              galleries?.map((gallery) => (
+                <GalleryCard key={gallery.id} gallery={gallery} />
+              ))}
           </div>
+
 
           <div className="text-center">
             <Button

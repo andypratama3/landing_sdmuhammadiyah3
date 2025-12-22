@@ -147,7 +147,7 @@ const categories = [
 
 export default function BeritaPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen mt-20">
       <section className="relative py-20 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80 mt-">
         <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto text-center">

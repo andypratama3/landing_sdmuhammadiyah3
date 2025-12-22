@@ -7,6 +7,7 @@ import { Calendar, Clock, User, Share2, ArrowLeft, Facebook, Twitter, Linkedin }
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { PageHeader } from "@/components/page-header"
 
 type NewsItem = {
   id: number
@@ -119,22 +120,19 @@ export default async function BeritaDetailPage({ params }: PageProps) {
     notFound()
   }
 
+  // BreadCrumbs
+ const breadcrumbs = [
+    { label: "Beranda", href: "/" },
+    { label: "Galeri", href: "/galeri" },
+    { label: news.title },
+  ]
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <section className="relative py-12 text-white bg-linear-to-br from-primary via-primary/90 to-primary/80 ">
-        <div className="container px-5 mx-auto">
-          <Link href="/berita">
-            <Button variant="ghost" className="text-black bg-[#ffd166] mb-4 mt-12">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Kembali ke Berita
-            </Button>
-          </Link>
-        </div>
-      </section>
-
+      <PageHeader title="Berita" description="Berita SD Muhammadiyah 3 Samarinda"  breadcrumbs={breadcrumbs} />
+    
       {/* Main Content */}
-      <section className="py-12">
+      <section className="py-12 mt-1">
         <div className="container px-4 mx-auto">
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Article Content */}

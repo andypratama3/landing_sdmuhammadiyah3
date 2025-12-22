@@ -180,14 +180,14 @@ const requirements = [
 
 export default function EkstrakurikulerPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen mt-20">
       {/* Hero Section */}
-      <section className="relative bg-linear-to-br from-primary via-primary/90 to-primary/80 text-white py-20">
-        <div className="container mx-auto px-4">
+      <section className="relative py-20 text-white bg-linear-to-br from-primary via-primary/90 to-primary/80">
+        <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 bg-white/20 text-white border-white/30">Ekstrakurikuler</Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Kegiatan Ekstrakurikuler</h1>
-            <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
+            <Badge className="mb-4 text-white bg-white/20 border-white/30">Ekstrakurikuler</Badge>
+            <h1 className="mb-4 text-4xl font-bold md:text-5xl">Kegiatan Ekstrakurikuler</h1>
+            <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/90">
               Berbagai pilihan kegiatan untuk mengembangkan bakat, minat, dan karakter siswa di luar jam pelajaran
               regular
             </p>
@@ -197,21 +197,21 @@ export default function EkstrakurikulerPage() {
 
       {/* Benefits Section */}
       <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Manfaat Mengikuti Ekstrakurikuler</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+        <div className="container px-4 mx-auto">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl">Manfaat Mengikuti Ekstrakurikuler</h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground">
               Kegiatan ekstrakurikuler memberikan banyak manfaat untuk perkembangan anak
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {benefits.map((benefit, index) => {
               const Icon = benefit.icon
               return (
-                <Card key={index} className="text-center hover:shadow-lg transition-all">
+                <Card key={index} className="text-center transition-all hover:shadow-lg">
                   <CardHeader>
-                    <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10">
                       <Icon className="w-8 h-8 text-primary" />
                     </div>
                     <CardTitle className="text-xl">{benefit.title}</CardTitle>
@@ -228,16 +228,16 @@ export default function EkstrakurikulerPage() {
 
       {/* Extracurricular Activities */}
       <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Pilihan Kegiatan Ekstrakurikuler</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+        <div className="container px-4 mx-auto">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl">Pilihan Kegiatan Ekstrakurikuler</h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground">
               Temukan kegiatan yang sesuai dengan minat dan bakat anak Anda
             </p>
           </div>
 
           <Tabs defaultValue="all" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-6 mb-8 max-w-4xl mx-auto">
+            <TabsList className="grid w-full max-w-4xl grid-cols-2 mx-auto mb-8 md:grid-cols-6">
               <TabsTrigger value="all">Semua</TabsTrigger>
               <TabsTrigger value="sports">Olahraga</TabsTrigger>
               <TabsTrigger value="arts">Seni</TabsTrigger>
@@ -247,7 +247,7 @@ export default function EkstrakurikulerPage() {
             </TabsList>
 
             <TabsContent value="all" className="mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {extracurricular.map((activity) => (
                   <ActivityCard key={activity.id} activity={activity} />
                 ))}
@@ -256,7 +256,7 @@ export default function EkstrakurikulerPage() {
 
             {["sports", "arts", "science", "islamic", "others"].map((category) => (
               <TabsContent key={category} value={category} className="mt-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {extracurricular
                     .filter((activity) => activity.category === category)
                     .map((activity) => (
@@ -271,10 +271,10 @@ export default function EkstrakurikulerPage() {
 
       {/* Registration Requirements */}
       <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
+        <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Syarat Pendaftaran</h2>
+            <div className="mb-12 text-center">
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Syarat Pendaftaran</h2>
               <p className="text-muted-foreground">Dokumen yang diperlukan untuk mendaftar ekstrakurikuler</p>
             </div>
 
@@ -291,8 +291,8 @@ export default function EkstrakurikulerPage() {
                   ))}
                 </ul>
 
-                <div className="mt-8 p-4 bg-muted rounded-lg">
-                  <p className="text-sm text-muted-foreground mb-4">
+                <div className="p-4 mt-8 rounded-lg bg-muted">
+                  <p className="mb-4 text-sm text-muted-foreground">
                     <strong>Catatan:</strong> Pendaftaran dapat dilakukan di kantor tata usaha atau melalui wali kelas.
                     Kegiatan dimulai setelah pembayaran lunas.
                   </p>
@@ -311,16 +311,16 @@ export default function EkstrakurikulerPage() {
 
 function ActivityCard({ activity }: { activity: (typeof extracurricular)[0] }) {
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all group">
+    <Card className="overflow-hidden transition-all hover:shadow-lg group">
       <div className="relative h-48 overflow-hidden">
         <Image
           src={activity.image || "/placeholder.svg"}
           alt={activity.name}
           fill
-          className="object-cover group-hover:scale-110 transition-transform duration-300"
+          className="object-cover transition-transform duration-300 group-hover:scale-110"
         />
         <div className="absolute top-4 right-4">
-          <Badge className="bg-white/90 text-primary border-white">{activity.ageGroup}</Badge>
+          <Badge className="border-white bg-white/90 text-primary">{activity.ageGroup}</Badge>
         </div>
       </div>
       <CardHeader>

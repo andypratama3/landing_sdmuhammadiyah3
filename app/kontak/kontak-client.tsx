@@ -106,7 +106,7 @@ const socialMedia = [
 
 export default function KontakClient() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen mt-20">
       {/* Hero Section */}
       <section className="relative py-20 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80">
         <div className="container px-4 mx-auto mt-10">

@@ -1,352 +1,623 @@
-import type { Metadata } from "next"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+'use client';
+
+import { useState, useEffect, useMemo } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, Clock, User, Search, ArrowRight, TrendingUp } from "lucide-react"
+import { Calendar, Clock, User, Search, ArrowRight, TrendingUp, AlertCircle, RefreshCw, CloudCog } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { useApi } from "@/hooks/useApi"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import Head from "next/head"
+import { 
+  Berita, 
+  BeritaListResponse, 
+  CategoryCountResponse,
+  PopularBeritaResponse,
+} from "@/types/berita.types";
 
-export const metadata: Metadata = {
-  title: "Berita & Pengumuman - SD Muhammadiyah 3 Samarinda",
-  description: "Berita terkini, pengumuman, dan informasi kegiatan SD Muhammadiyah 3 Samarinda.",
+
+
+function timeAgo(dateString: string) {
+  const date = new Date(dateString)
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000)
+
+  const rtf = new Intl.RelativeTimeFormat('id-ID', {
+    numeric: 'auto',
+  })
+
+  if (seconds < 60) {
+    return rtf.format(-seconds, 'second')
+  }
+
+  const minutes = Math.floor(seconds / 60)
+  if (minutes < 60) {
+    return rtf.format(-minutes, 'minute')
+  }
+
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) {
+    return rtf.format(-hours, 'hour')
+  }
+
+  const days = Math.floor(hours / 24)
+  return rtf.format(-days, 'day')
 }
 
-// Type definition for news item
-type NewsItem = {
-  id: number
-  title: string
-  excerpt: string
+type CategoryCount = {
   category: string
-  date: string
-  author: string
-  readTime: string
-  image: string
-  content?: string
+  total: number
 }
 
-const featuredNews: NewsItem = {
-  id: 1,
-  title: "SD Muhammadiyah 3 Samarinda Raih Akreditasi UNGGUL",
-  excerpt:
-    "Sekolah kami berhasil meraih akreditasi UNGGUL dari Badan Akreditasi Nasional Sekolah/Madrasah (BAN-S/M) untuk periode 2024-2029.",
-  content: "",
-  category: "Pengumuman",
-  date: "15 Januari 2025",
-  author: "Admin",
-  readTime: "3 menit",
-  image: "/school-award-accreditation.jpg",
-}
-
-const news: NewsItem[] = [
-  {
-    id: 2,
-    title: "Siswa Kelas 6 Juara 1 Kompetisi Matematika Tingkat Kota",
-    excerpt:
-      "Tim matematika dari SD Muhammadiyah 3 Samarinda berhasil meraih juara 1 pada Olimpiade Matematika tingkat Kota Samarinda.",
-    category: "Prestasi",
-    date: "12 Januari 2025",
-    author: "Ibu Diana Putri",
-    readTime: "4 menit",
-    image: "/children-celebrating-math-competition.jpg",
-  },
-  {
-    id: 3,
-    title: "Pendaftaran PPDB Tahun Ajaran 2025/2026 Dibuka",
-    excerpt:
-      "Penerimaan Peserta Didik Baru untuk tahun ajaran 2025/2026 telah dibuka. Daftar sekarang dan dapatkan diskon early bird!",
-    category: "Pengumuman",
-    date: "10 Januari 2025",
-    author: "Panitia PPDB",
-    readTime: "2 menit",
-    image: "/students-morning-assembly.jpg",
-  },
-  {
-    id: 4,
-    title: "Kegiatan Field Trip ke Museum Mulawarman",
-    excerpt:
-      "Siswa kelas 4 dan 5 melaksanakan kegiatan field trip edukatif ke Museum Mulawarman untuk belajar sejarah dan budaya Kalimantan Timur.",
-    category: "Kegiatan",
-    date: "8 Januari 2025",
-    author: "Bapak Ahmad Fauzi",
-    readTime: "5 menit",
-    image: "/gallery-museum-visit.jpg",
-  },
-  {
-    id: 5,
-    title: "Pelatihan Guru: Implementasi Kurikulum Merdeka",
-    excerpt:
-      "Seluruh guru SD Muhammadiyah 3 Samarinda mengikuti pelatihan intensif tentang implementasi Kurikulum Merdeka dari Kemendikbud.",
-    category: "Akademik",
-    date: "5 Januari 2025",
-    author: "Kepala Sekolah",
-    readTime: "3 menit",
-    image: "/happy-children-classroom-learning.jpg",
-  },
-  {
-    id: 6,
-    title: "Siswa Juara Harapan III Lomba Tahfidz Tingkat Provinsi",
-    excerpt:
-      "Maryam, siswi kelas 5, berhasil meraih juara harapan III pada lomba Tahfidz Al-Qur'an tingkat Provinsi Kalimantan Timur.",
-    category: "Prestasi",
-    date: "3 Januari 2025",
-    author: "Ustadz Abdullah",
-    readTime: "3 menit",
-    image: "/girl-quran-competition.jpg",
-  },
-  {
-    id: 7,
-    title: "Libur Semester Genap dan Jadwal Masuk Kembali",
-    excerpt:
-      "Informasi jadwal libur semester genap tahun ajaran 2024/2025 dan tanggal masuk kembali untuk semester ganjil.",
-    category: "Pengumuman",
-    date: "28 Desember 2024",
-    author: "Admin",
-    readTime: "2 menit",
-    image: "/classroom-interactive-learning.jpg",
-  },
-  {
-    id: 8,
-    title: "Pembagian Rapor Semester Ganjil 2024/2025",
-    excerpt: "Pengumuman jadwal pembagian rapor semester ganjil untuk seluruh kelas. Orang tua diharapkan hadir.",
-    category: "Pengumuman",
-    date: "20 Desember 2024",
-    author: "Admin",
-    readTime: "2 menit",
-    image: "/modern-school-classroom.png",
-  },
-  {
-    id: 9,
-    title: "Festival Seni dan Budaya SD Muhammadiyah 3",
-    excerpt:
-      "Sekolah mengadakan festival seni dan budaya dengan menampilkan berbagai penampilan dari siswa-siswi berbakat.",
-    category: "Kegiatan",
-    date: "15 Desember 2024",
-    author: "Ibu Nur Azizah",
-    readTime: "4 menit",
-    image: "/gallery-cultural-festival.jpg",
-  },
-]
-
-const popularPosts = [
-  { id: 1, title: "Cara Mendaftar PPDB Online 2025/2026", views: 1250 },
-  { id: 2, title: "Syarat dan Ketentuan Beasiswa Siswa Berprestasi", views: 980 },
-  { id: 3, title: "Jadwal Kegiatan Ekstrakurikuler Semester Genap", views: 856 },
-  { id: 4, title: "Tips Membantu Anak Belajar di Rumah", views: 745 },
-  { id: 5, title: "Program Tahfidz Al-Qur'an: Target dan Metode", views: 623 },
-]
-
-const categories = [
-  { name: "Semua", count: 9 },
-  { name: "Akademik", count: 1 },
-  { name: "Kegiatan", count: 2 },
-  { name: "Pengumuman", count: 4 },
-  { name: "Prestasi", count: 2 },
-]
 
 export default function BeritaPage() {
-  return (
-    <div className="min-h-screen mt-20">
-      <section className="relative py-20 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80 mt-">
-        <div className="container px-4 mx-auto">
-          <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 text-white bg-white/20 border-white/30">Berita & Pengumuman</Badge>
-            <h1 className="mb-4 text-4xl font-bold md:text-5xl">Berita Terkini</h1>
-            <p className="max-w-2xl mx-auto mb-8 text-lg md:text-xl text-white/90">
-              Informasi terbaru tentang kegiatan, prestasi, dan pengumuman penting
-            </p>
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("semua")
+  const [currentPage, setCurrentPage] = useState(1)
+  
+  // Build query string with pagination, category, and search
+  const queryString = useMemo(() => {
+    const params = new URLSearchParams()
+    params.set('page', currentPage.toString())
+    
+    if (selectedCategory !== "semua") {
+      params.set('category', selectedCategory)
+    }
+    
+    if (searchQuery.trim()) {
+      params.set('search', searchQuery.trim())
+    }
+    
+    return params.toString()
+  }, [currentPage, selectedCategory, searchQuery])
 
-            {/* Search Bar */}
-            <div className="max-w-2xl mx-auto">
-              <div className="relative">
-                <Search className="absolute w-5 h-5 transform -translate-y-1/2 left-4 top-1/2 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Cari berita atau pengumuman..."
-                  className="py-6 pl-12 pr-4 text-lg bg-white text-foreground"
-                />
+  const { 
+    data: apiResponse, 
+    loading: newsLoading, 
+    error: newsError,
+    refetch: refetchNews 
+  } = useApi<BeritaListResponse>(`/berita?${queryString}`, {
+    cache: true,
+    cacheTTL: 300000,
+    immediate: true
+  })
+
+  // Extract pagination data
+  const paginationMeta = useMemo(() => {
+    return apiResponse?.meta || {
+      current_page: 1,
+      last_page: 1,
+      per_page: 10,
+      total: 0,
+      from: 0,
+      to: 0
+    }
+  }, [apiResponse])
+
+  const newsData = useMemo(() => {
+    if (!apiResponse) return []
+    
+    if (Array.isArray(apiResponse)) {
+      return apiResponse
+    } else if (apiResponse.data && Array.isArray(apiResponse.data)) {
+      return apiResponse.data
+    }
+    
+    return []
+  }, [apiResponse])
+
+  // Fetch category counts
+  const { 
+    data: categoryData,
+    loading: categoryLoading 
+  } = useApi<CategoryCount[]>('/berita-count-data', {
+    cache: true,
+    cacheTTL: 600000,
+    immediate: true
+  })
+
+  // Process categories
+  const categories = useMemo(() => {
+    const cats = [{ name: "Semua", count: 0, value: "semua" }]
+    
+    if (categoryData && Array.isArray(categoryData)) {
+      const totalCount = categoryData.reduce((sum, cat) => sum + (cat.total || 0), 0)
+      cats[0].count = totalCount
+
+      categoryData.forEach(cat => {
+        cats.push({
+          name: cat.category.charAt(0).toUpperCase() + cat.category.slice(1),
+          count: cat.total || 0,
+          value: cat.category.toLowerCase()
+        })
+      })
+    }
+
+    
+    return cats
+  }, [categoryData])
+
+  // Get popular posts
+  const { data: popularResponse, loading: popularPostsLoading } = useApi<PopularBeritaResponse>(`/berita-popular`, {
+    cache: true,
+    cacheTTL: 300000, 
+    immediate: true
+  })
+
+  const popularPosts = useMemo<Berita[]>(() => {
+    if (!popularResponse) return []
+    
+    let posts: Berita[] = []
+    
+    if (Array.isArray(popularResponse)) {
+      posts = popularResponse
+    } else if (popularResponse.data && Array.isArray(popularResponse.data)) {
+      posts = popularResponse.data
+    }
+    
+    return posts.slice(0, 10)
+  }, [popularResponse])
+  
+  // Featured news - ALWAYS from original data (first page, no filter only)
+  const featuredNews = useMemo(() => {
+    if (!newsData || newsData.length === 0) return null
+    return newsData[0]
+  }, [newsData])
+
+  // Regular news for list (skip featured only on page 1, no filters)
+  const regularNews = useMemo(() => {
+    if (!newsData || newsData.length === 0) return []
+    
+    // Only skip featured on first page when no filter
+    if (currentPage === 1 && selectedCategory === "semua" && !searchQuery.trim()) {
+      return newsData.slice(1)
+    }
+    
+    return newsData
+  }, [newsData, currentPage, selectedCategory, searchQuery])
+
+  // Reset to page 1 when category or search changes
+  useEffect(() => {
+    if (categoryData) {
+      setCurrentPage(1)
+    }
+  }, [categoryData, searchQuery])
+
+  const formatDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString)
+      return date.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      })
+    } catch {
+      return dateString
+    }
+  }
+
+  const stripHtml = (html: string, maxLength = 150) => {
+    if (!html) return ""
+    const text = html.replace(/<[^>]*>/g, '')
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text
+  }
+
+  // Generate page numbers array
+  const pageNumbers = useMemo(() => {
+    const pages: (number | string)[] = []
+    const maxVisible = 5
+    let startPage = Math.max(1, paginationMeta.current_page - 2)
+    let endPage = Math.min(paginationMeta.last_page, startPage + maxVisible - 1)
+
+    if (endPage - startPage < maxVisible - 1) {
+      startPage = Math.max(1, endPage - maxVisible + 1)
+    }
+
+    if (startPage > 1) {
+      pages.push(1)
+      if (startPage > 2) {
+        pages.push('...')
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i)
+    }
+
+    if (endPage < paginationMeta.last_page) {
+      if (endPage < paginationMeta.last_page - 1) {
+        pages.push('...')
+      }
+      pages.push(paginationMeta.last_page)
+    }
+
+    return pages
+  }, [paginationMeta])
+
+
+  const pageTitle = "Berita & Pengumuman - SD Muhammadiyah 3 Samarinda | Sekolah Kreatif Islami"
+  const pageDescription = "Informasi terbaru seputar kegiatan, prestasi, dan pengumuman penting SD Muhammadiyah 3 Samarinda"
+
+  return (
+    <>
+      <Head>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={featuredNews?.foto || "/og-image.jpg"} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+      </Head>
+
+      <div className="min-h-screen mt-20">
+        {/* Header Section */}
+        <section className="relative py-20 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80">
+          <div className="container px-4 mx-auto">
+            <div className="max-w-4xl mx-auto text-center">
+              <Badge className="mb-4 text-white bg-white/20 border-white/30">
+                Berita & Pengumuman
+              </Badge>
+              <h1 className="mb-4 text-4xl font-bold md:text-5xl">Berita Terkini</h1>
+              <p className="max-w-2xl mx-auto mb-8 text-lg md:text-xl text-white/90">
+                Informasi terbaru tentang kegiatan, prestasi, dan pengumuman penting
+              </p>
+
+              {/* Search Bar */}
+              <div className="max-w-2xl mx-auto">
+                <div className="relative">
+                  <Search className="absolute w-5 h-5 transform -translate-y-1/2 left-4 top-1/2 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Cari berita atau pengumuman..."
+                    className="py-6 pl-12 pr-4 text-lg bg-white text-foreground"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Featured News */}
-      <section className="py-16 bg-background">
-        <div className="container px-4 mx-auto">
-          <Card className="overflow-hidden transition-all hover:shadow-xl">
-            <div className="grid gap-0 md:grid-cols-2">
-              <div className="relative h-64 md:h-auto">
-                <Image
-                  src={featuredNews.image || "/placeholder.svg"}
-                  alt={featuredNews.title}
-                  fill
-                  className="object-cover rounded-2xl"
-                />
-              </div>
-              <div className="flex flex-col justify-center p-8">
-                <Badge className="mb-4 w-fit">{featuredNews.category}</Badge>
-                <h2 className="mb-4 text-3xl font-bold">{featuredNews.title}</h2>
-                <p className="mb-6 text-lg text-muted-foreground">{featuredNews.excerpt}</p>
-                <div className="flex items-center gap-4 mb-6 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    <span>{featuredNews.date}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    <span>{featuredNews.readTime}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <User className="w-4 h-4" />
-                    <span>{featuredNews.author}</span>
+        {/* Error Alert */}
+        {newsError && (
+          <div className="container px-4 mx-auto mt-8">
+            <Alert variant="destructive">
+              <AlertCircle className="w-4 h-4" />
+              <AlertDescription className="flex items-center justify-between">
+                <span>Terjadi kesalahan saat memuat data.</span>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => refetchNews()}
+                  className="ml-4"
+                >
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Coba Lagi
+                </Button>
+              </AlertDescription>
+            </Alert>
+          </div>
+        )}
+
+        {/* Featured News */}
+        {newsLoading ? (
+          <section className="py-16 bg-background">
+            <div className="container px-4 mx-auto">
+              <Card className="overflow-hidden">
+                <div className="grid gap-0 md:grid-cols-2">
+                  <Skeleton className="h-64 md:h-auto" />
+                  <div className="p-8 space-y-4">
+                    <Skeleton className="w-24 h-6" />
+                    <Skeleton className="w-full h-8" />
+                    <Skeleton className="w-full h-4" />
+                    <Skeleton className="w-full h-4" />
+                    <Skeleton className="w-32 h-10" />
                   </div>
                 </div>
-                <Button size="lg" className="w-fit">
-                  Baca Selengkapnya
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <section className="py-16 bg-muted/30">
-        <div className="container px-4 mx-auto">
-          <div className="grid gap-8 lg:grid-cols-3">
-            {/* News List */}
-            <div className="lg:col-span-2">
-              <Tabs defaultValue="all" className="w-full">
-                <TabsList className="grid w-full grid-cols-5 mb-8">
-                  {categories.map((category) => (
-                    <TabsTrigger key={category.name} value={category.name.toLowerCase()}>
-                      {category.name}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-
-                <TabsContent value="all" className="space-y-6">
-                  {news.map((item) => (
-                    <NewsCard key={item.id} news={item} />
-                  ))}
-                </TabsContent>
-
-                {["akademik", "kegiatan", "pengumuman", "prestasi"].map((category) => (
-                  <TabsContent key={category} value={category} className="space-y-6">
-                    {news
-                      .filter((item) => item.category.toLowerCase() === category)
-                      .map((item) => (
-                        <NewsCard key={item.id} news={item} />
-                      ))}
-                  </TabsContent>
-                ))}
-              </Tabs>
-
-              {/* Pagination */}
-              <div className="flex justify-center gap-2 mt-8">
-                <Button variant="outline">Previous</Button>
-                <Button variant="outline">1</Button>
-                <Button>2</Button>
-                <Button variant="outline">3</Button>
-                <Button variant="outline">Next</Button>
-              </div>
-            </div>
-
-            {/* Sidebar */}
-            <div className="space-y-6">
-              {/* Popular Posts */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5" />
-                    Berita Populer
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-4">
-                    {popularPosts.map((post, index) => (
-                      <li key={post.id}>
-                        <Link
-                          href={`/berita/${post.id}`}
-                          className="flex items-start gap-3 transition-colors group hover:text-primary"
-                        >
-                          <span className="flex items-center justify-center flex-shrink-0 w-8 h-8 text-sm font-semibold rounded-full bg-primary/10 text-primary">
-                            {index + 1}
-                          </span>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium transition-colors group-hover:text-primary line-clamp-2">
-                              {post.title}
-                            </p>
-                            <p className="mt-1 text-xs text-muted-foreground">{post.views} views</p>
-                          </div>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
               </Card>
+            </div>
+          </section>
+        ) : (currentPage === 1 && selectedCategory === "semua" && !searchQuery.trim()) && featuredNews ? (
+          <section className="py-16 bg-background">
+            <div className="container px-4 mx-auto">
+              <Card className="overflow-hidden transition-all hover:shadow-xl">
+                <div className="grid gap-0 md:grid-cols-2">
+                  <div className="relative h-64 md:h-auto">
+                    <Image
+                      src={featuredNews.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${featuredNews.foto}` : "/placeholder.svg"}
+                      alt={featuredNews.judul}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center p-8">
+                    <Badge className="mb-4 w-fit">
+                      {featuredNews.category}
+                    </Badge>
+                    <h2 className="mb-4 text-3xl font-bold">
+                      {featuredNews.judul}
+                    </h2>
+                    <p className="mb-6 text-lg text-muted-foreground">
+                      {stripHtml(featuredNews.desc)}
+                    </p>
+                    <div className="flex items-center gap-4 mb-6 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        <span>{formatDate(featuredNews.created_at)}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-4 h-4" />
+                        <span>{timeAgo(featuredNews.created_at)}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <User className="w-4 h-4" />
+                        <span>SD Muhammadiyah 3</span>
+                      </div>
+                    </div>
+                    <Link href={`/berita/${featuredNews.slug}`}>
+                      <Button size="lg" className="w-fit">
+                        Baca Selengkapnya
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </section>
+        ) : null}
 
-              {/* Categories */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Kategori</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
+        {/* Main Content */}
+        <section className="py-16 bg-muted/30">
+          <div className="container px-4 mx-auto">
+            <div className="grid gap-8 lg:grid-cols-3">
+              {/* News List */}
+              <div className="lg:col-span-2">
+                <Tabs 
+                  value={selectedCategory} 
+                  onValueChange={setSelectedCategory}
+                  className="w-full"
+                >
+                  <TabsList className="grid w-full mb-8" style={{
+                    gridTemplateColumns: `repeat(${Math.min(categories.length, 4)}, minmax(0, 1fr))`
+                  }}>
                     {categories.map((category) => (
-                      <li key={category.name}>
-                        <Link
-                          href={`/berita?category=${category.name.toLowerCase()}`}
-                          className="flex items-center justify-between p-2 transition-colors rounded-lg hover:bg-muted group"
-                        >
-                          <span className="text-sm font-medium transition-colors group-hover:text-primary">
-                            {category.name}
-                          </span>
-                          <Badge variant="secondary">{category.count}</Badge>
-                        </Link>
-                      </li>
+                      <TabsTrigger 
+                        key={category.value} 
+                        value={category.value}
+                        disabled={categoryLoading}
+                      >
+                        {category.name}
+                      </TabsTrigger>
                     ))}
-                  </ul>
-                </CardContent>
-              </Card>
+                  </TabsList>
+
+                  <TabsContent value={selectedCategory} className="space-y-6">
+                    {newsLoading ? (
+                      Array.from({ length: 3 }).map((_, i) => (
+                        <Card key={i} className="overflow-hidden">
+                          <div className="grid gap-0 md:grid-cols-3">
+                            <Skeleton className="h-48 md:h-auto" />
+                            <div className="p-6 space-y-4 md:col-span-2">
+                              <Skeleton className="w-20 h-6" />
+                              <Skeleton className="w-full h-6" />
+                              <Skeleton className="w-full h-4" />
+                              <Skeleton className="w-32 h-8" />
+                            </div>
+                          </div>
+                        </Card>
+                      ))
+                    ) : regularNews.length > 0 ? (
+                      regularNews.map((item) => (
+                        <NewsCard 
+                          key={item.id} 
+                          news={item}
+                          
+                          formatDate={formatDate}
+                          stripHtml={stripHtml}
+                        />
+                      ))
+                    ) : (
+                      <Card className="p-12 text-center">
+                        <AlertCircle className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                        <h3 className="mb-2 text-lg font-semibold">Tidak ada berita</h3>
+                        <p className="text-muted-foreground">
+                          {searchQuery 
+                            ? `Tidak ditemukan berita dengan kata kunci "${searchQuery}"`
+                            : 'Belum ada berita untuk kategori ini'}
+                        </p>
+                      </Card>
+                    )}
+                  </TabsContent>
+                </Tabs>
+
+                {/* Pagination */}
+                {!newsLoading && paginationMeta.last_page > 1 && (
+                  <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setCurrentPage(paginationMeta.current_page - 1)}
+                      disabled={paginationMeta.current_page === 1}
+                    >
+                      Previous
+                    </Button>
+
+                    {pageNumbers.map((page, idx) => (
+                      page === '...' ? (
+                        <span key={`dots-${idx}`} className="px-2 py-2">...</span>
+                      ) : (
+                        <Button
+                          key={page}
+                          variant={currentPage === page ? "default" : "outline"}
+                          onClick={() => setCurrentPage(page as number)}
+                          disabled={currentPage === page}
+                        >
+                          {page}
+                        </Button>
+                      )
+                    ))}
+
+                    <Button 
+                      variant="outline"
+                      onClick={() => setCurrentPage(paginationMeta.current_page + 1)}
+                      disabled={paginationMeta.current_page === paginationMeta.last_page}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                )}
+
+                {/* Pagination Info */}
+                {!newsLoading && paginationMeta.total > 0 && (
+                  <div className="mt-4 text-sm text-center text-muted-foreground">
+                    Menampilkan {paginationMeta.from} - {paginationMeta.to} dari {paginationMeta.total} berita
+                  </div>
+                )}
+              </div>
+
+              {/* Sidebar */}
+              <div className="space-y-6">
+                {/* Popular Posts */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <TrendingUp className="w-5 h-5" />
+                      Berita Populer
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {popularPostsLoading ? (
+                      <div className="space-y-4">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <div key={i} className="flex gap-3">
+                            <Skeleton className="flex-shrink-0 w-8 h-8 rounded-full" />
+                            <div className="flex-1 space-y-2">
+                              <Skeleton className="w-full h-4" />
+                              <Skeleton className="w-16 h-3" />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : popularPosts.length > 0 ? (
+                      <ul className="space-y-4">
+                        {popularPosts.map((post, index) => (
+                          <li key={post.id}>
+                            <Link
+                              href={`/berita/${post.slug}`}
+                              className="flex items-start gap-3 transition-colors group hover:text-primary"
+                            >
+                              <span className="flex items-center justify-center flex-shrink-0 w-8 h-8 text-sm font-semibold rounded-full bg-primary/10 text-primary">
+                                {index + 1}
+                              </span>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium transition-colors group-hover:text-primary line-clamp-2">
+                                  {post.judul}
+                                </p>
+                                <p className="mt-1 text-xs text-muted-foreground">
+                                  {post.views || 0} views
+                                </p>
+                              </div>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-sm text-center text-muted-foreground">
+                        Belum ada berita populer
+                      </p>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Categories */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Kategori</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {categoryLoading ? (
+                      <div className="space-y-2">
+                        {Array.from({ length: 4 }).map((_, i) => (
+                          <Skeleton key={i} className="w-full h-10" />
+                        ))}
+                      </div>
+                    ) : (
+                      <ul className="space-y-2">
+                        {categories.map((category) => (
+                          <li key={category.value}>
+                            <button
+                              onClick={() => setSelectedCategory(category.value)}
+                              className={`flex items-center justify-between p-2 transition-colors rounded-lg hover:bg-muted group w-full text-left ${
+                                selectedCategory === category.value ? 'bg-muted' : ''
+                              }`}
+                            >
+                              <span className="text-sm font-medium transition-colors group-hover:text-primary">
+                                {category.name}
+                              </span>
+                              <Badge variant="secondary">{category.count}</Badge>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   )
 }
 
-function NewsCard({ news }: { news: NewsItem }) {
+function NewsCard({ 
+  news, 
+  formatDate, 
+  stripHtml 
+}: { 
+  news: Berita
+  formatDate: (date: string) => string
+  stripHtml: (html: string, maxLength?: number) => string
+}) {
   return (
     <Card className="overflow-hidden transition-all hover:shadow-lg group">
       <div className="grid gap-0 md:grid-cols-3">
         <div className="relative h-48 md:h-auto">
           <Image
-            src={news.image || "/placeholder.svg"}
-            alt={news.title}
+            src={news.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${news.foto}` : "/placeholder.svg"}
+            alt={news.judul}
             fill
-            className="object-cover transition-transform duration-300 group-hover:scale-110"
+            className="object-contain transition-transform duration-300 w-100 h-100 group-hover:scale-110"
           />
         </div>
         <div className="p-6 md:col-span-2">
           <Badge className="mb-3">{news.category}</Badge>
-          <h3 className="mb-2 text-xl font-bold transition-colors group-hover:text-primary">{news.title}</h3>
-          <p className="mb-4 text-muted-foreground line-clamp-2">{news.excerpt}</p>
+          <h3 className="mb-2 text-xl font-bold transition-colors group-hover:text-primary line-clamp-2">
+            {news.judul}
+          </h3>
+          <p className="mb-4 text-muted-foreground line-clamp-2">
+            {stripHtml(news.desc)}
+          </p>
           <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
               <Calendar className="w-4 h-4" />
-              <span>{news.date}</span>
+              <span>{formatDate(news.created_at)}</span>
             </div>
             <div className="flex items-center gap-1">
               <Clock className="w-4 h-4" />
-              <span>{news.readTime}</span>
+              <span>{timeAgo(news.created_at)}</span>
             </div>
           </div>
-          <Link href={`/berita/${news.id}`}>
+          <Link href={`/berita/${news.slug}`}>
             <Button variant="outline" size="sm">
               Baca Selengkapnya
               <ArrowRight className="w-4 h-4 ml-2" />

@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { useApi } from '@/hooks/useApi';
 import { GalleryCard } from "@/components/landing/gallery-component"
 import { Gallery } from '@/types/gallery.types'
+import { Dukungan } from '@/types/dukungan.types'
 import { GalleryCardSkeleton } from "@/components/gallery/skeletons/GalleryCardSkeleton"
 import {
   Users,
@@ -119,6 +120,12 @@ export default function Home() {
       immediate: true,
   });
 
+  const { data: dukungan, loading: dukunganLoading, error: dukunganError} = useApi<Dukungan[]>('/dukungan-kerja-sama', {
+      cache: true,
+      cacheTTL: 3600000,
+      immediate: true,
+  })
+
   const systemInfo = [
     {
       icon: Info,
@@ -158,17 +165,6 @@ export default function Home() {
       title: "Juara 1 FLS3N Mendongeng",
       image: "/girl-storytelling-trophy.jpg",
     },
-  ]
-
-  const partners = [
-    "Muhammadiyah",
-    "KB Bank Syariah",
-    "Majelis Pendidikan",
-    "UMKT",
-    "UKS",
-    "Biro Psikologi",
-    "Dinas Kesehatan",
-    "Tilawati",
   ]
 
   return (
@@ -545,17 +541,35 @@ export default function Home() {
         <div className="container px-4 mx-auto">
           <h2 className="mb-8 text-2xl font-bold text-center text-gray-900 dark:text-white">Dukungan & Kerja Sama</h2>
           <div className="flex flex-wrap items-center justify-center gap-12">
-            {partners.map((partner, index) => (
-              <div
-                key={index}
-                className="px-6 py-4 transition-all bg-gray-50 dark:bg-gray-800 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-700 grayscale hover:grayscale-0"
-              >
-                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  <img src={partner} alt={partner} className="object-contain w-32 h-32" />
-                  {partner}
-                  </span>
-              </div>
-            ))}
+            {galleryLoading &&
+              Array.from({ length: 8 }).map((_, index) => (
+                <GalleryCardSkeleton key={index} />
+              ))}
+
+            {!galleryLoading && dukunganError && (
+              <p className="text-center text-red-500 col-span-full">
+                Gagal memuat Data Dukungan Kerja Sama
+              </p>
+            )}
+            
+           {!dukunganLoading && !dukunganError &&
+              (dukungan ?? []).map((partner, index) => (
+                <div
+                  key={index}
+                  className="px-6 py-4 transition-all bg-gray-50 dark:bg-gray-800 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-700 grayscale hover:grayscale-0"
+                >
+                  <Image
+                    src={partner.foto}
+                    alt={partner.name}
+                    width={100}
+                    height={100}
+                    className="object-contain w-32 h-32"
+                  />
+                  <p className="mt-2 text-sm font-medium text-center text-gray-600 dark:text-gray-400">
+                    {partner.name}
+                  </p>
+                </div>
+              ))}
           </div>
         </div>
       </section>

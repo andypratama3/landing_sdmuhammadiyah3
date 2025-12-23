@@ -540,7 +540,7 @@ export default function Home() {
       <section className="py-16 bg-white border-t border-gray-200 dark:bg-gray-900 dark:border-gray-700">
         <div className="container px-4 mx-auto">
           <h2 className="mb-8 text-2xl font-bold text-center text-gray-900 dark:text-white">Dukungan & Kerja Sama</h2>
-          <div className="flex flex-wrap items-center justify-center gap-12">
+          <div className="flex flex-wrap items-center justify-center gap-12 text-center">
             {galleryLoading &&
               Array.from({ length: 8 }).map((_, index) => (
                 <GalleryCardSkeleton key={index} />
@@ -559,14 +559,14 @@ export default function Home() {
                   className="px-6 py-4 transition-all bg-gray-50 dark:bg-gray-800 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-700 grayscale hover:grayscale-0"
                 >
                   <Image
-                    src={partner.foto}
+                    src={partner.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/cooperation/${partner.foto}` : "/placeholder.svg"}
                     alt={partner.name}
                     width={100}
                     height={100}
-                    className="object-contain w-32 h-32"
+                    className="justify-center object-contain w-32 h-32 align-middle"
                   />
                   <p className="mt-2 text-sm font-medium text-center text-gray-600 dark:text-gray-400">
-                    {partner.name}
+                    {partner.name.slice(0, 20).trim() + (partner.name.length > 20 ? '...' : '')}
                   </p>
                 </div>
               ))}

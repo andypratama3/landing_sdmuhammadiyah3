@@ -22,6 +22,17 @@ const colorMap: Record<string, string> = {
   'bg-gray-100': '#f3f4f6',
 }
 
+const DAY_ORDER = [
+  'Senin',
+  'Selasa',
+  'Rabu',
+  'Kamis',
+  'Jumat',
+  'Sabtu',
+  'Minggu',
+]
+
+
 function getTailwindToHex(color: string): string {
   return colorMap[color] || '#f3f4f6'
 }
@@ -99,14 +110,16 @@ export default function JadwalPage() {
 
   function transformScheduleData(data: JadwalItem[]): Record<string, any[]> {
     const result: Record<string, any[]> = {}
-    
+
     data.forEach((jadwal) => {
       jadwal.jadwal_details.forEach((detail) => {
         const hari = detail.hari || 'Senin'
-        if (!result[hari]) {
-          result[hari] = []
-        }
+
+        if (!result[hari]) result[hari] = []
+
         result[hari].push({
+          time_start: detail.time_start,
+          time_end: detail.time_end,
           time: `${detail.time_start}-${detail.time_end}`,
           subject: detail.pelajaran_id,
           teacher: detail.guru_id,
@@ -115,12 +128,20 @@ export default function JadwalPage() {
       })
     })
 
-    // Sort by time
+    // SORT JAM DI DALAM HARI
     Object.keys(result).forEach((day) => {
-      result[day].sort((a, b) => a.time.localeCompare(b.time))
+      result[day].sort((a, b) =>
+        a.time_start.localeCompare(b.time_start)
+      )
     })
 
-    return result
+    // SORT HARI SENIN → MINGGU
+    const orderedResult: Record<string, any[]> = {}
+    DAY_ORDER.forEach((day) => {
+      if (result[day]) orderedResult[day] = result[day]
+    })
+
+    return orderedResult
   }
 
   // ========== GENERATE PRINT TABLE HTML ==========

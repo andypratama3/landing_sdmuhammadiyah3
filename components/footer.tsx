@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link"
-import { Facebook, Instagram, Youtube, Mail, Phone, MapPin, Clock } from "lucide-react"
+import { Facebook, Instagram, Youtube, Mail, Phone, MapPin, Clock, CloudCog } from "lucide-react"
 import Image from 'next/image'
 import { useApi } from '@/hooks/useApi';
 
@@ -18,6 +18,7 @@ export default function Footer() {
     cacheTTL: 3600000,
     immediate: true,
   });
+
   
   return (
     <footer className="mt-20 text-gray-300 bg-gray-900">

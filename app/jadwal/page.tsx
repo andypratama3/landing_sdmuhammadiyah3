@@ -39,6 +39,7 @@ export default function JadwalPage() {
   )
   const years = yearsData || []
 
+
   // ========== FETCH KELAS (Grade) ==========
   const { data: gradesData, loading: gradesLoading } = useApi<Kelas[]>(
     '/jadwal/kelas',
@@ -95,6 +96,7 @@ export default function JadwalPage() {
 
   const hasSchedule = Object.keys(schedule).length > 0
 
+
   function transformScheduleData(data: JadwalItem[]): Record<string, any[]> {
     const result: Record<string, any[]> = {}
     
@@ -146,6 +148,7 @@ export default function JadwalPage() {
           </td>
       `
       
+
       days.forEach(day => {
         const lesson = schedule[day as keyof typeof schedule][i]
         if (lesson) {
@@ -284,7 +287,6 @@ export default function JadwalPage() {
         .save()
         .then(() => setIsPrinting(false))
     } catch (err) {
-      console.error(err)
       setIsPrinting(false)
     }
   }
@@ -297,7 +299,7 @@ export default function JadwalPage() {
   return (
     <div className="pt-24 pb-16">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
+      <section className="bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
         <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto mt-8 text-center">
             <Badge className="px-4 py-2 mb-6 text-white bg-white/20 border-white/30">Schedule</Badge>
@@ -471,7 +473,7 @@ export default function JadwalPage() {
                   <div className="p-12">
                     <div className="flex flex-col items-center justify-center gap-4">
                       <div className="relative w-16 h-16">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#33b962] to-[#2a9d52] rounded-full animate-spin" 
+                        <div className="absolute inset-0 bg-linear-to-r rounded-2xl from-[#33b962] to-[#2a9d52] rounded-full animate-spin" 
                              style={{ animation: 'spin 3s linear infinite' }}></div>
                         <div className="absolute bg-white rounded-full inset-1"></div>
                         <Clock className="absolute inset-0 m-auto w-8 h-8 text-[#33b962]" />
@@ -497,7 +499,7 @@ export default function JadwalPage() {
                     >
                       <div className="overflow-x-auto">
                         <table className="w-full">
-                          <thead className="bg-gradient-to-r from-[#33b962] to-[#2a9d52] text-white">
+                          <thead className="bg-linear-to-r from-[#33b962] to-[#2a9d52] text-white ">
                             <tr>
                               <th className="p-4 font-semibold text-left">Waktu</th>
                               {days.map((day) => (
@@ -549,7 +551,7 @@ export default function JadwalPage() {
                         key={day} 
                         className="overflow-hidden duration-500 border-0 shadow-lg rounded-3xl animate-in fade-in"
                       >
-                        <div className="bg-gradient-to-r from-[#33b962] to-[#2a9d52] text-white p-4">
+                        <div className="bg-linear-to-r from-[#33b962] to-[#2a9d52] text-white rounded-2xl p-4">
                           <h3 className="text-lg font-bold">{day}</h3>
                         </div>
                         <div className="p-4 space-y-3">
@@ -590,7 +592,7 @@ export default function JadwalPage() {
                 </>
               ) : (
                 // ========== NO SCHEDULE CARD ==========
-                <Card className="overflow-hidden border-0 shadow-lg rounded-3xl bg-gradient-to-br from-orange-50 to-red-50">
+                <Card className="overflow-hidden border-0 shadow-lg rounded-3xl bg-linear-to-br from-orange-50 to-red-50">
                   <div className="p-12">
                     <div className="flex flex-col items-center justify-center gap-4 text-center">
                       <div className="flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full">

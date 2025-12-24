@@ -3,7 +3,7 @@ import { CacheManager } from './cache';
 import type { ApiResponse, RequestOptions } from '@/types';
 
 export class ApiClient {
-  private static baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v2';
+  private static baseURL = process.env.NEXT_PUBLIC_API_URL || 'dashboard.sdmuhammadiyah3smd.com/api/v2';
 
   private static isRefreshing = false;
   private static refreshSubscribers: Array<(token: string) => void> = [];

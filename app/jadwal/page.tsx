@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Calendar, Clock, Download, Printer, Loader } from "lucide-react"
 import { useState } from "react"
 import { useApi } from "@/hooks/useApi"
-
-
+import { JadwalItem } from "@/types"
 
 // ========== COLOR MAPPING ==========
 const colorMap: Record<string, string> = {
@@ -146,7 +145,7 @@ export default function JadwalPage() {
 
   // ========== GENERATE PRINT TABLE HTML ==========
   const generatePrintHTML = (): string => {
-    const days = Object.keys(schedule)
+    const days = DAY_ORDER.filter((day) => schedule[day])
     const maxSlots = Math.max(...Object.values(schedule).map((day) => day.length))
     
     let tableHTML = `
@@ -313,7 +312,7 @@ export default function JadwalPage() {
   }
 
 
-  const days = Object.keys(schedule)
+  const days = DAY_ORDER.filter((day) => schedule[day])
   const selectedGrade = grades.find((g) => g.id === selectedGradeId)
   const isInitialLoading = yearsLoading || gradesLoading
 
@@ -512,6 +511,25 @@ export default function JadwalPage() {
                 </Card>
               ) : hasSchedule ? (
                 <>
+                  {/* No Schedule Card */}
+                  {!hasSchedule && (
+                    <Card className="overflow-hidden border-0 shadow-lg rounded-3xl bg-linear-to-br from-orange-50 to-red-50">
+                      <div className="p-12">
+                        <div className="flex flex-col items-center justify-center gap-4 text-center">
+                          <div className="flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full">
+                            <Calendar className="w-8 h-8 text-orange-500" />
+                          </div>
+                          <h3 className="text-xl font-bold text-gray-800">Jadwal Tidak Tersedia</h3>
+                          <p className="max-w-sm text-gray-600">
+                            Maaf, jadwal untuk <strong>{selectedGrade?.name} {selectedClass}</strong> tahun ajaran <strong>{selectedYear}</strong> belum tersedia atau belum diatur oleh admin.
+                          </p>
+                          <p className="mt-4 text-sm text-gray-500">
+                            Silakan hubungi admin atau coba pilih kelas/rombel lain.
+                          </p>
+                        </div>
+                      </div>
+                    </Card>
+                  )}
                   {/* Desktop Schedule Table */}
                   <div className="hidden lg:block">
                     <Card 
@@ -536,10 +554,10 @@ export default function JadwalPage() {
                             }).map((_, timeIndex) => (
                               <tr key={timeIndex} className="transition-colors border-b hover:bg-gray-50">
                                 <td className="p-4 font-medium text-gray-700 whitespace-nowrap">
-                                  {schedule.Senin[timeIndex] && (
+                                  {schedule[days[0]]?.[timeIndex] && (  
                                     <div className="flex items-center gap-2">
                                       <Clock className="w-4 h-4 text-[#33b962]" />
-                                      {schedule.Senin[timeIndex].time}
+                                        {schedule[days[0]][timeIndex].time}
                                     </div>
                                   )}
                                 </td>
@@ -610,6 +628,7 @@ export default function JadwalPage() {
                       <p className="text-sm text-gray-500">Tidak ada keterangan warna</p>
                     )}
                   </div>
+                  
                 </>
               ) : (
                 // ========== NO SCHEDULE CARD ==========

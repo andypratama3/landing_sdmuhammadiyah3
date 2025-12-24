@@ -59,7 +59,6 @@ export default function Home() {
     { icon: Building, value: formatCount(data?.fasilitas), label: "Sarana & Prasarana" },
   ]
 
-
   const programs = [
     {
       icon: BookOpen,

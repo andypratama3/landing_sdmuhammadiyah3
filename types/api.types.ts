@@ -3,20 +3,30 @@
  */
 export interface ApiResponse<T> {
   success: boolean;
-  message?: string;
+  message: string;
   data?: T;
+  meta?: Pagination;
+  links?: {
+    first: string;
+    last: string;
+    prev: string | null;
+    next: string | null;
+  };
   errors?: any;
-  pagination?: Pagination;
+  _fromCache?: boolean;
+  _stale?: boolean;
 }
 
 /**
  * Pagination structure
  */
 export interface Pagination {
-  total: number;
-  per_page: number;
   current_page: number;
   last_page: number;
+  per_page: number;
+  total: number;
+  from: number;
+  to: number;
 }
 
 /**

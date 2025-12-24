@@ -1,5 +1,5 @@
 
-interface JadwalItem {
+export interface JadwalItem {
   id: string
   tahun_ajaran: string
   kelas: string

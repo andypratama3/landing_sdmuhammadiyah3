@@ -43,7 +43,7 @@ async function getBerita(slug: string): Promise<Berita | null> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/berita/${slug}`,
     {
-      next: { revalidate: 300 }, // ✅ SEO + aman
+      next: { revalidate: 300 }, 
     }
   )
 

@@ -19,22 +19,7 @@ import {
 
 import { PageHeader } from "@/components/page-header"
 import { HtmlContent } from "@/components/html-content"
-
-/* ======================
-   TYPES
-====================== */
-
-type Berita = {
-  id: string
-  judul: string
-  desc: string
-  foto: string
-  slug: string
-  created_at: string
-  category: string
-  views: number
-}
-
+import { Berita } from '@/types/berita.types'
 /* ======================
    FETCHERS (PUBLIC API)
 ====================== */

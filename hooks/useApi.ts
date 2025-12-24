@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { ApiClient } from '@/lib/api';
-import type { ApiResponse } from '@/types';
+import type { ApiResponse, Pagination } from '@/types';
 
 interface UseApiOptions {
   cache?: boolean;
@@ -14,15 +14,24 @@ interface UseApiOptions {
 
 interface UseApiResult<T> {
   data: T | null;
+  meta: Pagination | null;
+  links: {
+    first: string;
+    last: string;
+    prev: string | null;
+    next: string | null;
+  } | null;
   loading: boolean;
   error: string | null;
   refetch: () => Promise<void>;
   clearCache: () => void;
   isStale: boolean;
+  response: ApiResponse<T> | null;
 }
 
 /**
  * Hook untuk fetch data dengan auto retry, cache, dan error handling
+ * Menerima full response termasuk meta dan links
  */
 export function useApi<T>(
   endpoint: string,
@@ -37,6 +46,14 @@ export function useApi<T>(
   } = options;
   
   const [data, setData] = useState<T | null>(null);
+  const [meta, setMeta] = useState<Pagination | null>(null);
+  const [links, setLinks] = useState<{
+    first: string;
+    last: string;
+    prev: string | null;
+    next: string | null;
+  } | null>(null);
+  const [response, setResponse] = useState<ApiResponse<T> | null>(null);
   const [loading, setLoading] = useState<boolean>(immediate);
   const [error, setError] = useState<string | null>(null);
   const [isStale, setIsStale] = useState<boolean>(false);
@@ -62,7 +79,7 @@ export function useApi<T>(
     // Retry logic
     for (let attempt = 0; attempt <= retryCount; attempt++) {
       try {
-        const response = await ApiClient.get<T>(endpoint, { 
+        const apiResponse = await ApiClient.get<T>(endpoint, { 
           cache, 
           cacheTTL,
           signal: abortControllerRef.current.signal 
@@ -71,19 +88,21 @@ export function useApi<T>(
         // Only update state if component is still mounted
         if (!mountedRef.current) return;
 
-        if (response.success && response.data) {
-          setData(response.data);
+        if (apiResponse.success && apiResponse.data) {
+          setData(apiResponse.data);
+          setMeta(apiResponse.meta || null);
+          setLinks(apiResponse.links || null);
+          setResponse(apiResponse);
           setError(null);
           setIsStale(false);
           setLoading(false);
           return;
         } else {
-          lastError = response.message || 'Failed to fetch data';
+          lastError = apiResponse.message || 'Failed to fetch data';
           
           // If this is the last attempt, set error
           if (attempt === retryCount) {
             setError(lastError);
-            // Try to use stale cache data
             setIsStale(true);
           }
         }
@@ -100,7 +119,7 @@ export function useApi<T>(
           if (!mountedRef.current) return;
           
           setError(lastError);
-          setIsStale(true); // Data might be from cache
+          setIsStale(true);
           
           console.warn(`Failed to fetch ${endpoint} after ${retryCount + 1} attempts:`, lastError);
         } else {
@@ -137,6 +156,9 @@ export function useApi<T>(
 
   return {
     data,
+    meta,
+    links,
+    response,
     loading,
     error,
     refetch: fetchData,
@@ -153,6 +175,7 @@ interface UseMutationResult<T, D> {
   loading: boolean;
   error: string | null;
   data: T | null;
+  response: ApiResponse<T> | null;
   reset: () => void;
 }
 
@@ -163,6 +186,7 @@ interface MutationResult<T> {
   success: boolean;
   data?: T;
   error?: string;
+  response?: ApiResponse<T>;
 }
 
 /**
@@ -178,6 +202,7 @@ export function useMutation<T, D = any>(
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<T | null>(null);
+  const [response, setResponse] = useState<ApiResponse<T> | null>(null);
   
   const mountedRef = useRef<boolean>(true);
 
@@ -197,34 +222,44 @@ export function useMutation<T, D = any>(
 
       for (let attempt = 0; attempt <= retryCount; attempt++) {
         try {
-          let response: ApiResponse<T>;
+          let apiResponse: ApiResponse<T>;
           
           switch (method) {
             case 'POST':
-              response = await ApiClient.post<T>(endpoint, requestData);
+              apiResponse = await ApiClient.post<T>(endpoint, requestData);
               break;
             case 'PUT':
-              response = await ApiClient.put<T>(endpoint, requestData);
+              apiResponse = await ApiClient.put<T>(endpoint, requestData);
               break;
             case 'DELETE':
-              response = await ApiClient.delete<T>(endpoint);
+              apiResponse = await ApiClient.delete<T>(endpoint);
               break;
           }
 
           if (!mountedRef.current) return { success: false, error: 'Component unmounted' };
 
-          if (response.success) {
-            setData(response.data || null);
+          if (apiResponse.success) {
+            setData(apiResponse.data || null);
+            setResponse(apiResponse);
             setError(null);
             setLoading(false);
-            return { success: true, data: response.data };
+            return { 
+              success: true, 
+              data: apiResponse.data,
+              response: apiResponse
+            };
           } else {
-            lastError = response.message || 'Mutation failed';
+            lastError = apiResponse.message || 'Mutation failed';
             
             if (attempt === retryCount) {
               setError(lastError);
+              setResponse(apiResponse);
               setLoading(false);
-              return { success: false, error: lastError };
+              return { 
+                success: false, 
+                error: lastError,
+                response: apiResponse
+              };
             }
           }
         } catch (err) {
@@ -253,6 +288,7 @@ export function useMutation<T, D = any>(
       setLoading(false);
       setError(null);
       setData(null);
+      setResponse(null);
     }
   }, []);
 
@@ -261,6 +297,7 @@ export function useMutation<T, D = any>(
     loading,
     error,
     data,
+    response,
     reset,
   };
 }
@@ -276,6 +313,9 @@ interface MultiApiRequest {
 
 interface MultiApiResult {
   data: Record<string, any>;
+  meta: Record<string, Pagination>;
+  links: Record<string, any>;
+  responses: Record<string, ApiResponse<any>>;
   loading: boolean;
   errors: Record<string, string>;
   refetchAll: () => Promise<void>;
@@ -283,14 +323,27 @@ interface MultiApiResult {
 
 export function useMultipleApi(requests: MultiApiRequest[]): MultiApiResult {
   const [data, setData] = useState<Record<string, any>>({});
+  const [meta, setMeta] = useState<Record<string, Pagination>>({});
+  const [links, setLinks] = useState<Record<string, any>>({});
+  const [responses, setResponses] = useState<Record<string, ApiResponse<any>>>({});
   const [loading, setLoading] = useState<boolean>(true);
   const [errors, setErrors] = useState<Record<string, string>>({});
   
   const mountedRef = useRef<boolean>(true);
 
   const fetchAll = useCallback(async () => {
+    // Validate requests is an array
+    if (!Array.isArray(requests)) {
+      console.error('useMultipleApi: requests must be an array');
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     const newData: Record<string, any> = {};
+    const newMeta: Record<string, Pagination> = {};
+    const newLinks: Record<string, any> = {};
+    const newResponses: Record<string, ApiResponse<any>> = {};
     const newErrors: Record<string, string> = {};
 
     await Promise.all(
@@ -300,8 +353,12 @@ export function useMultipleApi(requests: MultiApiRequest[]): MultiApiResult {
           
           if (response.success && response.data) {
             newData[key] = response.data;
+            if (response.meta) newMeta[key] = response.meta;
+            if (response.links) newLinks[key] = response.links;
+            newResponses[key] = response;
           } else {
             newErrors[key] = response.message || 'Failed to fetch';
+            newResponses[key] = response;
           }
         } catch (err) {
           newErrors[key] = err instanceof Error ? err.message : 'Unknown error';
@@ -311,6 +368,9 @@ export function useMultipleApi(requests: MultiApiRequest[]): MultiApiResult {
 
     if (mountedRef.current) {
       setData(newData);
+      setMeta(newMeta);
+      setLinks(newLinks);
+      setResponses(newResponses);
       setErrors(newErrors);
       setLoading(false);
     }
@@ -327,6 +387,9 @@ export function useMultipleApi(requests: MultiApiRequest[]): MultiApiResult {
 
   return {
     data,
+    meta,
+    links,
+    responses,
     loading,
     errors,
     refetchAll: fetchAll,

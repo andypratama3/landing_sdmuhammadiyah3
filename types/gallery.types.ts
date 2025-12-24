@@ -1,8 +1,8 @@
 export interface Gallery {
   id: string;
   name: string;
-  foto: string;           // bisa berisi banyak file, pisahkan pakai koma
-  cover?: string;         // bisa kosong
+  foto: string;           
+  cover?: string;         
   slug: string;
   link?: string | null;
   deleted_at?: string | null;

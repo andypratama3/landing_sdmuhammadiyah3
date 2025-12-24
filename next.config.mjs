@@ -8,7 +8,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'sdmuhammadiyah3smd.com',
+        hostname: 'dashboard.sdmuhammadiyah3smd.com',
         pathname: '/storage/**',
       },
     ],

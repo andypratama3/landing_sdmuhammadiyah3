@@ -15,25 +15,6 @@ export interface Berita {
 }
 
 /**
- * API Response wrapper
- */
-export interface ApiResponse<T> {
-  success: boolean;
-  message: string;
-  data?: T;
-  meta?: Pagination;
-  links?: {
-    first: string;
-    last: string;
-    prev: string | null;
-    next: string | null;
-  };
-  errors?: any;
-  _fromCache?: boolean;
-  _stale?: boolean;
-}
-
-/**
  * Response for list of berita
  */
 export interface BeritaListResponse {
@@ -122,16 +103,4 @@ export interface BeritaFilters {
   page?: number;
   limit?: number;
   sort?: 'latest' | 'popular' | 'oldest';
-}
-
-/**
- * Pagination type
- */
-export interface Pagination {
-  current_page: number;
-  last_page: number;
-  per_page: number;
-  total: number;
-  from: number;
-  to: number;
 }

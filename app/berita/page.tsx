@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, Clock, User, Search, ArrowRight, TrendingUp, AlertCircle, RefreshCw, CloudCog } from "lucide-react"
+import { Calendar, Clock, User, Search, ArrowRight, TrendingUp, AlertCircle, RefreshCw, Loader2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useApi } from "@/hooks/useApi"
@@ -15,12 +15,26 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import Head from "next/head"
 import { 
   Berita, 
-  BeritaListResponse, 
   CategoryCountResponse,
   PopularBeritaResponse,
-} from "@/types/berita.types";
+} from "@/types";
 
+// Debounce hook
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value)
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [value, delay])
+
+  return debouncedValue
+}
 
 function timeAgo(dateString: string) {
   const date = new Date(dateString)
@@ -53,11 +67,16 @@ type CategoryCount = {
   total: number
 }
 
-
 export default function BeritaPage() {
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchInput, setSearchInput] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("semua")
   const [currentPage, setCurrentPage] = useState(1)
+  
+  // Debounce search query with 500ms delay
+  const debouncedSearchQuery = useDebounce(searchInput, 500)
+  
+  // Track if user is typing
+  const isTyping = searchInput !== debouncedSearchQuery
   
   // Build query string with pagination, category, and search
   const queryString = useMemo(() => {
@@ -68,47 +87,36 @@ export default function BeritaPage() {
       params.set('category', selectedCategory)
     }
     
-    if (searchQuery.trim()) {
-      params.set('search', searchQuery.trim())
+    if (debouncedSearchQuery.trim()) {
+      params.set('search', debouncedSearchQuery.trim())
     }
     
     return params.toString()
-  }, [currentPage, selectedCategory, searchQuery])
+  }, [currentPage, selectedCategory, debouncedSearchQuery])
 
+  // ✅ Fetch news data dengan useApi (single endpoint)
   const { 
-    data: apiResponse, 
+    data: newsData,
+    meta: paginationMeta, 
+    links: paginationLinks,
     loading: newsLoading, 
     error: newsError,
-    refetch: refetchNews 
-  } = useApi<BeritaListResponse>(`/berita?${queryString}`, {
+    refetch: refetchNews,
+    response: newsResponse
+  } = useApi<Berita[]>(`/berita?${queryString}`, {
     cache: true,
     cacheTTL: 300000,
     immediate: true
   })
 
-  // Extract pagination data
-  const paginationMeta = useMemo(() => {
-    return apiResponse?.meta || {
-      current_page: 1,
-      last_page: 1,
-      per_page: 10,
-      total: 0,
-      from: 0,
-      to: 0
-    }
-  }, [apiResponse])
-
-  const newsData = useMemo(() => {
-    if (!apiResponse) return []
-    
-    if (Array.isArray(apiResponse)) {
-      return apiResponse
-    } else if (apiResponse.data && Array.isArray(apiResponse.data)) {
-      return apiResponse.data
-    }
-    
-    return []
-  }, [apiResponse])
+  // Debug: Log full API response
+  useEffect(() => {
+    console.log('=== News API Response ===')
+    console.log('Full Response:', newsResponse)
+    console.log('News Data:', newsData)
+    console.log('Pagination Meta:', paginationMeta)
+    console.log('Pagination Links:', paginationLinks)
+  }, [newsResponse, newsData, paginationMeta, paginationLinks])
 
   // Fetch category counts
   const { 
@@ -136,31 +144,24 @@ export default function BeritaPage() {
         })
       })
     }
-
     
     return cats
   }, [categoryData])
 
   // Get popular posts
-  const { data: popularResponse, loading: popularPostsLoading } = useApi<PopularBeritaResponse>(`/berita-popular`, {
+  const { 
+    data: popularData,
+    loading: popularPostsLoading 
+  } = useApi<Berita[]>(`/berita-popular`, {
     cache: true,
     cacheTTL: 300000, 
     immediate: true
   })
 
   const popularPosts = useMemo<Berita[]>(() => {
-    if (!popularResponse) return []
-    
-    let posts: Berita[] = []
-    
-    if (Array.isArray(popularResponse)) {
-      posts = popularResponse
-    } else if (popularResponse.data && Array.isArray(popularResponse.data)) {
-      posts = popularResponse.data
-    }
-    
-    return posts.slice(0, 10)
-  }, [popularResponse])
+    if (!popularData) return []
+    return Array.isArray(popularData) ? popularData.slice(0, 10) : []
+  }, [popularData])
   
   // Featured news - ALWAYS from original data (first page, no filter only)
   const featuredNews = useMemo(() => {
@@ -173,19 +174,17 @@ export default function BeritaPage() {
     if (!newsData || newsData.length === 0) return []
     
     // Only skip featured on first page when no filter
-    if (currentPage === 1 && selectedCategory === "semua" && !searchQuery.trim()) {
+    if (currentPage === 1 && selectedCategory === "semua" && !debouncedSearchQuery.trim()) {
       return newsData.slice(1)
     }
     
     return newsData
-  }, [newsData, currentPage, selectedCategory, searchQuery])
+  }, [newsData, currentPage, selectedCategory, debouncedSearchQuery])
 
   // Reset to page 1 when category or search changes
   useEffect(() => {
-    if (categoryData) {
-      setCurrentPage(1)
-    }
-  }, [categoryData, searchQuery])
+    setCurrentPage(1)
+  }, [debouncedSearchQuery, selectedCategory])
 
   const formatDate = (dateString: string) => {
     try {
@@ -208,6 +207,8 @@ export default function BeritaPage() {
 
   // Generate page numbers array
   const pageNumbers = useMemo(() => {
+    if (!paginationMeta) return []
+    
     const pages: (number | string)[] = []
     const maxVisible = 5
     let startPage = Math.max(1, paginationMeta.current_page - 2)
@@ -238,9 +239,11 @@ export default function BeritaPage() {
     return pages
   }, [paginationMeta])
 
-
   const pageTitle = "Berita & Pengumuman - SD Muhammadiyah 3 Samarinda | Sekolah Kreatif Islami"
   const pageDescription = "Informasi terbaru seputar kegiatan, prestasi, dan pengumuman penting SD Muhammadiyah 3 Samarinda"
+
+  // Show loading when typing or fetching
+  const isSearching = isTyping || newsLoading
 
   return (
     <>
@@ -272,14 +275,29 @@ export default function BeritaPage() {
               {/* Search Bar */}
               <div className="max-w-2xl mx-auto">
                 <div className="relative">
-                  <Search className="absolute w-5 h-5 transform -translate-y-1/2 left-4 top-1/2 text-muted-foreground" />
+                  {isTyping ? (
+                    <Loader2 className="absolute w-5 h-5 transform -translate-y-1/2 left-4 top-1/2 text-muted-foreground animate-spin" />
+                  ) : (
+                    <Search className="absolute w-5 h-5 transform -translate-y-1/2 left-4 top-1/2 text-muted-foreground" />
+                  )}
                   <Input
                     type="text"
                     placeholder="Cari berita atau pengumuman..."
                     className="py-6 pl-12 pr-4 text-lg bg-white text-foreground"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
                   />
+                  {searchInput && (
+                    <button
+                      onClick={() => setSearchInput("")}
+                      className="absolute p-1 transition-colors transform -translate-y-1/2 rounded-full right-4 top-1/2 hover:bg-gray-200"
+                      aria-label="Clear search"
+                    >
+                      <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -308,7 +326,7 @@ export default function BeritaPage() {
         )}
 
         {/* Featured News */}
-        {newsLoading ? (
+        {newsLoading && currentPage === 1 && selectedCategory === "semua" && !debouncedSearchQuery.trim() ? (
           <section className="py-16 bg-background">
             <div className="container px-4 mx-auto">
               <Card className="overflow-hidden">
@@ -325,7 +343,7 @@ export default function BeritaPage() {
               </Card>
             </div>
           </section>
-        ) : (currentPage === 1 && selectedCategory === "semua" && !searchQuery.trim()) && featuredNews ? (
+        ) : (currentPage === 1 && selectedCategory === "semua" && !debouncedSearchQuery.trim()) && featuredNews ? (
           <section className="py-16 bg-background">
             <div className="container px-4 mx-auto">
               <Card className="overflow-hidden transition-all hover:shadow-xl">
@@ -401,26 +419,34 @@ export default function BeritaPage() {
                   </TabsList>
 
                   <TabsContent value={selectedCategory} className="space-y-6">
-                    {newsLoading ? (
-                      Array.from({ length: 3 }).map((_, i) => (
-                        <Card key={i} className="overflow-hidden">
-                          <div className="grid gap-0 md:grid-cols-3">
-                            <Skeleton className="h-48 md:h-auto" />
-                            <div className="p-6 space-y-4 md:col-span-2">
-                              <Skeleton className="w-20 h-6" />
-                              <Skeleton className="w-full h-6" />
-                              <Skeleton className="w-full h-4" />
-                              <Skeleton className="w-32 h-8" />
-                            </div>
+                    {/* Loading State */}
+                    {isSearching ? (
+                      <div className="space-y-6">
+                        {isTyping && (
+                          <div className="flex items-center justify-center py-4">
+                            <Loader2 className="w-6 h-6 mr-2 animate-spin text-primary" />
+                            <span className="text-sm text-muted-foreground">Mencari...</span>
                           </div>
-                        </Card>
-                      ))
+                        )}
+                        {Array.from({ length: 3 }).map((_, i) => (
+                          <Card key={i} className="overflow-hidden">
+                            <div className="grid gap-0 md:grid-cols-3">
+                              <Skeleton className="h-48 md:h-auto" />
+                              <div className="p-6 space-y-4 md:col-span-2">
+                                <Skeleton className="w-20 h-6" />
+                                <Skeleton className="w-full h-6" />
+                                <Skeleton className="w-full h-4" />
+                                <Skeleton className="w-32 h-8" />
+                              </div>
+                            </div>
+                          </Card>
+                        ))}
+                      </div>
                     ) : regularNews.length > 0 ? (
                       regularNews.map((item) => (
                         <NewsCard 
                           key={item.id} 
                           news={item}
-                          
                           formatDate={formatDate}
                           stripHtml={stripHtml}
                         />
@@ -430,8 +456,8 @@ export default function BeritaPage() {
                         <AlertCircle className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
                         <h3 className="mb-2 text-lg font-semibold">Tidak ada berita</h3>
                         <p className="text-muted-foreground">
-                          {searchQuery 
-                            ? `Tidak ditemukan berita dengan kata kunci "${searchQuery}"`
+                          {debouncedSearchQuery 
+                            ? `Tidak ditemukan berita dengan kata kunci "${debouncedSearchQuery}"`
                             : 'Belum ada berita untuk kategori ini'}
                         </p>
                       </Card>
@@ -440,7 +466,7 @@ export default function BeritaPage() {
                 </Tabs>
 
                 {/* Pagination */}
-                {!newsLoading && paginationMeta.last_page > 1 && (
+                {!isSearching && regularNews.length > 0 && paginationMeta && paginationMeta.last_page > 1 && (
                   <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
                     <Button 
                       variant="outline" 
@@ -476,7 +502,7 @@ export default function BeritaPage() {
                 )}
 
                 {/* Pagination Info */}
-                {!newsLoading && paginationMeta.total > 0 && (
+                {!isSearching && paginationMeta && paginationMeta.total > 0 && (
                   <div className="mt-4 text-sm text-center text-muted-foreground">
                     Menampilkan {paginationMeta.from} - {paginationMeta.to} dari {paginationMeta.total} berita
                   </div>

@@ -1,5 +1,5 @@
 
-interface JadwalDetail {
+export interface JadwalDetail {
   id: string
   hari: string
   time_start: string
@@ -8,3 +8,4 @@ interface JadwalDetail {
   guru_id: string
   color?: string
 }
+  

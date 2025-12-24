@@ -44,6 +44,8 @@ interface CountData {
 
 
 export default function Home() {
+  // sessionStorage.setItem('visitor_logged', 'true')
+  // console.log('visitor_logged',sessionStorage);
 
   const { data, loading, error, refetch } = useApi<CountData>('/count-landing', {
       cache: true,

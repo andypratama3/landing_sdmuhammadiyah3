@@ -8,9 +8,9 @@ import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import BackToTop from "@/components/back-to-top"
 import ApiInitializer from "@/components/api-initializer" 
-
-
 import { ThemeProvider } from "@/components/theme-provider"
+import VisitorTracker from '@/components/visitor-tracker';
+
 
 const quicksand = Quicksand({ subsets: ["latin"], variable: "--font-sans" })
 const poppins = Poppins({
@@ -62,6 +62,8 @@ export const viewport = {
 }
 
 export default function RootLayout({
+
+
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -75,6 +77,8 @@ export default function RootLayout({
       <body className={`${poppins.className} font-sans antialiased`}>
         {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange> */}
            <ApiInitializer />
+             {/* <VisitorTracker /> */}
+          
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />

@@ -9,7 +9,7 @@ interface GalleryCardProps {
 }
 
 export function GalleryCard({ gallery }: GalleryCardProps) {
-  const mainFoto = gallery.cover || "/placeholder.svg"; // selalu pakai cover
+  const mainFoto = `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${gallery.foto}` || "/placeholder.svg"; // selalu pakai cover
 
   return (
     <Link href={gallery.link || "#"} className="block">

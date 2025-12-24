@@ -109,15 +109,6 @@ export default function BeritaPage() {
     immediate: true
   })
 
-  // Debug: Log full API response
-  useEffect(() => {
-    console.log('=== News API Response ===')
-    console.log('Full Response:', newsResponse)
-    console.log('News Data:', newsData)
-    console.log('Pagination Meta:', paginationMeta)
-    console.log('Pagination Links:', paginationLinks)
-  }, [newsResponse, newsData, paginationMeta, paginationLinks])
-
   // Fetch category counts
   const { 
     data: categoryData,

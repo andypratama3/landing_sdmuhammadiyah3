@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next'
 
 async function getAllBerita() {
   try {
-    const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v2'
+    const baseURL = process.env.NEXT_PUBLIC_API_URL || 'https://dashobard.sdmuhammadiyah3smd.com/api/v2'
     const response = await fetch(`${baseURL}/berita?limit=1000`, {
       next: { revalidate: 3600 }, // Revalidate every hour
     })

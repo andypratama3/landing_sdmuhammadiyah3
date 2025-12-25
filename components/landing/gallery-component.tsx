@@ -12,7 +12,7 @@ export function GalleryCard({ gallery }: GalleryCardProps) {
   const mainFoto = `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${gallery.foto}` || "/placeholder.svg"; // selalu pakai cover
 
   return (
-    <Link href={gallery.link || "#"} className="block">
+    <Link href={`/galeri/${gallery.slug}` || "#"} className="block">
       <Card className="overflow-hidden transition-all bg-white border-0 hover:shadow-xl group rounded-2xl dark:bg-gray-700">
         <div className="relative h-48 overflow-hidden">
           <Image

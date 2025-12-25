@@ -168,6 +168,23 @@ export default function Home() {
     },
   ]
 
+  const formatPartnerName = (name: string) => {
+      const words = name.split(" ");
+
+      if (words.length <= 2) {
+        return name;
+      }
+
+      return (
+        <>
+          {words.slice(0, 2).join(" ")}
+          <br />
+          {words.slice(2).join(" ")}
+        </>
+      );
+    };
+
+
   return (
     <div className="pt-20">
       {/* Hero Section */}
@@ -556,19 +573,25 @@ export default function Home() {
            {!dukunganLoading && !dukunganError &&
               (dukungan ?? []).map((partner, index) => (
                 <div
-                  key={index}
-                  className="px-6 py-4 transition-all bg-gray-50 dark:bg-gray-800 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-700 grayscale hover:grayscale-0"
-                >
-                  <Image
-                    src={partner.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/cooperation/${partner.foto}` : "/placeholder.svg"}
-                    alt={partner.name}
-                    width={100}
-                    height={100}
-                    className="justify-center object-contain w-32 h-32 align-middle"
-                  />
-                  <p className="mt-2 text-sm font-medium text-center text-gray-600 dark:text-gray-400">
-                    {partner.name.slice(0, 20).trim() + (partner.name.length > 20 ? '...' : '')}
+                    key={index}
+                    className="px-6 py-4 transition-all bg-gray-50 dark:bg-gray-800 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-700 grayscale hover:grayscale-0"
+                  >
+                    <Image
+                      src={
+                        partner.foto
+                          ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/cooperation/${partner.foto}`
+                          : "/placeholder.svg"
+                      }
+                      alt={partner.name}
+                      width={100}
+                      height={100}
+                      className="object-contain w-32 h-32 mx-auto"
+                    />
+
+                   <p className="mt-2 text-sm font-medium text-center text-gray-600 dark:text-gray-400 min-h-[40px]">
+                    {formatPartnerName(partner.name)}
                   </p>
+
                 </div>
               ))}
           </div>

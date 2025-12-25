@@ -8,4 +8,11 @@ export interface Gallery {
   deleted_at?: string | null;
   created_at: string;
   updated_at: string;
+  gallery_kategori: GalleryKategori[]
+
+}
+
+export interface GalleryKategori {
+  id: string,
+  name: string,
 }

@@ -1,22 +1,49 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
-import { useApi } from '@/hooks/useApi'
+import { useEffect, useCallback } from 'react';
+import { useMutation } from '@/hooks/useApi';
 
-export default function VisitorTracker() {
-  // useApi POST (tidak auto fetch)
-  const { post } = useApi()
+/**
+ * Component untuk tracking visitor
+ * Mengirim log visitor ke server hanya sekali per hari
+ */
+const VisitorTracker = () => {
+  const { mutate, loading } = useMutation('/visitor/store', 'POST');
+
+  const trackVisitor = useCallback(async () => {
+    try {
+      // Cek apakah sudah tracking hari ini
+      const lastTracked = localStorage.getItem('visitor_tracked_date');
+      const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
+      // Jika belum tracking hari ini, kirim request
+      if (lastTracked !== today) {
+        const result = await mutate();
+        
+        if (result.success) {
+          // Simpan tanggal tracking ke localStorage
+          localStorage.setItem('visitor_tracked_date', today);
+          console.log('Visitor tracked successfully');
+        } else {
+          console.warn('Failed to track visitor:', result.error);
+        }
+      }
+    } catch (error) {
+      console.error('Error tracking visitor:', error);
+    }
+  }, [mutate]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    // Delay tracking untuk menghindari blocking render
+    const timer = setTimeout(() => {
+      trackVisitor();
+    }, 1000);
 
-    const hasLogged = sessionStorage.getItem('visitor_logged')
+    return () => clearTimeout(timer);
+  }, [trackVisitor]);
 
-    if (!hasLogged) {
-      post('/views') // POST ke Laravel
-      sessionStorage.setItem('visitor_logged', 'true')
-    }
-  }, [post])
+  // Component ini tidak render apapun
+  return null;
+};
 
-  return null
-}
+export default VisitorTracker;

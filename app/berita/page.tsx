@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -72,6 +72,9 @@ export default function BeritaPage() {
   const [selectedCategory, setSelectedCategory] = useState("semua")
   const [currentPage, setCurrentPage] = useState(1)
   
+  // Ref untuk scroll target
+  const contentRef = useRef<HTMLDivElement>(null)
+  
   // Debounce search query with 500ms delay
   const debouncedSearchQuery = useDebounce(searchInput, 500)
   
@@ -94,7 +97,6 @@ export default function BeritaPage() {
     return params.toString()
   }, [currentPage, selectedCategory, debouncedSearchQuery])
 
-  // ✅ Fetch news data dengan useApi (single endpoint)
   const { 
     data: newsData,
     meta: paginationMeta, 
@@ -177,6 +179,23 @@ export default function BeritaPage() {
     setCurrentPage(1)
   }, [debouncedSearchQuery, selectedCategory])
 
+  // ✅ AUTO SCROLL saat currentPage berubah
+  useEffect(() => {
+    if (contentRef.current) {
+      // Scroll ke content section dengan smooth behavior
+      // contentRef.current.scrollIntoView({ 
+      //   behavior: 'smooth',
+      //   block: 'start'
+      // })
+      
+      // Alternative: scroll ke top page
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }
+  }, [currentPage])
+
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString)
@@ -194,6 +213,11 @@ export default function BeritaPage() {
     if (!html) return ""
     const text = html.replace(/<[^>]*>/g, '')
     return text.length > maxLength ? text.substring(0, maxLength) + '...' : text
+  }
+
+  // ✅ Handler untuk pagination dengan scroll
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
   }
 
   // Generate page numbers array
@@ -384,8 +408,8 @@ export default function BeritaPage() {
           </section>
         ) : null}
 
-        {/* Main Content */}
-        <section className="py-16 bg-muted/30">
+        {/* Main Content - ✅ Tambahkan ref di sini untuk scroll target */}
+        <section ref={contentRef} className="py-16 bg-muted/30">
           <div className="container px-4 mx-auto">
             <div className="grid gap-8 lg:grid-cols-3">
               {/* News List */}
@@ -456,12 +480,12 @@ export default function BeritaPage() {
                   </TabsContent>
                 </Tabs>
 
-                {/* Pagination */}
+              
                 {!isSearching && regularNews.length > 0 && paginationMeta && paginationMeta.last_page > 1 && (
                   <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
                     <Button 
                       variant="outline" 
-                      onClick={() => setCurrentPage(paginationMeta.current_page - 1)}
+                      onClick={() => handlePageChange(paginationMeta.current_page - 1)}
                       disabled={paginationMeta.current_page === 1}
                     >
                       Previous
@@ -474,7 +498,7 @@ export default function BeritaPage() {
                         <Button
                           key={page}
                           variant={currentPage === page ? "default" : "outline"}
-                          onClick={() => setCurrentPage(page as number)}
+                          onClick={() => handlePageChange(page as number)}
                           disabled={currentPage === page}
                         >
                           {page}
@@ -484,7 +508,7 @@ export default function BeritaPage() {
 
                     <Button 
                       variant="outline"
-                      onClick={() => setCurrentPage(paginationMeta.current_page + 1)}
+                      onClick={() => handlePageChange(paginationMeta.current_page + 1)}
                       disabled={paginationMeta.current_page === paginationMeta.last_page}
                     >
                       Next
@@ -571,7 +595,10 @@ export default function BeritaPage() {
                         {categories.map((category) => (
                           <li key={category.value}>
                             <button
-                              onClick={() => setSelectedCategory(category.value)}
+                              onClick={() => {
+                                setSelectedCategory(category.value);
+                                
+                              }}
                               className={`flex items-center justify-between p-2 transition-colors rounded-lg hover:bg-muted group w-full text-left ${
                                 selectedCategory === category.value ? 'bg-muted' : ''
                               }`}
@@ -606,42 +633,53 @@ function NewsCard({
   stripHtml: (html: string, maxLength?: number) => string
 }) {
   return (
-    <Card className="overflow-hidden transition-all hover:shadow-lg group">
-      <div className="grid gap-0 md:grid-cols-3">
-        <div className="relative h-48 md:h-auto">
-          <Image
-            src={news.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${news.foto}` : "/placeholder.svg"}
-            alt={news.judul}
-            fill
-            className="object-contain transition-transform duration-300 w-100 h-100 group-hover:scale-110"
-          />
-        </div>
-        <div className="p-6 md:col-span-2">
-          <Badge className="mb-3">{news.category}</Badge>
-          <h3 className="mb-2 text-xl font-bold transition-colors group-hover:text-primary line-clamp-2">
-            {news.judul}
-          </h3>
-          <p className="mb-4 text-muted-foreground line-clamp-2">
-            {stripHtml(news.desc)}
-          </p>
-          <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-1">
-              <Calendar className="w-4 h-4" />
-              <span>{formatDate(news.created_at)}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Clock className="w-4 h-4" />
-              <span>{timeAgo(news.created_at)}</span>
-            </div>
-          </div>
-          <Link href={`/berita/${news.slug}`}>
-            <Button variant="outline" size="sm">
-              Baca Selengkapnya
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </Link>
-        </div>
+    <Link href={`/berita/${news.slug}`} className="block">
+  <Card className="overflow-hidden transition-all cursor-pointer hover:shadow-lg group">
+    <div className="grid gap-0 md:grid-cols-3">
+      <div className="relative h-48 p-4 mx-5 ml-1 md:h-auto">
+        <Image
+          src={
+            news.foto
+              ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${news.foto}`
+              : "/placeholder.svg"
+          }
+          alt={news.judul}
+          width={600}
+          height={400}
+          className="object-cover w-full h-full transition-transform duration-300 rounded-2xl group-hover:scale-110"
+        />
       </div>
-    </Card>
+
+      <div className="p-6 md:col-span-2">
+        <Badge className="mb-3">{news.category}</Badge>
+
+        <h3 className="mb-2 text-xl font-bold line-clamp-2 group-hover:text-primary">
+          {news.judul}
+        </h3>
+
+        <p className="mb-4 text-muted-foreground line-clamp-2">
+          {stripHtml(news.desc)}
+        </p>
+
+        <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground">
+          <div className="flex items-center gap-1">
+            <Calendar className="w-4 h-4" />
+            <span>{formatDate(news.created_at)}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Clock className="w-4 h-4" />
+            <span>{timeAgo(news.created_at)}</span>
+          </div>
+        </div>
+
+        <Button variant="outline" size="sm" tabIndex={-1}>
+          Baca Selengkapnya
+          <ArrowRight className="w-4 h-4 ml-2" />
+        </Button>
+      </div>
+    </div>
+  </Card>
+</Link>
+
   )
 }

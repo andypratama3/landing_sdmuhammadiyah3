@@ -76,8 +76,8 @@ export default function RootLayout({
       </head>
       <body className={`${poppins.className} font-sans antialiased`}>
         {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange> */}
-           <ApiInitializer />
-             {/* <VisitorTracker /> */}
+          <ApiInitializer />
+          <VisitorTracker />
           
           <Navigation />
           <main className="min-h-screen">{children}</main>

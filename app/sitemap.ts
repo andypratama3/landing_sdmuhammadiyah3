@@ -1,82 +1,100 @@
-// app/sitemap.ts
 import { MetadataRoute } from 'next'
+import { serverGetPublic } from '@/lib/server-api'
 
-async function getAllBerita() {
+type Berita = {
+  slug: string
+  updated_at: string
+}
+
+type Gallery = {
+  slug: string
+  updated_at: string
+}
+
+async function getAllBerita(): Promise<Berita[]> {
   try {
-    const baseURL = process.env.NEXT_PUBLIC_API_URL || 'https://dashobard.sdmuhammadiyah3smd.com/api/v2'
-    const response = await fetch(`${baseURL}/berita?limit=1000`, {
-      next: { revalidate: 3600 }, // Revalidate every hour
-    })
+    const result = await serverGetPublic<any>('/list/berita')
 
-    if (!response.ok) {
-      return []
+    // Laravel success response
+    if (result?.success && Array.isArray(result.data)) {
+      return result.data.map((item: any) => ({
+        slug: item.slug,
+        updated_at: item.updated_at ?? new Date().toISOString(),
+      }))
     }
 
-    const result = await response.json()
-    return result.success && result.data ? result.data : []
+    return []
   } catch (error) {
     console.error('Error fetching berita for sitemap:', error)
     return []
   }
 }
 
+
+async function getAllGallery(): Promise<Gallery[]> {
+  try {
+    const result = await serverGetPublic<any>('/list/gallery')
+
+    if (result?.success && Array.isArray(result.data)) {
+      return result.data.map((item: any) => ({
+        slug: item.slug,
+        updated_at: item.updated_at ?? new Date().toISOString(),
+      }))
+    }
+
+    return []
+  } catch (error) {
+    console.error('Error fetching gallery for sitemap:', error)
+    return []
+  }
+}
+
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://sdmuhammadiyah3smd.com'
-  
-  // Static pages
+  const now = new Date()
+
   const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/tentang`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/berita`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/fasilitas`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/gallery`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/kontak`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/pendaftaran`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
+    { url: baseUrl, lastModified: now, changeFrequency: 'daily', priority: 1 },
+    { url: `${baseUrl}/privacy-policy`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${baseUrl}/profil-sekolah`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${baseUrl}/jadwal`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${baseUrl}/guru`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${baseUrl}/tenaga-pendidikan`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${baseUrl}/ekstrakurikuler`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${baseUrl}/prestasi-siswa`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${baseUrl}/prestasi-sekolah`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${baseUrl}/tentang`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${baseUrl}/berita`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${baseUrl}/fasilitas`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${baseUrl}/gallery`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${baseUrl}/kontak`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${baseUrl}/pembayaran`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${baseUrl}/pendaftaran`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
   ]
 
-  // Dynamic berita pages
-  const allBerita = await getAllBerita()
-  const beritaPages: MetadataRoute.Sitemap = allBerita.map((berita: any) => ({
-    url: `${baseUrl}/berita/${berita.slug}`,
-    lastModified: new Date(berita.updated_at),
-    changeFrequency: 'weekly' as const,
+   
+  const [berita, gallery] = await Promise.all([
+    getAllBerita(),
+    getAllGallery(),
+  ])
+
+  const beritaPages: MetadataRoute.Sitemap = berita.map((item) => ({
+    url: `${baseUrl}/berita/${item.slug}`,
+    lastModified: new Date(item.updated_at),
+    changeFrequency: 'weekly',
     priority: 0.8,
   }))
 
-  return [...staticPages, ...beritaPages]
+ 
+  const galleryPages: MetadataRoute.Sitemap = gallery.map(item => ({
+    url: `${baseUrl}/galeri/${item.slug}`,
+    lastModified: item.updated_at ? new Date(item.updated_at) : now,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }))
+
+ 
+
+  return [...staticPages, ...beritaPages, ...galleryPages]
 }

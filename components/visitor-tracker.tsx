@@ -23,13 +23,13 @@ const VisitorTracker = () => {
         if (result.success) {
           // Simpan tanggal tracking ke localStorage
           localStorage.setItem('visitor_tracked_date', today);
-          console.log('Visitor tracked successfully');
+    
         } else {
-          console.warn('Failed to track visitor:', result.error);
+    
         }
       }
     } catch (error) {
-      console.error('Error tracking visitor:', error);
+
     }
   }, [mutate]);
 

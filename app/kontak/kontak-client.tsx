@@ -215,7 +215,7 @@ export default function KontakClient() {
       </section>
 
       {/* Contact Form */}
-      <section className="py-16 bg-background">
+      {/* <section className="py-16 bg-background">
         <div className="container px-4 mx-auto">
           <div className="max-w-3xl mx-auto">
             <div className="mb-12 text-center">
@@ -308,15 +308,15 @@ export default function KontakClient() {
             </Card>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Department Contacts */}
       <section className="py-16 bg-muted/30">
         <div className="container px-4 mx-auto">
           <div className="max-w-5xl mx-auto">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Kontak Departemen</h2>
-              <p className="text-muted-foreground">Hubungi departemen terkait untuk keperluan spesifik</p>
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Kontak Admin</h2>
+              <p className="text-muted-foreground">Hubungi admin terkait untuk keperluan spesifik</p>
             </div>
 
             <div className="grid gap-6 md:grid-cols-3">
@@ -328,13 +328,13 @@ export default function KontakClient() {
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <div className="flex items-center gap-2 text-sm">
-                      <Phone className="flex-shrink-0 w-4 h-4 text-muted-foreground" />
+                      <Phone className="w-4 h-4 shrink-0 text-muted-foreground" />
                       <a href={`tel:+62${dept.phone.substring(1)}`} className="transition-colors hover:text-primary">
                         {dept.phone}
                       </a>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <Mail className="flex-shrink-0 w-4 h-4 text-muted-foreground" />
+                      <Mail className="w-4 h-4 shrink-0 text-muted-foreground" />
                       <a href={`mailto:${dept.email}`} className="break-all transition-colors hover:text-primary">
                         {dept.email}
                       </a>

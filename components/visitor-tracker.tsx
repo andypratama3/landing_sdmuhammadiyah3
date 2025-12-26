@@ -20,16 +20,13 @@ const VisitorTracker = () => {
       if (lastTracked !== today) {
         const result = await mutate();
         
-        if (result.success) {
-          // Simpan tanggal tracking ke localStorage
+      if (result.success) {
           localStorage.setItem('visitor_tracked_date', today);
-    
-        } else {
-    
-        }
+          window.dispatchEvent(new Event('visitor-updated'));
+        } 
       }
     } catch (error) {
-
+      console.error('Error tracking visitor:', error);
     }
   }, [mutate]);
 

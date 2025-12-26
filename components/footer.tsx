@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Facebook, Instagram, Youtube, Mail, Phone, MapPin, Clock, CloudCog } from "lucide-react"
 import Image from 'next/image'
 import { useApi } from '@/hooks/useApi';
-
+import { useEffect } from 'react';
 
 interface VisitorData {
   visitor_by_day: number;
@@ -14,10 +14,17 @@ interface VisitorData {
 
 export default function Footer() {
   const { data, loading, error, refetch } = useApi<VisitorData>('/views', {
-    cache: true,
-    cacheTTL: 3600000,
+    cache: false,
     immediate: true,
   });
+
+  useEffect(() => {
+    const handler = () => refetch();
+
+    window.addEventListener('visitor-updated', handler);
+    return () => window.removeEventListener('visitor-updated', handler);
+  }, [refetch]);
+
 
   
   return (

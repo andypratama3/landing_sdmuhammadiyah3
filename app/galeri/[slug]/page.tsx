@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect } from "react"
 import { useParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
@@ -23,6 +23,8 @@ import {
   RefreshCw,
   ExternalLink,
   Eye,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react"
 
 import { useApi } from "@/hooks/useApi"
@@ -34,6 +36,9 @@ export default function GaleriDetailPage() {
   const params = useParams()
   const slug = (params?.slug as string) || ''
   const [selectedImage, setSelectedImage] = useState<number>(0)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const touchThreshold = 50
 
   // ✅ Fetch gallery detail
   const { 
@@ -62,13 +67,30 @@ export default function GaleriDetailPage() {
     return gallery.foto.split(',').map(img => img.trim()).filter(Boolean)
   }, [gallery?.foto])
 
-  // Use cover as first image if available
+  // Use cover as first image if available dengan tracking path
   const allImages = useMemo(() => {
     if (!gallery) return []
-    return gallery.cover 
-      ? [gallery.cover, ...images]
-      : images
+    const imgs: Array<{ src: string; isCover: boolean }> = []
+    
+    if (gallery.cover) {
+      imgs.push({ src: gallery.cover, isCover: true })
+    }
+    
+    images.forEach(img => {
+      imgs.push({ src: img, isCover: false })
+    })
+    
+    return imgs
   }, [gallery, images])
+
+  // Helper untuk mendapatkan path image yang benar
+  const getImagePath = (img: { src: string; isCover: boolean }) => {
+    if (img.isCover) {
+      return `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/cover/${img.src}`
+    } else {
+      return `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${img.src}`
+    }
+  }
 
   // ✅ Build query string untuk related galleries (same category)
   const relatedQueryString = useMemo(() => {
@@ -103,6 +125,56 @@ export default function GaleriDetailPage() {
       return dateString
     }
   }
+
+  // Navigation handlers
+  const goToPrevious = () => {
+    setSelectedImage((prev) => 
+      prev === 0 ? allImages.length - 1 : prev - 1
+    )
+  }
+
+  const goToNext = () => {
+    setSelectedImage((prev) => 
+      prev === allImages.length - 1 ? 0 : prev + 1
+    )
+  }
+
+  // Touch handlers untuk swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > touchThreshold
+    const isRightSwipe = distance < -touchThreshold
+
+    if (isLeftSwipe) {
+      goToNext()
+    } else if (isRightSwipe) {
+      goToPrevious()
+    }
+  }
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        goToPrevious()
+      } else if (e.key === 'ArrowRight') {
+        goToNext()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [allImages.length])
 
   // Get first image for preview
   const getFirstImage = (foto: string | null, cover: string | null) => {
@@ -160,7 +232,7 @@ export default function GaleriDetailPage() {
         </Head>
         <div className="min-h-screen bg-background">
           {/* Header */}
-          <section className="relative py-12 text-white bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45]">
+          <section className="relative py-12 text-white bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45]">
             <div className="container px-4 mx-auto">
               <Skeleton className="w-40 h-10 bg-white/20" />
             </div>
@@ -207,7 +279,7 @@ export default function GaleriDetailPage() {
           <title>Gallery Tidak Ditemukan</title>
         </Head>
         <div className="min-h-screen bg-background">
-          <section className="relative py-12 text-white bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45]">
+          <section className="relative py-12 text-white bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45]">
             <div className="container px-4 mx-auto">
               <Link href="/galeri">
                 <Button variant="ghost" className="text-white hover:bg-white/20">
@@ -259,7 +331,7 @@ export default function GaleriDetailPage() {
         {allImages.length > 0 && (
           <meta 
             property="og:image" 
-            content={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${allImages[0]}`} 
+            content={getImagePath(allImages[0])}
           />
         )}
         <meta name="twitter:card" content="summary_large_image" />
@@ -271,7 +343,7 @@ export default function GaleriDetailPage() {
         <PageHeader
           title={gallery.name}
           description="Galeri SD Muhammadiyah 3 Samarinda"
-          breadcrumbs={[{ label: "Beranda", href: "/" }, { label: "Galeri", href: "/galeri" }]}
+          breadcrumbs={[{ label: "Beranda", href: "/" }, { label: "Galeri", href: "/galeri" }, { label: gallery.name }]}
         />
 
         {/* Main Content */}
@@ -307,24 +379,60 @@ export default function GaleriDetailPage() {
 
                   {/* Main Image */}
                   {allImages.length > 0 ? (
-                    <div className="relative w-full mb-6 overflow-hidden rounded-lg h-150">
-                      <Image
-                        src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${allImages[selectedImage]}`}
-                        alt={gallery.name}
-                        fill
-                        className="object-contain"
-                        priority
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement
-                          target.src = "/placeholder.svg"
-                        }}
-                      />
+                    <div className="relative w-full mb-6 overflow-hidden bg-gray-100 rounded-lg group h-150">
+                      {/* Image Container */}
+                      <div 
+                        className="relative w-full h-full cursor-grab active:cursor-grabbing"
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                      >
+                        <Image
+                          src={getImagePath(allImages[selectedImage])}
+                          alt={gallery.name}
+                          fill
+                          className="object-contain rounded-2xl"
+                          priority
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement
+                            target.src = "/placeholder.svg"
+                          }}
+                        />
+                      </div>
+
+                      {/* Navigation Buttons - Show on hover */}
+                      {allImages.length > 1 && (
+                        <>
+                          <button
+                            onClick={goToPrevious}
+                            className="absolute p-2 text-white transition-all -translate-y-1/2 rounded-full opacity-0 left-4 top-1/2 bg-black/50 hover:bg-black/70 group-hover:opacity-100"
+                            aria-label="Previous image"
+                          >
+                            <ChevronLeft className="w-6 h-6" />
+                          </button>
+                          <button
+                            onClick={goToNext}
+                            className="absolute p-2 text-white transition-all -translate-y-1/2 rounded-full opacity-0 right-4 top-1/2 bg-black/50 hover:bg-black/70 group-hover:opacity-100"
+                            aria-label="Next image"
+                          >
+                            <ChevronRight className="w-6 h-6" />
+                          </button>
+                        </>
+                      )}
+
                       {/* Image Counter */}
                       {allImages.length > 1 && (
                         <div className="absolute px-3 py-1 text-sm text-white rounded-full bg-black/70 top-4 right-4">
                           {selectedImage + 1} / {allImages.length}
                         </div>
                       )}
+
+                      {/* Mobile Swipe Hint
+                      {allImages.length > 1 && (
+                        <div className="absolute w-full p-2 py-2 text-xs text-center text-white -translate-x-1/2 rounded-full opacity-75 md:mt-[10px] md:mb-[20px] md:bottom-4 md:left-1/2 md:bg-black/50">
+                          👆 Geser ke kiri/kanan atau gunakan tombol navigasi
+                        </div>
+                      )} */}
                     </div>
                   ) : (
                     <div className="flex items-center justify-center w-full mb-6 bg-gray-100 rounded-lg aspect-video">
@@ -348,7 +456,7 @@ export default function GaleriDetailPage() {
                             }`}
                           >
                             <Image
-                              src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${img}`}
+                              src={getImagePath(img)}
                               alt={`${gallery.name} - ${index + 1}`}
                               fill
                               className="object-cover transition-transform duration-300 group-hover:scale-110"

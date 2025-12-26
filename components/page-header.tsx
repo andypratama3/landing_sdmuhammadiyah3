@@ -11,7 +11,7 @@ import Link from "next/link"
 interface PageHeaderProps {
   title: string
   description?: string
-  breadcrumbs: { label: string; href?: string }[]
+  breadcrumbs: { label?: string; href?: string }[]
 }
 export function PageHeader({ title, description, breadcrumbs }: PageHeaderProps) {
   return (
@@ -54,7 +54,7 @@ export function PageHeader({ title, description, breadcrumbs }: PageHeaderProps)
 
       {/* Title & Description */}
       <div className="space-y-2 sm:space-y-3">
-        <h1 className="text-3xl font-bold text-balance sm:text-4xl lg:text-5xl text-slate-900 dark:text-slate-50">
+        <h1 className="text-3xl font-bold text-balance sm:text-4xl text-slate-900 dark:text-slate-50">
           {title}
         </h1>
 

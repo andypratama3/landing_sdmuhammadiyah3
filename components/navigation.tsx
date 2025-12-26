@@ -45,7 +45,7 @@ export default function Navigation() {
     { href: "/jadwal", label: "Jadwal" },
     { href: "/pembayaran", label: "Pembayaran" },
     { href: "/berita", label: "Berita" },
-    { href: "/spmb", label: "SPMB" },
+    // { href: "/spmb", label: "SPMB" },
     { href: "/kontak", label: "Kontak" },
   ]
 
@@ -57,7 +57,7 @@ export default function Navigation() {
           : "bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm py-4"
       }`}
     >
-      <div className="container mx-auto px-4 p-3">
+      <div className="container p-3 px-4 mx-auto">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
@@ -71,7 +71,7 @@ export default function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="items-center hidden gap-1 lg:flex">
             {navLinks.map((link, index) => (
               <div key={index} className="relative group">
                 {link.dropdown ? (
@@ -86,7 +86,7 @@ export default function Navigation() {
                     </button>
                     {openDropdown === link.label && (
                       <div
-                        className="absolute top-full left-0 mt-1 bg-white dark:bg-gray-800 shadow-xl dark:shadow-gray-900/50 rounded-xl py-2 min-w-50 border border-gray-100 dark:border-gray-700"
+                        className="absolute left-0 py-2 mt-1 bg-white border border-gray-100 shadow-xl top-full dark:bg-gray-800 dark:shadow-gray-900/50 rounded-xl min-w-50 dark:border-gray-700"
                         onMouseEnter={() => setOpenDropdown(link.label)}
                         onMouseLeave={() => setOpenDropdown(null)}
                       >
@@ -115,7 +115,7 @@ export default function Navigation() {
           </div>
 
           {/* Desktop Right Actions */}
-          <div className="hidden lg:flex items-center gap-2">
+          <div className="items-center hidden gap-2 lg:flex">
             <ThemeToggle />
             <Button
               asChild
@@ -127,7 +127,7 @@ export default function Navigation() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center gap-2">
+          <div className="flex items-center gap-2 lg:hidden">
             <ThemeToggle />
             <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X /> : <Menu />}
@@ -137,7 +137,7 @@ export default function Navigation() {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="lg:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700 pt-4">
+          <div className="pt-4 pb-4 mt-4 border-t border-gray-200 lg:hidden dark:border-gray-700">
             <div className="flex flex-col gap-2">
               {navLinks.map((link, index) => (
                 <div key={index}>
@@ -178,7 +178,7 @@ export default function Navigation() {
                   )}
                 </div>
               ))}
-              <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
                 <Button
                   asChild
                   size="sm"

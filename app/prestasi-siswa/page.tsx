@@ -1,169 +1,342 @@
-"use client"
+'use client';
 
+import { useState, useEffect, useMemo, useRef } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import Breadcrumb from "@/components/breadcrumb"
-import { Trophy, Medal, Calendar, MapPin } from "lucide-react"
-import { useState } from "react"
+import { Input } from "@/components/ui/input"
+import { Trophy, Medal, Calendar, MapPin, Search, Loader2, AlertCircle, RefreshCw, Eye } from "lucide-react"
+import { useApi } from "@/hooks/useApi"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import Image from "next/image"
+import Link from "next/link"
+import { PrestasiSiswa } from "@/types"
 
-export default function PrestasiSiswaPage() {
-  const [selectedYear, setSelectedYear] = useState("2025")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedLevel, setSelectedLevel] = useState("all")
+// Debounce hook
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value)
 
-  const achievements = [
-    {
-      student: "Alivna Hilya Zia",
-      grade: "Kelas 5A",
-      title: "Juara 2 Panahan",
-      competition: "Kejuaraan Panahan Pelajar Kota Samarinda",
-      date: "15 Januari 2025",
-      level: "kota",
-      category: "sports",
-      award: "Juara 2",
-      image: "/student-achievement-archery.jpg",
-    },
-    {
-      student: "Salsabil Raihanah",
-      grade: "Kelas 6B",
-      title: "Juara 1 O2SN Karate",
-      competition: "Olimpiade Olahraga Siswa Nasional",
-      date: "10 Januari 2025",
-      level: "provinsi",
-      category: "sports",
-      award: "Juara 1",
-      image: "/student-achievement-karate.jpg",
-    },
-    {
-      student: "Maryam Azzahra",
-      grade: "Kelas 4C",
-      title: "Juara Harapan III Tahfidz",
-      competition: "Musabaqah Hifdzil Qur'an Tingkat Kota",
-      date: "8 Januari 2025",
-      level: "kota",
-      category: "islamic",
-      award: "Harapan 3",
-      image: "/student-achievement-quran.jpg",
-    },
-    {
-      student: "Naura Jasmine",
-      grade: "Kelas 5B",
-      title: "Juara 1 FLS3N Mendongeng",
-      competition: "Festival Literasi dan Seni Siswa Nasional",
-      date: "5 Januari 2025",
-      level: "provinsi",
-      category: "arts",
-      award: "Juara 1",
-      image: "/student-achievement-storytelling.jpg",
-    },
-    {
-      student: "Ahmad Farhan",
-      grade: "Kelas 6A",
-      title: "Juara 1 Olimpiade Matematika",
-      competition: "Olimpiade Matematika Tingkat Kota",
-      date: "20 Desember 2024",
-      level: "kota",
-      category: "academic",
-      award: "Juara 1",
-      image: "/student-achievement-math.jpg",
-    },
-    {
-      student: "Zahra Amelia",
-      grade: "Kelas 5C",
-      title: "Juara 2 Lomba Sains",
-      competition: "Kompetisi Sains Nasional",
-      date: "15 Desember 2024",
-      level: "nasional",
-      category: "academic",
-      award: "Juara 2",
-      image: "/student-achievement-science.jpg",
-    },
-  ]
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
 
-  const years = ["2025", "2024", "2023"]
-  const categories = [
-    { id: "all", label: "Semua Kategori" },
-    { id: "academic", label: "Akademik" },
-    { id: "sports", label: "Olahraga" },
-    { id: "arts", label: "Seni" },
-    { id: "islamic", label: "Islami" },
-  ]
-  const levels = [
-    { id: "all", label: "Semua Tingkat" },
-    { id: "kecamatan", label: "Kecamatan" },
-    { id: "kota", label: "Kota" },
-    { id: "provinsi", label: "Provinsi" },
-    { id: "nasional", label: "Nasional" },
-    { id: "internasional", label: "Internasional" },
-  ]
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [value, delay])
 
-  const filteredAchievements = achievements.filter((achievement) => {
-    const matchesCategory = selectedCategory === "all" || achievement.category === selectedCategory
-    const matchesLevel = selectedLevel === "all" || achievement.level === selectedLevel
-    return matchesCategory && matchesLevel
+  return debouncedValue
+}
+
+function timeAgo(dateString: string) {
+  const date = new Date(dateString)
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000)
+
+  const rtf = new Intl.RelativeTimeFormat('id-ID', {
+    numeric: 'auto',
   })
 
-  const getAwardColor = (award: string) => {
-    if (award.includes("1")) return "bg-[#ffd700] text-gray-900"
-    if (award.includes("2")) return "bg-[#c0c0c0] text-gray-900"
-    if (award.includes("3")) return "bg-[#cd7f32] text-white"
+  if (seconds < 60) return rtf.format(-seconds, 'second')
+  const minutes = Math.floor(seconds / 60)
+  if (minutes < 60) return rtf.format(-minutes, 'minute')
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return rtf.format(-hours, 'hour')
+  const days = Math.floor(hours / 24)
+  return rtf.format(-days, 'day')
+}
+
+export default function PrestasiSiswaPage() {
+  const [searchInput, setSearchInput] = useState("")
+  const [selectedYear, setSelectedYear] = useState("all")
+  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [selectedLevel, setSelectedLevel] = useState("all")
+  const [currentPage, setCurrentPage] = useState(1)
+  
+  const contentRef = useRef<HTMLDivElement>(null)
+  const debouncedSearchQuery = useDebounce(searchInput, 500)
+  const isTyping = searchInput !== debouncedSearchQuery
+
+  // Build query string
+  const queryString = useMemo(() => {
+    const params = new URLSearchParams()
+    params.set('page', currentPage.toString())
+    params.set('per_page', '12')
+    
+    if (selectedLevel !== "all") {
+      params.set('tingkat', selectedLevel)
+    }
+    
+    if (selectedCategory !== "all") {
+      params.set('kategori_id', selectedCategory)
+    }
+    
+    if (selectedYear !== "all") {
+      params.set('tahun', selectedYear)
+    }
+    
+    if (debouncedSearchQuery.trim()) {
+      params.set('search', debouncedSearchQuery.trim())
+    }
+    
+    return params.toString()
+  }, [currentPage, selectedLevel, selectedCategory, selectedYear, debouncedSearchQuery])
+
+  // Fetch prestasi data
+  const { 
+    data: prestasiData,
+    meta: paginationMeta, 
+    loading: prestasiLoading, 
+    error: prestasiError,
+    refetch: refetchPrestasi
+  } = useApi<PrestasiSiswa[]>(`/prestasi/siswa?${queryString}`, {
+    cache: true,
+    cacheTTL: 300000,
+    immediate: true
+  })
+
+  // Fetch tingkat counts
+  const { 
+    data: tingkatData,
+    loading: tingkatLoading 
+  } = useApi<{tingkat: string, total: number}[]>('/prestasi/siswa/count-by-tingkat', {
+    cache: true,
+    cacheTTL: 600000,
+    immediate: true
+  })
+
+  // Fetch category data
+  const { 
+    data: categoryData,
+    loading: categoryLoading 
+  } = useApi<{id: string, name: string}[]>('/prestasi/categories/siswa', {
+    cache: true,
+    cacheTTL: 600000,
+    immediate: true
+  })
+
+  // Fetch popular prestasi
+  const { 
+    data: popularData,
+    loading: popularLoading 
+  } = useApi<PrestasiSiswa[]>('/prestasi/siswa/popular', {
+    cache: true,
+    cacheTTL: 300000,
+    immediate: true
+  })
+
+  // Process levels
+  const levels = useMemo(() => {
+    const lvls = [{ id: "all", label: "Semua Tingkat", count: 0 }]
+    
+    if (tingkatData && Array.isArray(tingkatData)) {
+      const totalCount = tingkatData.reduce((sum, t) => sum + (t.total || 0), 0)
+      lvls[0].count = totalCount
+
+      const levelOrder = ['Internasional', 'Nasional', 'Provinsi', 'Kota', 'Kecamatan', 'Sekolah']
+      
+      levelOrder.forEach(levelName => {
+        const found = tingkatData.find(t => t.tingkat === levelName)
+        if (found) {
+          lvls.push({
+            id: levelName,
+            label: levelName,
+            count: found.total || 0
+          })
+        }
+      })
+    }
+    
+    return lvls
+  }, [tingkatData])
+
+  // Process categories
+  const categories = useMemo(() => {
+    const cats = [{ id: "all", name: "Semua Kategori" }]
+    
+    if (categoryData && Array.isArray(categoryData)) {
+      categoryData.forEach(cat => {
+        cats.push({
+          id: cat.id,
+          name: cat.name
+        })
+      })
+    }
+    
+    return cats
+  }, [categoryData])
+
+  // Years
+  const years = useMemo(() => {
+    const currentYear = new Date().getFullYear()
+    return [
+      { id: "all", label: "Semua Tahun" },
+      ...Array.from({ length: 5 }, (_, i) => ({
+        id: String(currentYear - i),
+        label: String(currentYear - i)
+      }))
+    ]
+  }, [])
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [debouncedSearchQuery, selectedCategory, selectedLevel, selectedYear])
+
+  // Auto scroll on page change
+  useEffect(() => {
+    if (contentRef.current) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }
+  }, [currentPage])
+
+  const formatDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString)
+      return date.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      })
+    } catch {
+      return dateString
+    }
+  }
+
+  const getAwardColor = (award: string | null | undefined) => {
+    if (!award) return "bg-[#33b962] text-white"
+    const awardStr = String(award).toLowerCase()
+    if (awardStr.includes("1") || awardStr.includes("pertama")) return "bg-[#ffd700] text-gray-900"
+    if (awardStr.includes("2") || awardStr.includes("kedua")) return "bg-[#c0c0c0] text-gray-900"
+    if (awardStr.includes("3") || awardStr.includes("ketiga")) return "bg-[#cd7f32] text-white"
     return "bg-[#33b962] text-white"
   }
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  // Generate page numbers
+  const pageNumbers = useMemo(() => {
+    if (!paginationMeta) return []
+    
+    const pages: (number | string)[] = []
+    const maxVisible = 5
+    let startPage = Math.max(1, paginationMeta.current_page - 2)
+    let endPage = Math.min(paginationMeta.last_page, startPage + maxVisible - 1)
+
+    if (endPage - startPage < maxVisible - 1) {
+      startPage = Math.max(1, endPage - maxVisible + 1)
+    }
+
+    if (startPage > 1) {
+      pages.push(1)
+      if (startPage > 2) pages.push('...')
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i)
+    }
+
+    if (endPage < paginationMeta.last_page) {
+      if (endPage < paginationMeta.last_page - 1) pages.push('...')
+      pages.push(paginationMeta.last_page)
+    }
+
+    return pages
+  }, [paginationMeta])
+
+  const isSearching = isTyping || prestasiLoading
+
   return (
-    <div className="pt-24 pb-16">
+    <div className="min-h-screen mt-20">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
-        <div className="container mx-auto px-4">
-          <Breadcrumb items={[{ label: "Prestasi Siswa" }]} />
-          <div className="max-w-4xl mx-auto text-center mt-8">
-            <Badge className="mb-6 bg-white/20 text-white border-white/30 px-4 py-2">Hall of Fame</Badge>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-balance">Prestasi Siswa</h1>
-            <p className="text-xl text-white/90 text-balance leading-relaxed">
+      <section className="relative py-20 text-white bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45]">
+        <div className="container px-4 mx-auto">
+          <div className="max-w-4xl mx-auto text-center">
+            <Badge className="mb-4 text-white bg-white/20 border-white/30">
+              Hall of Fame
+            </Badge>
+            <h1 className="mb-4 text-4xl font-bold md:text-5xl">Prestasi Siswa</h1>
+            <p className="max-w-2xl mx-auto mb-8 text-lg md:text-xl text-white/90">
               Kebanggaan kami atas pencapaian luar biasa siswa-siswi berprestasi
             </p>
+
+            {/* Search Bar */}
+            <div className="max-w-2xl mx-auto">
+              <div className="relative">
+                {isTyping ? (
+                  <Loader2 className="absolute w-5 h-5 transform -translate-y-1/2 left-4 top-1/2 text-muted-foreground animate-spin" />
+                ) : (
+                  <Search className="absolute w-5 h-5 transform -translate-y-1/2 left-4 top-1/2 text-muted-foreground" />
+                )}
+                <Input
+                  type="text"
+                  placeholder="Cari prestasi siswa..."
+                  className="py-6 pl-12 pr-4 text-lg bg-white text-foreground"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                />
+                {searchInput && (
+                  <button
+                    onClick={() => setSearchInput("")}
+                    className="absolute p-1 transition-colors transform -translate-y-1/2 rounded-full right-4 top-1/2 hover:bg-gray-200"
+                  >
+                    <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* Error Alert */}
+      {prestasiError && (
+        <div className="container px-4 mx-auto mt-8">
+          <Alert variant="destructive">
+            <AlertCircle className="w-4 h-4" />
+            <AlertDescription className="flex items-center justify-between">
+              <span>Terjadi kesalahan saat memuat data.</span>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => refetchPrestasi()}
+                className="ml-4"
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Coba Lagi
+              </Button>
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
+
       {/* Filters */}
       <section className="py-12 bg-white border-b">
-        <div className="container mx-auto px-4">
+        <div className="container px-4 mx-auto">
           <div className="max-w-6xl mx-auto space-y-6">
             {/* Year Filter */}
             <div>
-              <label className="text-sm font-semibold text-gray-700 mb-2 block">Tahun Ajaran</label>
-              <div className="flex gap-2">
+              <label className="block mb-2 text-sm font-semibold text-gray-700">Tahun</label>
+              <div className="flex flex-wrap gap-2">
                 {years.map((year) => (
                   <Button
-                    key={year}
-                    variant={selectedYear === year ? "default" : "outline"}
+                    key={year.id}
+                    variant={selectedYear === year.id ? "default" : "outline"}
                     className={`rounded-full ${
-                      selectedYear === year ? "bg-[#33b962] hover:bg-[#2a9d52]" : "bg-transparent"
+                      selectedYear === year.id ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""
                     }`}
-                    onClick={() => setSelectedYear(year)}
+                    onClick={() => setSelectedYear(year.id)}
+                    disabled={tingkatLoading || categoryLoading}
                   >
-                    {year}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            {/* Category Filter */}
-            <div>
-              <label className="text-sm font-semibold text-gray-700 mb-2 block">Kategori</label>
-              <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <Button
-                    key={category.id}
-                    variant={selectedCategory === category.id ? "default" : "outline"}
-                    className={`rounded-full ${
-                      selectedCategory === category.id ? "bg-[#33b962] hover:bg-[#2a9d52]" : "bg-transparent"
-                    }`}
-                    onClick={() => setSelectedCategory(category.id)}
-                  >
-                    {category.label}
+                    {year.label}
                   </Button>
                 ))}
               </div>
@@ -171,114 +344,287 @@ export default function PrestasiSiswaPage() {
 
             {/* Level Filter */}
             <div>
-              <label className="text-sm font-semibold text-gray-700 mb-2 block">Tingkat Kompetisi</label>
+              <label className="block mb-2 text-sm font-semibold text-gray-700">Tingkat Kompetisi</label>
               <div className="flex flex-wrap gap-2">
                 {levels.map((level) => (
                   <Button
                     key={level.id}
                     variant={selectedLevel === level.id ? "default" : "outline"}
                     className={`rounded-full ${
-                      selectedLevel === level.id ? "bg-[#33b962] hover:bg-[#2a9d52]" : "bg-transparent"
+                      selectedLevel === level.id ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""
                     }`}
                     onClick={() => setSelectedLevel(level.id)}
+                    disabled={tingkatLoading}
                   >
                     {level.label}
+                   
                   </Button>
                 ))}
               </div>
             </div>
 
-            <Badge className="bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">
-              Total: {filteredAchievements.length} Prestasi
-            </Badge>
+            {/* Category Filter */}
+            <div>
+              <label className="block mb-2 text-sm font-semibold text-gray-700">Kategori</label>
+              <div className="flex flex-wrap gap-2">
+                {categories.map((category) => (
+                  <Button
+                    key={category.id}
+                    variant={selectedCategory === category.id ? "default" : "outline"}
+                    className={`rounded-full ${
+                      selectedCategory === category.id ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""
+                    }`}
+                    onClick={() => setSelectedCategory(category.id)}
+                    disabled={categoryLoading}
+                  >
+                    {category.name}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {!isSearching && paginationMeta && (
+              <Badge className="bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">
+                Total: {paginationMeta.total} Prestasi
+              </Badge>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Achievements Grid */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {filteredAchievements.map((achievement, index) => (
-              <Card
-                key={index}
-                className="overflow-hidden rounded-3xl border-0 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 duration-300 group"
-              >
-                <div className="relative h-80 overflow-hidden">
-                  <img
-                    src={achievement.image || "/placeholder.svg"}
-                    alt={achievement.student}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-                  <div className="absolute top-4 right-4">
-                    <Badge className={`${getAwardColor(achievement.award)} border-0 font-bold`}>
-                      {achievement.award}
-                    </Badge>
-                  </div>
-                  <div className="absolute top-4 left-4">
-                    <Trophy className="w-8 h-8 text-[#ffd700]" />
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 className="font-bold text-xl mb-1">{achievement.student}</h3>
-                    <p className="text-white/80 text-sm mb-3">{achievement.grade}</p>
-                    <h4 className="font-semibold text-lg mb-2">{achievement.title}</h4>
-                    <p className="text-white/70 text-sm mb-4">{achievement.competition}</p>
-                    <div className="flex flex-wrap gap-3 text-xs">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        <span>{achievement.date}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
-                        <span className="capitalize">{achievement.level}</span>
-                      </div>
+      {/* Main Content */}
+      <section ref={contentRef} className="py-16 bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="grid gap-8 lg:grid-cols-4">
+            {/* Prestasi Grid */}
+            <div className="lg:col-span-3">
+              {/* Loading State */}
+              {isSearching ? (
+                <div className="space-y-6">
+                  {isTyping && (
+                    <div className="flex items-center justify-center py-4">
+                      <Loader2 className="w-6 h-6 mr-2 animate-spin text-primary" />
+                      <span className="text-sm text-muted-foreground">Mencari...</span>
                     </div>
+                  )}
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <Card key={i} className="overflow-hidden">
+                        <Skeleton className="h-80" />
+                      </Card>
+                    ))}
                   </div>
                 </div>
-              </Card>
-            ))}
-          </div>
+              ) : prestasiData && prestasiData.length > 0 ? (
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {prestasiData.map((achievement) => (
+                    <PrestasiCard 
+                      key={achievement.id}
+                      achievement={achievement}
+                      formatDate={formatDate}
+                      getAwardColor={getAwardColor}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <Card className="p-12 text-center">
+                  <AlertCircle className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="mb-2 text-lg font-semibold">Tidak ada prestasi</h3>
+                  <p className="text-muted-foreground">
+                    {debouncedSearchQuery 
+                      ? `Tidak ditemukan prestasi dengan kata kunci "${debouncedSearchQuery}"`
+                      : 'Belum ada prestasi untuk filter ini'}
+                  </p>
+                </Card>
+              )}
 
-          {filteredAchievements.length === 0 && (
-            <div className="text-center py-20">
-              <Trophy className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg">Tidak ada prestasi yang ditemukan</p>
+              {/* Pagination */}
+              {!isSearching && prestasiData && prestasiData.length > 0 && paginationMeta && paginationMeta.last_page > 1 && (
+                <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => handlePageChange(paginationMeta.current_page - 1)}
+                    disabled={paginationMeta.current_page === 1}
+                  >
+                    Previous
+                  </Button>
+
+                  {pageNumbers.map((page, idx) => (
+                    page === '...' ? (
+                      <span key={`dots-${idx}`} className="px-2 py-2">...</span>
+                    ) : (
+                      <Button
+                        key={page}
+                        variant={currentPage === page ? "default" : "outline"}
+                        onClick={() => handlePageChange(page as number)}
+                        disabled={currentPage === page}
+                        className={currentPage === page ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""}
+                      >
+                        {page}
+                      </Button>
+                    )
+                  ))}
+
+                  <Button 
+                    variant="outline"
+                    onClick={() => handlePageChange(paginationMeta.current_page + 1)}
+                    disabled={paginationMeta.current_page === paginationMeta.last_page}
+                  >
+                    Next
+                  </Button>
+                </div>
+              )}
+
+              {/* Pagination Info */}
+              {!isSearching && paginationMeta && paginationMeta.total > 0 && (
+                <div className="mt-4 text-sm text-center text-muted-foreground">
+                  Menampilkan {paginationMeta.from} - {paginationMeta.to} dari {paginationMeta.total} prestasi
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </section>
 
-      {/* Statistics Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-12">Statistik Prestasi {selectedYear}</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <Card className="p-6 rounded-3xl border-2">
-                <Medal className="w-12 h-12 text-[#ffd700] mx-auto mb-3" />
-                <p className="text-3xl font-bold text-gray-900">12</p>
-                <p className="text-sm text-gray-600">Akademik</p>
+            {/* Sidebar */}
+            <div className="space-y-6">
+              {/* Popular Prestasi */}
+              <Card>
+                <div className="p-6">
+                  <h3 className="flex items-center gap-2 mb-4 text-lg font-bold">
+                    <Trophy className="w-5 h-5 text-[#33b962]" />
+                    Prestasi Terbaru
+                  </h3>
+                  {popularLoading ? (
+                    <div className="space-y-4">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <div key={i} className="flex gap-3">
+                          <Skeleton className="w-8 h-8 rounded-full shrink-0" />
+                          <div className="flex-1 space-y-2">
+                            <Skeleton className="w-full h-4" />
+                            <Skeleton className="w-16 h-3" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : popularData && popularData.length > 0 ? (
+                    <ul className="space-y-4">
+                      {popularData.map((item, index) => (
+                        <li key={item.id}>
+                          <Link
+                            href={`/prestasi-siswa/${item.slug}`}
+                            className="flex items-start gap-3 transition-colors group hover:text-primary"
+                          >
+                            <span className="flex items-center justify-center flex-shrink-0 w-8 h-8 text-sm font-semibold rounded-full bg-[#33b962]/10 text-[#33b962]">
+                              {index + 1}
+                            </span>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium transition-colors line-clamp-2 group-hover:text-[#33b962]">
+                                {item.name}
+                              </p>
+                              <p className="mt-1 text-xs text-muted-foreground">
+                                {item.tingkat}
+                              </p>
+                            </div>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sm text-center text-muted-foreground">
+                      Belum ada data
+                    </p>
+                  )}
+                </div>
               </Card>
-              <Card className="p-6 rounded-3xl border-2">
-                <Medal className="w-12 h-12 text-[#33b962] mx-auto mb-3" />
-                <p className="text-3xl font-bold text-gray-900">8</p>
-                <p className="text-sm text-gray-600">Olahraga</p>
-              </Card>
-              <Card className="p-6 rounded-3xl border-2">
-                <Medal className="w-12 h-12 text-[#ff6b35] mx-auto mb-3" />
-                <p className="text-3xl font-bold text-gray-900">6</p>
-                <p className="text-sm text-gray-600">Seni</p>
-              </Card>
-              <Card className="p-6 rounded-3xl border-2">
-                <Medal className="w-12 h-12 text-[#06d6a0] mx-auto mb-3" />
-                <p className="text-3xl font-bold text-gray-900">4</p>
-                <p className="text-sm text-gray-600">Islami</p>
+
+              {/* Statistics */}
+              <Card className="p-6">
+                <h3 className="flex items-center gap-2 mb-4 text-lg font-bold">
+                  <Medal className="w-5 h-5 text-[#33b962]" />
+                  Statistik
+                </h3>
+                <div className="space-y-3">
+                  {levels.slice(1).map((level) => (
+                    <div key={level.id} className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">{level.label}</span>
+                      <Badge variant="secondary">{level.count}</Badge>
+                    </div>
+                  ))}
+                </div>
               </Card>
             </div>
           </div>
         </div>
       </section>
     </div>
+  )
+}
+
+function PrestasiCard({ 
+  achievement, 
+  formatDate,
+  getAwardColor
+}: { 
+  achievement: PrestasiSiswa
+  formatDate: (date: string) => string
+  getAwardColor: (award: string | null | undefined) => string
+}) {
+  return (
+    <Link href={`/prestasi-siswa/${achievement.slug}`}>
+      <Card className="overflow-hidden transition-all duration-300 border-0 shadow-lg cursor-pointer rounded-3xl hover:shadow-2xl hover:-translate-y-2 group">
+        <div className="relative overflow-hidden h-80">
+          <Image
+            src={achievement.foto
+              ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${achievement.foto}`
+              : "/placeholder.svg"}
+            alt={achievement.name}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+          
+          {achievement.juara && (
+            <div className="absolute top-4 right-4">
+              <Badge className={`${getAwardColor(achievement.juara)} border-0 font-bold`}>
+                Juara {achievement.juara}
+              </Badge>
+            </div>
+          )}
+          
+          <div className="absolute top-4 left-4">
+            <Trophy className="w-8 h-8 text-[#ffd700]" />
+          </div>
+          
+          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+            <h3 className="mb-2 text-lg font-bold line-clamp-2">{achievement.name}</h3>
+            
+            {achievement.penyelenggara && (
+              <p className="mb-3 text-sm text-white/80">{achievement.penyelenggara}</p>
+            )}
+            
+            <div className="flex flex-wrap gap-3 text-xs">
+              <div className="flex items-center gap-1">
+                <Calendar className="w-3 h-3" />
+                <span>{formatDate(achievement.tanggal)}</span>
+              </div>
+              {achievement.tingkat && (
+                <div className="flex items-center gap-1">
+                  <MapPin className="w-3 h-3" />
+                  <span>{achievement.tingkat}</span>
+                </div>
+              )}
+            </div>
+            
+            {achievement.kategori && achievement.kategori.length > 0 && (
+              <div className="flex flex-wrap gap-1 mt-3">
+                {achievement.kategori.map((cat) => (
+                  <Badge key={cat.id} variant="secondary" className="text-xs">
+                    {cat.name}
+                  </Badge>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </Card>
+    </Link>
   )
 }

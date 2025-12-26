@@ -3,7 +3,7 @@
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Calendar, ImageIcon, Grid, List, Loader2, AlertCircle, RefreshCw } from "lucide-react"
+import { Calendar, Grid, List, Loader2, AlertCircle, RefreshCw } from "lucide-react"
 import { useEffect, useState, useMemo, useRef } from "react"
 import Link from "next/link"
 import { useApi } from "@/hooks/useApi"
@@ -96,11 +96,17 @@ export default function GaleriPage() {
     }
   }
 
-  // Get first image from foto string
-  const getFirstImage = (fotoString: string | null) => {
-    if (!fotoString) return null
-    const images = fotoString.split(',')
-    return images[0]?.trim() || null
+  // Improved image handling dengan path yang sesuai
+  const getMainImage = (gallery: Gallery) => {
+    const firstFoto = gallery.foto?.split(",")?.[0]?.trim() || null
+
+    if (gallery.cover) {
+      return `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/cover/${gallery.cover}`
+    } else if (firstFoto) {
+      return `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${firstFoto}`
+    } else {
+      return "/placeholder.svg"
+    }
   }
 
   return (
@@ -225,15 +231,15 @@ export default function GaleriPage() {
                 <Skeleton
                   key={i}
                   className={viewMode === "grid" 
-                    ? "bg-gray-200 h-72 rounded-3xl break-inside-avoid" 
-                    : "bg-gray-200 h-48 rounded-3xl"
+                    ? "bg-gray-200 h-96 rounded-3xl break-inside-avoid" 
+                    : "bg-gray-200 h-64 rounded-3xl"
                   }
                 />
               ))}
             </div>
           )}
 
-          {/* ERROR - handled by alert above, show empty state */}
+          {/* ERROR */}
           {!galleriesLoading && galleriesError && galleries.length === 0 && (
             <div className="py-20 text-center">
               <AlertCircle className="w-16 h-16 mx-auto mb-4 text-red-300" />
@@ -247,32 +253,26 @@ export default function GaleriPage() {
           {!galleriesLoading && !galleriesError && (
             <>
               {viewMode === "grid" ? (
+                // GRID VIEW
                 <div className="gap-6 mx-auto space-y-6 columns-1 md:columns-2 lg:columns-3 max-w-7xl">
                   {galleries.map((item) => {
-                    const firstImage = getFirstImage(item.foto)
-                    const coverImage = item.cover || firstImage
+                    const mainImage = getMainImage(item)
                     
                     return (
                       <Card
                         key={item.id}
-                        className="overflow-hidden transition-all border-0 shadow-lg break-inside-avoid rounded-3xl hover:shadow-2xl group"
+                        className="py-0 overflow-hidden transition-all border-0 shadow-lg break-inside-avoid rounded-3xl hover:shadow-2xl group"
                       >
-                        <div className="relative overflow-hidden">
-                          {coverImage ? (
-                            <img
-                              src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${coverImage}`}
-                              alt={item.name}
-                              className="object-cover w-full h-auto transition-transform duration-500 group-hover:scale-110"
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement
-                                target.src = "/placeholder.svg"
-                              }}
-                            />
-                          ) : (
-                            <div className="flex items-center justify-center w-full h-64 bg-gray-200">
-                              <ImageIcon className="w-16 h-16 text-gray-400" />
-                            </div>
-                          )}
+                        <div className="relative w-full h-auto overflow-hidden">
+                          <img
+                            src={mainImage}
+                            alt={item.name}
+                            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement
+                              target.src = "/placeholder.svg"
+                            }}
+                          />
                         </div>
 
                         <div className="p-4">
@@ -319,10 +319,10 @@ export default function GaleriPage() {
                   })}
                 </div>
               ) : (
+                // LIST VIEW
                 <div className="max-w-5xl mx-auto space-y-4">
                   {galleries.map((item) => {
-                    const firstImage = getFirstImage(item.foto)
-                    const coverImage = item.cover || firstImage
+                    const mainImage = getMainImage(item)
                     
                     return (
                       <Card
@@ -330,21 +330,17 @@ export default function GaleriPage() {
                         className="overflow-hidden transition-all border-0 shadow-lg rounded-3xl hover:shadow-xl"
                       >
                         <div className="flex flex-col gap-6 p-6 md:flex-row">
-                          {coverImage ? (
+                          <div className="flex-shrink-0 w-full h-64 overflow-hidden md:w-64 md:h-64 rounded-2xl">
                             <img
-                              src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${coverImage}`}
+                              src={mainImage}
                               alt={item.name}
-                              className="object-cover w-full h-48 md:w-64 rounded-2xl"
+                              className="object-cover w-full h-full"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement
                                 target.src = "/placeholder.svg"
                               }}
                             />
-                          ) : (
-                            <div className="flex items-center justify-center w-full h-48 bg-gray-200 md:w-64 rounded-2xl">
-                              <ImageIcon className="w-12 h-12 text-gray-400" />
-                            </div>
-                          )}
+                          </div>
                           
                           <div className="flex-1">
                             <h3 className="mb-2 text-xl font-bold text-gray-900">
@@ -389,7 +385,11 @@ export default function GaleriPage() {
               {/* Empty State */}
               {galleries.length === 0 && !galleriesLoading && (
                 <div className="py-20 text-center">
-                  <ImageIcon className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+                  <div className="w-16 h-16 mx-auto mb-4 text-gray-300">
+                    <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
                   <p className="text-lg text-gray-500">
                     {activeFilter !== "semua" 
                       ? `Tidak ada gallery untuk kategori "${activeFilter}"`

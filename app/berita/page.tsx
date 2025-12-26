@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, Clock, User, Search, ArrowRight, TrendingUp, AlertCircle, RefreshCw, Loader2 } from "lucide-react"
+import { Calendar, Clock, User, Search, ArrowRight, TrendingUp, AlertCircle, RefreshCw, Loader2 , Eye} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useApi } from "@/hooks/useApi"
@@ -181,13 +181,7 @@ export default function BeritaPage() {
 
   // ✅ AUTO SCROLL saat currentPage berubah
   useEffect(() => {
-    if (contentRef.current) {
-      // Scroll ke content section dengan smooth behavior
-      // contentRef.current.scrollIntoView({ 
-      //   behavior: 'smooth',
-      //   block: 'start'
-      // })
-      
+    if (contentRef.current) {      
       // Alternative: scroll ke top page
       window.scrollTo({
         top: 0,
@@ -539,7 +533,7 @@ export default function BeritaPage() {
                       <div className="space-y-4">
                         {Array.from({ length: 5 }).map((_, i) => (
                           <div key={i} className="flex gap-3">
-                            <Skeleton className="flex-shrink-0 w-8 h-8 rounded-full" />
+                            <Skeleton className="w-8 h-8 rounded-full shrink-0" />
                             <div className="flex-1 space-y-2">
                               <Skeleton className="w-full h-4" />
                               <Skeleton className="w-16 h-3" />
@@ -661,14 +655,18 @@ function NewsCard({
           {stripHtml(news.desc)}
         </p>
 
-        <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2 mb-4 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4" />
-            <span>{formatDate(news.created_at)}</span>
+            <span> {formatDate(news.created_at)}</span>
           </div>
           <div className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
-            <span>{timeAgo(news.created_at)}</span>
+            <span> {timeAgo(news.created_at)}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Eye className="w-4 h-4" />
+            <span> {news.views} Views</span>
           </div>
         </div>
 

@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Quicksand, Poppins } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
@@ -84,7 +83,7 @@ export default function RootLayout({
           <Footer />
           <WhatsAppButton />
           <BackToTop />
-          <Analytics />
+          {/* <Analytics /> */}
         {/* </ThemeProvider> */}
       </body>
     </html>

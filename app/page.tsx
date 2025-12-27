@@ -33,6 +33,8 @@ import {
   ChevronRight,
 } from "lucide-react"
 
+import { PrestasiSiswa } from "@/types/prestasi.types";
+import { access } from "node:fs";
 
 interface CountData {
   siswa: number;
@@ -41,6 +43,7 @@ interface CountData {
   prestasis_siswa: number;
   prestasis_sekolah: number;
 }
+
 
 
 export default function Home() {
@@ -145,28 +148,35 @@ export default function Home() {
     },
   ]
 
-  const achievements = [
-    {
-      name: "Alivna Hilya Zia",
-      title: "Juara 2 Panahan",
-      image: "/girl-archery-trophy.jpg",
-    },
-    {
-      name: "Salsabil Raihanah & Andi Alfan",
-      title: "O2SN Karate",
-      image: "/kids-karate-medal.jpg",
-    },
-    {
-      name: "Maryam",
-      title: "Juara Harapan III Tahfidz",
-      image: "/girl-quran-competition.jpg",
-    },
-    {
-      name: "Naura Jasmine",
-      title: "Juara 1 FLS3N Mendongeng",
-      image: "/girl-storytelling-trophy.jpg",
-    },
-  ]
+  const { data: achievements, loading: prestasiLoading, error: prestasiError } = useApi<PrestasiSiswa[]>('/prestasi-landing', {
+      cache: true,
+      cacheTTL: 3600000,
+      immediate: true,
+  });
+
+
+  // const achievements = [
+  //   {
+  //     name: "Alivna Hilya Zia",
+  //     title: "Juara 2 Panahan",
+  //     image: "/girl-archery-trophy.jpg",
+  //   },
+  //   {
+  //     name: "Salsabil Raihanah & Andi Alfan",
+  //     title: "O2SN Karate",
+  //     image: "/kids-karate-medal.jpg",
+  //   },
+  //   {
+  //     name: "Maryam",
+  //     title: "Juara Harapan III Tahfidz",
+  //     image: "/girl-quran-competition.jpg",
+  //   },
+  //   {
+  //     name: "Naura Jasmine",
+  //     title: "Juara 1 FLS3N Mendongeng",
+  //     image: "/girl-storytelling-trophy.jpg",
+  //   },
+  // ]
 
   const formatPartnerName = (name: string) => {
       const words = name.split(" ");
@@ -516,19 +526,33 @@ export default function Home() {
             <p className="text-lg text-gray-600 dark:text-gray-400">Kebanggaan sekolah kami yang berprestasi</p>
           </div>
           <div className="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
-            {achievements.map((achievement, index) => (
+            {galleryLoading &&
+              Array.from({ length: 8 }).map((_, index) => (
+                <GalleryCardSkeleton key={index} />
+              ))}
+
+               {!prestasiLoading && prestasiError && (
+                <div className="text-center text-red-500 col-span-full">
+                  <p>Gagal memuat Prestasi</p>
+                </div>
+              )}
+
+               {!prestasiLoading &&
+              achievements?.map((achievement, index) => (
               <Card key={index} className="overflow-hidden transition-all bg-white border-0 hover:shadow-xl group rounded-3xl dark:bg-gray-800">
                 <div className="relative overflow-hidden h-72">
                   <img
-                    src={achievement.image || "/placeholder.svg"}
+                    src={ `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/` + achievement.foto || "/placeholder.svg"}
                     alt={achievement.name}
                     className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110 rounded-2xl"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                     <Trophy className="w-8 h-8 text-[#ffd166] mb-2" />
-                    <h3 className="mb-1 text-lg font-bold">{achievement.name}</h3>
-                    <p className="text-sm text-white/80">{achievement.title}</p>
+                    <h3 className="mb-1 text-lg font-bold">
+                      {achievement.name.split(" ").slice(0, 5).join(" ")}
+                    </h3>
+                    <p className="text-sm text-white/80">{achievement.juara}</p>
                   </div>
                 </div>
               </Card>

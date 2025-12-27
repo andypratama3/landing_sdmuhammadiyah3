@@ -86,9 +86,7 @@ export default function JadwalPage() {
       immediate: !!scheduleEndpoint,
     }
   )
-
   
-
   // ========== TRANSFORM DATA KE FORMAT DISPLAY ==========
   const schedule = scheduleData && scheduleData.length > 0 
     ? transformScheduleData(scheduleData)

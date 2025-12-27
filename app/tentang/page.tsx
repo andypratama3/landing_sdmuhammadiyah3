@@ -3,6 +3,8 @@ import { Badge } from "@/components/ui/badge"
 import Breadcrumb from "@/components/breadcrumb"
 import { Target, Eye, Heart, Users, Building2, Award, BookOpen, Shield, CheckCircle } from "lucide-react"
 
+
+
 export default function TentangPage() {
   const timeline = [
     { year: "2010", event: "Pendirian SD Muhammadiyah 3 Samarinda" },
@@ -61,12 +63,12 @@ export default function TentangPage() {
     <div className="pt-24 pb-16">
       {/* Hero */}
       <section className="bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
-        <div className="container mx-auto px-4">
+        <div className="container px-4 mx-auto">
           <Breadcrumb items={[{ label: "Tentang Kami" }]} />
-          <div className="max-w-4xl mx-auto text-center mt-8">
-            <Badge className="mb-6 bg-white/20 text-white border-white/30 px-4 py-2">Tentang Kami</Badge>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-balance">SD Muhammadiyah 3 Samarinda</h1>
-            <p className="text-xl text-white/90 text-balance leading-relaxed">
+          <div className="max-w-4xl mx-auto mt-8 text-center">
+            <Badge className="px-4 py-2 mb-6 text-white bg-white/20 border-white/30">Tentang Kami</Badge>
+            <h1 className="mb-6 text-5xl font-bold md:text-6xl text-balance">SD Muhammadiyah 3 Samarinda</h1>
+            <p className="text-xl leading-relaxed text-white/90 text-balance">
               Sekolah Kreatif dengan Pembelajaran Inovatif dan Berkarakter
             </p>
           </div>
@@ -74,18 +76,18 @@ export default function TentangPage() {
       </section>
 
       {/* Vision & Mission */}
-      <section className="py-20 container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Visi & Misi</h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">Arah dan tujuan pendidikan kami</p>
+      <section className="container px-4 py-20 mx-auto">
+        <div className="mb-16 text-center">
+          <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Visi & Misi</h2>
+          <p className="max-w-2xl mx-auto text-lg text-gray-600">Arah dan tujuan pendidikan kami</p>
         </div>
-        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid max-w-6xl gap-8 mx-auto lg:grid-cols-2">
           <Card className="p-10 rounded-3xl border-2 hover:border-[#33b962]/30 transition-all bg-gradient-to-br from-white to-gray-50">
             <div className="w-20 h-20 bg-gradient-to-br from-[#33b962] to-[#2a9d52] rounded-3xl flex items-center justify-center mb-6 shadow-lg">
               <Eye className="w-10 h-10 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Visi</h2>
-            <p className="text-gray-700 text-lg leading-relaxed">
+            <h2 className="mb-6 text-3xl font-bold text-gray-900">Visi</h2>
+            <p className="text-lg leading-relaxed text-gray-700">
               Menjadi sekolah dasar Islam terdepan yang menghasilkan generasi kreatif, berakhlak mulia, cerdas, dan
               berprestasi dengan dilandasi nilai-nilai Islami dan kearifan lokal.
             </p>
@@ -95,8 +97,8 @@ export default function TentangPage() {
             <div className="w-20 h-20 bg-gradient-to-br from-[#06d6a0] to-[#05b88c] rounded-3xl flex items-center justify-center mb-6 shadow-lg">
               <Target className="w-10 h-10 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Misi</h2>
-            <ul className="text-gray-700 text-lg leading-relaxed space-y-3">
+            <h2 className="mb-6 text-3xl font-bold text-gray-900">Misi</h2>
+            <ul className="space-y-3 text-lg leading-relaxed text-gray-700">
               <li className="flex items-start gap-3">
                 <CheckCircle className="w-6 h-6 text-[#33b962] flex-shrink-0 mt-1" />
                 <span>Menyelenggarakan pendidikan berkualitas berbasis kreativitas dan inovasi</span>
@@ -124,26 +126,26 @@ export default function TentangPage() {
 
       {/* Timeline */}
       <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+        <div className="container px-4 mx-auto">
+          <div className="mb-16 text-center">
             <Badge className="mb-4 bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">Sejarah</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Sejarah Perjalanan Kami</h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Sejarah Perjalanan Kami</h2>
+            <p className="max-w-2xl mx-auto text-lg text-gray-600">
               Jejak langkah kami dalam menciptakan pendidikan berkualitas
             </p>
           </div>
           <div className="max-w-4xl mx-auto">
             {timeline.map((item, index) => (
-              <div key={index} className="flex gap-8 mb-10 relative">
+              <div key={index} className="relative flex gap-8 mb-10">
                 <div className="flex flex-col items-center">
                   <div className="w-16 h-16 bg-gradient-to-br from-[#33b962] to-[#2a9d52] rounded-2xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg">
                     {item.year}
                   </div>
                   {index < timeline.length - 1 && <div className="w-1 h-full bg-[#33b962]/20 mt-4" />}
                 </div>
-                <div className="pb-10 flex-1">
+                <div className="flex-1 pb-10">
                   <Card className="p-6 rounded-2xl border-2 hover:border-[#33b962]/30 transition-all hover:shadow-lg">
-                    <p className="text-gray-900 text-lg font-semibold">{item.event}</p>
+                    <p className="text-lg font-semibold text-gray-900">{item.event}</p>
                   </Card>
                 </div>
               </div>
@@ -154,25 +156,25 @@ export default function TentangPage() {
 
       {/* Why Choose Us */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+        <div className="container px-4 mx-auto">
+          <div className="mb-16 text-center">
             <Badge className="mb-4 bg-[#ffd166] text-gray-900 px-4 py-2">Keunggulan</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Mengapa Memilih Kami?</h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Mengapa Memilih Kami?</h2>
+            <p className="max-w-2xl mx-auto text-lg text-gray-600">
               Alasan orang tua mempercayakan pendidikan putra-putrinya kepada kami
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid max-w-6xl gap-6 mx-auto md:grid-cols-2 lg:grid-cols-3">
             {reasons.map((reason, index) => (
               <Card
                 key={index}
-                className="p-8 rounded-3xl border-0 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 duration-300"
+                className="p-8 transition-all duration-300 border-0 shadow-lg rounded-3xl hover:shadow-2xl hover:-translate-y-2"
               >
                 <div className="w-16 h-16 bg-[#33b962]/10 rounded-2xl flex items-center justify-center mb-6">
                   <reason.icon className="w-8 h-8 text-[#33b962]" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{reason.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{reason.description}</p>
+                <h3 className="mb-3 text-xl font-bold text-gray-900">{reason.title}</h3>
+                <p className="leading-relaxed text-gray-600">{reason.description}</p>
               </Card>
             ))}
           </div>
@@ -181,27 +183,27 @@ export default function TentangPage() {
 
       {/* Photo Gallery */}
       <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+        <div className="container px-4 mx-auto">
+          <div className="mb-12 text-center">
             <Badge className="mb-4 bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">Gallery</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Galeri Foto Sekolah</h2>
-            <p className="text-gray-600 text-lg">Suasana dan kegiatan di SD Muhammadiyah 3 Samarinda</p>
+            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Galeri Foto Sekolah</h2>
+            <p className="text-lg text-gray-600">Suasana dan kegiatan di SD Muhammadiyah 3 Samarinda</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid max-w-6xl grid-cols-2 gap-6 mx-auto md:grid-cols-3">
             {galleries.map((gallery, index) => (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all"
+                className="relative overflow-hidden transition-all shadow-lg group rounded-2xl hover:shadow-2xl"
               >
-                <div className="aspect-square overflow-hidden">
+                <div className="overflow-hidden aspect-square">
                   <img
                     src={gallery.image || "/placeholder.svg"}
                     alt={gallery.caption}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                  <p className="text-white font-semibold p-6">{gallery.caption}</p>
+                <div className="absolute inset-0 flex items-end transition-opacity duration-300 opacity-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:opacity-100">
+                  <p className="p-6 font-semibold text-white">{gallery.caption}</p>
                 </div>
               </div>
             ))}

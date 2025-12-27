@@ -28,6 +28,7 @@ import { HtmlContent } from "@/components/html-content"
 import { Berita } from '@/types/berita.types'
 import { useApi } from "@/hooks/useApi"
 import Head from "next/head"
+import { PageHeader } from "@/components/page-header";
 
 export default function BeritaDetailPage() {
   const params = useParams()
@@ -271,19 +272,15 @@ export default function BeritaDetailPage() {
 
       <div className="min-h-screen bg-background">
         {/* Header */}
-        <section className="relative py-12 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80">
-          <div className="container px-4 mx-auto">
-            <Link href="/berita">
-              <Button variant="ghost" className="mb-4 text-white hover:bg-white/20">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Kembali ke Berita
-              </Button>
-            </Link>
-          </div>
-        </section>
 
         {/* Main Content */}
         <section className="py-12">
+            <PageHeader
+              title={"Berita Sekolah"}
+              description="Berita Sekolah - SD Muhammadiyah 3 Samarinda"
+              breadcrumbs={[{ label: "Beranda", href: "/" }, { label: "Berita", href: "/berita" }, { label: berita?.judul} ]}
+            />
+    
           <div className="container px-4 mx-auto">
             <div className="grid gap-8 lg:grid-cols-3">
               {/* Article Content */}

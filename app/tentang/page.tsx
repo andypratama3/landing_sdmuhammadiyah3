@@ -1,9 +1,11 @@
+"use client"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Breadcrumb from "@/components/breadcrumb"
 import { Target, Eye, Heart, Users, Building2, Award, BookOpen, Shield, CheckCircle } from "lucide-react"
-
-
+import { Fotosekolah } from '@/types/fotosekolah.types';
+import { useApi } from "@/hooks/useApi"
+import { FotoSekolahCard } from '@/components/tentang/fotoSekolahCard'
 
 export default function TentangPage() {
   const timeline = [
@@ -15,6 +17,15 @@ export default function TentangPage() {
     { year: "2022", event: "Menjadi Sekolah Penggerak" },
     { year: "2023", event: "Meraih Akreditasi Unggul" },
   ]
+
+  const { data: fotosekolah, loading: fotosekolahLoading } = useApi<Fotosekolah[]>(
+    '/tentang/foto-sekolah', 
+    {
+      cache: true,
+      cacheTTL: 3600000,
+      immediate: true,
+    }
+  );
 
   const reasons = [
     {
@@ -50,19 +61,10 @@ export default function TentangPage() {
     },
   ]
 
-  const galleries = [
-    { image: "/school-building-front-view.jpg", caption: "Gedung Sekolah" },
-    { image: "/students-morning-assembly.jpg", caption: "Upacara Bendera" },
-    { image: "/classroom-interactive-learning.jpg", caption: "Ruang Kelas Modern" },
-    { image: "/students-outdoor-activities.jpg", caption: "Kegiatan Outdoor" },
-    { image: "/islamic-studies-class.jpg", caption: "Pembelajaran Agama" },
-    { image: "/school-library-kids-reading.jpg", caption: "Perpustakaan" },
-  ]
-
   return (
     <div className="pt-24 pb-16">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
+      <section className="bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
         <div className="container px-4 mx-auto">
           <Breadcrumb items={[{ label: "Tentang Kami" }]} />
           <div className="max-w-4xl mx-auto mt-8 text-center">
@@ -82,8 +84,8 @@ export default function TentangPage() {
           <p className="max-w-2xl mx-auto text-lg text-gray-600">Arah dan tujuan pendidikan kami</p>
         </div>
         <div className="grid max-w-6xl gap-8 mx-auto lg:grid-cols-2">
-          <Card className="p-10 rounded-3xl border-2 hover:border-[#33b962]/30 transition-all bg-gradient-to-br from-white to-gray-50">
-            <div className="w-20 h-20 bg-gradient-to-br from-[#33b962] to-[#2a9d52] rounded-3xl flex items-center justify-center mb-6 shadow-lg">
+          <Card className="p-10 rounded-3xl border-2 hover:border-[#33b962]/30 transition-all bg-linear-to-br from-white to-gray-50">
+            <div className="w-20 h-20 bg-linear-to-br from-[#33b962] to-[#2a9d52] rounded-3xl flex items-center justify-center mb-6 shadow-lg">
               <Eye className="w-10 h-10 text-white" />
             </div>
             <h2 className="mb-6 text-3xl font-bold text-gray-900">Visi</h2>
@@ -93,30 +95,30 @@ export default function TentangPage() {
             </p>
           </Card>
 
-          <Card className="p-10 rounded-3xl border-2 hover:border-[#33b962]/30 transition-all bg-gradient-to-br from-white to-gray-50">
-            <div className="w-20 h-20 bg-gradient-to-br from-[#06d6a0] to-[#05b88c] rounded-3xl flex items-center justify-center mb-6 shadow-lg">
+          <Card className="p-10 rounded-3xl border-2 hover:border-[#33b962]/30 transition-all bg-linear-to-br from-white to-gray-50">
+            <div className="w-20 h-20 bg-linear-to-br from-[#06d6a0] to-[#05b88c] rounded-3xl flex items-center justify-center mb-6 shadow-lg">
               <Target className="w-10 h-10 text-white" />
             </div>
             <h2 className="mb-6 text-3xl font-bold text-gray-900">Misi</h2>
             <ul className="space-y-3 text-lg leading-relaxed text-gray-700">
               <li className="flex items-start gap-3">
-                <CheckCircle className="w-6 h-6 text-[#33b962] flex-shrink-0 mt-1" />
+                <CheckCircle className="w-6 h-6 text-[#33b962] shrink-0 mt-1" />
                 <span>Menyelenggarakan pendidikan berkualitas berbasis kreativitas dan inovasi</span>
               </li>
               <li className="flex items-start gap-3">
-                <CheckCircle className="w-6 h-6 text-[#33b962] flex-shrink-0 mt-1" />
+                <CheckCircle className="w-6 h-6 text-[#33b962] shrink-0 mt-1" />
                 <span>Membentuk karakter Islami melalui pembiasaan akhlak mulia</span>
               </li>
               <li className="flex items-start gap-3">
-                <CheckCircle className="w-6 h-6 text-[#33b962] flex-shrink-0 mt-1" />
+                <CheckCircle className="w-6 h-6 text-[#33b962] shrink-0 mt-1" />
                 <span>Mengembangkan potensi akademik dan non-akademik siswa secara optimal</span>
               </li>
               <li className="flex items-start gap-3">
-                <CheckCircle className="w-6 h-6 text-[#33b962] flex-shrink-0 mt-1" />
+                <CheckCircle className="w-6 h-6 text-[#33b962] shrink-0 mt-1" />
                 <span>Menciptakan lingkungan belajar yang kondusif, aman, dan menyenangkan</span>
               </li>
               <li className="flex items-start gap-3">
-                <CheckCircle className="w-6 h-6 text-[#33b962] flex-shrink-0 mt-1" />
+                <CheckCircle className="w-6 h-6 text-[#33b962] shrink-0 mt-1" />
                 <span>Menjalin kemitraan dengan orang tua dan masyarakat</span>
               </li>
             </ul>
@@ -125,7 +127,7 @@ export default function TentangPage() {
       </section>
 
       {/* Timeline */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      <section className="py-20 bg-linear-to-br from-gray-50 to-white">
         <div className="container px-4 mx-auto">
           <div className="mb-16 text-center">
             <Badge className="mb-4 bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">Sejarah</Badge>
@@ -138,7 +140,7 @@ export default function TentangPage() {
             {timeline.map((item, index) => (
               <div key={index} className="relative flex gap-8 mb-10">
                 <div className="flex flex-col items-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#33b962] to-[#2a9d52] rounded-2xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg">
+                  <div className="w-16 h-16 bg-linear-to-br from-[#33b962] to-[#2a9d52] rounded-2xl flex items-center justify-center text-white font-bold text-lg shrink-0 shadow-lg">
                     {item.year}
                   </div>
                   {index < timeline.length - 1 && <div className="w-1 h-full bg-[#33b962]/20 mt-4" />}
@@ -186,27 +188,14 @@ export default function TentangPage() {
         <div className="container px-4 mx-auto">
           <div className="mb-12 text-center">
             <Badge className="mb-4 bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">Gallery</Badge>
-            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Galeri Foto Sekolah</h2>
+            <h2 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">Foto Sekolah</h2>
             <p className="text-lg text-gray-600">Suasana dan kegiatan di SD Muhammadiyah 3 Samarinda</p>
           </div>
           <div className="grid max-w-6xl grid-cols-2 gap-6 mx-auto md:grid-cols-3">
-            {galleries.map((gallery, index) => (
-              <div
-                key={index}
-                className="relative overflow-hidden transition-all shadow-lg group rounded-2xl hover:shadow-2xl"
-              >
-                <div className="overflow-hidden aspect-square">
-                  <img
-                    src={gallery.image || "/placeholder.svg"}
-                    alt={gallery.caption}
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
-                  />
-                </div>
-                <div className="absolute inset-0 flex items-end transition-opacity duration-300 opacity-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:opacity-100">
-                  <p className="p-6 font-semibold text-white">{gallery.caption}</p>
-                </div>
-              </div>
-            ))}
+            <FotoSekolahCard
+              galleries={fotosekolah} 
+              loading={fotosekolahLoading} 
+            />  
           </div>
         </div>
       </section>

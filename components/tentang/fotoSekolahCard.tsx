@@ -30,7 +30,7 @@ export const FotoSekolahCard: React.FC<FotoSekolahCardProps> = ({
           >
             <div className="overflow-hidden aspect-square">
               <img
-                src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/foto_sekolah/${gallery.foto}` || gallery.foto || "/placeholder.svg"}
+                src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/${gallery.foto}` || gallery.foto || "/placeholder.svg"}
                 alt={gallery.name}
                 className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"

@@ -9,3 +9,4 @@ export * from './jadwalItem.types';
 export * from './jadwalDetail.types';
 export * from './fotosekolah.types';
 export * from './guru.types';
+export * from './pembayaran.types';

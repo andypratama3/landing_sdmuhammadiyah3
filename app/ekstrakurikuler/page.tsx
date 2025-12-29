@@ -14,7 +14,7 @@ import {
 import Image from "next/image"
 import { useState, useMemo } from "react"
 import { useApi } from "@/hooks/useApi"
-import type { Ekstrakurikuler } from "@/types/ekstrakurikuler.types"
+import { Ekstrakurikuler } from "@/types/ekstrakurikuler.types"
 
 // Extended type with parsed foto array
 interface EkstrakurikulerWithPhotos extends Ekstrakurikuler {

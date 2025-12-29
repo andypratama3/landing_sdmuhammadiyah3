@@ -373,7 +373,7 @@ export default function EkstrakurikulerPage() {
                     <Clock className="w-5 h-5 text-[#33b962] shrink-0 mt-0.5" />
                     <div>
                       <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Jadwal</p>
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedActivity.jam}</p>
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedActivity.jam} - Selesai</p>
                     </div>
                   </div>
                 )}
@@ -460,7 +460,7 @@ function ActivityCard({
         {activity.jam && (
           <div className="flex items-center gap-2 text-xs text-gray-600 sm:text-sm dark:text-gray-400">
             <Clock className="w-4 h-4 shrink-0" />
-            <span className="truncate">{activity.jam}</span>
+            <span className="truncate">{activity.jam} - Selesai </span>
           </div>
         )}
         {activity.kelas && (

@@ -95,11 +95,11 @@ export default function Footer() {
                   Profil Sekolah
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/spmb" className="hover:text-[#33b962] transition">
                   SPMB
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link href="/pembayaran" className="hover:text-[#33b962] transition">
                   Pembayaran

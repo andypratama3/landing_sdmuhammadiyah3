@@ -1,151 +1,26 @@
-import type { Metadata } from "next"
+"use client"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Trophy, BookOpen, Users, Calendar, Clock, UserCircle, Target } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { 
+  Trophy, BookOpen, Users, Calendar, Clock, UserCircle, Target, 
+  X, AlertCircle, RefreshCw 
+} from "lucide-react"
 import Image from "next/image"
+import { useState, useMemo } from "react"
+import { useApi } from "@/hooks/useApi"
+import type { Ekstrakurikuler } from "@/types/ekstrakurikuler.types"
 
-export const metadata: Metadata = {
-  title: "Ekstrakurikuler - SD Muhammadiyah 3 Samarinda",
-  description:
-    "Berbagai kegiatan ekstrakurikuler untuk mengembangkan bakat dan minat siswa di bidang olahraga, seni, sains, dan keislaman.",
+// Extended type with parsed foto array
+interface EkstrakurikulerWithPhotos extends Ekstrakurikuler {
+  fotoArray: string[]
+  fotoFirst: string | null
 }
-
-const extracurricular = [
-  {
-    id: 1,
-    category: "sports",
-    name: "Futsal",
-    day: "Senin & Rabu",
-    time: "15:00 - 17:00",
-    instructor: "Bapak Ahmad Fauzi, S.Pd",
-    ageGroup: "Kelas 3-6",
-    description: "Melatih kerjasama tim, koordinasi, dan keterampilan bermain futsal.",
-    image: "/gallery-futsal-match.jpg",
-  },
-  {
-    id: 2,
-    category: "sports",
-    name: "Panahan",
-    day: "Selasa & Kamis",
-    time: "15:00 - 17:00",
-    instructor: "Bapak Rizki Hamdani, S.Pd",
-    ageGroup: "Kelas 2-6",
-    description: "Mengembangkan fokus, konsentrasi, dan ketepatan melalui olahraga panahan.",
-    image: "/gallery-archery-practice.jpg",
-  },
-  {
-    id: 3,
-    category: "sports",
-    name: "Karate",
-    day: "Rabu & Jumat",
-    time: "15:30 - 17:30",
-    instructor: "Bapak Dedi Kurniawan, S.Pd",
-    ageGroup: "Kelas 1-6",
-    description: "Melatih disiplin, kepercayaan diri, dan kemampuan bela diri.",
-    image: "/kids-sports-activities.jpg",
-  },
-  {
-    id: 4,
-    category: "arts",
-    name: "Melukis & Mewarnai",
-    day: "Senin & Kamis",
-    time: "14:00 - 16:00",
-    instructor: "Ibu Sarah Amelia, S.Pd",
-    ageGroup: "Kelas 1-6",
-    description: "Mengekspresikan kreativitas melalui seni lukis dan mewarnai.",
-    image: "/gallery-painting-workshop.jpg",
-  },
-  {
-    id: 5,
-    category: "arts",
-    name: "Tari Tradisional",
-    day: "Selasa",
-    time: "14:30 - 16:30",
-    instructor: "Ibu Nur Azizah, S.Sn",
-    ageGroup: "Kelas 2-6",
-    description: "Melestarikan budaya Indonesia melalui tarian tradisional.",
-    image: "/kids-traditional-dance.jpg",
-  },
-  {
-    id: 6,
-    category: "arts",
-    name: "Musik & Hadroh",
-    day: "Kamis",
-    time: "15:00 - 17:00",
-    instructor: "Bapak Yusuf Rahman, S.Pd",
-    ageGroup: "Kelas 3-6",
-    description: "Belajar musik Islami dan hadroh untuk acara keagamaan.",
-    image: "/islamic-studies-class.jpg",
-  },
-  {
-    id: 7,
-    category: "science",
-    name: "Robotika",
-    day: "Rabu",
-    time: "14:00 - 16:00",
-    instructor: "Bapak Fahmi Hidayat, S.Kom",
-    ageGroup: "Kelas 4-6",
-    description: "Belajar dasar-dasar robotika dan pemrograman untuk anak.",
-    image: "/science-experiment-kids.jpg",
-  },
-  {
-    id: 8,
-    category: "science",
-    name: "Sains Club",
-    day: "Jumat",
-    time: "14:00 - 16:00",
-    instructor: "Ibu Diana Putri, S.Pd",
-    ageGroup: "Kelas 3-6",
-    description: "Eksperimen sains sederhana untuk memahami fenomena alam.",
-    image: "/kids-outdoor-science-learning.jpg",
-  },
-  {
-    id: 9,
-    category: "islamic",
-    name: "Tahfidz Al-Qur'an",
-    day: "Senin - Jumat",
-    time: "13:00 - 14:30",
-    instructor: "Ustadz Abdullah, S.Pd.I",
-    ageGroup: "Kelas 1-6",
-    description: "Program menghafal Al-Qur'an dengan target 2 juz (juz 29 dan 30).",
-    image: "/kids-reading-quran.jpg",
-  },
-  {
-    id: 10,
-    category: "islamic",
-    name: "Kaligrafi",
-    day: "Selasa",
-    time: "14:00 - 16:00",
-    instructor: "Ustadz Hamzah, S.Pd.I",
-    ageGroup: "Kelas 3-6",
-    description: "Belajar seni kaligrafi Arab untuk menulis ayat-ayat Al-Qur'an dengan indah.",
-    image: "/islamic-studies-class.jpg",
-  },
-  {
-    id: 11,
-    category: "others",
-    name: "Pramuka",
-    day: "Sabtu",
-    time: "08:00 - 11:00",
-    instructor: "Bapak Hendra Wijaya, S.Pd",
-    ageGroup: "Kelas 3-6",
-    description: "Kegiatan kepramukaan untuk melatih kemandirian dan kepemimpinan.",
-    image: "/gallery-scouts-outdoor.jpg",
-  },
-  {
-    id: 12,
-    category: "others",
-    name: "English Club",
-    day: "Rabu",
-    time: "14:30 - 16:00",
-    instructor: "Mrs. Linda Sari, S.Pd",
-    ageGroup: "Kelas 4-6",
-    description: "Meningkatkan kemampuan berbahasa Inggris melalui games dan conversation.",
-    image: "/happy-children-classroom-learning.jpg",
-  },
-]
 
 const benefits = [
   {
@@ -178,46 +53,105 @@ const requirements = [
   "Biaya pendaftaran sesuai jenis kegiatan",
 ]
 
+// Category mapping
+const categoryMap: { [key: string]: string } = {
+  olahraga: "Olahraga",
+  seni: "Seni",
+  sains: "Sains",
+  islami: "Islami",
+  lainnya: "Lainnya",
+}
+
 export default function EkstrakurikulerPage() {
+  const [selectedActivity, setSelectedActivity] = useState<EkstrakurikulerWithPhotos | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string>("all")
+
+  // Fetch ekstrakurikuler data
+  const { 
+    data: ekstrakurikulerData, 
+    loading, 
+    error,
+    refetch 
+  } = useApi<Ekstrakurikuler[]>('/ekstrakurikuler', {
+    cache: true,
+    cacheTTL: 300000,
+    immediate: true,
+  })
+
+  // Process ekstrakurikuler data - parse foto array
+  const ekstrakurikuler = useMemo((): EkstrakurikulerWithPhotos[] => {
+    const storageUrl = process.env.NEXT_PUBLIC_STORAGE_URL || ''
+    
+    return (ekstrakurikulerData || []).map(item => {
+      // Parse foto array and prepend storage URL
+      const fotoArray = item.foto 
+        ? item.foto.split(',').map(f => {
+            const trimmed = f.trim()
+            // Check if already has http/https, if not prepend storage URL
+            return trimmed.startsWith('http') ? trimmed : `${storageUrl}/${trimmed}`
+          })
+        : []
+      
+      return {
+        ...item,
+        fotoArray,
+        fotoFirst: fotoArray[0] || null,
+      }
+    })
+  }, [ekstrakurikulerData])
+
+  // Get unique categories
+  const categories = useMemo(() => {
+    const cats = new Set(ekstrakurikuler.map(item => item.kategori.toLowerCase()))
+    return Array.from(cats).sort((a, b) => a === 'Lainnya' ? -1 : b === 'Lainnya' ? 1 : a.localeCompare(b))
+  }, [ekstrakurikuler])
+
+  // Filter ekstrakurikuler by category
+  const filteredEkstrakurikuler = useMemo(() => {
+    if (selectedCategory === "all") return ekstrakurikuler
+    return ekstrakurikuler.filter(item => item.kategori.toLowerCase() === selectedCategory)
+  }, [ekstrakurikuler, selectedCategory])
+
   return (
-    <div className="min-h-screen mt-20">
+    <div className="min-h-screen pt-16 pb-16 bg-white dark:bg-gray-900">
       {/* Hero Section */}
-      <section className="relative py-20 text-white bg-linear-to-br from-primary via-primary/90 to-primary/80">
+      <section className="relative py-16 sm:py-20 text-white bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#1a4d2e] dark:via-[#2a7a4a] dark:to-[#1f5c3a]">
         <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 text-white bg-white/20 border-white/30">Ekstrakurikuler</Badge>
-            <h1 className="mb-4 text-4xl font-bold md:text-5xl">Kegiatan Ekstrakurikuler</h1>
-            <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/90">
-              Berbagai pilihan kegiatan untuk mengembangkan bakat, minat, dan karakter siswa di luar jam pelajaran
-              regular
+            <Badge className="mb-4 text-white sm:mb-6 bg-white/20 border-white/30">Ekstrakurikuler</Badge>
+            <h1 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl">Kegiatan Ekstrakurikuler</h1>
+            <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-white/90">
+              Berbagai pilihan kegiatan untuk mengembangkan bakat, minat, dan karakter siswa di luar jam pelajaran regular
             </p>
           </div>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="py-16 bg-background">
+      <section className="py-12 sm:py-16 bg-gray-50 dark:bg-gray-800">
         <div className="container px-4 mx-auto">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold md:text-4xl">Manfaat Mengikuti Ekstrakurikuler</h2>
-            <p className="max-w-2xl mx-auto text-muted-foreground">
+          <div className="mb-8 text-center sm:mb-12">
+            <h2 className="mb-3 text-2xl font-bold text-gray-900 sm:mb-4 sm:text-3xl md:text-4xl dark:text-white">
+              Manfaat Mengikuti Ekstrakurikuler
+            </h2>
+            <p className="max-w-2xl mx-auto text-sm text-gray-600 sm:text-base dark:text-gray-400">
               Kegiatan ekstrakurikuler memberikan banyak manfaat untuk perkembangan anak
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
             {benefits.map((benefit, index) => {
               const Icon = benefit.icon
               return (
-                <Card key={index} className="text-center transition-all hover:shadow-lg">
+                <Card key={index} className="text-center transition-all hover:shadow-lg dark:bg-gray-700 dark:border-gray-600">
                   <CardHeader>
-                    <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10">
-                      <Icon className="w-8 h-8 text-primary" />
+                    <div className="flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full bg-[#33b962]/10 dark:bg-[#33b962]/20">
+                      <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-[#33b962]" />
                     </div>
-                    <CardTitle className="text-xl">{benefit.title}</CardTitle>
+                    <CardTitle className="text-lg text-gray-900 sm:text-xl dark:text-white">{benefit.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">{benefit.description}</p>
+                    <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">{benefit.description}</p>
                   </CardContent>
                 </Card>
               )
@@ -227,76 +161,130 @@ export default function EkstrakurikulerPage() {
       </section>
 
       {/* Extracurricular Activities */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-12 bg-white sm:py-16 dark:bg-gray-900">
         <div className="container px-4 mx-auto">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold md:text-4xl">Pilihan Kegiatan Ekstrakurikuler</h2>
-            <p className="max-w-2xl mx-auto text-muted-foreground">
+          <div className="mb-8 text-center sm:mb-12">
+            <h2 className="mb-3 text-2xl font-bold text-gray-900 sm:mb-4 sm:text-3xl md:text-4xl dark:text-white">
+              Pilihan Kegiatan Ekstrakurikuler
+            </h2>
+            <p className="max-w-2xl mx-auto text-sm text-gray-600 sm:text-base dark:text-gray-400">
               Temukan kegiatan yang sesuai dengan minat dan bakat anak Anda
             </p>
           </div>
 
-          <Tabs defaultValue="all" className="w-full">
-            <TabsList className="grid w-full max-w-4xl grid-cols-2 mx-auto mb-8 md:grid-cols-6">
-              <TabsTrigger value="all">Semua</TabsTrigger>
-              <TabsTrigger value="sports">Olahraga</TabsTrigger>
-              <TabsTrigger value="arts">Seni</TabsTrigger>
-              <TabsTrigger value="science">Sains</TabsTrigger>
-              <TabsTrigger value="islamic">Islami</TabsTrigger>
-              <TabsTrigger value="others">Lainnya</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="all" className="mt-6">
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {extracurricular.map((activity) => (
-                  <ActivityCard key={activity.id} activity={activity} />
+          {loading ? (
+            // Loading State
+            <div className="space-y-6">
+              <div className="grid max-w-4xl grid-cols-2 gap-2 mx-auto sm:grid-cols-3 md:grid-cols-6">
+                {[...Array(6)].map((_, i) => (
+                  <Skeleton key={i} className="h-10" />
                 ))}
               </div>
-            </TabsContent>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <Card key={i} className="dark:bg-gray-700">
+                    <Skeleton className="w-full h-48" />
+                    <CardHeader>
+                      <Skeleton className="w-3/4 h-6" />
+                      <Skeleton className="w-full h-4 mt-2" />
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <Skeleton className="w-2/3 h-4" />
+                      <Skeleton className="w-1/2 h-4" />
+                      <Skeleton className="w-full h-10 mt-4" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          ) : error ? (
+            // Error State
+            <Alert variant="destructive" className="max-w-2xl mx-auto">
+              <AlertCircle className="w-4 h-4" />
+              <AlertDescription className="flex items-center justify-between">
+                <span>{error}</span>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => refetch?.()}
+                  className="ml-4"
+                >
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Coba Lagi
+                </Button>
+              </AlertDescription>
+            </Alert>
+          ) : ekstrakurikuler.length === 0 ? (
+            // Empty State
+            <div className="py-12 text-center">
+              <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+              <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
+                Belum Ada Data Ekstrakurikuler
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Data kegiatan ekstrakurikuler akan segera ditambahkan.
+              </p>
+            </div>
+          ) : (
+            // Data Loaded
+            <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
+              <TabsList className="grid w-full h-auto max-w-4xl grid-cols-2 gap-2 p-2 mx-auto mb-6 bg-gray-100 sm:mb-8 sm:grid-cols-3 md:grid-cols-6 dark:bg-gray-800">
+                <TabsTrigger value="all" className="text-xs sm:text-sm">Semua</TabsTrigger>
+                {categories.map((cat) => (
+                  <TabsTrigger key={cat} value={cat} className="text-xs sm:text-sm">
+                    {categoryMap[cat] || cat}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
 
-            {["sports", "arts", "science", "islamic", "others"].map((category) => (
-              <TabsContent key={category} value={category} className="mt-6">
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {extracurricular
-                    .filter((activity) => activity.category === category)
-                    .map((activity) => (
-                      <ActivityCard key={activity.id} activity={activity} />
-                    ))}
+              <TabsContent value={selectedCategory} className="mt-6">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
+                  {filteredEkstrakurikuler.map((activity) => (
+                    <ActivityCard 
+                      key={activity.id} 
+                      activity={activity} 
+                      onClick={() => setSelectedActivity(activity)}
+                    />
+                  ))}
                 </div>
               </TabsContent>
-            ))}
-          </Tabs>
+            </Tabs>
+          )}
         </div>
       </section>
 
       {/* Registration Requirements */}
-      <section className="py-16 bg-background">
+      {/* <section className="py-12 sm:py-16 bg-gray-50 dark:bg-gray-800">
         <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto">
-            <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Syarat Pendaftaran</h2>
-              <p className="text-muted-foreground">Dokumen yang diperlukan untuk mendaftar ekstrakurikuler</p>
+            <div className="mb-8 text-center sm:mb-12">
+              <h2 className="mb-3 text-2xl font-bold text-gray-900 sm:mb-4 sm:text-3xl md:text-4xl dark:text-white">
+                Syarat Pendaftaran
+              </h2>
+              <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">
+                Dokumen yang diperlukan untuk mendaftar ekstrakurikuler
+              </p>
             </div>
 
-            <Card>
+            <Card className="dark:bg-gray-700 dark:border-gray-600">
               <CardContent className="pt-6">
                 <ul className="space-y-4">
                   {requirements.map((requirement, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                        <span className="text-sm font-semibold text-primary">{index + 1}</span>
+                      <div className="w-6 h-6 rounded-full bg-[#33b962]/10 dark:bg-[#33b962]/20 flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="text-sm font-semibold text-[#33b962]">{index + 1}</span>
                       </div>
-                      <p className="text-foreground">{requirement}</p>
+                      <p className="text-sm text-gray-900 sm:text-base dark:text-white">{requirement}</p>
                     </li>
                   ))}
                 </ul>
 
-                <div className="p-4 mt-8 rounded-lg bg-muted">
-                  <p className="mb-4 text-sm text-muted-foreground">
+                <div className="p-4 mt-8 bg-gray-100 rounded-lg dark:bg-gray-600">
+                  <p className="mb-4 text-xs text-gray-600 sm:text-sm dark:text-gray-300">
                     <strong>Catatan:</strong> Pendaftaran dapat dilakukan di kantor tata usaha atau melalui wali kelas.
                     Kegiatan dimulai setelah pembayaran lunas.
                   </p>
-                  <Button size="lg" className="w-full md:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto bg-[#33b962] hover:bg-[#2a9d52] dark:bg-[#2a7a4a] dark:hover:bg-[#33b962]">
                     Daftar Sekarang
                   </Button>
                 </div>
@@ -304,43 +292,192 @@ export default function EkstrakurikulerPage() {
             </Card>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      {/* Detail Modal */}
+      <Dialog open={!!selectedActivity} onOpenChange={() => setSelectedActivity(null)}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto dark:bg-gray-800">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
+              {selectedActivity?.name}
+            </DialogTitle>
+            <DialogDescription>
+              <Badge className="mt-2 bg-[#33b962] text-white border-0">
+                {selectedActivity?.kategori && (categoryMap[selectedActivity.kategori.toLowerCase()] || selectedActivity.kategori)}
+              </Badge>
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedActivity && (
+            <div className="space-y-6">
+              {/* Image Gallery */}
+              {selectedActivity.fotoArray && selectedActivity.fotoArray.length > 0 && (
+                <div className="space-y-3">
+                  {/* Main Image */}
+                  <div className="relative h-64 overflow-hidden rounded-lg sm:h-80">
+                    <Image
+                      src={selectedActivity.fotoArray[0]}
+                      alt={selectedActivity.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+
+                  {/* Thumbnail Gallery - Only show if more than 1 image */}
+                  {selectedActivity.fotoArray.length > 1 && (
+                    <div className="grid grid-cols-4 gap-2">
+                      {selectedActivity.fotoArray.slice(1, 5).map((foto, index) => (
+                        <div key={index} className="relative h-20 overflow-hidden rounded-lg">
+                          <Image
+                            src={foto}
+                            alt={`${selectedActivity.name} ${index + 2}`}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      ))}
+                      {selectedActivity.fotoArray.length > 5 && (
+                        <div className="relative flex items-center justify-center h-20 overflow-hidden rounded-lg bg-gray-900/50">
+                          <span className="font-semibold text-white">
+                            +{selectedActivity.fotoArray.length - 5}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Description */}
+              <div>
+                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Deskripsi</h3>
+                <p className="text-sm leading-relaxed text-gray-600 sm:text-base dark:text-gray-400">
+                  {selectedActivity.desc}
+                </p>
+              </div>
+
+              {/* Details */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {selectedActivity.kelas && (
+                  <div className="flex items-start gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-700">
+                    <Users className="w-5 h-5 text-[#33b962] shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Kelas</p>
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedActivity.kelas}</p>
+                    </div>
+                  </div>
+                )}
+
+                {selectedActivity.jam && (
+                  <div className="flex items-start gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-700">
+                    <Clock className="w-5 h-5 text-[#33b962] shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Jadwal</p>
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedActivity.jam}</p>
+                    </div>
+                  </div>
+                )}
+
+                {selectedActivity.guru && (
+                  <div className="flex items-start gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 sm:col-span-2">
+                    <UserCircle className="w-5 h-5 text-[#33b962] shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Pembimbing</p>
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedActivity.guru}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Action Button */}
+              <div className="flex gap-3">
+                <Button 
+                  className="flex-1 bg-[#33b962] hover:bg-[#2a9d52] dark:bg-[#2a7a4a] dark:hover:bg-[#33b962]"
+                >
+                  Daftar Sekarang
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setSelectedActivity(null)}
+                  className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-700"
+                >
+                  Tutup
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
 
-function ActivityCard({ activity }: { activity: (typeof extracurricular)[0] }) {
+function ActivityCard({ 
+  activity, 
+  onClick 
+}: { 
+  activity: EkstrakurikulerWithPhotos
+  onClick: () => void 
+}) {
   return (
-    <Card className="overflow-hidden transition-all hover:shadow-lg group">
-      <div className="relative h-48 overflow-hidden">
-        <Image
-          src={activity.image || "/placeholder.svg"}
-          alt={activity.name}
-          fill
-          className="object-cover transition-transform duration-300 group-hover:scale-110"
-        />
+    <Card className="overflow-hidden transition-all cursor-pointer hover:shadow-lg group dark:bg-gray-700 dark:border-gray-600" onClick={onClick}>
+      <div className="relative h-48 overflow-hidden bg-gray-100 dark:bg-gray-600">
+        {activity.fotoFirst ? (
+          <Image
+            src={activity.fotoFirst}
+            alt={activity.name}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-110"
+          />
+        ) : (
+          <div className="flex items-center justify-center w-full h-full">
+            <BookOpen className="w-12 h-12 text-gray-400" />
+          </div>
+        )}
         <div className="absolute top-4 right-4">
-          <Badge className="border-white bg-white/90 text-primary">{activity.ageGroup}</Badge>
+          <Badge className="border-white bg-white/90 text-[#33b962]">
+            {categoryMap[activity.kategori.toLowerCase()] || activity.kategori}
+          </Badge>
         </div>
+        {/* Photo count badge if multiple photos */}
+        {activity.fotoArray.length > 1 && (
+          <div className="absolute bottom-4 right-4">
+            <Badge className="text-xs text-white border-white bg-black/60">
+              {activity.fotoArray.length} foto
+            </Badge>
+          </div>
+        )}
       </div>
       <CardHeader>
-        <CardTitle className="text-xl">{activity.name}</CardTitle>
-        <CardDescription>{activity.description}</CardDescription>
+        <CardTitle className="text-lg text-gray-900 sm:text-xl dark:text-white line-clamp-1">
+          {activity.name}
+        </CardTitle>
+        <CardDescription className="text-xs text-gray-600 sm:text-sm dark:text-gray-400 line-clamp-2">
+          {activity.desc}
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
-        <div className="flex items-center gap-2 text-sm">
-          <Calendar className="w-4 h-4 text-muted-foreground" />
-          <span>{activity.day}</span>
-        </div>
-        <div className="flex items-center gap-2 text-sm">
-          <Clock className="w-4 h-4 text-muted-foreground" />
-          <span>{activity.time}</span>
-        </div>
-        <div className="flex items-center gap-2 text-sm">
-          <UserCircle className="w-4 h-4 text-muted-foreground" />
-          <span>{activity.instructor}</span>
-        </div>
-        <Button className="w-full mt-4">Daftar</Button>
+        {activity.jam && (
+          <div className="flex items-center gap-2 text-xs text-gray-600 sm:text-sm dark:text-gray-400">
+            <Clock className="w-4 h-4 shrink-0" />
+            <span className="truncate">{activity.jam}</span>
+          </div>
+        )}
+        {activity.kelas && (
+          <div className="flex items-center gap-2 text-xs text-gray-600 sm:text-sm dark:text-gray-400">
+            <Users className="w-4 h-4 shrink-0" />
+            <span className="truncate">{activity.kelas}</span>
+          </div>
+        )}
+        {activity.guru && (
+          <div className="flex items-center gap-2 text-xs text-gray-600 sm:text-sm dark:text-gray-400">
+            <UserCircle className="w-4 h-4 shrink-0" />
+            <span className="truncate">{activity.guru}</span>
+          </div>
+        )}
+        <Button className="w-full mt-4 bg-[#33b962] hover:bg-[#2a9d52] dark:bg-[#2a7a4a] dark:hover:bg-[#33b962] text-sm">
+          Lihat Detail
+        </Button>
       </CardContent>
     </Card>
   )

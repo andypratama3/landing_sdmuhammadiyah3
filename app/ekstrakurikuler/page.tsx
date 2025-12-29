@@ -88,7 +88,7 @@ export default function EkstrakurikulerPage() {
         ? item.foto.split(',').map(f => {
             const trimmed = f.trim()
             // Check if already has http/https, if not prepend storage URL
-            return trimmed.startsWith('http') ? trimmed : `${storageUrl}/${trimmed}`
+            return trimmed.startsWith('http') ? trimmed : `${storageUrl}/img/ekstrakurikuler/${trimmed}`
           })
         : []
       

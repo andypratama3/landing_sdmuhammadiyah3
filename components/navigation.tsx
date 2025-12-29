@@ -122,7 +122,7 @@ export default function Navigation() {
               size="sm"
               className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-6 shadow-md"
             >
-              <Link href="/spmb">Daftar</Link>
+              <Link href="#">Daftar</Link>
             </Button>
           </div>
 

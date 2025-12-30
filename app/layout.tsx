@@ -6,7 +6,7 @@ import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import BackToTop from "@/components/back-to-top"
-import ApiInitializer from "@/components/api-initializer" 
+import ApiInitializer, { ApiInitializerStatus } from "@/components/api-initializer"
 import { ThemeProvider } from "@/components/theme-provider"
 import VisitorTracker from '@/components/visitor-tracker';
 
@@ -76,6 +76,7 @@ export default function RootLayout({
       <body className={`${poppins.className} font-sans antialiased`}>
         {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange> */}
           <ApiInitializer />
+          <ApiInitializerStatus /> 
           <VisitorTracker />
           
           <Navigation />

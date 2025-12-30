@@ -3,7 +3,7 @@ import { CacheManager } from './cache';
 import type { ApiResponse, RequestOptions } from '@/types';
 
 export class ApiClient {
-  private static baseURL = process.env.NEXT_PUBLIC_API_URL;
+  private static baseURL = process.env.NEXT_PUBLIC_API_URL || 'https://dashboard.sdmuhammadiyah3smd.com/api/v2';
 
   private static isRefreshing = false;
   private static refreshSubscribers: Array<(token: string) => void> = [];
@@ -28,30 +28,35 @@ export class ApiClient {
       console.error('Failed to initialize API client:', error);
     }
   }
-  
+
   /**
    * Generate token baru dari backend
    */
   private static async generateNewToken(): Promise<void> {
-    const response = await fetch('/api/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      signal: AbortSignal.timeout(10000),
-    });
+    try {
+      const response = await fetch(`${this.baseURL}/auth/token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': process.env.NEXT_PUBLIC_APP_TOKEN!,
+        },
+        signal: AbortSignal.timeout(10000),
+      });
 
-    if (!response.ok) {
-      throw new Error(`Token generation failed: ${response.status}`);
-    }
+      if (!response.ok) {
+        throw new Error(`Token generation failed: ${response.status}`);
+      }
 
-    const result: ApiResponse<any> = await response.json();
-
-    if (result.success && result.data) {
-      JWTManager.saveTokens(result.data);
+      const result: ApiResponse<any> = await response.json();
+      
+      if (result.success && result.data) {
+        JWTManager.saveTokens(result.data);
+      }
+    } catch (error) {
+      console.error('Failed to generate token:', error);
+      throw error;
     }
   }
-
 
   /**
    * Refresh access token

@@ -36,6 +36,7 @@ export default function ApiInitializer() {
       }
 
       try {
+        // ✅ Panggil initialize untuk generate / refresh token
         await ApiClient.initialize();
         initializedRef.current = true;
 

@@ -13,16 +13,11 @@ export async function POST(req: NextRequest) {
     const timestamp = Math.floor(Date.now() / 1000).toString()
     const nonce = crypto.randomUUID()
 
-    // ⚠️ HARUS SAMA DENGAN LARAVEL
+    // 🔐 HARUS IDENTIK DENGAN LARAVEL
     const stringToSign = `${timestamp}.${nonce}.${userIp}`
 
-    const secret = process.env.API_SECRET_KEY
-    if (!secret) {
-      throw new Error('API secret key not configured')
-    }
-
     const signature = crypto
-      .createHmac('sha256', secret)
+      .createHmac('sha256', process.env.API_SECRET_KEY as string)
       .update(stringToSign)
       .digest('hex')
 
@@ -31,29 +26,20 @@ export async function POST(req: NextRequest) {
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-
-          // 🔐 SECURITY HEADERS
           'X-TIMESTAMP': timestamp,
           'X-NONCE': nonce,
           'X-SIGNATURE': signature,
-          'X-CLIENT-IP': userIp, 
+          'X-CLIENT-IP': userIp, // 🔴 WAJIB SAMA
         },
       }
     )
 
     const data = await response.json()
-
-    return NextResponse.json(data, {
-      status: response.status,
-    })
+    return NextResponse.json(data, { status: response.status })
 
   } catch (err: any) {
     return NextResponse.json(
-      {
-        success: false,
-        message: err.message,
-      },
+      { success: false, message: err.message },
       { status: 500 }
     )
   }

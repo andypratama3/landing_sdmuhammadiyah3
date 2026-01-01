@@ -230,7 +230,7 @@ export default function Home() {
                 size="lg"
                 className="bg-[#ffd166] hover:bg-[#ffca3a] text-gray-900 rounded-full px-10 py-6 text-lg shadow-2xl hover:scale-105 transition-all font-bold"
               >
-                <Link href="/spmb">Daftar Sekarang</Link>
+                <Link href="#">Daftar Sekarang</Link>
               </Button>
               <Button
                 asChild
@@ -659,7 +659,7 @@ export default function Home() {
               size="lg"
               className="bg-white text-[#33b962] hover:bg-gray-100 rounded-full px-10 py-6 text-lg shadow-2xl hover:scale-105 transition-all font-bold"
             >
-              <Link href="/spmb">Pendaftaran Online</Link>
+              <Link href="#">Pendaftaran Online</Link>
             </Button>
             <Button
               asChild

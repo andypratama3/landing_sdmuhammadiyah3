@@ -14,7 +14,7 @@ interface VisitorData {
 
 export default function Footer() {
   const { data, loading, error, refetch } = useApi<VisitorData>('/views', {
-    cache: false,
+    cache: true,
     immediate: true,
   });
 

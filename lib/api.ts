@@ -1,331 +1,432 @@
-import { JWTManager } from './jwt';
-import { CacheManager } from './cache';
-import type { ApiResponse, RequestOptions } from '@/types';
+import { CacheManager } from './cache'
+import { JWTManager } from './jwt'
+import type { ApiResponse, RequestOptions } from '@/types'
 
 export class ApiClient {
-  private static baseURL = process.env.NEXT_PUBLIC_API_URL;
-
-  private static isRefreshing = false;
-  private static refreshSubscribers: Array<(token: string) => void> = [];
-  private static maxRetries = 2;
-  private static retryDelay = 1000;
+  private static baseURL = process.env.NEXT_PUBLIC_API_URL
+  private static maxRetries = 2
+  private static retryDelay = 1000
+  private static tokenInitialized = false
+  private static tokenInitializationPromise: Promise<void> | null = null
+  
+  private static readonly TOKEN_CACHE_KEY = 'auth_token'
+  private static readonly DEBUG = process.env.NODE_ENV === 'development' && false // Change to true for debugging
 
   /**
-   * Initialize token - panggil saat app pertama kali load
+   * Silent console.log (only show if DEBUG enabled)
    */
-  static async initialize(): Promise<void> {
+  private static log(...args: any[]): void {
+    if (this.DEBUG) {
+      console.log('[API]', ...args)
+    }
+  }
+
+  /**
+   * Silent console.warn (only show if DEBUG enabled)
+   */
+  private static warn(...args: any[]): void {
+    if (this.DEBUG) {
+      console.warn('[API-WARN]', ...args)
+    }
+  }
+
+  /**
+   * Silent console.error (only show if DEBUG enabled)
+   */
+  private static error(...args: any[]): void {
+    if (this.DEBUG) {
+      console.error('[API-ERROR]', ...args)
+    }
+  }
+
+  /**
+   * 🔐 Initialize token on first request
+   */
+  private static async ensureTokenInitialized(): Promise<void> {
+    if (this.tokenInitialized) {
+      return
+    }
+
+    if (this.tokenInitializationPromise) {
+      return this.tokenInitializationPromise
+    }
+
+    this.tokenInitializationPromise = this.generateNewToken().then(
+      () => {
+        this.tokenInitialized = true
+      },
+      (err) => {
+        this.error('Token generation failed:', err)
+        
+        // 🔥 Fallback: Try to use cached token
+        const cachedToken = this.getCachedToken()
+        if (cachedToken) {
+          this.warn('Using cached token (backend offline)')
+          this.tokenInitialized = true
+          return
+        }
+        
+        this.tokenInitialized = false
+        throw err
+      }
+    )
+
+    return this.tokenInitializationPromise
+  }
+
+  /**
+   * Get cached token dari localStorage
+   */
+  private static getCachedToken(): string | null {
     try {
-      const token = JWTManager.getAccessToken();
-      
-      if (!token || JWTManager.isRefreshTokenExpired()) {
-        await this.generateNewToken();
-      } else if (JWTManager.isAccessTokenExpired()) {
-        await this.refreshToken();
+      const cached = CacheManager.get<{
+        access_token: string
+        refresh_token: string
+        timestamp: number
+      }>(this.TOKEN_CACHE_KEY)
+
+      if (!cached) return null
+
+      // Check jika token masih valid (cache TTL)
+      const age = Date.now() - cached.timestamp
+      const maxAge = 7 * 24 * 60 * 60 * 1000 // 7 hari
+
+      if (age > maxAge) {
+        this.warn('Cached token expired (older than 7 days)')
+        return null
       }
 
-      this.setupAutoRefresh();
+      this.log('Using cached token')
+      return cached.access_token
     } catch (error) {
-      console.error('Failed to initialize API client:', error);
+      this.warn('Failed to get cached token:', error)
+      return null
     }
   }
-  
+
   /**
-   * Generate token baru dari backend
+   * Generate / refresh token via HttpOnly cookie
    */
   private static async generateNewToken(): Promise<void> {
-    const response = await fetch('/api/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      signal: AbortSignal.timeout(10000),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Token generation failed: ${response.status}`);
-    }
-
-    const result: ApiResponse<any> = await response.json();
-
-    if (result.success && result.data) {
-      JWTManager.saveTokens(result.data);
-    }
-  }
-
-
-  /**
-   * Refresh access token
-   */
-  private static async refreshToken(): Promise<string | null> {
-    const refreshToken = JWTManager.getRefreshToken();
-    
-    if (!refreshToken || JWTManager.isRefreshTokenExpired()) {
-      await this.generateNewToken();
-      return JWTManager.getAccessToken();
-    }
-
     try {
-      const response = await fetch(`${this.baseURL}/auth/refresh`, {
+      this.log('Generating token...')
+
+      const response = await fetch('/api/token', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ refresh_token: refreshToken }),
-        signal: AbortSignal.timeout(10000),
-      });
+        signal: AbortSignal.timeout(15000), // Wait for cooldown message
+      })
+
+      // Handle cooldown (503 with RETRY_COOLDOWN)
+      if (response.status === 503) {
+        const data = await response.json()
+        if (data.error === 'RETRY_COOLDOWN') {
+          this.warn(`Token generation in cooldown: ${data.message}`)
+          throw new Error('COOLDOWN')
+        }
+      }
 
       if (!response.ok) {
-        throw new Error(`Token refresh failed: ${response.status}`);
+        throw new Error(`Token generation failed: ${response.status}`)
       }
 
-      const result: ApiResponse<any> = await response.json();
+      const data = await response.json()
       
-      if (result.success && result.data) {
-        const currentRefresh = JWTManager.getRefreshToken();
-        JWTManager.saveTokens({
-          ...result.data,
-          refresh_token: currentRefresh!,
-        });
-        
-        return result.data.access_token;
+      if (!data.success || !data.data?.access_token) {
+        throw new Error('Invalid token response')
       }
-      
-      await this.generateNewToken();
-      return JWTManager.getAccessToken();
+
+      // 💾 Cache token untuk fallback
+      try {
+        CacheManager.set(
+          this.TOKEN_CACHE_KEY,
+          {
+            access_token: data.data.access_token,
+            refresh_token: data.data.refresh_token,
+            timestamp: Date.now(),
+          },
+          7 * 24 * 60 * 60 * 1000 // 7 hari
+        )
+        this.log('Token cached for offline use')
+      } catch (cacheError) {
+        this.warn('Failed to cache token:', cacheError)
+      }
+
+      this.log('Token generated successfully')
+
     } catch (error) {
-      console.error('Failed to refresh token:', error);
-      await this.generateNewToken();
-      return JWTManager.getAccessToken();
+      // Silently handle cooldown errors
+      if (error instanceof Error && error.message === 'COOLDOWN') {
+        this.log('Token generation in cooldown, using cached token')
+        return // Allow app to continue with cached token
+      }
+
+      this.error('Token generation error:', error)
+      throw error
     }
   }
 
   /**
-   * Setup auto refresh token setiap 6 hari
+   * Generate cache key dari endpoint dan options
    */
-  private static setupAutoRefresh(): void {
-    const checkInterval = 60 * 60 * 1000; // 1 jam
-    
-    setInterval(async () => {
-      if (JWTManager.needsTokenRefresh()) {
-        const refreshToken = JWTManager.getRefreshToken();
-        if (refreshToken) {
-          try {
-            await this.generateNewToken();
-          } catch (error) {
-            console.error('Auto refresh failed:', error);
-          }
-        }
-      }
-    }, checkInterval);
+  private static generateCacheKey(
+    endpoint: string,
+    fetchOptions: any
+  ): string {
+    const method = fetchOptions.method || 'GET'
+    if (method === 'GET') {
+      return `api_${endpoint}`
+    }
+    return `api_${endpoint}_${method}`
   }
 
   /**
-   * Request dengan auto retry, cache, dan proper error handling
+   * Request core (COOKIE ONLY)
    */
   static async request<T>(
     endpoint: string,
     options: RequestOptions = {}
   ): Promise<ApiResponse<T>> {
-    const { 
-      cache = true, 
-      cacheTTL, 
+    const {
+      cache = true,
+      cacheTTL = 5 * 60 * 1000, // Default 5 menit
       useCache = true,
       signal,
-      ...fetchOptions 
-    } = options;
-    
-    const cacheKey = `${endpoint}_${JSON.stringify(fetchOptions)}`;
+      ...fetchOptions
+    } = options
 
-    // Cek cache jika GET request dan cache enabled
-    if (useCache && (!fetchOptions.method || fetchOptions.method === 'GET')) {
-      const cached = CacheManager.get<ApiResponse<T>>(cacheKey);
-      if (cached) {
-        return cached;
-      }
-    }
-
-    // Pastikan token valid
+    // 🔥 Ensure token is initialized (silent fail-over)
     try {
-      if (JWTManager.isAccessTokenExpired()) {
-        await this.refreshToken();
-      }
+      await this.ensureTokenInitialized()
     } catch (error) {
-      console.warn('Token refresh failed, continuing with current token:', error);
+      this.error('Failed to initialize token:', error)
+      // Don't block - try to proceed with cached data
     }
 
-    const token = JWTManager.getAccessToken();
-    const headers = {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }),
-      ...fetchOptions.headers,
-    };
+    // Check if token expired, refresh if needed (silent)
+    if (JWTManager.isAccessTokenExpired()) {
+      this.log('Token expired, refreshing...')
+      try {
+        await this.generateNewToken()
+      } catch (error) {
+        this.warn('Token refresh failed, continuing with cache fallback')
+      }
+    }
 
-    // Retry logic
-    let lastError: any = null;
-    
+    const cacheKey = this.generateCacheKey(endpoint, fetchOptions)
+    const isGetRequest = !fetchOptions.method || fetchOptions.method === 'GET'
+
+    // 📦 Check cache untuk GET requests
+    if (useCache && isGetRequest) {
+      const cached = CacheManager.get<ApiResponse<T>>(cacheKey)
+      if (cached) {
+        this.log(`Cache hit: ${endpoint}`)
+        return cached
+      }
+    }
+
+    let lastError: any = null
+
     for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
       try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 30000)
+        const combinedSignal = signal || controller.signal
 
-        // Combine user signal with timeout signal
-        const combinedSignal = signal || controller.signal;
+        this.log(`Request attempt ${attempt + 1}: ${endpoint}`)
 
         const response = await fetch(`${this.baseURL}${endpoint}`, {
           ...fetchOptions,
-          headers,
+          credentials: 'include', // 🔐 COOKIE
+          headers: {
+            'Content-Type': 'application/json',
+            ...fetchOptions.headers,
+          },
           signal: combinedSignal,
-        });
+        })
 
-        clearTimeout(timeoutId);
+        clearTimeout(timeoutId)
 
-        // Handle 401 - token expired
+        // 🔥 AUTH EXPIRED → REFRESH TOKEN ONCE
         if (response.status === 401 && attempt === 0) {
+          this.log('Token expired (401), refreshing...')
           try {
-            const newToken = await this.refreshToken();
-            if (newToken) {
-              const retryResponse = await fetch(`${this.baseURL}${endpoint}`, {
-                ...fetchOptions,
-                headers: {
-                  ...headers,
-                  Authorization: `Bearer ${newToken}`,
-                },
-                signal: combinedSignal,
-              });
-              
-              const result: ApiResponse<T> = await retryResponse.json();
-              
-              if (result.success && cache && (!fetchOptions.method || fetchOptions.method === 'GET')) {
-                CacheManager.set(cacheKey, result, cacheTTL);
-              }
-              
-              return result;
-            }
-          } catch (refreshError) {
-            console.error('Token refresh failed:', refreshError);
+            await this.generateNewToken()
+          } catch (error) {
+            this.warn('Token refresh failed')
           }
+
+          const retryResponse = await fetch(`${this.baseURL}${endpoint}`, {
+            ...fetchOptions,
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+              ...fetchOptions.headers,
+            },
+            signal: combinedSignal,
+          })
+
+          const retryResult: ApiResponse<T> = await retryResponse.json()
+
+          // Save to cache
+          if (retryResult.success && cache && isGetRequest) {
+            try {
+              CacheManager.set(cacheKey, retryResult, cacheTTL)
+              this.log(`Cached: ${endpoint}`)
+            } catch (error) {
+              this.warn('Failed to cache response:', error)
+            }
+          }
+
+          return retryResult
         }
 
         // Parse response
-        const contentType = response.headers.get('content-type');
-        let result: ApiResponse<T>;
+        const contentType = response.headers.get('content-type')
+        let result: ApiResponse<T>
 
         if (contentType?.includes('application/json')) {
-          result = await response.json();
+          result = await response.json()
         } else {
-          // Handle non-JSON responses
-          const text = await response.text();
+          const text = await response.text()
           result = {
             success: response.ok,
-            message: response.ok ? 'Success' : text || response.statusText,
+            message: response.ok ? 'Success' : text,
             data: (response.ok ? text : null) as any,
-          };
+          }
         }
 
-        // Cache successful GET requests
-        if (result.success && cache && (!fetchOptions.method || fetchOptions.method === 'GET')) {
-          CacheManager.set(cacheKey, result, cacheTTL);
+        this.log(`Response: ${endpoint} (${response.status})`)
+
+        // Save to cache untuk GET requests
+        if (result.success && cache && isGetRequest) {
+          try {
+            CacheManager.set(cacheKey, result, cacheTTL)
+            this.log(`Cached: ${endpoint}`)
+          } catch (error) {
+            this.warn('Failed to cache response:', error)
+          }
         }
 
-        return result;
+        return result
 
       } catch (error: any) {
-        lastError = error;
+        lastError = error
 
-        // Don't retry on abort
         if (error.name === 'AbortError') {
           return {
             success: false,
-            message: 'Request was cancelled',
+            message: 'Request cancelled',
             errors: error,
-          };
+          }
         }
 
-        // Don't retry on last attempt
-        if (attempt === this.maxRetries) {
-          break;
-        }
+        this.log(`Request error (attempt ${attempt + 1}): ${error.message}`)
 
-        // Wait before retry with exponential backoff
-        await new Promise(resolve => 
+        if (attempt === this.maxRetries) break
+
+        await new Promise(resolve =>
           setTimeout(resolve, this.retryDelay * Math.pow(2, attempt))
-        );
+        )
       }
     }
 
-    // All retries failed - try cache as fallback
-    if (useCache) {
-      const cached = CacheManager.get<ApiResponse<T>>(cacheKey);
-      if (cached) {
-        console.warn(`All attempts failed for ${endpoint}, using stale cache`);
-        return {
-          ...cached,
-          _fromCache: true,
-          _stale: true,
-        } as any;
+    // 📦 FALLBACK: Jika semua request gagal, ambil dari cache (stale)
+    if (useCache && isGetRequest) {
+      try {
+        const staleCache = CacheManager.get<ApiResponse<T>>(cacheKey)
+        if (staleCache) {
+          this.log(`Using stale cache: ${endpoint}`)
+          return {
+            ...staleCache,
+            _fromCache: true,
+            _stale: true,
+          } as any
+        }
+      } catch (error) {
+        this.warn('Failed to get stale cache:', error)
       }
     }
 
-    // No cache available, return error
-    const errorMessage = lastError?.message || 'Network error';
+    this.error(`All requests failed for: ${endpoint}`)
+
     return {
       success: false,
-      message: errorMessage.includes('fetch') 
-        ? 'Server tidak dapat dijangkau. Periksa koneksi internet Anda.'
-        : errorMessage,
+      message: 'Network error - no cached data available',
       errors: lastError,
-    };
+    }
   }
 
-  /**
-   * GET request
-   */
-  static get<T>(endpoint: string, options?: RequestOptions): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { ...options, method: 'GET' });
+  static get<T>(endpoint: string, options?: RequestOptions) {
+    return this.request<T>(endpoint, { ...options, method: 'GET' })
   }
 
-  /**
-   * POST request
-   */
-  static post<T>(endpoint: string, data?: any, options?: RequestOptions): Promise<ApiResponse<T>> {
+  static post<T>(endpoint: string, data?: any, options?: RequestOptions) {
     return this.request<T>(endpoint, {
       ...options,
       method: 'POST',
       body: JSON.stringify(data),
-    });
+    })
   }
 
-  /**
-   * PUT request
-   */
-  static put<T>(endpoint: string, data?: any, options?: RequestOptions): Promise<ApiResponse<T>> {
+  static put<T>(endpoint: string, data?: any, options?: RequestOptions) {
     return this.request<T>(endpoint, {
       ...options,
       method: 'PUT',
       body: JSON.stringify(data),
-    });
+    })
   }
 
-  /**
-   * DELETE request
-   */
-  static delete<T>(endpoint: string, options?: RequestOptions): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { ...options, method: 'DELETE' });
+  static delete<T>(endpoint: string, options?: RequestOptions) {
+    return this.request<T>(endpoint, { ...options, method: 'DELETE' })
   }
 
   /**
    * Clear all cache
    */
   static clearCache(): void {
-    CacheManager.clear();
+    CacheManager.clear()
+    this.log('Cache cleared')
   }
 
   /**
-   * Clear specific cache by key pattern
+   * Get cache statistics
    */
-  static clearCacheByPattern(pattern: string): void {
-    // Implementation depends on your cache manager
-    // This is a placeholder
-    console.log('Clearing cache for pattern:', pattern);
+  static getCacheStats() {
+    return CacheManager.getStats()
+  }
+
+  /**
+   * Initialize API client
+   */
+  static async initialize(): Promise<void> {
+    try {
+      await this.ensureTokenInitialized()
+    } catch (error) {
+      this.warn('Token initialization failed, will use cache fallback')
+    }
+  }
+
+  /**
+   * Logout
+   */
+  static logout(): void {
+    JWTManager.clearTokens()
+    this.clearCache()
+    this.tokenInitialized = false
+    this.tokenInitializationPromise = null
+    this.log('Logged out')
+  }
+
+  /**
+   * Enable/disable debug mode
+   */
+  static setDebugMode(enabled: boolean): void {
+    const privateApiClient = this as any
+    privateApiClient.DEBUG = enabled
+    console.log(`Debug mode: ${enabled ? 'ON' : 'OFF'}`)
   }
 }

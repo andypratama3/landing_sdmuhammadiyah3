@@ -1,125 +1,112 @@
-interface TokenData {
-  access_token: string;
-  refresh_token: string;
-  token_type: string;
-  expires_in: number;
-  refresh_expires_in?: number;
-}
-
-interface TokenInfo {
-  accessToken: string;
-  refreshToken: string;
-  expiresAt: number;
-  refreshExpiresAt: number;
-}
-
-const TOKEN_KEY = 'app_token';
-const REFRESH_KEY = 'app_refresh_token';
-const EXPIRES_KEY = 'app_token_expires';
-const REFRESH_EXPIRES_KEY = 'app_refresh_expires';
-
 export class JWTManager {
-  /**
-   * Simpan token ke localStorage
-   */
-  static saveTokens(tokenData: TokenData): void {
-    const now = Date.now();
-    const expiresAt = now + tokenData.expires_in * 1000;
-    const refreshExpiresAt = now + (tokenData.refresh_expires_in || 7 * 24 * 60 * 60) * 1000;
+  private static ACCESS_TOKEN_KEY = 'access_token'
+  private static REFRESH_TOKEN_KEY = 'refresh_token'
 
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(TOKEN_KEY, tokenData.access_token);
-      localStorage.setItem(REFRESH_KEY, tokenData.refresh_token);
-      localStorage.setItem(EXPIRES_KEY, expiresAt.toString());
-      localStorage.setItem(REFRESH_EXPIRES_KEY, refreshExpiresAt.toString());
+  /**
+   * Parse JWT payload tanpa verifikasi
+   * ⚠️ Hanya untuk client-side, verification dilakukan di server
+   */
+  static decodeToken(token: string): any {
+    try {
+      const parts = token.split('.')
+      if (parts.length !== 3) return null
+
+      const payload = parts[1]
+      const decoded = JSON.parse(
+        Buffer.from(payload, 'base64').toString('utf-8')
+      )
+
+      return decoded
+    } catch (error) {
+      console.error('❌ Failed to decode token:', error)
+      return null
     }
   }
 
   /**
-   * Ambil access token
+   * Get access token dari cookie
    */
   static getAccessToken(): string | null {
-    if (typeof window === 'undefined') return null;
-    return localStorage.getItem(TOKEN_KEY);
+    if (typeof window === 'undefined') return null
+
+    const cookie = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('access_token='))
+      ?.split('=')[1]
+
+    return cookie || null
   }
 
   /**
-   * Ambil refresh token
+   * Get refresh token dari cookie
    */
   static getRefreshToken(): string | null {
-    if (typeof window === 'undefined') return null;
-    return localStorage.getItem(REFRESH_KEY);
+    if (typeof window === 'undefined') return null
+
+    const cookie = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('refresh_token='))
+      ?.split('=')[1]
+
+    return cookie || null
   }
 
   /**
-   * Cek apakah access token expired
+   * Check apakah access token sudah expired
    */
   static isAccessTokenExpired(): boolean {
-    if (typeof window === 'undefined') return true;
-    
-    const expiresAt = localStorage.getItem(EXPIRES_KEY);
-    if (!expiresAt) return true;
+    const token = this.getAccessToken()
+    if (!token) return true
 
-    // Token dianggap expired 5 menit sebelum waktu sebenarnya
-    const buffer = 5 * 60 * 1000;
-    return Date.now() >= parseInt(expiresAt) - buffer;
+    const payload = this.decodeToken(token)
+    if (!payload || !payload.exp) return true
+
+    // exp adalah unix timestamp dalam seconds
+    const expirationTime = payload.exp * 1000
+    const currentTime = Date.now()
+
+    // Token expired jika 5 menit mendatang (buffer)
+    const buffer = 5 * 60 * 1000
+
+    return currentTime + buffer > expirationTime
   }
 
   /**
-   * Cek apakah refresh token expired
+   * Get waktu sisa token (dalam seconds)
    */
-  static isRefreshTokenExpired(): boolean {
-    if (typeof window === 'undefined') return true;
-    
-    const expiresAt = localStorage.getItem(REFRESH_EXPIRES_KEY);
-    if (!expiresAt) return true;
+  static getTokenRemainingTime(): number {
+    const token = this.getAccessToken()
+    if (!token) return 0
 
-    return Date.now() >= parseInt(expiresAt);
+    const payload = this.decodeToken(token)
+    if (!payload || !payload.exp) return 0
+
+    const expirationTime = payload.exp * 1000
+    const currentTime = Date.now()
+    const remaining = Math.max(0, expirationTime - currentTime)
+
+    return Math.floor(remaining / 1000)
   }
 
   /**
-   * Hapus semua token
+   * Clear semua token
    */
   static clearTokens(): void {
-    if (typeof window === 'undefined') return;
-    
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(REFRESH_KEY);
-    localStorage.removeItem(EXPIRES_KEY);
-    localStorage.removeItem(REFRESH_EXPIRES_KEY);
+    if (typeof document === 'undefined') return
+
+    // Clear dari cookie dengan max-age=0
+    document.cookie = 'access_token=; max-age=0; path=/'
+    document.cookie = 'refresh_token=; max-age=0; path=/'
   }
 
   /**
-   * Get token info
+   * Get user payload dari token
    */
-  static getTokenInfo(): TokenInfo | null {
-    const accessToken = this.getAccessToken();
-    const refreshToken = this.getRefreshToken();
-    
-    if (!accessToken || !refreshToken) return null;
+  static getUserPayload(): any {
+    const token = this.getAccessToken()
+    if (!token) return null
 
-    const expiresAt = localStorage.getItem(EXPIRES_KEY);
-    const refreshExpiresAt = localStorage.getItem(REFRESH_EXPIRES_KEY);
-
-    return {
-      accessToken,
-      refreshToken,
-      expiresAt: expiresAt ? parseInt(expiresAt) : 0,
-      refreshExpiresAt: refreshExpiresAt ? parseInt(refreshExpiresAt) : 0,
-    };
-  }
-
-  /**
-   * Cek apakah perlu refresh token (dipanggil otomatis setiap 6 hari)
-   */
-  static needsTokenRefresh(): boolean {
-    if (typeof window === 'undefined') return false;
-    
-    const refreshExpiresAt = localStorage.getItem(REFRESH_EXPIRES_KEY);
-    if (!refreshExpiresAt) return false;
-
-    // Refresh 1 hari sebelum expired (6 hari setelah dibuat)
-    const oneDayInMs = 24 * 60 * 60 * 1000;
-    return Date.now() >= parseInt(refreshExpiresAt) - oneDayInMs;
+    return this.decodeToken(token)
   }
 }
+

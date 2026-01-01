@@ -29,6 +29,21 @@ interface UseApiResult<T> {
   response: ApiResponse<T> | null;
 }
 
+async function ensureAuthenticated(): Promise<void> {
+  const res = await fetch('/api/token', {
+    method: 'POST',
+    credentials: 'include', 
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error('Authentication failed');
+  }
+}
+
+
 /**
  * Hook untuk fetch data dengan auto retry, cache, dan error handling
  * Menerima full response termasuk meta dan links
@@ -44,30 +59,26 @@ export function useApi<T>(
     retryCount = 2,
     retryDelay = 1000
   } = options;
-  
+
   const [data, setData] = useState<T | null>(null);
   const [meta, setMeta] = useState<Pagination | null>(null);
-  const [links, setLinks] = useState<{
-    first: string;
-    last: string;
-    prev: string | null;
-    next: string | null;
-  } | null>(null);
+  const [links, setLinks] = useState<any>(null);
   const [response, setResponse] = useState<ApiResponse<T> | null>(null);
   const [loading, setLoading] = useState<boolean>(immediate);
   const [error, setError] = useState<string | null>(null);
   const [isStale, setIsStale] = useState<boolean>(false);
-  
+
   const abortControllerRef = useRef<AbortController | null>(null);
   const mountedRef = useRef<boolean>(true);
+  const authTriedRef = useRef<boolean>(false); // 🔐 prevent infinite loop
 
   const fetchData = useCallback(async () => {
-    // Cancel previous request if exists
+    authTriedRef.current = false;
+
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
 
-    // Create new abort controller
     abortControllerRef.current = new AbortController();
 
     setLoading(true);
@@ -76,16 +87,14 @@ export function useApi<T>(
 
     let lastError: string | null = null;
 
-    // Retry logic
     for (let attempt = 0; attempt <= retryCount; attempt++) {
       try {
-        const apiResponse = await ApiClient.get<T>(endpoint, { 
-          cache, 
+        const apiResponse = await ApiClient.get<T>(endpoint, {
+          cache,
           cacheTTL,
-          signal: abortControllerRef.current.signal 
+          signal: abortControllerRef.current.signal,
         });
 
-        // Only update state if component is still mounted
         if (!mountedRef.current) return;
 
         if (apiResponse.success && apiResponse.data) {
@@ -93,38 +102,47 @@ export function useApi<T>(
           setMeta(apiResponse.meta || null);
           setLinks(apiResponse.links || null);
           setResponse(apiResponse);
-          setError(null);
-          setIsStale(false);
           setLoading(false);
           return;
-        } else {
-          lastError = apiResponse.message || 'Failed to fetch data';
-          
-          // If this is the last attempt, set error
-          if (attempt === retryCount) {
-            setError(lastError);
-            setIsStale(true);
-          }
         }
+
+        // 🔐 AUTH HANDLING (TOKEN MISSING / EXPIRED)
+        if (
+          !authTriedRef.current &&
+          (
+            apiResponse.message === 'Token not provided' ||
+            apiResponse.message === 'Unauthenticated' ||
+            apiResponse.message === 'Unauthorized'
+          )
+        ) {
+          authTriedRef.current = true;
+
+          await ensureAuthenticated();
+          continue; // 🔁 retry original request
+        }
+
+        lastError = apiResponse.message || 'Failed to fetch data';
+
+        if (attempt === retryCount) {
+          setError(lastError);
+          setIsStale(true);
+        }
+
       } catch (err) {
-        // Ignore abort errors
         if (err instanceof Error && err.name === 'AbortError') {
           return;
         }
 
         lastError = err instanceof Error ? err.message : 'Unknown error';
-        
-        // If this is the last attempt
+
         if (attempt === retryCount) {
           if (!mountedRef.current) return;
-          
           setError(lastError);
           setIsStale(true);
-          
-          console.warn(`Failed to fetch ${endpoint} after ${retryCount + 1} attempts:`, lastError);
         } else {
-          // Wait before retry
-          await new Promise(resolve => setTimeout(resolve, retryDelay * (attempt + 1)));
+          await new Promise(res =>
+            setTimeout(res, retryDelay * (attempt + 1))
+          );
         }
       }
     }
@@ -141,12 +159,9 @@ export function useApi<T>(
       fetchData();
     }
 
-    // Cleanup
     return () => {
       mountedRef.current = false;
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
+      abortControllerRef.current?.abort();
     };
   }, [fetchData, immediate]);
 
@@ -166,6 +181,7 @@ export function useApi<T>(
     isStale,
   };
 }
+
 
 /**
  * Return type untuk useMutation hook

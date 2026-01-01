@@ -9,6 +9,7 @@ import BackToTop from "@/components/back-to-top"
 import ApiInitializer, { ApiInitializerStatus } from "@/components/api-initializer"
 import { ThemeProvider } from "@/components/theme-provider"
 import VisitorTracker from '@/components/visitor-tracker';
+import CookieConsent from "@/components/cookie"
 
 
 const quicksand = Quicksand({ subsets: ["latin"], variable: "--font-sans" })
@@ -84,6 +85,8 @@ export default function RootLayout({
           <Footer />
           <WhatsAppButton />
           <BackToTop />
+
+          <CookieConsent/>
           {/* <Analytics /> */}
         {/* </ThemeProvider> */}
       </body>

@@ -19,14 +19,14 @@ import { Button } from "@/components/ui/button"
 export default function ProfilPage() {
   const schoolInfo = [
     { label: "Nama Sekolah", value: "SD Muhammadiyah 3 Samarinda" },
-    { label: "NPSN", value: "30400890" },
+    { label: "NPSN", value: "30404112" },
     { label: "Akreditasi", value: "UNGGUL (A)" },
     { label: "Alamat", value: "Jl. Dato Iba RT. 04/IV, Sungai Keledang, Kec. Samarinda Seberang " },
     { label: "Kota", value: "Samarinda" },
     { label: "Provinsi", value: "Kalimantan Timur" },
     { label: "Kode Pos", value: "75242" },
     { label: "Telepon", value: "(0541) 123-4567" },
-    { label: "Email", value: "sdmuhammadiyah3smd.com" },
+    { label: "Email", value: "sekolahkreatifmuh3@gmail.com" },
     { label: "Website", value: "www.sdmuhammadiyah3smd.com" },
   ]
 
@@ -173,15 +173,15 @@ export default function ProfilPage() {
                     <BookOpen className="w-8 h-8 text-[#33b962]" />
                   </div>
                   <h3 className="mb-2 text-lg font-bold">Bendahara Sekolah</h3>
-                  <p className="text-sm text-gray-600">Siti Nurhaliza, S.Pd</p>
+                  <p className="text-sm text-gray-600">PRANANDA PRIYANDAN MAHMUD, S.E.</p>
                 </Card>
 
                 <Card className="p-8 text-center rounded-3xl border-2 hover:border-[#33b962]/30 transition-all hover:shadow-lg">
                   <div className="w-16 h-16 bg-[#33b962]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <Users className="w-8 h-8 text-[#33b962]" />
                   </div>
-                  <h3 className="mb-2 text-lg font-bold">Wakil Kepala Kesiswaan</h3>
-                  <p className="text-sm text-gray-600">Budi Santoso, M.Pd</p>
+                  <h3 className="mb-2 text-lg font-bold">Wakil Kepala Bidang Kesiswaan</h3>
+                  <p className="text-sm text-gray-600">MISBAHUL JUM'AH, S.Pd.I</p>
                 </Card>
 
                 <Card className="p-8 text-center rounded-3xl border-2 hover:border-[#33b962]/30 transition-all hover:shadow-lg">
@@ -189,7 +189,7 @@ export default function ProfilPage() {
                     <Heart className="w-8 h-8 text-[#33b962]" />
                   </div>
                   <h3 className="mb-2 text-lg font-bold">Wakil Kepala Humas</h3>
-                  <p className="text-sm text-gray-600">Rina Kusuma, S.Pd</p>
+                  <p className="text-sm text-gray-600">SYEKH BUDI SYAM, M.Kom</p>
                 </Card>
               </div>
             </div>

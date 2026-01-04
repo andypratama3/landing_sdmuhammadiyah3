@@ -11,3 +11,4 @@ export * from './fotosekolah.types';
 export * from './guru.types';
 export * from './pembayaran.types';
 export * from './ekstrakurikuler.types';
+export * from './rapot.types';

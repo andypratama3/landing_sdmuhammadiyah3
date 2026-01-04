@@ -5,13 +5,13 @@
 
 // ===== KATEGORI =====
 export interface Kategori {
-  id: string;
+  id?: string;
   name: string;
 }
 
 // ===== PRESTASI SISWA =====
 export interface PrestasiSiswa {
-  id: string;
+  id?: string;
   slug: string;
   name: string;
   description: string | null;
@@ -32,7 +32,7 @@ export interface PrestasiSiswaDetail extends PrestasiSiswa {
 
 // ===== PRESTASI SEKOLAH =====
 export interface PrestasiSekolah {
-  id: string
+  id?: string
   slug: string
   name: string
   description: string | null

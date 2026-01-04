@@ -2,7 +2,7 @@
  * Berita entity from database
  */
 export interface Berita {
-  id: string;
+  id?: string;
   judul: string;
   desc: string;
   foto: string;

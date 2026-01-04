@@ -2,7 +2,7 @@
  * Karyawan/Staff Info
  */
 export interface Karyawan {
-  id: string;
+  id?: string;
   name: string;
   email?: string;
   foto?: string;

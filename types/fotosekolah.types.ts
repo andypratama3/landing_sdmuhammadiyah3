@@ -1,5 +1,5 @@
 export interface Fotosekolah {
-    id: number;
+    id?: number;
     name: string;
     foto: string;
 }

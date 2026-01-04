@@ -1,4 +1,4 @@
 export interface KategoriPembayaran {
-    id: string;
+    id?: string;
     name: string;
 }

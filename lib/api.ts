@@ -2,41 +2,115 @@ import { CacheManager } from './cache'
 import { JWTManager } from './jwt'
 import type { ApiResponse, RequestOptions } from '@/types'
 
+/**
+ * Token generation cooldown manager
+ * Prevents hammering backend dengan retry spam
+ */
+class TokenRetryCache {
+  private static lastAttempt: number = 0
+  private static minRetryInterval: number = 5 * 60 * 1000 // 5 menit
+  private static isBackendDown: boolean = false
+
+  static shouldAttempt(): boolean {
+    const now = Date.now()
+    const timeSinceLastAttempt = now - this.lastAttempt
+
+    if (this.isBackendDown && timeSinceLastAttempt < this.minRetryInterval) {
+      return false
+    }
+
+    this.lastAttempt = now
+    return true
+  }
+
+  static markBackendDown(): void {
+    this.isBackendDown = true
+    this.lastAttempt = Date.now()
+  }
+
+  static markBackendUp(): void {
+    this.isBackendDown = false
+  }
+
+  static getTimeUntilNextRetry(): number {
+    if (!this.isBackendDown) return 0
+    const elapsed = Date.now() - this.lastAttempt
+    return Math.max(0, this.minRetryInterval - elapsed)
+  }
+}
+
 export class ApiClient {
   private static baseURL = process.env.NEXT_PUBLIC_API_URL
+  private static apiSecret = process.env.NEXT_PUBLIC_API_SECRET // Client-side secret
   private static maxRetries = 2
   private static retryDelay = 1000
   private static tokenInitialized = false
   private static tokenInitializationPromise: Promise<void> | null = null
   
   private static readonly TOKEN_CACHE_KEY = 'auth_token'
-  private static readonly DEBUG = process.env.NODE_ENV === 'development' && false // Change to true for debugging
+  private static readonly DEBUG = process.env.NODE_ENV === 'development' && false
 
-  /**
-   * Silent console.log (only show if DEBUG enabled)
-   */
   private static log(...args: any[]): void {
     if (this.DEBUG) {
       console.log('[API]', ...args)
     }
   }
 
-  /**
-   * Silent console.warn (only show if DEBUG enabled)
-   */
   private static warn(...args: any[]): void {
     if (this.DEBUG) {
       console.warn('[API-WARN]', ...args)
     }
   }
 
-  /**
-   * Silent console.error (only show if DEBUG enabled)
-   */
   private static error(...args: any[]): void {
     if (this.DEBUG) {
       console.error('[API-ERROR]', ...args)
     }
+  }
+
+  /**
+   * Generate HMAC-SHA256 signature
+   */
+  private static async generateSignature(
+    timestamp: string,
+    nonce: string
+  ): Promise<string> {
+    const stringToSign = `${timestamp}.${nonce}`
+
+    // Convert secret dari hex ke Uint8Array
+    const secretBytes = new Uint8Array(
+      (this.apiSecret || '').match(/.{1,2}/g)?.map(byte => parseInt(byte, 16)) || []
+    )
+
+    // Create HMAC-SHA256
+    const encoder = new TextEncoder()
+    const data = encoder.encode(stringToSign)
+
+    const cryptoKey = await crypto.subtle.importKey(
+      'raw',
+      secretBytes,
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign']
+    )
+
+    const signature = await crypto.subtle.sign('HMAC', cryptoKey, data)
+
+    // Convert to hex
+    return Array.from(new Uint8Array(signature))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('')
+  }
+
+  /**
+   * Generate UUID v4
+   */
+  private static generateUUID(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      const r = (Math.random() * 16) | 0
+      const v = c === 'x' ? r : (r & 0x3) | 0x8
+      return v.toString(16)
+    })
   }
 
   /**
@@ -57,7 +131,7 @@ export class ApiClient {
       },
       (err) => {
         this.error('Token generation failed:', err)
-        
+
         // 🔥 Fallback: Try to use cached token
         const cachedToken = this.getCachedToken()
         if (cachedToken) {
@@ -65,7 +139,7 @@ export class ApiClient {
           this.tokenInitialized = true
           return
         }
-        
+
         this.tokenInitialized = false
         throw err
       }
@@ -87,9 +161,9 @@ export class ApiClient {
 
       if (!cached) return null
 
-      // Check jika token masih valid (cache TTL)
+      // Check jika token masih valid (7 hari)
       const age = Date.now() - cached.timestamp
-      const maxAge = 7 * 24 * 60 * 60 * 1000 // 7 hari
+      const maxAge = 7 * 24 * 60 * 60 * 1000
 
       if (age > maxAge) {
         this.warn('Cached token expired (older than 7 days)')
@@ -105,39 +179,60 @@ export class ApiClient {
   }
 
   /**
-   * Generate / refresh token via HttpOnly cookie
+   * Generate / refresh token directly dari backend
+   * NO ROUTE.TS NEEDED - Direct client signature
    */
   private static async generateNewToken(): Promise<void> {
     try {
-      this.log('Generating token...')
-
-      const response = await fetch('/api/token', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        signal: AbortSignal.timeout(15000), // Wait for cooldown message
-      })
-
-      // Handle cooldown (503 with RETRY_COOLDOWN)
-      if (response.status === 503) {
-        const data = await response.json()
-        if (data.error === 'RETRY_COOLDOWN') {
-          this.warn(`Token generation in cooldown: ${data.message}`)
-          throw new Error('COOLDOWN')
-        }
+      // Check cooldown
+      if (!TokenRetryCache.shouldAttempt()) {
+        const timeUntilRetry = TokenRetryCache.getTimeUntilNextRetry()
+        this.warn(`Token generation in cooldown, retry in ${Math.ceil(timeUntilRetry / 1000 / 60)} minutes`)
+        throw new Error('COOLDOWN')
       }
 
+      this.log('Generating token...')
+
+      // Generate signature client-side
+      const timestamp = Math.floor(Date.now() / 1000).toString()
+      const nonce = this.generateUUID()
+
+      if (!this.apiSecret) {
+        throw new Error('API_SECRET not configured')
+      }
+
+      const signature = await this.generateSignature(timestamp, nonce)
+
+      this.log('Signature generated, calling backend...')
+
+      // Call backend directly
+      const response = await fetch(`${this.baseURL}/auth/token`, {
+        method: 'POST',
+        credentials: 'include', // 🔐 Send cookies
+        headers: {
+          'Content-Type': 'application/json',
+          'X-TIMESTAMP': timestamp,
+          'X-NONCE': nonce,
+          'X-SIGNATURE': signature,
+          'User-Agent': 'WebClient/1.0',
+        },
+        signal: AbortSignal.timeout(10000),
+      })
+
       if (!response.ok) {
+        TokenRetryCache.markBackendDown()
         throw new Error(`Token generation failed: ${response.status}`)
       }
 
       const data = await response.json()
-      
+
       if (!data.success || !data.data?.access_token) {
+        TokenRetryCache.markBackendDown()
         throw new Error('Invalid token response')
       }
+
+      // Mark backend as up
+      TokenRetryCache.markBackendUp()
 
       // 💾 Cache token untuk fallback
       try {
@@ -161,7 +256,7 @@ export class ApiClient {
       // Silently handle cooldown errors
       if (error instanceof Error && error.message === 'COOLDOWN') {
         this.log('Token generation in cooldown, using cached token')
-        return // Allow app to continue with cached token
+        return
       }
 
       this.error('Token generation error:', error)
@@ -172,10 +267,7 @@ export class ApiClient {
   /**
    * Generate cache key dari endpoint dan options
    */
-  private static generateCacheKey(
-    endpoint: string,
-    fetchOptions: any
-  ): string {
+  private static generateCacheKey(endpoint: string, fetchOptions: any): string {
     const method = fetchOptions.method || 'GET'
     if (method === 'GET') {
       return `api_${endpoint}`
@@ -192,21 +284,20 @@ export class ApiClient {
   ): Promise<ApiResponse<T>> {
     const {
       cache = true,
-      cacheTTL = 5 * 60 * 1000, // Default 5 menit
+      cacheTTL = 5 * 60 * 1000,
       useCache = true,
       signal,
       ...fetchOptions
     } = options
 
-    // 🔥 Ensure token is initialized (silent fail-over)
+    // 🔥 Ensure token is initialized
     try {
       await this.ensureTokenInitialized()
     } catch (error) {
       this.error('Failed to initialize token:', error)
-      // Don't block - try to proceed with cached data
     }
 
-    // Check if token expired, refresh if needed (silent)
+    // Check if token expired
     if (JWTManager.isAccessTokenExpired()) {
       this.log('Token expired, refreshing...')
       try {
@@ -240,7 +331,7 @@ export class ApiClient {
 
         const response = await fetch(`${this.baseURL}${endpoint}`, {
           ...fetchOptions,
-          credentials: 'include', // 🔐 COOKIE
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
             ...fetchOptions.headers,
@@ -250,7 +341,7 @@ export class ApiClient {
 
         clearTimeout(timeoutId)
 
-        // 🔥 AUTH EXPIRED → REFRESH TOKEN ONCE
+        // 🔥 AUTH EXPIRED → REFRESH TOKEN
         if (response.status === 401 && attempt === 0) {
           this.log('Token expired (401), refreshing...')
           try {
@@ -271,7 +362,6 @@ export class ApiClient {
 
           const retryResult: ApiResponse<T> = await retryResponse.json()
 
-          // Save to cache
           if (retryResult.success && cache && isGetRequest) {
             try {
               CacheManager.set(cacheKey, retryResult, cacheTTL)
@@ -334,7 +424,7 @@ export class ApiClient {
       }
     }
 
-    // 📦 FALLBACK: Jika semua request gagal, ambil dari cache (stale)
+    // 📦 FALLBACK: Stale cache
     if (useCache && isGetRequest) {
       try {
         const staleCache = CacheManager.get<ApiResponse<T>>(cacheKey)
@@ -384,24 +474,15 @@ export class ApiClient {
     return this.request<T>(endpoint, { ...options, method: 'DELETE' })
   }
 
-  /**
-   * Clear all cache
-   */
   static clearCache(): void {
     CacheManager.clear()
     this.log('Cache cleared')
   }
 
-  /**
-   * Get cache statistics
-   */
   static getCacheStats() {
     return CacheManager.getStats()
   }
 
-  /**
-   * Initialize API client
-   */
   static async initialize(): Promise<void> {
     try {
       await this.ensureTokenInitialized()
@@ -410,9 +491,6 @@ export class ApiClient {
     }
   }
 
-  /**
-   * Logout
-   */
   static logout(): void {
     JWTManager.clearTokens()
     this.clearCache()
@@ -421,9 +499,6 @@ export class ApiClient {
     this.log('Logged out')
   }
 
-  /**
-   * Enable/disable debug mode
-   */
   static setDebugMode(enabled: boolean): void {
     const privateApiClient = this as any
     privateApiClient.DEBUG = enabled

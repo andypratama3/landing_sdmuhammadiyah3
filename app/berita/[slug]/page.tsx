@@ -162,7 +162,7 @@ export default function BeritaDetailPage() {
         </Head>
         <div className="min-h-screen bg-background">
           {/* Header */}
-          <section className="relative py-12 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80">
+          <section className="relative py-12 text-white bg-linear-to-br from-primary via-primary/90 to-primary/80">
             <div className="container px-4 mx-auto">
               <Skeleton className="w-40 h-10 bg-white/20" />
             </div>
@@ -210,7 +210,7 @@ export default function BeritaDetailPage() {
           <title>Berita Tidak Ditemukan</title>
         </Head>
         <div className="min-h-screen bg-background">
-          <section className="relative py-12 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80">
+          <section className="relative py-12 text-white bg-linear-to-br from-primary via-primary/90 to-primary/80">
             <div className="container px-4 mx-auto">
               <Link href="/berita">
                 <Button variant="ghost" className="text-white hover:bg-white/20">

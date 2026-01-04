@@ -124,7 +124,7 @@ export default function TentangPage() {
             </ul>
           </Card>
         </div>
-      </section>
+      </section>  
 
       {/* Timeline */}
       <section className="py-20 bg-linear-to-br from-gray-50 to-white">

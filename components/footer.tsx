@@ -106,6 +106,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/rapot" className="hover:text-[#33b962] transition">
+                  Rapot Siswa
+                </Link>
+              </li>
+              <li>
                 <Link href="/kontak" className="hover:text-[#33b962] transition">
                   Kontak
                 </Link>

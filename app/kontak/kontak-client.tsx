@@ -54,22 +54,19 @@ const contactInfo = [
 
 const departments = [
   {
-    name: "Bagian Akademik",
-    pic: "Ibu Diana Putri, S.Pd",
-    phone: "0812-3456-7891",
-    email: "akademik@sdmuh3smd.sch.id",
+    name: "Kepala TU",
+    pic: "Rusmini S.Pd",
+    phone: "85250443151",
   },
   {
     name: "Bagian Keuangan",
-    pic: "Bapak Ahmad Fauzi, S.E",
-    phone: "0812-3456-7892",
-    email: "keuangan@sdmuh3smd.sch.id",
+    pic: "Admin Keuangan",
+    phone: "0822-2524-9993",
   },
   {
-    name: "PPDB (Penerimaan Siswa Baru)",
-    pic: "Ibu Sarah Amelia, S.Pd",
-    phone: "0812-3456-7893",
-    email: "ppdb@sdmuh3smd.sch.id",
+    name: "Operator Sekolah",
+    pic: "Fadhilaturrahman, S.Pd",
+    phone: "0853-9390-2907",
   },
 ]
 
@@ -326,19 +323,21 @@ export default function KontakClient() {
                     <CardTitle className="text-xl">{dept.name}</CardTitle>
                     <CardDescription>PIC: {dept.pic}</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="flex items-center gap-2 text-sm">
-                      <Phone className="w-4 h-4 shrink-0 text-muted-foreground" />
-                      <a href={`tel:+62${dept.phone.substring(1)}`} className="transition-colors hover:text-primary">
-                        {dept.phone}
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Mail className="w-4 h-4 shrink-0 text-muted-foreground" />
-                      <a href={`mailto:${dept.email}`} className="break-all transition-colors hover:text-primary">
-                        {dept.email}
-                      </a>
-                    </div>
+                 <CardContent className="space-y-3">
+                    <a
+                      href={`https://wa.me/+62${dept.phone.replace(/^0/, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full"
+                    >
+                      <Button
+                        size="lg"
+                        className="flex items-center justify-center gap-2 w-full px-4 py-5 text-base font-semibold text-white rounded-full bg-gradient-to-r from-[#33b962] to-[#28a745] hover:opacity-90 transition-all hover:scale-105"
+                      >
+                        <Phone className="w-5 h-5 text-white shrink-0" />
+                        <span>{dept.phone} (WA)</span>
+                      </Button>
+                    </a>
                   </CardContent>
                 </Card>
               ))}

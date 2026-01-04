@@ -45,6 +45,8 @@ export default function Navigation() {
     { href: "/jadwal", label: "Jadwal" },
     { href: "/pembayaran", label: "Pembayaran" },
     { href: "/berita", label: "Berita" },
+    { href: "/rapot", label: "Rapot Siswa" },
+
     // { href: "/spmb", label: "SPMB" },
     { href: "/kontak", label: "Kontak" },
   ]

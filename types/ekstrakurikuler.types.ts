@@ -1,5 +1,5 @@
 export interface Ekstrakurikuler {
-  id: number
+  id?: number
   slug: string
   name: string
   desc: string

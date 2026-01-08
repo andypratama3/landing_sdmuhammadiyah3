@@ -44,8 +44,8 @@ export default function TenagaPendidikanPage() {
     return apiStaff.map(item => ({
       name: item.name,
       position: item.jabatan,
-      image: item.foto ? `${storageUrl}/img/tenaga-kependidikan/${item.foto}` : "/placeholder.svg",
-      category: "administrasi", 
+      image: item.foto ? `${storageUrl}/img/tenagapendidikan/${item.foto}` : "/placeholder.svg",
+      category: item.jabatan, 
       slug: item.slug,
     }))
   }, [apiStaff])
@@ -63,7 +63,7 @@ export default function TenagaPendidikanPage() {
   ]
 
   const filteredStaff = staff.filter((person) => {
-    const matchesFilter = activeFilter === "all" || person.category === activeFilter
+    const matchesFilter = activeFilter === "all" || person.position === activeFilter
     const matchesSearch = person.name.toLowerCase().includes(searchQuery.toLowerCase())
     return matchesFilter && matchesSearch
   })
@@ -184,7 +184,7 @@ export default function TenagaPendidikanPage() {
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute top-4 right-4">
-                      <Badge className="bg-white/90 text-[#33b962] border-0 capitalize">{person.category}</Badge>
+                      <Badge className="bg-white/90 text-[#33b962] border-0 capitalize">{person.position}</Badge>
                     </div>
                   </div>
                   {/* <div className="p-6">

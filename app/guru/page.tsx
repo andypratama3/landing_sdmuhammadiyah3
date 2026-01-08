@@ -357,7 +357,7 @@ export default function GuruPage() {
             {/* Close Button */}
             <button
               onClick={() => setSelectedSlug(null)}
-              className="sticky z-10 float-right p-2 text-gray-400 transition-colors rounded-full top-4 right-4 hover:text-gray-600 hover:bg-gray-100"
+              className="sticky z-10 float-right p-2 text-emerald-500 transition-colors rounded-full top-4 right-4 hover:text-gray-600 hover:bg-gray-100 bg-white text-[#33b962]"
             >
               <X className="w-6 h-6" />
             </button>
@@ -375,9 +375,9 @@ export default function GuruPage() {
             ) : guruDetail ? (
               <div className="p-8">
                 {/* Photo */}
-                <div className="mb-6 overflow-hidden rounded-2xl">
+                <div className="mb-6 overflow-hidden rounded-2xl ">
                   <img
-                    src={(`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${(guruDetail as any).foto}` || guruDetail as any).foto || "/placeholder.svg"}
+                    src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guruDetail.foto}` || guruDetail.foto || "/placeholder.svg"}
                     alt={(guruDetail as any).name}
                     className="object-cover w-full h-80"
                   />

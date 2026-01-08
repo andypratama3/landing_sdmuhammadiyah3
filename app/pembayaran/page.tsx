@@ -49,7 +49,7 @@ export default function PembayaranPage() {
   } = useApi<PembayaranResponse>(
     selectedNisn ? `/pembayaran/search?nisn=${selectedNisn}` : '',
     {
-      cache: true,
+      cache: false,
       cacheTTL: 300000,
       immediate: !!selectedNisn,
     }

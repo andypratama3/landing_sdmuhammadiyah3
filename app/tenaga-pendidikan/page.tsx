@@ -50,17 +50,18 @@ export default function TenagaPendidikanPage() {
     }))
   }, [apiStaff])
 
+
   // Use API data if available, otherwise use static data
   const staff = processedApiStaff.length > 0 ? processedApiStaff : []
 
-  const filters = [
-    { id: "all", label: "Semua" },
-    { id: "administrasi", label: "Administrasi" },
-    { id: "perpustakaan", label: "Perpustakaan" },
-    { id: "it", label: "IT" },
-    { id: "kesehatan", label: "Kesehatan" },
-    { id: "keamanan", label: "Keamanan" },
-  ]
+  // const filters = [
+  //   { id: "all", label: "Semua" },
+  //   { id: "administrasi", label: "Administrasi" },
+  //   { id: "perpustakaan", label: "Perpustakaan" },
+  //   { id: "it", label: "IT" },
+  //   { id: "kesehatan", label: "Kesehatan" },
+  //   { id: "keamanan", label: "Keamanan" },
+  // ]
 
   const filteredStaff = staff.filter((person) => {
     const matchesFilter = activeFilter === "all" || person.position === activeFilter
@@ -100,10 +101,10 @@ export default function TenagaPendidikanPage() {
                 />
               </div>
               <Badge className="bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">
-                Total: {filteredStaff.length} Tenaga Pendidikan
+                Total: {staff.length} Tenaga Pendidikan
               </Badge>
             </div>
-            <div className="flex flex-wrap gap-2">
+            {/* <div className="flex flex-wrap gap-2">
               {filters.map((filter) => (
                 <Button
                   key={filter.id}
@@ -118,7 +119,7 @@ export default function TenagaPendidikanPage() {
                   {filter.label}
                 </Button>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -174,23 +175,23 @@ export default function TenagaPendidikanPage() {
               {filteredStaff.map((person, index) => (
                 <Card
                   key={person.slug || index}
-                  className="overflow-hidden transition-all duration-300 border-0 shadow-lg rounded-3xl hover:shadow-2xl hover:-translate-y-2 group"
+                  className="py-0 overflow-hidden transition-all duration-300 border-0 shadow-lg rounded-3xl hover:-translate-y-2 group"
                 >
                   <div className="relative h-64 overflow-hidden bg-gradient-to-br from-[#33b962]/10 to-[#ffd166]/10">
                     <Image
                       src={person.image}
                       alt={person.name}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="object-contain transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute top-4 right-4">
                       <Badge className="bg-white/90 text-[#33b962] border-0 capitalize">{person.position}</Badge>
                     </div>
                   </div>
-                  {/* <div className="p-6">
+                  <div className="p-6">
                     <h3 className="mb-1 text-lg font-bold text-gray-900">{person.name}</h3>
                     <p className="text-[#33b962] text-sm font-medium mb-4">{person.position}</p>
-                    <div className="space-y-3 text-sm text-gray-600">
+                    {/* <div className="space-y-3 text-sm text-gray-600">
                       {person.education && person.education !== "-" && (
                         <div className="flex items-start gap-2">
                           <Briefcase className="w-4 h-4 text-[#33b962] flex-shrink-0 mt-0.5" />
@@ -225,8 +226,8 @@ export default function TenagaPendidikanPage() {
                           </a>
                         )}
                       </div>
-                    )}
-                  </div> */}
+                    )} */}
+                  </div>
                 </Card>
               ))}
             </div>

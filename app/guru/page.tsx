@@ -5,11 +5,12 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Breadcrumb from "@/components/breadcrumb"
-import { Mail, GraduationCap, Award, Search, BookOpen, Loader2, X, AlertCircle } from "lucide-react"
+import { Mail, GraduationCap, Award, Search, BookOpen, Loader2, X, AlertCircle, Phone } from "lucide-react"
 import { useState, useMemo, useEffect, useRef } from "react"
 import { useApi } from "@/hooks/useApi"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import type { Guru, Pelajaran, Karyawan } from "@/types"
 
 // Debounce hook
 function useDebounce<T>(value: T, delay: number): T {
@@ -55,7 +56,7 @@ export default function GuruPage() {
   )
 
   // Extract gurus data from API response
-  const gurus = useMemo(() => {
+  const gurus = useMemo<Guru[]>(() => {
     if (!gurusResponse) return []
     
     // Check if response has 'data' property (wrapped response)
@@ -76,7 +77,7 @@ export default function GuruPage() {
   )
 
   // Extract pelajarans data from API response
-  const pelajarans = useMemo(() => {
+  const pelajarans = useMemo<Pelajaran[]>(() => {
     if (!pelajaransResponse) return []
     
     const dataArray = (pelajaransResponse as any)?.data || pelajaransResponse
@@ -94,20 +95,27 @@ export default function GuruPage() {
   )
 
   // Extract guru detail from API response
-  const guruDetail = useMemo(() => {
+  const guruDetail = useMemo<Guru | null>(() => {
     if (!guruDetailResponse) return null
     
     // Check if response has 'data' property
     const data = (guruDetailResponse as any)?.data
+
+    console.log(data)
     
-    // If data exists and is not an empty array, return it
-    if (data && (!Array.isArray(data) || data.length > 0)) {
+    // If data is an array, get the first element
+    if (Array.isArray(data)) {
+      return data.length > 0 ? data[0] : null
+    }
+    
+    // If data exists and is an object, return it
+    if (data && typeof data === 'object' && Object.keys(data).length > 0) {
       return data
     }
     
     // Otherwise return the response itself if it has properties
     if (guruDetailResponse && typeof guruDetailResponse === 'object' && Object.keys(guruDetailResponse).length > 0) {
-      return guruDetailResponse
+      return guruDetailResponse as Guru
     }
     
     return null
@@ -283,10 +291,10 @@ export default function GuruPage() {
             </div>
           ) : gurus.length > 0 ? (
             <div className="grid gap-6 mx-auto md:grid-cols-2 lg:grid-cols-4 max-w-7xl">
-              {gurus.map((guru: any) => (
+              {gurus.map((guru: Guru) => (
                 <Card
                   key={guru.slug}
-                  className="overflow-hidden transition-all duration-300 border-0 shadow-lg cursor-pointer rounded-3xl hover:shadow-2xl hover:-translate-y-2 group"
+                  className="py-0 transition-all duration-300 border-0 shadow-lg cursor-pointer poverflow-hidden rounded-3xl hover:shadow-2xl hover:-translate-y-2 group"
                 >
                   <div className="relative h-64 overflow-hidden bg-gradient-to-br from-[#33b962]/10 to-[#ffd166]/10">
                     <img
@@ -304,17 +312,19 @@ export default function GuruPage() {
                   </div>
                   <div className="p-6">
                     <h3 className="mb-1 text-lg font-bold text-gray-900">{guru.name}</h3>
-                    <p className="text-[#33b962] text-sm font-medium mb-4">{guru.lulusan}</p>
+                    {guru.lulusan && <p className="text-[#33b962] text-sm font-medium mb-4">{guru.lulusan}</p>}
                     <div className="space-y-3 text-sm text-gray-600">
-                      <div className="flex items-start gap-2">
-                        <GraduationCap className="w-4 h-4 text-[#33b962] flex-shrink-0 mt-0.5" />
-                        <span className="line-clamp-2">{guru.description}</span>
-                      </div>
+                      {guru.description && (
+                        <div className="flex items-start gap-2">
+                          <GraduationCap className="w-4 h-4 text-[#33b962] flex-shrink-0 mt-0.5" />
+                          <span className="line-clamp-2">{guru.description}</span>
+                        </div>
+                      )}
                       {guru.pelajarans && guru.pelajarans.length > 0 && (
                         <div className="flex items-center gap-2">
                           <Award className="w-4 h-4 text-[#33b962] flex-shrink-0" />
                           <span className="text-xs line-clamp-1">
-                            {guru.pelajarans.map((p: any) => p.name).join(", ")}
+                            {guru.pelajarans.map((p: Pelajaran) => p.name).join(", ")}
                           </span>
                         </div>
                       )}
@@ -378,32 +388,37 @@ export default function GuruPage() {
                 <div className="mb-6 overflow-hidden rounded-2xl ">
                   <img
                     src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guruDetail.foto}` || guruDetail.foto || "/placeholder.svg"}
-                    alt={(guruDetail as any).name}
+                    alt={guruDetail.name}
                     className="object-cover w-full h-80"
                   />
                 </div>
 
                 {/* Info */}
                 <div className="mb-6">
-                  <h2 className="mb-2 text-4xl font-bold text-gray-900">{(guruDetail as any).name}</h2>
-                  <p className="text-[#33b962] text-lg font-medium">{(guruDetail as any).lulusan}</p>
+                  <h2 className="mb-2 text-4xl font-bold text-gray-900">{guruDetail.name}</h2>
+                  {guruDetail.lulusan && <p className="text-[#33b962] text-lg font-medium">{guruDetail.lulusan}</p>}
                 </div>
 
                 {/* Description */}
-                <div className="pb-6 mb-6 border-b">
-                  <h3 className="mb-3 text-lg font-semibold text-gray-900">Tentang</h3>
-                  <p className="leading-relaxed text-gray-600">{(guruDetail as any).description}</p>
-                </div>
+                {guruDetail.description && (
+                  <div className="pb-6 mb-6 border-b">
+                    <h3 className="mb-3 text-lg font-semibold text-gray-900">Tentang</h3>
+                    <p className="leading-relaxed text-gray-600">{guruDetail.description}</p>
+                  </div>
+                )}
 
                 {/* Subjects */}
-                {(guruDetail as any).pelajarans && (guruDetail as any).pelajarans.length > 0 && (
+                {guruDetail.pelajarans && Array.isArray(guruDetail.pelajarans) && guruDetail.pelajarans.length > 0 && (
                   <div className="pb-6 mb-6 border-b">
-                    <h3 className="mb-3 text-lg font-semibold text-gray-900">Mengajar Pelajaran</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {(guruDetail as any).pelajarans.map((p: any) => (
+                    <h3 className="flex items-center gap-2 mb-4 text-lg font-semibold text-gray-900">
+                      <BookOpen className="w-5 h-5 text-[#33b962]" />
+                      Mengajar {guruDetail.pelajarans.length} Pelajaran
+                    </h3>
+                    <div className="grid gap-0 md:grid-cols-3">
+                      {guruDetail.pelajarans.map((p: Pelajaran) => (
                         <Badge
-                          key={p.slug}
-                          className="bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2"
+                          key={p.id || p.slug}
+                          className="bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2 justify-center text-sm font-medium"
                         >
                           {p.name}
                         </Badge>
@@ -413,23 +428,29 @@ export default function GuruPage() {
                 )}
 
                 {/* Employee Info */}
-                {(guruDetail as any).karyawan && (
+                {guruDetail.karyawan && (
                   <div className="pb-6 border-b">
                     <h3 className="mb-3 text-lg font-semibold text-gray-900">Informasi Kontak</h3>
                     <div className="space-y-3">
-                      {(guruDetail as any).karyawan.email && (
+                      {guruDetail.karyawan.email && (
                         <a
-                          href={`mailto:${(guruDetail as any).karyawan.email}`}
+                          href={`mailto:${guruDetail.karyawan.email}`}
                           className="flex items-center gap-3 text-gray-600 hover:text-[#33b962] transition-colors"
                         >
                           <Mail className="flex-shrink-0 w-5 h-5" />
-                          <span>{(guruDetail as any).karyawan.email}</span>
+                          <span>{guruDetail.karyawan.email}</span>
                         </a>
                       )}
-                      {(guruDetail as any).karyawan.name && (
+                      {guruDetail.karyawan.name && (
                         <div className="flex items-center gap-3 text-gray-600">
                           <Award className="w-5 h-5 flex-shrink-0 text-[#33b962]" />
-                          <span>{(guruDetail as any).karyawan.name}</span>
+                          <span>{guruDetail.karyawan.name}</span>
+                        </div>
+                      )}
+                      {guruDetail.karyawan.phone && (
+                        <div className="flex items-center gap-3 text-gray-600">
+                          <Phone className="w-5 h-5 flex-shrink-0 text-[#33b962]" />
+                          <span>{guruDetail.karyawan.phone}</span>
                         </div>
                       )}
                     </div>

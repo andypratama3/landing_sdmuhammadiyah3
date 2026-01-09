@@ -11,6 +11,7 @@ import { useApi } from "@/hooks/useApi"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import type { Guru, Pelajaran, Karyawan } from "@/types"
+import Image from "next/image"
 
 // Debounce hook
 function useDebounce<T>(value: T, delay: number): T {
@@ -297,11 +298,19 @@ export default function GuruPage() {
                   className="py-0 transition-all duration-300 border-0 shadow-lg cursor-pointer poverflow-hidden rounded-3xl hover:shadow-2xl hover:-translate-y-2 group"
                 >
                   <div className="relative h-64 overflow-hidden bg-gradient-to-br from-[#33b962]/10 to-[#ffd166]/10">
-                    <img
-                      src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guru.foto}` || guru.foto || "/placeholder.svg"}
-                      alt={guru.name}
+                    <Image
+                      src={
+                        guru?.foto
+                          ? guru.foto.startsWith("http")
+                            ? guru.foto
+                            : `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guru.foto}`
+                          : "/placeholder.svg"
+                      }
+                      alt={guru?.name || "Guru"}
+                      fill
                       className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                     />
+
                     <div className="absolute top-4 right-4">
                       <Badge className="bg-white/90 text-[#33b962] border-0">
                         {guru.pelajarans && guru.pelajarans.length > 0 

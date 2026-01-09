@@ -7,15 +7,32 @@ import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import Breadcrumb from "@/components/breadcrumb"
-import { Mail, Phone, Briefcase, Search, Users, AlertCircle, RefreshCw } from "lucide-react"
-import { useState, useMemo } from "react"
+import { Mail, Phone, Briefcase, Search, Users, AlertCircle, RefreshCw, ChevronRight, Loader2, X } from "lucide-react"
+import { useState, useMemo, useEffect } from "react"
 import { useApi } from "@/hooks/useApi"
 import Image from "next/image"
 import { TenagaPendidikan } from "@/types/tenagaPendidikan.types"
 
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value)
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    return () => clearTimeout(handler)
+  }, [value, delay])
+
+  return debouncedValue
+}
+
 export default function TenagaPendidikanPage() {
+  const [searchInput, setSearchInput] = useState("")
   const [activeFilter, setActiveFilter] = useState("all")
-  const [searchQuery, setSearchQuery] = useState("")
+
+  const debouncedSearchQuery = useDebounce(searchInput, 500)
+  const isTyping = searchInput !== debouncedSearchQuery
 
   // Fetch tenaga pendidikan data from API
   const { 
@@ -47,189 +64,204 @@ export default function TenagaPendidikanPage() {
       image: item.foto ? `${storageUrl}/img/tenagapendidikan/${item.foto}` : "/placeholder.svg",
       category: item.jabatan, 
       slug: item.slug,
+      description: item.description || "",
     }))
   }, [apiStaff])
 
-
-  // Use API data if available, otherwise use static data
   const staff = processedApiStaff.length > 0 ? processedApiStaff : []
-
-  // const filters = [
-  //   { id: "all", label: "Semua" },
-  //   { id: "administrasi", label: "Administrasi" },
-  //   { id: "perpustakaan", label: "Perpustakaan" },
-  //   { id: "it", label: "IT" },
-  //   { id: "kesehatan", label: "Kesehatan" },
-  //   { id: "keamanan", label: "Keamanan" },
-  // ]
 
   const filteredStaff = staff.filter((person) => {
     const matchesFilter = activeFilter === "all" || person.position === activeFilter
-    const matchesSearch = person.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesSearch = person.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
     return matchesFilter && matchesSearch
   })
 
+  const isSearching = isTyping || loading
+
+  if (loading && staff.length === 0) {
+    return (
+      <div className="pt-24 pb-16">
+        <section className="bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#1a6d3b] py-24 text-white">
+          <div className="container px-4 mx-auto">
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="mb-4 text-6xl font-bold">Tenaga Pendidikan</h1>
+              <p className="text-xl text-white/80">Tim profesional yang luar biasa</p>
+            </div>
+          </div>
+        </section>
+        <section className="py-16 bg-gray-50">
+          <div className="container px-4 mx-auto max-w-7xl">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="space-y-4">
+                  <Skeleton className="w-full h-72 rounded-2xl" />
+                  <Skeleton className="w-3/4 h-6" />
+                  <Skeleton className="w-full h-4" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+    )
+  }
+
   return (
-    <div className="pt-24 pb-16">
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 text-white">
-        <div className="container px-4 mx-auto">
-          <Breadcrumb items={[{ label: "Tenaga Pendidikan" }]} />
-          <div className="max-w-4xl mx-auto mt-8 text-center">
-            <Badge className="px-4 py-2 mb-6 text-white bg-white/20 border-white/30">Tim Pendukung</Badge>
-            <h1 className="mb-6 text-5xl font-bold md:text-6xl text-balance">Tenaga Pendidikan</h1>
-            <p className="text-xl leading-relaxed text-white/90 text-balance">
-              Tim profesional yang mendukung operasional sekolah
-            </p>
+    <div className="pt-24 pb-16 bg-white">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#1a6d3b] py-24 text-white">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute bg-white rounded-full top-20 right-10 w-80 h-80 blur-3xl"></div>
+          <div className="absolute bg-white rounded-full -bottom-20 -left-20 w-96 h-96 blur-3xl"></div>
+        </div>
+        <div className="container relative z-10 px-4 mx-auto">
+          <div className="max-w-4xl mx-auto text-center">
+            <Badge className="px-4 py-2 mb-6 text-white bg-white/20 border-white/30 backdrop-blur-sm">
+              Tim Pendukung Profesional
+            </Badge>
+            <h1 className="mb-4 text-6xl font-bold">Tenaga Pendidikan</h1>
+            <p className="text-xl text-white/90">Dedikasi tinggi untuk mendukung operasional sekolah</p>
           </div>
         </div>
       </section>
 
       {/* Filter & Search */}
-      <section className="py-12 bg-white border-b">
-        <div className="container px-4 mx-auto">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col items-center justify-between gap-4 mb-6 md:flex-row">
+      <section className="py-12 bg-white border-b border-gray-100">
+        <div className="container px-4 mx-auto max-w-7xl">
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
               <div className="relative w-full md:w-96">
-                <Search className="absolute w-5 h-5 text-gray-400 -translate-y-1/2 left-3 top-1/2" />
+                <div className="absolute inset-y-0 flex items-center pointer-events-none left-3">
+                  {isTyping ? (
+                    <Loader2 className="w-5 h-5 text-[#33b962] animate-spin" />
+                  ) : (
+                    <Search className="w-5 h-5 text-gray-400" />
+                  )}
+                </div>
                 <Input
                   type="text"
                   placeholder="Cari nama staf..."
-                  className="pl-10 rounded-full"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 pr-4 border-2 border-gray-200 rounded-full focus:border-[#33b962] focus:ring-2 focus:ring-[#33b962]/20 transition-all"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
                 />
+                {searchInput && (
+                  <button
+                    onClick={() => setSearchInput("")}
+                    className="absolute p-1 transition-colors -translate-y-1/2 rounded-full right-2 top-1/2 hover:bg-gray-200"
+                  >
+                    <X className="w-5 h-5 text-gray-400" />
+                  </button>
+                )}
               </div>
-              <Badge className="bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">
-                Total: {staff.length} Tenaga Pendidikan
-              </Badge>
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#33b962]/10">
+                <span className="font-semibold text-[#33b962]">{staff.length}</span>
+                <span className="text-sm text-gray-600">Tenaga Pendidikan</span>
+              </div>
             </div>
-            {/* <div className="flex flex-wrap gap-2">
-              {filters.map((filter) => (
-                <Button
-                  key={filter.id}
-                  variant={activeFilter === filter.id ? "default" : "outline"}
-                  className={`rounded-full ${
-                    activeFilter === filter.id
-                      ? "bg-[#33b962] hover:bg-[#2a9d52] text-white"
-                      : "bg-transparent hover:bg-[#33b962]/5"
-                  }`}
-                  onClick={() => setActiveFilter(filter.id)}
-                >
-                  {filter.label}
-                </Button>
-              ))}
-            </div> */}
           </div>
         </div>
       </section>
 
+      {/* Error Alert */}
+      {error && staff.length === 0 && (
+        <div className="container px-4 mx-auto mt-8 max-w-7xl">
+          <Alert variant="destructive">
+            <AlertCircle className="w-4 h-4" />
+            <AlertDescription className="flex items-center justify-between">
+              <span>Terjadi kesalahan saat memuat data tenaga pendidikan.</span>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => refetch?.()}
+                className="ml-4"
+              >
+                Coba Lagi
+              </Button>
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
+
       {/* Staff Grid */}
-      <section className="py-16 bg-gray-50">
-        <div className="container px-4 mx-auto">
-          {loading ? (
-            // Loading State
-            <div className="grid max-w-6xl gap-6 mx-auto md:grid-cols-2 lg:grid-cols-3">
-              {[...Array(6)].map((_, i) => (
-                <Card key={i} className="overflow-hidden border-0 rounded-3xl">
-                  <Skeleton className="w-full h-64" />
-                  <div className="p-6 space-y-4">
-                    <Skeleton className="w-20 h-6" />
-                    <Skeleton className="w-full h-6" />
-                    <Skeleton className="w-2/3 h-4" />
-                    <Skeleton className="w-1/2 h-4" />
-                  </div>
-                </Card>
+      <section className="py-20 bg-gray-50/50">
+        <div className="container px-4 mx-auto max-w-7xl">
+          {isSearching ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {isTyping && (
+                <div className="flex items-center justify-center gap-2 py-8 col-span-full">
+                  <Loader2 className="w-5 h-5 animate-spin text-[#33b962]" />
+                  <span className="text-gray-500">Mencari Tenaga Pendidikan...</span>
+                </div>
+              )}
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="space-y-4">
+                  <Skeleton className="w-full h-72 rounded-2xl" />
+                  <Skeleton className="w-3/4 h-6" />
+                  <Skeleton className="w-full h-4" />
+                </div>
               ))}
             </div>
-          ) : error ? (
-            // Error State
-            <Alert variant="destructive" className="max-w-2xl mx-auto">
-              <AlertCircle className="w-4 h-4" />
-              <AlertDescription className="flex items-center justify-between">
-                <span>Terjadi kesalahan saat memuat data tenaga pendidikan.</span>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => refetch?.()}
-                  className="ml-4"
+          ) : filteredStaff.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {filteredStaff.map((person, index) => (
+                <div
+                  key={person.slug || index}
+                  className="h-full cursor-pointer group"
                 >
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  Coba Lagi
-                </Button>
-              </AlertDescription>
-            </Alert>
-          ) : filteredStaff.length === 0 ? (
-            // Empty State
+                  <div className="relative flex flex-col h-full overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-lg rounded-2xl hover:shadow-2xl hover:-translate-y-2">
+                    {/* Image Container with Overlay */}
+                    <div className="relative h-80 overflow-hidden bg-gradient-to-br from-[#33b962]/10 to-[#ffd166]/10">
+                      <Image
+                        src={person.image}
+                        alt={person.name}
+                        fill
+                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                      />
+                      
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent group-hover:opacity-100"></div>
+                      
+                      {/* Badge - Top Right */}
+                      <div className="absolute z-10 top-4 right-4">
+                        <Badge className="bg-white/95 backdrop-blur-md text-[#33b962] border-0 shadow-lg font-semibold px-3 py-1 text-xs capitalize">
+                          {person.position}
+                        </Badge>
+                      </div>
+
+                      {/* Hover Action Button */}
+                      <div className="absolute transition-opacity duration-300 opacity-0 bottom-4 right-4 group-hover:opacity-100">
+                        <div className="w-12 h-12 bg-[#33b962] rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                          <ChevronRight className="w-6 h-6 text-white" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Content Section */}
+                    <div className="flex flex-col flex-1 p-6">
+                      {/* Name & Position */}
+                      <div className="mb-3">
+                        <h3 className="mb-1 text-xl font-bold leading-tight text-gray-900">{person.name}</h3>
+                        <p className="text-[#33b962] text-sm font-semibold capitalize">{person.position}</p>
+                      </div>
+
+                      {/* Description */}
+                      {person.description && (
+                        <p className="flex-grow mb-4 text-sm leading-relaxed text-gray-600 line-clamp-2">{person.description}</p>
+                      )}                      
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
             <div className="py-20 text-center">
               <Users className="w-16 h-16 mx-auto mb-4 text-gray-300" />
               <p className="text-lg text-gray-500">
-                {searchQuery 
-                  ? `Tidak ditemukan staf dengan nama "${searchQuery}"`
+                {debouncedSearchQuery 
+                  ? `Tidak ditemukan staf dengan nama "${debouncedSearchQuery}"`
                   : 'Tidak ada staf yang ditemukan'}
               </p>
-            </div>
-          ) : (
-            // Data Loaded
-            <div className="grid max-w-6xl gap-6 mx-auto md:grid-cols-2 lg:grid-cols-3">
-              {filteredStaff.map((person, index) => (
-                <Card
-                  key={person.slug || index}
-                  className="py-0 overflow-hidden transition-all duration-300 border-0 shadow-lg rounded-3xl hover:-translate-y-2 group"
-                >
-                  <div className="relative h-64 overflow-hidden bg-gradient-to-br from-[#33b962]/10 to-[#ffd166]/10">
-                    <Image
-                      src={person.image}
-                      alt={person.name}
-                      fill
-                      className="object-contain transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute top-4 right-4">
-                      <Badge className="bg-white/90 text-[#33b962] border-0 capitalize">{person.position}</Badge>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="mb-1 text-lg font-bold text-gray-900">{person.name}</h3>
-                    <p className="text-[#33b962] text-sm font-medium mb-4">{person.position}</p>
-                    {/* <div className="space-y-3 text-sm text-gray-600">
-                      {person.education && person.education !== "-" && (
-                        <div className="flex items-start gap-2">
-                          <Briefcase className="w-4 h-4 text-[#33b962] flex-shrink-0 mt-0.5" />
-                          <span>{person.education}</span>
-                        </div>
-                      )}
-                      {person.experience && person.experience !== "-" && (
-                        <div className="flex items-center gap-2">
-                          <Users className="w-4 h-4 text-[#33b962] flex-shrink-0" />
-                          <span>{person.experience}</span>
-                        </div>
-                      )}
-                    </div>
-                    {(person.email !== "-" || person.phone !== "-") && (
-                      <div className="pt-4 mt-4 space-y-2 transition-opacity duration-300 border-t opacity-0 group-hover:opacity-100">
-                        {person.email && person.email !== "-" && (
-                          <a
-                            href={`mailto:${person.email}`}
-                            className="flex items-center gap-2 text-xs text-gray-600 hover:text-[#33b962] transition-colors"
-                          >
-                            <Mail className="w-3 h-3" />
-                            <span className="truncate">{person.email}</span>
-                          </a>
-                        )}
-                        {person.phone && person.phone !== "-" && (
-                          <a
-                            href={`tel:${person.phone}`}
-                            className="flex items-center gap-2 text-xs text-gray-600 hover:text-[#33b962] transition-colors"
-                          >
-                            <Phone className="w-3 h-3" />
-                            <span>{person.phone}</span>
-                          </a>
-                        )}
-                      </div>
-                    )} */}
-                  </div>
-                </Card>
-              ))}
             </div>
           )}
         </div>

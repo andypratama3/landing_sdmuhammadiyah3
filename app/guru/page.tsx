@@ -33,23 +33,27 @@ export default function GuruPage() {
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
-  // Add invisible scrollbar styles
   useEffect(() => {
-    const style = document.createElement('style')
+    const style = document.createElement("style")
     style.textContent = `
       .modal-scroll::-webkit-scrollbar {
         width: 0;
         height: 0;
       }
-      
+
       .modal-scroll {
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
     `
+
     document.head.appendChild(style)
-    return () => document.head.removeChild(style)
+
+    return () => {
+      document.head.removeChild(style)
+    }
   }, [])
+
 
 
 

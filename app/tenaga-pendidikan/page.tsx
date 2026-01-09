@@ -1,84 +1,96 @@
-"use client";
+"use client"
 
-import { Card } from "@/components/ui/card"
+import { useState, useMemo } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import Breadcrumb from "@/components/breadcrumb"
-import { Mail, Phone, Briefcase, Search, Users, AlertCircle, RefreshCw, ChevronRight, Loader2, X } from "lucide-react"
-import { useState, useMemo, useEffect } from "react"
+import { Search, Users, AlertCircle, Loader2, X, Network } from "lucide-react"
 import { useApi } from "@/hooks/useApi"
-import Image from "next/image"
-import { TenagaPendidikan } from "@/types/tenagaPendidikan.types"
-
-function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value)
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value)
-    }, delay)
-
-    return () => clearTimeout(handler)
-  }, [value, delay])
-
-  return debouncedValue
-}
+import { Staff, StrukturNode, TenagaPendidikanResponse,TenagaPendidikan } from "@/types/tenagaPendidikan.types"
+import { OrgTreeNode } from "@/components/tenaga-pendidikan/OrgTreeNode"
+import { GridStaffCard } from "@/components/tenaga-pendidikan/GridStaffCard"
+import { useDebounce } from "@/hooks/useDebounce"
 
 export default function TenagaPendidikanPage() {
   const [searchInput, setSearchInput] = useState("")
-  const [activeFilter, setActiveFilter] = useState("all")
+  const [viewMode, setViewMode] = useState<"hierarchy" | "grid">("hierarchy")
 
   const debouncedSearchQuery = useDebounce(searchInput, 500)
   const isTyping = searchInput !== debouncedSearchQuery
 
-  // Fetch tenaga pendidikan data from API
   const { 
     data: tenagaPendidikanResponse, 
     loading, 
     error,
     refetch 
-  } = useApi<TenagaPendidikan[]>('/tenaga-kependidikan', {
+  } = useApi<TenagaPendidikan>('/tenaga-kependidikan', {
     cache: true,
     cacheTTL: 300000,
     immediate: true,
   })
 
-  // Extract data from API response
-  const apiStaff = useMemo(() => {
+  // Extract hierarchical data from API response
+  const hierarchyData = useMemo(() => {
     if (!tenagaPendidikanResponse) return []
     
-    const dataArray = (tenagaPendidikanResponse as any)?.data || tenagaPendidikanResponse
+    const dataArray = tenagaPendidikanResponse || tenagaPendidikanResponse
     return Array.isArray(dataArray) ? dataArray : []
   }, [tenagaPendidikanResponse])
 
-  // Process API data to match component structure
-  const processedApiStaff = useMemo(() => {
+  // Process hierarchy data to include full image URLs
+  const processedHierarchyData = useMemo(() => {
     const storageUrl = process.env.NEXT_PUBLIC_STORAGE_URL || ''
     
-    return apiStaff.map(item => ({
-      name: item.name,
-      position: item.jabatan,
-      image: item.foto ? `${storageUrl}/img/tenagapendidikan/${item.foto}` : "/placeholder.svg",
-      category: item.jabatan, 
-      slug: item.slug,
-      description: item.description || "",
-    }))
-  }, [apiStaff])
+    const processNode = (node: any): StrukturNode => {
+      return {
+        id: node.id,
+        name: node.name,
+        slug: node.slug,
+        staff: (node.staff || []).map((staff: any) => ({
+          id: staff.id,
+          name: staff.name,
+          position: staff.jabatan,
+          image: staff.foto ? `${storageUrl}/img/tenagapendidikan/${staff.foto}` : "/placeholder.svg",
+          category: staff.jabatan,
+          slug: staff.slug,
+          description: staff.description || "",
+        })),
+        children: (node.children || []).map(processNode)
+      }
+    }
+    
+    return hierarchyData.map(processNode)
+  }, [hierarchyData])
 
-  const staff = processedApiStaff.length > 0 ? processedApiStaff : []
+  // Flatten all staff from hierarchy for grid view
+  const allStaff = useMemo(() => {
+    const flattenStaff = (nodes: StrukturNode[]): Staff[] => {
+      let result: Staff[] = []
+      
+      nodes.forEach(node => {
+        result = [...result, ...node.staff]
+        if (node.children && node.children.length > 0) {
+          result = [...result, ...flattenStaff(node.children)]
+        }
+      })
+      
+      return result
+    }
+    
+    return flattenStaff(processedHierarchyData)
+  }, [processedHierarchyData])
 
-  const filteredStaff = staff.filter((person) => {
-    const matchesFilter = activeFilter === "all" || person.position === activeFilter
-    const matchesSearch = person.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
-    return matchesFilter && matchesSearch
-  })
+  const filteredStaff = useMemo(() => {
+    return allStaff.filter((person) => {
+      return person.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
+    })
+  }, [allStaff, debouncedSearchQuery])
 
   const isSearching = isTyping || loading
 
-  if (loading && staff.length === 0) {
+  if (loading && allStaff.length === 0) {
     return (
       <div className="pt-24 pb-16">
         <section className="bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#1a6d3b] py-24 text-white">
@@ -130,6 +142,25 @@ export default function TenagaPendidikanPage() {
         <div className="container px-4 mx-auto max-w-7xl">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => setViewMode("hierarchy")}
+                  variant={viewMode === "hierarchy" ? "default" : "outline"}
+                  className={viewMode === "hierarchy" ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""}
+                >
+                  <Network className="w-4 h-4 mr-2" />
+                  Struktur Organisasi
+                </Button>
+                <Button
+                  onClick={() => setViewMode("grid")}
+                  variant={viewMode === "grid" ? "default" : "outline"}
+                  className={viewMode === "grid" ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""}
+                >
+                  <Users className="w-4 h-4 mr-2" />
+                  Tampilan Grid
+                </Button>
+              </div>
+
               <div className="relative w-full md:w-96">
                 <div className="absolute inset-y-0 flex items-center pointer-events-none left-3">
                   {isTyping ? (
@@ -141,7 +172,7 @@ export default function TenagaPendidikanPage() {
                 <Input
                   type="text"
                   placeholder="Cari nama staf..."
-                  className="pl-10 pr-4 border-2 border-gray-200 rounded-full focus:border-[#33b962] focus:ring-2 focus:ring-[#33b962]/20 transition-all"
+                  className="pl-10 pr-10 border-2 border-gray-200 rounded-full focus:border-[#33b962] focus:ring-2 focus:ring-[#33b962]/20 transition-all"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                 />
@@ -154,8 +185,9 @@ export default function TenagaPendidikanPage() {
                   </button>
                 )}
               </div>
+
               <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#33b962]/10">
-                <span className="font-semibold text-[#33b962]">{staff.length}</span>
+                <span className="font-semibold text-[#33b962]">{allStaff.length}</span>
                 <span className="text-sm text-gray-600">Tenaga Pendidikan</span>
               </div>
             </div>
@@ -164,7 +196,7 @@ export default function TenagaPendidikanPage() {
       </section>
 
       {/* Error Alert */}
-      {error && staff.length === 0 && (
+      {error && allStaff.length === 0 && (
         <div className="container px-4 mx-auto mt-8 max-w-7xl">
           <Alert variant="destructive">
             <AlertCircle className="w-4 h-4" />
@@ -183,7 +215,7 @@ export default function TenagaPendidikanPage() {
         </div>
       )}
 
-      {/* Staff Grid */}
+      {/* Content Section */}
       <section className="py-20 bg-gray-50/50">
         <div className="container px-4 mx-auto max-w-7xl">
           {isSearching ? (
@@ -202,53 +234,50 @@ export default function TenagaPendidikanPage() {
                 </div>
               ))}
             </div>
-          ) : filteredStaff.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              {filteredStaff.map((person, index) => (
-                <div
-                  key={person.slug || index}
-                  className="h-full cursor-pointer group"
-                >
-                  <div className="relative flex flex-col h-full overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-lg rounded-2xl hover:shadow-2xl hover:-translate-y-2">
-                    {/* Image Container with Overlay */}
-                    <div className="relative h-80 overflow-hidden bg-gradient-to-br from-[#33b962]/10 to-[#ffd166]/10">
-                      <Image
-                        src={person.image}
-                        alt={person.name}
-                        fill
-                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
-                      />
-                      
-                      {/* Gradient Overlay */}
-                      <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent group-hover:opacity-100"></div>
-                    </div>
-
-                    {/* Content Section */}
-                    <div className="flex flex-col flex-1 p-6">
-                      {/* Name & Position */}
-                      <div className="mb-3">
-                        <h3 className="mb-1 text-xl font-bold leading-tight text-gray-900">{person.name}</h3>
-                        <p className="text-[#33b962] text-sm font-semibold capitalize">{person.position}</p>
+          ) : (
+            <>
+              {/* Hierarchy View */}
+              {viewMode === "hierarchy" && !debouncedSearchQuery && (
+                <div className="w-full overflow-x-auto">
+                  <div className="min-w-max">
+                    {processedHierarchyData.length > 0 ? (
+                      processedHierarchyData.map((rootNode, index) => (
+                        <div key={rootNode.id} className={index > 0 ? 'mt-16' : ''}>
+                          <OrgTreeNode node={rootNode} level={0} isRoot={true} />
+                        </div>
+                      ))
+                    ) : (
+                      <div className="py-20 text-center">
+                        <Network className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+                        <p className="text-lg text-gray-500">Tidak ada struktur organisasi yang tersedia</p>
                       </div>
-
-                      {/* Description */}
-                      {person.description && (
-                        <p className="flex-grow mb-4 text-sm leading-relaxed text-gray-600 line-clamp-2">{person.description}</p>
-                      )}                      
-                    </div>
+                    )}
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="py-20 text-center">
-              <Users className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-              <p className="text-lg text-gray-500">
-                {debouncedSearchQuery 
-                  ? `Tidak ditemukan staf dengan nama "${debouncedSearchQuery}"`
-                  : 'Tidak ada staf yang ditemukan'}
-              </p>
-            </div>
+              )}
+
+              {/* Grid View */}
+              {(viewMode === "grid" || debouncedSearchQuery) && (
+                <>
+                  {filteredStaff.length > 0 ? (
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                      {filteredStaff.map((person) => (
+                        <GridStaffCard key={person.id} person={person} />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="py-20 text-center">
+                      <Users className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+                      <p className="text-lg text-gray-500">
+                        {debouncedSearchQuery 
+                          ? `Tidak ditemukan staf dengan nama "${debouncedSearchQuery}"`
+                          : 'Tidak ada staf yang ditemukan'}
+                      </p>
+                    </div>
+                  )}
+                </>
+              )}
+            </>
           )}
         </div>
       </section>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -221,20 +221,6 @@ export default function TenagaPendidikanPage() {
                       
                       {/* Gradient Overlay */}
                       <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent group-hover:opacity-100"></div>
-                      
-                      {/* Badge - Top Right */}
-                      <div className="absolute z-10 top-4 right-4">
-                        <Badge className="bg-white/95 backdrop-blur-md text-[#33b962] border-0 shadow-lg font-semibold px-3 py-1 text-xs capitalize">
-                          {person.position}
-                        </Badge>
-                      </div>
-
-                      {/* Hover Action Button */}
-                      <div className="absolute transition-opacity duration-300 opacity-0 bottom-4 right-4 group-hover:opacity-100">
-                        <div className="w-12 h-12 bg-[#33b962] rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
-                          <ChevronRight className="w-6 h-6 text-white" />
-                        </div>
-                      </div>
                     </div>
 
                     {/* Content Section */}

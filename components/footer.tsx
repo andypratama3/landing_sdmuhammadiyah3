@@ -10,6 +10,7 @@ interface VisitorData {
   visitor_by_day: number;
   visitor_by_month: number;
   visitor_by_year: number;
+  visitor_all_year: number;
 }
 
 export default function Footer() {
@@ -198,6 +199,8 @@ export default function Footer() {
                 <span>Bulan Ini: {data?.visitor_by_month.toLocaleString()}</span>
                 <span className="text-gray-700">|</span>
                 <span>Tahun Ini: {data?.visitor_by_year.toLocaleString()}</span>
+                <span className="text-gray-700">|</span>
+                <span>Semua Tahun: {data?.visitor_all_year.toLocaleString()}</span>
               </>
             )}
           </div>

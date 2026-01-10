@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useMutation } from "@/hooks/useApi"
 import {
   Calendar,
   Trophy,
@@ -47,6 +48,9 @@ export default function PrestasiSiswaDetailPage() {
     cacheTTL: 300000,
     immediate: !!slug
   })
+
+  // add event for viewer
+  // const { mutate, loading } = useMutation('/visitor/store', 'POST');
 
 
   // Extract prestasi from nested response
@@ -303,15 +307,17 @@ export default function PrestasiSiswaDetailPage() {
                   {/* Featured Image */}
                   {prestasi.foto && (
                     <div className="relative w-full mb-8 overflow-hidden rounded-lg h-96">
-                      <Image
+                      <div className="relative w-full mb-8 overflow-hidden rounded-lg">
+                        <Image
                         src={  prestasi.foto
-                          ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${prestasi.foto}`
-                          : "/placeholder.svg"}
-                        alt={prestasi.name}
-                        fill                      
-                        className="object-fit"
-                        priority
-                      />
+                            ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${prestasi.foto}`
+                            : "/placeholder.svg"}
+                          alt={prestasi.name}
+                          width={1200}
+                          height={800}
+                          className="w-full h-auto rounded-lg"  // Auto height!
+                        />
+                      </div>
                     </div>
                   )}
 

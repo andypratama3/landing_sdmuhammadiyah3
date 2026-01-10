@@ -92,6 +92,54 @@ export default function GaleriDetailPage() {
     }
   }
 
+  // Helper to convert video URLs to embeddable format
+  const getEmbedUrl = (url: string): { embedUrl: string; type: string } => {
+    if (!url) return { embedUrl: '', type: '' }
+
+    // YouTube
+    const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]+)/)
+    if (youtubeMatch) {
+      return {
+        embedUrl: `https://www.youtube.com/embed/${youtubeMatch[1]}`,
+        type: 'youtube'
+      }
+    }
+
+    // TikTok
+    if (url.includes('tiktok.com')) {
+      return {
+        embedUrl: url,
+        type: 'tiktok'
+      }
+    }
+
+    // Vimeo
+    const vimeoMatch = url.match(/vimeo\.com\/(\d+)/)
+    if (vimeoMatch) {
+      return {
+        embedUrl: `https://player.vimeo.com/video/${vimeoMatch[1]}`,
+        type: 'vimeo'
+      }
+    }
+
+    // Already an embed URL or other iframe-compatible source
+    if (url.includes('embed') || url.includes('player')) {
+      return {
+        embedUrl: url,
+        type: 'other'
+      }
+    }
+
+    return {
+      embedUrl: url,
+      type: 'unknown'
+    }
+  }
+
+  const videoEmbed = useMemo(() => {
+    return gallery?.link ? getEmbedUrl(gallery.link) : null
+  }, [gallery?.link])
+
   // ✅ Build query string untuk related galleries (same category)
   const relatedQueryString = useMemo(() => {
     if (!gallery?.gallery_kategori || gallery.gallery_kategori.length === 0) return ''
@@ -426,13 +474,6 @@ export default function GaleriDetailPage() {
                           {selectedImage + 1} / {allImages.length}
                         </div>
                       )}
-
-                      {/* Mobile Swipe Hint
-                      {allImages.length > 1 && (
-                        <div className="absolute w-full p-2 py-2 text-xs text-center text-white -translate-x-1/2 rounded-full opacity-75 md:mt-[10px] md:mb-[20px] md:bottom-4 md:left-1/2 md:bg-black/50">
-                          👆 Geser ke kiri/kanan atau gunakan tombol navigasi
-                        </div>
-                      )} */}
                     </div>
                   ) : (
                     <div className="flex items-center justify-center w-full mb-6 bg-gray-100 rounded-lg aspect-video">
@@ -477,17 +518,31 @@ export default function GaleriDetailPage() {
                   )}
 
                   {/* Embedded Video */}
-                  {gallery.link && (
+                  {videoEmbed && videoEmbed.embedUrl && (
                     <div className="mb-8">
                       <h3 className="mb-4 text-lg font-semibold">Video Kegiatan</h3>
-                      <div className="overflow-hidden rounded-lg aspect-video">
-                        <iframe
-                          src={`https://www.youtube.com/embed/${gallery.link.match(/([a-zA-Z0-9_-]{11})/)?.[1]}`}
-                          className="w-full h-full"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                          title={`Video ${gallery.name}`}
-                        />
+                      <div className="overflow-hidden bg-black rounded-lg aspect-video">
+                        {videoEmbed.type === 'tiktok' ? (
+                          <div className="flex items-center justify-center w-full h-full bg-black">
+                            <iframe
+                              src={`https://www.tiktok.com/embed/v2/${extractTikTokId(videoEmbed.embedUrl)}`}
+                              width="100%"
+                              height="100%"
+                              frameBorder="0"
+                              allow="autoplay"
+                              allowFullScreen
+                              title={`Video ${gallery.name}`}
+                            />
+                          </div>
+                        ) : (
+                          <iframe
+                            src={videoEmbed.embedUrl}
+                            className="w-full h-full"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            title={`Video ${gallery.name}`}
+                          />
+                        )}
                       </div>
                     </div>
                   )}
@@ -557,7 +612,7 @@ export default function GaleriDetailPage() {
                       </div>
                     </div>
 
-                    {gallery.link && (
+                    {videoEmbed && videoEmbed.embedUrl && (
                       <>
                         <Separator />
                         <div className="flex items-start gap-3">
@@ -594,4 +649,9 @@ export default function GaleriDetailPage() {
       </div>
     </>
   )
+}
+
+function extractTikTokId(url: string): string {
+  const match = url.match(/(?:tiktok\.com\/@[^/]+\/video\/|video\/)(\d+)/)
+  return match ? match[1] : ''
 }

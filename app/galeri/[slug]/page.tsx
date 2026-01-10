@@ -102,7 +102,6 @@ export default function GaleriDetailPage() {
     // Format 3: https://youtu.be/QV39EM-jFX0
     const youtubeMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)
 
-    console.log(youtubeMatch)
 
     if (youtubeMatch) {
       const videoId = youtubeMatch[1]

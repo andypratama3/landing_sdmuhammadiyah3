@@ -12,6 +12,7 @@ import {
   FileText,
   Download,
   Calendar,
+  ArrowRight,
 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -25,7 +26,7 @@ export default function ProfilPage() {
     { label: "Kota", value: "Samarinda" },
     { label: "Provinsi", value: "Kalimantan Timur" },
     { label: "Kode Pos", value: "75242" },
-    { label: "Telepon", value: "(0541) 123-4567" },
+    { label: "Telepon", value: "(054) 1260066" },
     { label: "Email", value: "sekolahkreatifmuh3@gmail.com" },
     { label: "Website", value: "www.sdmuhammadiyah3smd.com" },
   ]
@@ -189,9 +190,17 @@ export default function ProfilPage() {
                     <Heart className="w-8 h-8 text-[#33b962]" />
                   </div>
                   <h3 className="mb-2 text-lg font-bold">Wakil Kepala Humas</h3>
-                  <p className="text-sm text-gray-600">SYEKH BUDI SYAM, M.Kom</p>
+                  <p className="text-sm text-gray-600">Fadhilaturrahman S.Pd</p>
                 </Card>
               </div>
+              <Link href="/tenaga-pendidikan">
+                <Card className="p-8 text-center rounded-3xl border-2 hover:border-[#33b962]/30 transition-all hover:shadow-lg">                
+                  <div className="w-16 h-16 bg-[#33b962]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <ArrowRight className="w-8 h-8 text-[#33b962]" />
+                  </div>
+                  <p className="text-sm text-gray-600">Lihat Selengkapnya</p>
+                </Card>
+              </Link>
             </div>
           </div>
         </div>

@@ -69,7 +69,7 @@ export default function TentangPage() {
           <Breadcrumb items={[{ label: "Tentang Kami" }]} />
           <div className="max-w-4xl mx-auto mt-8 text-center">
             <Badge className="px-4 py-2 mb-6 text-white bg-white/20 border-white/30">Tentang Kami</Badge>
-            <h1 className="mb-6 text-5xl font-bold md:text-6xl text-balance">SD Muhammadiyah 3 Samarinda</h1>
+            <h1 className="mb-6 text-5xl font-bold md:text-4xl text-balance">SD Muhammadiyah 3 Samarinda</h1>
             <p className="text-xl leading-relaxed text-white/90 text-balance">
               Sekolah Kreatif dengan Pembelajaran Inovatif dan Berkarakter
             </p>

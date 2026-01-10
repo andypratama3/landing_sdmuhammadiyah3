@@ -12,7 +12,7 @@ interface OrgTreeNodeProps {
 }
 
 export function OrgTreeNode({ node, level = 0, isRoot = false }: OrgTreeNodeProps) {
-  const [isExpanded, setIsExpanded] = useState(level <= 1)
+  const [isExpanded, setIsExpanded] = useState(true)
   const hasChildren = node.children && node.children.length > 0
 
   const levelColors = {

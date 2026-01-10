@@ -306,18 +306,16 @@ export default function PrestasiSiswaDetailPage() {
 
                   {/* Featured Image */}
                   {prestasi.foto && (
-                    <div className="relative w-full mb-8 overflow-hidden rounded-lg h-96">
-                      <div className="relative w-full mb-8 overflow-hidden rounded-lg">
-                        <Image
-                        src={  prestasi.foto
-                            ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${prestasi.foto}`
-                            : "/placeholder.svg"}
-                          alt={prestasi.name}
-                          width={1200}
-                          height={800}
-                          className="w-full h-auto rounded-lg"  // Auto height!
-                        />
-                      </div>
+                    <div className="relative w-full mb-8 overflow-hidden rounded-lg">
+                      <Image
+                      src={  prestasi.foto
+                          ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${prestasi.foto}`
+                          : "/placeholder.svg"}
+                        alt={prestasi.name}
+                        width={1200}
+                        height={800}
+                        className="w-full h-auto rounded-lg"  // Auto height!
+                      />
                     </div>
                   )}
 

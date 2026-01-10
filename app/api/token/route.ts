@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
     const stringToSign = `${timestamp}.${nonce}`
 
     // Get secret from environment
-    const secretHex = process.env.API_SECRET_KEY
+    const secretHex = process.env.NEXT_PUBLIC_API_SECRET
     if (!secretHex) {
       console.error('❌ API_SECRET_KEY not configured in environment')
       return NextResponse.json(

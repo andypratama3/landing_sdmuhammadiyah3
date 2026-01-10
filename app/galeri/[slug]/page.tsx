@@ -482,7 +482,7 @@ export default function GaleriDetailPage() {
                       <h3 className="mb-4 text-lg font-semibold">Video Kegiatan</h3>
                       <div className="overflow-hidden rounded-lg aspect-video">
                         <iframe
-                          src={gallery.link.replace("watch?v=", "embed/").replace("youtu.be/", "www.youtube.com/embed/")}
+                          src={`https://www.youtube.com/embed/${gallery.link.match(/([a-zA-Z0-9_-]{11})/)?.[1]}`}
                           className="w-full h-full"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen

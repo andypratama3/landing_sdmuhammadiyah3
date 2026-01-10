@@ -96,11 +96,15 @@ export default function GaleriDetailPage() {
   const getEmbedUrl = (url: string): { embedUrl: string; type: string } => {
     if (!url) return { embedUrl: '', type: '' }
 
-    // YouTube
-    const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]+)/)
+    // YouTube - support berbagai format
+    // Format 1: https://www.youtube.com/embed/QV39EM-jFX0?si=tow2G9oUeqoee9sr
+    // Format 2: https://www.youtube.com/watch?v=QV39EM-jFX0
+    // Format 3: https://youtu.be/QV39EM-jFX0
+    const youtubeMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)
     if (youtubeMatch) {
+      const videoId = youtubeMatch[1]
       return {
-        embedUrl: `https://www.youtube.com/embed/${youtubeMatch[1]}`,
+        embedUrl: `https://www.youtube-nocookie.com/embed/${videoId}?modestbranding=1&rel=0&showinfo=0&fs=1`,
         type: 'youtube'
       }
     }
@@ -534,6 +538,15 @@ export default function GaleriDetailPage() {
                               title={`Video ${gallery.name}`}
                             />
                           </div>
+                        ) : videoEmbed.type === 'youtube' ? (
+                          <iframe
+                            src={videoEmbed.embedUrl}
+                            className="w-full h-full"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                            allowFullScreen
+                            title={`Video ${gallery.name}`}
+                            loading="lazy"
+                          />
                         ) : (
                           <iframe
                             src={videoEmbed.embedUrl}
@@ -651,6 +664,7 @@ export default function GaleriDetailPage() {
   )
 }
 
+// Helper function to extract TikTok video ID
 function extractTikTokId(url: string): string {
   const match = url.match(/(?:tiktok\.com\/@[^/]+\/video\/|video\/)(\d+)/)
   return match ? match[1] : ''

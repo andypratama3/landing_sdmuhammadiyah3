@@ -1,71 +1,91 @@
+// lib/api.ts - FIXED VERSION
 import { CacheManager } from './cache'
 import { JWTManager } from './jwt'
 import type { ApiResponse, RequestOptions } from '@/types'
 
 /**
- * Token generation cooldown manager
- * Prevents hammering backend dengan retry spam
+ * Token Ready State Manager
+ * Memastikan token sudah di-generate sebelum API call
  */
-class TokenRetryCache {
-  private static lastAttempt: number = 0
-  private static minRetryInterval: number = 5 * 60 * 1000 // 5 menit
-  private static isBackendDown: boolean = false
+class TokenReadyManager {
+  private static isReady = false
+  private static waitingQueue: Array<() => void> = []
+  private static initPromise: Promise<void> | null = null
 
-  static shouldAttempt(): boolean {
-    const now = Date.now()
-    const timeSinceLastAttempt = now - this.lastAttempt
+  /**
+   * Set token sebagai ready
+   */
+  static markReady(): void {
+    this.isReady = true
+    // Process semua yang menunggu
+    this.waitingQueue.forEach(resolve => resolve())
+    this.waitingQueue = []
+  }
 
-    if (this.isBackendDown && timeSinceLastAttempt < this.minRetryInterval) {
-      return false
+  /**
+   * Reset state (untuk logout)
+   */
+  static reset(): void {
+    this.isReady = false
+    this.initPromise = null
+  }
+
+  /**
+   * Tunggu sampai token ready
+   * Returns immediately jika sudah ready
+   */
+  static async waitUntilReady(timeout = 10000): Promise<boolean> {
+    // Jika sudah ready, langsung return
+    if (this.isReady) return true
+
+    // Jika ada token di cookie, mark as ready
+    const existingToken = JWTManager.getAccessToken()
+    if (existingToken && !JWTManager.isAccessTokenExpired()) {
+      this.markReady()
+      return true
     }
 
-    this.lastAttempt = now
-    return true
+    // Tunggu dengan timeout
+    return new Promise((resolve) => {
+      const timer = setTimeout(() => {
+        console.warn('⏱️ Token ready timeout')
+        resolve(false)
+      }, timeout)
+
+      this.waitingQueue.push(() => {
+        clearTimeout(timer)
+        resolve(true)
+      })
+    })
   }
 
-  static markBackendDown(): void {
-    this.isBackendDown = true
-    this.lastAttempt = Date.now()
-  }
-
-  static markBackendUp(): void {
-    this.isBackendDown = false
-  }
-
-  static getTimeUntilNextRetry(): number {
-    if (!this.isBackendDown) return 0
-    const elapsed = Date.now() - this.lastAttempt
-    return Math.max(0, this.minRetryInterval - elapsed)
+  /**
+   * Get current status
+   */
+  static getStatus(): boolean {
+    return this.isReady
   }
 }
 
 export class ApiClient {
   private static baseURL = process.env.NEXT_PUBLIC_API_URL
-  private static apiSecret = process.env.NEXT_PUBLIC_API_SECRET // Client-side secret
+  private static apiSecret = process.env.NEXT_PUBLIC_API_SECRET
   private static maxRetries = 2
   private static retryDelay = 1000
-  private static tokenInitialized = false
-  private static tokenInitializationPromise: Promise<void> | null = null
+  private static isInitializing = false
   
-  private static readonly TOKEN_CACHE_KEY = 'auth_token'
-  private static readonly DEBUG = process.env.NODE_ENV === 'development' && false
+  private static readonly DEBUG = process.env.NODE_ENV === 'development'
 
   private static log(...args: any[]): void {
-    if (this.DEBUG) {
-      console.log('[API]', ...args)
-    }
+    if (this.DEBUG) console.log('[API]', ...args)
   }
 
   private static warn(...args: any[]): void {
-    if (this.DEBUG) {
-      console.warn('[API-WARN]', ...args)
-    }
+    if (this.DEBUG) console.warn('[API-WARN]', ...args)
   }
 
   private static error(...args: any[]): void {
-    if (this.DEBUG) {
-      console.error('[API-ERROR]', ...args)
-    }
+    console.error('[API-ERROR]', ...args)
   }
 
   /**
@@ -76,13 +96,10 @@ export class ApiClient {
     nonce: string
   ): Promise<string> {
     const stringToSign = `${timestamp}.${nonce}`
-
-    // Convert secret dari hex ke Uint8Array
     const secretBytes = new Uint8Array(
       (this.apiSecret || '').match(/.{1,2}/g)?.map(byte => parseInt(byte, 16)) || []
     )
 
-    // Create HMAC-SHA256
     const encoder = new TextEncoder()
     const data = encoder.encode(stringToSign)
 
@@ -96,7 +113,6 @@ export class ApiClient {
 
     const signature = await crypto.subtle.sign('HMAC', cryptoKey, data)
 
-    // Convert to hex
     return Array.from(new Uint8Array(signature))
       .map(b => b.toString(16).padStart(2, '0'))
       .join('')
@@ -106,7 +122,7 @@ export class ApiClient {
    * Generate UUID v4
    */
   private static generateUUID(): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
       const r = (Math.random() * 16) | 0
       const v = c === 'x' ? r : (r & 0x3) | 0x8
       return v.toString(16)
@@ -114,86 +130,12 @@ export class ApiClient {
   }
 
   /**
-   * 🔐 Initialize token on first request
+   * 🔐 Generate new token dari backend
    */
-  private static async ensureTokenInitialized(): Promise<void> {
-    if (this.tokenInitialized) {
-      return
-    }
-
-    if (this.tokenInitializationPromise) {
-      return this.tokenInitializationPromise
-    }
-
-    this.tokenInitializationPromise = this.generateNewToken().then(
-      () => {
-        this.tokenInitialized = true
-      },
-      (err) => {
-        this.error('Token generation failed:', err)
-
-        // 🔥 Fallback: Try to use cached token
-        const cachedToken = this.getCachedToken()
-        if (cachedToken) {
-          this.warn('Using cached token (backend offline)')
-          this.tokenInitialized = true
-          return
-        }
-
-        this.tokenInitialized = false
-        throw err
-      }
-    )
-
-    return this.tokenInitializationPromise
-  }
-
-  /**
-   * Get cached token dari localStorage
-   */
-  private static getCachedToken(): string | null {
+  private static async generateNewToken(): Promise<boolean> {
     try {
-      const cached = CacheManager.get<{
-        access_token: string
-        refresh_token: string
-        timestamp: number
-      }>(this.TOKEN_CACHE_KEY)
+      this.log('🔑 Generating token...')
 
-      if (!cached) return null
-
-      // Check jika token masih valid (7 hari)
-      const age = Date.now() - cached.timestamp
-      const maxAge = 7 * 24 * 60 * 60 * 1000
-
-      if (age > maxAge) {
-        this.warn('Cached token expired (older than 7 days)')
-        return null
-      }
-
-      this.log('Using cached token')
-      return cached.access_token
-    } catch (error) {
-      this.warn('Failed to get cached token:', error)
-      return null
-    }
-  }
-
-  /**
-   * Generate / refresh token directly dari backend
-   * NO ROUTE.TS NEEDED - Direct client signature
-   */
-  private static async generateNewToken(): Promise<void> {
-    try {
-      // Check cooldown
-      if (!TokenRetryCache.shouldAttempt()) {
-        const timeUntilRetry = TokenRetryCache.getTimeUntilNextRetry()
-        this.warn(`Token generation in cooldown, retry in ${Math.ceil(timeUntilRetry / 1000 / 60)} minutes`)
-        throw new Error('COOLDOWN')
-      }
-
-      this.log('Generating token...')
-
-      // Generate signature client-side
       const timestamp = Math.floor(Date.now() / 1000).toString()
       const nonce = this.generateUUID()
 
@@ -203,80 +145,84 @@ export class ApiClient {
 
       const signature = await this.generateSignature(timestamp, nonce)
 
-      this.log('Signature generated, calling backend...')
-
-      // Call backend directly
       const response = await fetch(`${this.baseURL}/auth/token`, {
         method: 'POST',
-        credentials: 'include', // 🔐 Send cookies
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'X-TIMESTAMP': timestamp,
           'X-NONCE': nonce,
           'X-SIGNATURE': signature,
-          'User-Agent': 'WebClient/1.0',
         },
         signal: AbortSignal.timeout(10000),
       })
 
       if (!response.ok) {
-        TokenRetryCache.markBackendDown()
         throw new Error(`Token generation failed: ${response.status}`)
       }
 
       const data = await response.json()
 
-      if (!data.success || !data.data?.access_token) {
-        TokenRetryCache.markBackendDown()
+      if (!data.success) {
         throw new Error('Invalid token response')
       }
 
-      // Mark backend as up
-      TokenRetryCache.markBackendUp()
-
-      // 💾 Cache token untuk fallback
-      try {
-        CacheManager.set(
-          this.TOKEN_CACHE_KEY,
-          {
-            access_token: data.data.access_token,
-            refresh_token: data.data.refresh_token,
-            timestamp: Date.now(),
-          },
-          7 * 24 * 60 * 60 * 1000 // 7 hari
-        )
-        this.log('Token cached for offline use')
-      } catch (cacheError) {
-        this.warn('Failed to cache token:', cacheError)
-      }
-
-      this.log('Token generated successfully')
+      this.log('✅ Token generated successfully')
+      
+      // Mark token as ready
+      TokenReadyManager.markReady()
+      
+      return true
 
     } catch (error) {
-      // Silently handle cooldown errors
-      if (error instanceof Error && error.message === 'COOLDOWN') {
-        this.log('Token generation in cooldown, using cached token')
-        return
-      }
-
-      this.error('Token generation error:', error)
-      throw error
+      this.error('❌ Token generation failed:', error)
+      return false
     }
   }
 
   /**
-   * Generate cache key dari endpoint dan options
+   * 🚀 Initialize API Client
+   * Harus dipanggil di ApiInitializer sebelum request apapun
+   */
+  static async initialize(): Promise<void> {
+    // Cegah double initialization
+    if (this.isInitializing) {
+      this.log('⏳ Already initializing, waiting...')
+      await TokenReadyManager.waitUntilReady()
+      return
+    }
+
+    // Check existing token
+    const existingToken = JWTManager.getAccessToken()
+    if (existingToken && !JWTManager.isAccessTokenExpired()) {
+      this.log('✅ Valid token exists, skipping generation')
+      TokenReadyManager.markReady()
+      return
+    }
+
+    this.isInitializing = true
+
+    try {
+      const success = await this.generateNewToken()
+      
+      if (!success) {
+        this.warn('⚠️ Token generation failed, API calls may fail')
+      }
+    } finally {
+      this.isInitializing = false
+    }
+  }
+
+  /**
+   * Generate cache key
    */
   private static generateCacheKey(endpoint: string, fetchOptions: any): string {
     const method = fetchOptions.method || 'GET'
-    if (method === 'GET') {
-      return `api_${endpoint}`
-    }
-    return `api_${endpoint}_${method}`
+    return `api_${method}_${endpoint}`
   }
 
   /**
-   * Request core (COOKIE ONLY)
+   * 🌐 Core request method
    */
   static async request<T>(
     endpoint: string,
@@ -290,23 +236,6 @@ export class ApiClient {
       ...fetchOptions
     } = options
 
-    // 🔥 Ensure token is initialized
-    try {
-      await this.ensureTokenInitialized()
-    } catch (error) {
-      this.error('Failed to initialize token:', error)
-    }
-
-    // Check if token expired
-    if (JWTManager.isAccessTokenExpired()) {
-      this.log('Token expired, refreshing...')
-      try {
-        await this.generateNewToken()
-      } catch (error) {
-        this.warn('Token refresh failed, continuing with cache fallback')
-      }
-    }
-
     const cacheKey = this.generateCacheKey(endpoint, fetchOptions)
     const isGetRequest = !fetchOptions.method || fetchOptions.method === 'GET'
 
@@ -314,20 +243,23 @@ export class ApiClient {
     if (useCache && isGetRequest) {
       const cached = CacheManager.get<ApiResponse<T>>(cacheKey)
       if (cached) {
-        this.log(`Cache hit: ${endpoint}`)
+        this.log(`💾 Cache hit: ${endpoint}`)
         return cached
       }
+    }
+
+    // 🔐 Tunggu token ready (max 10 detik)
+    const tokenReady = await TokenReadyManager.waitUntilReady(10000)
+    
+    if (!tokenReady) {
+      this.warn('⚠️ Token not ready, attempting request anyway...')
     }
 
     let lastError: any = null
 
     for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
       try {
-        const controller = new AbortController()
-        const timeoutId = setTimeout(() => controller.abort(), 30000)
-        const combinedSignal = signal || controller.signal
-
-        this.log(`Request attempt ${attempt + 1}: ${endpoint}`)
+        this.log(`🌐 Request (attempt ${attempt + 1}): ${endpoint}`)
 
         const response = await fetch(`${this.baseURL}${endpoint}`, {
           ...fetchOptions,
@@ -336,42 +268,27 @@ export class ApiClient {
             'Content-Type': 'application/json',
             ...fetchOptions.headers,
           },
-          signal: combinedSignal,
+          signal: signal || AbortSignal.timeout(30000),
         })
 
-        clearTimeout(timeoutId)
-
-        // 🔥 AUTH EXPIRED → REFRESH TOKEN
-        if (response.status === 401 && attempt === 0) {
-          this.log('Token expired (401), refreshing...')
-          try {
-            await this.generateNewToken()
-          } catch (error) {
-            this.warn('Token refresh failed')
+        // 🔥 Handle 401 - Token expired atau tidak ada
+        if (response.status === 401) {
+          this.warn('🔐 Got 401, refreshing token...')
+          
+          // Reset token ready state
+          TokenReadyManager.reset()
+          
+          // Generate new token
+          const tokenGenerated = await this.generateNewToken()
+          
+          if (!tokenGenerated) {
+            throw new Error('Failed to refresh token')
           }
 
-          const retryResponse = await fetch(`${this.baseURL}${endpoint}`, {
-            ...fetchOptions,
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-              ...fetchOptions.headers,
-            },
-            signal: combinedSignal,
-          })
-
-          const retryResult: ApiResponse<T> = await retryResponse.json()
-
-          if (retryResult.success && cache && isGetRequest) {
-            try {
-              CacheManager.set(cacheKey, retryResult, cacheTTL)
-              this.log(`Cached: ${endpoint}`)
-            } catch (error) {
-              this.warn('Failed to cache response:', error)
-            }
+          // Retry original request (hanya sekali)
+          if (attempt === 0) {
+            continue
           }
-
-          return retryResult
         }
 
         // Parse response
@@ -389,15 +306,13 @@ export class ApiClient {
           }
         }
 
-        this.log(`Response: ${endpoint} (${response.status})`)
-
-        // Save to cache untuk GET requests
+        // Cache GET requests yang sukses
         if (result.success && cache && isGetRequest) {
           try {
             CacheManager.set(cacheKey, result, cacheTTL)
-            this.log(`Cached: ${endpoint}`)
-          } catch (error) {
-            this.warn('Failed to cache response:', error)
+            this.log(`💾 Cached: ${endpoint}`)
+          } catch (cacheError) {
+            this.warn('Failed to cache:', cacheError)
           }
         }
 
@@ -409,43 +324,38 @@ export class ApiClient {
         if (error.name === 'AbortError') {
           return {
             success: false,
-            message: 'Request cancelled',
+            message: 'Request timeout',
             errors: error,
           }
         }
 
-        this.log(`Request error (attempt ${attempt + 1}): ${error.message}`)
+        this.log(`❌ Error (attempt ${attempt + 1}): ${error.message}`)
 
-        if (attempt === this.maxRetries) break
-
-        await new Promise(resolve =>
-          setTimeout(resolve, this.retryDelay * Math.pow(2, attempt))
-        )
-      }
-    }
-
-    // 📦 FALLBACK: Stale cache
-    if (useCache && isGetRequest) {
-      try {
-        const staleCache = CacheManager.get<ApiResponse<T>>(cacheKey)
-        if (staleCache) {
-          this.log(`Using stale cache: ${endpoint}`)
-          return {
-            ...staleCache,
-            _fromCache: true,
-            _stale: true,
-          } as any
+        // Retry dengan exponential backoff
+        if (attempt < this.maxRetries) {
+          await new Promise(resolve =>
+            setTimeout(resolve, this.retryDelay * Math.pow(2, attempt))
+          )
         }
-      } catch (error) {
-        this.warn('Failed to get stale cache:', error)
       }
     }
 
-    this.error(`All requests failed for: ${endpoint}`)
+    // 📦 Fallback ke stale cache
+    if (useCache && isGetRequest) {
+      const staleCache = CacheManager.get<ApiResponse<T>>(cacheKey)
+      if (staleCache) {
+        this.log(`♻️ Using stale cache: ${endpoint}`)
+        return {
+          ...staleCache,
+          _fromCache: true,
+          _stale: true,
+        } as any
+      }
+    }
 
     return {
       success: false,
-      message: 'Network error - no cached data available',
+      message: lastError?.message || 'Network error',
       errors: lastError,
     }
   }
@@ -476,32 +386,19 @@ export class ApiClient {
 
   static clearCache(): void {
     CacheManager.clear()
-    this.log('Cache cleared')
-  }
-
-  static getCacheStats() {
-    return CacheManager.getStats()
-  }
-
-  static async initialize(): Promise<void> {
-    try {
-      await this.ensureTokenInitialized()
-    } catch (error) {
-      this.warn('Token initialization failed, will use cache fallback')
-    }
   }
 
   static logout(): void {
     JWTManager.clearTokens()
+    TokenReadyManager.reset()
     this.clearCache()
-    this.tokenInitialized = false
-    this.tokenInitializationPromise = null
-    this.log('Logged out')
+    this.log('👋 Logged out')
   }
 
-  static setDebugMode(enabled: boolean): void {
-    const privateApiClient = this as any
-    privateApiClient.DEBUG = enabled
-    console.log(`Debug mode: ${enabled ? 'ON' : 'OFF'}`)
+  /**
+   * Get token ready status
+   */
+  static isTokenReady(): boolean {
+    return TokenReadyManager.getStatus()
   }
 }

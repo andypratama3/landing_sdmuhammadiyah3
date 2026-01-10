@@ -1,18 +1,35 @@
-
-// app/robots.ts
 import { MetadataRoute } from 'next'
 
+const BASE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://sdmuhammadiyah3smd.com'
+
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://sdmuhammadiyah3smd.com'
-  
   return {
     rules: [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/_next/', '/admin/'],
+        disallow: [
+          '/api/',
+          '/admin/',
+          '/_next/',
+          '/private/',
+          '/*.json$',
+          '/dashboard/',
+        ],
+      },
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+        disallow: ['/api/', '/admin/', '/private/', '/dashboard/'],
+      },
+      {
+        userAgent: 'Bingbot',
+        allow: '/',
+        disallow: ['/api/', '/admin/', '/private/', '/dashboard/'],
       },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: `${BASE_URL}/sitemap.xml`,
+    host: BASE_URL,
   }
 }

@@ -8,9 +8,10 @@ import WhatsAppButton from "@/components/whatsapp-button"
 import BackToTop from "@/components/back-to-top"
 import ApiInitializer, { ApiInitializerStatus } from "@/components/api-initializer"
 import { ThemeProvider } from "@/components/theme-provider"
-import VisitorTracker from '@/components/visitor-tracker';
+import VisitorTracker from '@/components/visitor-tracker'
 import CookieConsent from "@/components/cookie"
-
+import GoogleAnalytics, { GTMNoScript } from "@/components/google-analytics"
+import StructuredData from "@/components/structured-data"
 
 const quicksand = Quicksand({ subsets: ["latin"], variable: "--font-sans" })
 const poppins = Poppins({
@@ -19,20 +20,90 @@ const poppins = Poppins({
   variable: "--font-sans",
 });
 
-
-
-
 export const metadata: Metadata = {
-  title: "SD Muhammadiyah 3 Samarinda - Sekolah Kreatif",
-  description:
-    "Sekolah Dasar Islam terdepan yang menghasilkan generasi kreatif, berakhlak mulia, cerdas, dan berprestasi dengan dilandasi nilai-nilai Islami.",
-  keywords: ["SD Muhammadiyah", "Sekolah Kreatif", "Samarinda", "Pendidikan Islam", "Sekolah Dasar"],
-  authors: [{ name: "SD Muhammadiyah 3 Samarinda" }],
-  openGraph: {
-    title: "SD Muhammadiyah 3 Samarinda - Sekolah Kreatif",
-    description: "Mengembangkan potensi anak melalui pendidikan kreatif dan inovatif",
-    type: "website",
+  metadataBase: new URL('https://sdmuhammadiyah3smd.com'),
+  
+  title: {
+    default: "SD Muhammadiyah 3 Samarinda - Sekolah Kreatif",
+    template: "%s | SD Muhammadiyah 3 Samarinda"
   },
+  
+  description: "Sekolah Dasar Islam terdepan yang menghasilkan generasi kreatif, berakhlak mulia, cerdas, dan berprestasi dengan dilandasi nilai-nilai Islami.",
+  
+  keywords: [
+    "SD Muhammadiyah 3 Samarinda",
+    "Sekolah Kreatif Muhammadiyah 3 Samarinda",
+    "SD Muhammadiyah Samarinda",
+    "Sekolah Dasar Islam Samarinda",
+    "SD Unggulan Kalimantan Timur",
+    "Sekolah Penggerak Samarinda",
+    "Sekolah Terbaik Di Samarinda Kalimantan Timur",
+    "Sekolah Dasar Islam Terbaik Di Samarinda",
+    "Pembelajaran Inovatif",
+    "Pendidikan Berkarakter",
+    "Sekolah Kreatif Kalimantan Timur",
+    "Sekolah Dasar Samarinda Seberang",
+    "SD Islam Terbaik Samarinda",
+    "Pendaftaran SD Muhammadiyah",
+    "PPDB SD Muhammadiyah 3",
+    "Tahfidz Al-Qur'an Samarinda",
+    "Akreditasi A Samarinda",
+  ],
+  
+  authors: [
+    { 
+      name: "SD Muhammadiyah 3 Samarinda",
+      url: "https://sdmuhammadiyah3smd.com"
+    }
+  ],
+  
+  creator: "SD Muhammadiyah 3 Samarinda",
+  publisher: "SD Muhammadiyah 3 Samarinda",
+  
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    url: "https://sdmuhammadiyah3smd.com",
+    title: "SD Muhammadiyah 3 Samarinda - Sekolah Kreatif Unggulan",
+    description: "Sekolah Dasar Islam terdepan dengan pembelajaran inovatif dan pengembangan karakter. Akreditasi A, Sekolah Penggerak, Tahfidz Al-Qur'an.",
+    siteName: "SD Muhammadiyah 3 Samarinda",
+    images: [
+      {
+        url: "/SD3_logo1.png",
+        width: 1200,
+        height: 630,
+        alt: "SD Muhammadiyah 3 Samarinda Logo",
+      },
+    ],
+  },
+  
+  twitter: {
+    card: "summary_large_image",
+    title: "SD Muhammadiyah 3 Samarinda - Sekolah Kreatif",
+    description: "Sekolah Dasar Islam unggulan di Samarinda dengan pembelajaran inovatif",
+    images: ["/SD3_logo1.png"],
+  },
+  
+  verification: {
+    google: "your-google-verification-code",
+  },
+  
+  alternates: {
+    canonical: "https://sdmuhammadiyah3smd.com",
+  },
+  
   icons: {
     icon: [
       {
@@ -43,13 +114,13 @@ export const metadata: Metadata = {
         url: "/SD3_logo1.png",
         media: "(prefers-color-scheme: dark)",
       },
-      {
-        url: "/SD3_logo1.png",
-        type: "image/svg+xml",
-      },
     ],
     apple: "/SD3_logo1.png",
+    shortcut: "/SD3_logo1.png",
   },
+  
+  manifest: "/manifest.json",
+  category: "education",
 }
 
 export const viewport = {
@@ -62,8 +133,6 @@ export const viewport = {
 }
 
 export default function RootLayout({
-
-
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -75,6 +144,15 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className={`${poppins.className} font-sans antialiased`}>
+        {/* GTM NoScript - must be immediately after opening body tag */}
+        <GTMNoScript />
+        
+        {/* Google Analytics & GTM Scripts */}
+        <GoogleAnalytics />
+        
+        {/* Structured Data for SEO */}
+        <StructuredData />
+        
         {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange> */}
           <ApiInitializer />
           <ApiInitializerStatus /> 
@@ -87,7 +165,6 @@ export default function RootLayout({
           <BackToTop />
 
           <CookieConsent/>
-          {/* <Analytics /> */}
         {/* </ThemeProvider> */}
       </body>
     </html>

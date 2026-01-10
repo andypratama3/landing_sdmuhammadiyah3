@@ -1,0 +1,27 @@
+{
+  "name": "SD Muhammadiyah 3 Samarinda",
+  "short_name": "SD Muh 3 SMD",
+  "description": "Sekolah Kreatif - Pembelajaran Inovatif dan Berkarakter",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#33b962",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/SD3_logo1.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/SD3_logo1.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "schools"],
+  "lang": "id-ID",
+  "dir": "ltr"
+}

@@ -132,33 +132,41 @@ export default function PrestasiSiswaDetailPage() {
 
   // Share handlers
   const handleShare = (platform: 'facebook' | 'twitter' | 'linkedin' | 'native') => {
-    if (typeof window === 'undefined') return
+    if (typeof window === 'undefined' || !prestasi?.slug) return
 
-    const url = encodeURIComponent(window.location.href)
+    // Build production URL with slug
+    const baseUrl = 'https://sdmuhammadiyah3smd.com'
+    const shareUrl = `${baseUrl}/prestasi-siswa/${prestasi.slug}`
+    const encodedUrl = encodeURIComponent(shareUrl)
     const title = encodeURIComponent(prestasi?.name || '')
 
+
     const shareUrls = {
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
-      twitter: `https://twitter.com/intent/tweet?url=${url}&text=${title}`,
-      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+      twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${title}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
     }
 
+    // when in ios apple when make like native don't include name 
     if (platform === 'native') {
       if (navigator.share) {
+        // iOS/Android Native Share - simplified title
         navigator.share({
-          title: prestasi?.name || '',
-          text: pageDescription,
-          url: window.location.href,
+          title: 'Prestasi Siswa - SD Muhammadiyah 3 Samarinda',
+          // text: prestasi?.name || '',
+          url: shareUrl,
         }).catch(() => {})
       } else {
-        navigator.clipboard.writeText(window.location.href)
-          .then(() => alert('Link berhasil disalin!'))
+        // Fallback: Copy to clipboard
+        navigator.clipboard.writeText(shareUrl)
+          .then(() => alert('Link berhasil disalin ke clipboard!'))
           .catch(() => alert('Gagal menyalin link'))
       }
     } else {
       window.open(shareUrls[platform], '_blank', 'noopener,noreferrer')
     }
   }
+
 
   // Loading state
   if (prestasiLoading) {
@@ -301,7 +309,7 @@ export default function PrestasiSiswaDetailPage() {
                           : "/placeholder.svg"}
                         alt={prestasi.name}
                         fill                      
-                        className="object-cover"
+                        className="object-fit"
                         priority
                       />
                     </div>
@@ -476,7 +484,7 @@ export default function PrestasiSiswaDetailPage() {
                       {relatedPrestasi.map((item) => (
                         <Link
                           key={item.id}
-                          href={`/prestasi/siswa/${item.slug}`}
+                          href={`/prestasi-siswa/${item.slug}`}
                           className="block group"
                         >
                           <div className="flex gap-4">

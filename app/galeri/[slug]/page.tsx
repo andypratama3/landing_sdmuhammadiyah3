@@ -101,10 +101,13 @@ export default function GaleriDetailPage() {
     // Format 2: https://www.youtube.com/watch?v=QV39EM-jFX0
     // Format 3: https://youtu.be/QV39EM-jFX0
     const youtubeMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)
+
+    console.log(youtubeMatch)
+
     if (youtubeMatch) {
       const videoId = youtubeMatch[1]
       return {
-        embedUrl: `https://www.youtube-nocookie.com/embed/${videoId}?modestbranding=1&rel=0&showinfo=0&fs=1`,
+        embedUrl: `https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0&showinfo=0&fs=1&widgetid=1`,
         type: 'youtube'
       }
     }
@@ -544,6 +547,7 @@ export default function GaleriDetailPage() {
                             className="w-full h-full"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                             title={`Video ${gallery.name}`}
+                            referrerPolicy="strict-origin-when-cross-origin" 
                             loading="lazy"
                             allowFullScreen={true}
                           />

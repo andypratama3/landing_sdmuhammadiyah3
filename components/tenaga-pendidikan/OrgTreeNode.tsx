@@ -36,7 +36,6 @@ export function OrgTreeNode({ node, level = 0, isRoot = false }: OrgTreeNodeProp
         />
       )}
 
-      {/* Main Node */}
       <div className="flex flex-col items-center">
         <div
           className={`${colors.badge} text-white px-6 py-2 rounded-full font-semibold text-sm mb-4 shadow-md whitespace-nowrap`}
@@ -45,7 +44,9 @@ export function OrgTreeNode({ node, level = 0, isRoot = false }: OrgTreeNodeProp
         </div>
 
         {node.staff && node.staff.length > 0 && (
-          <div className={`mb-4 ${level === 0 ? '' : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'}`}>
+          <div className={`mb-4 flex flex-wrap justify-center gap-4 ${
+            node.staff.length === 1 ? 'w-full' : 'max-w-full'
+          }`}>
             {node.staff.map((staff) => (
               <StaffCard 
                 key={staff.id} 
@@ -96,7 +97,7 @@ export function OrgTreeNode({ node, level = 0, isRoot = false }: OrgTreeNodeProp
             <div className="flex flex-col w-full gap-6">
               {node.children?.map((child) => (
                 <div key={child.id} className="flex flex-col items-center">
-                  {node.children && node.children.length > 1 && (
+                  {node.children && node.children.length > 1  && (
                     <div
                       className="w-1"
                       style={{

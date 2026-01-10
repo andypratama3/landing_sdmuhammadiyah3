@@ -31,7 +31,7 @@ export default function ApiInitializer() {
 
       // 🔒 Skip jika token masih valid
       if (ApiClient.isTokenReady()) {
-        console.log('✅ [ApiInitializer] Token already ready');
+        // console.log('✅ [ApiInitializer] Token already ready');
         initializedRef.current = true;
         setStatus('ready');
         return;
@@ -40,7 +40,7 @@ export default function ApiInitializer() {
       setStatus('loading');
 
       try {
-        console.log('🚀 [ApiInitializer] Initializing...');
+        // console.log('🚀 [ApiInitializer] Initializing...');
         
         // ✅ Initialize API Client (generate token)
         await ApiClient.initialize();
@@ -50,7 +50,7 @@ export default function ApiInitializer() {
         initializedRef.current = true;
         setStatus('ready');
 
-        console.log('✅ [ApiInitializer] Ready');
+        // console.log('✅ [ApiInitializer] Ready');
 
       } catch (error) {
         console.error('❌ [ApiInitializer] Failed:', error);

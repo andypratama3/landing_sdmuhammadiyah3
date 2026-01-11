@@ -113,9 +113,9 @@ export default function Home() {
   ]
 
   const facilities = [
-    { title: "FASILITAS", image: "/placeholder.svg?height=300&width=400", link: "/fasilitas" },
-    { title: "PRESTASI SISWA", image: "/placeholder.svg?height=300&width=400", link: "/prestasi-siswa" },
-    { title: "PRESTASI SEKOLAH", image: "/placeholder.svg?height=300&width=400", link: "/prestasi-sekolah" },
+    { title: "FASILITAS", image: "/fasilitas.png", link: "/fasilitas" },
+    { title: "PRESTASI SISWA", image: "/prestasi-siswa.png", link: "/prestasi-siswa" },
+    { title: "PRESTASI SEKOLAH", image: "/prestasi-sekolah.png", link: "/prestasi-sekolah" },
   ]
 
   const { data: galleries, loading: galleryLoading, error: galleryError } = useApi<Gallery[]>('/gallery-landing', {
@@ -153,30 +153,6 @@ export default function Home() {
       cacheTTL: 3600000,
       immediate: true,
   });
-
-
-  // const achievements = [
-  //   {
-  //     name: "Alivna Hilya Zia",
-  //     title: "Juara 2 Panahan",
-  //     image: "/girl-archery-trophy.jpg",
-  //   },
-  //   {
-  //     name: "Salsabil Raihanah & Andi Alfan",
-  //     title: "O2SN Karate",
-  //     image: "/kids-karate-medal.jpg",
-  //   },
-  //   {
-  //     name: "Maryam",
-  //     title: "Juara Harapan III Tahfidz",
-  //     image: "/girl-quran-competition.jpg",
-  //   },
-  //   {
-  //     name: "Naura Jasmine",
-  //     title: "Juara 1 FLS3N Mendongeng",
-  //     image: "/girl-storytelling-trophy.jpg",
-  //   },
-  // ]
 
   const formatPartnerName = (name: string) => {
       const words = name.split(" ");
@@ -465,7 +441,7 @@ export default function Home() {
             <div className="relative">
               <div className="absolute -top-6 -left-6 w-24 h-24 bg-[#ffd166]/30 dark:bg-[#ffd166]/10 rounded-3xl blur-2xl" />
               <div className="relative overflow-hidden shadow-2xl rounded-3xl">
-                <img src="/happy-children-classroom-learning.jpg" alt="Classroom" className="object-cover w-full h-full" />
+                <img src="/foto_sekolah.jpeg" alt="Classroom" className="object-cover w-full h-full" />
               </div>
             </div>
             <div>

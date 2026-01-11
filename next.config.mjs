@@ -1,10 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  compress: true,
+  swcMinify: true,
+
   images: {
-    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -12,7 +11,14 @@ const nextConfig = {
         pathname: '/storage/**',
       },
     ],
-    
+  },
+
+  experimental: {
+    optimizeCss: true,
+  },
+
+  typescript: {
+    ignoreBuildErrors: true,
   },
 }
 

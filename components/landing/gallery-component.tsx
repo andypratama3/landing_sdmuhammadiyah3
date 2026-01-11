@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card"
-import Image from "next/image"
 import Link from "next/link"
 import { Gallery } from "@/types/gallery.types"
 
@@ -23,13 +22,15 @@ export function GalleryCard({ gallery }: GalleryCardProps) {
   return (
     <Link href={`/galeri/${gallery.slug}`} className="block">
       <Card className="overflow-hidden transition-all bg-white border-0 hover:shadow-xl group rounded-2xl dark:bg-gray-700">
-        <div className="relative h-48 overflow-hidden">
-          <Image
+        <div className="relative w-full h-auto overflow-hidden">
+          <img
             src={mainFoto}
             alt={gallery.name}
-            width={400}
-            height={300}
-            className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110 rounded-2xl"
+            className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110 rounded-t-2xl"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement
+              target.src = "/placeholder.svg"
+            }}
           />
         </div>
 

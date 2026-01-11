@@ -1,9 +1,12 @@
-// components/google-analytics.tsx
 'use client';
 
 import Script from 'next/script';
 
-export default function GoogleAnalytics() {
+interface GoogleAnalyticsProps {
+  nonce?: string;
+}
+
+export default function GoogleAnalytics({ nonce }: GoogleAnalyticsProps) {
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
@@ -15,6 +18,7 @@ export default function GoogleAnalytics() {
           <Script
             id="gtm-script"
             strategy="afterInteractive"
+            nonce={nonce}
             dangerouslySetInnerHTML={{
               __html: `
                 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -38,6 +42,7 @@ export default function GoogleAnalytics() {
           <Script
             id="ga-script"
             strategy="afterInteractive"
+            nonce={nonce}
             dangerouslySetInnerHTML={{
               __html: `
                 window.dataLayer = window.dataLayer || [];

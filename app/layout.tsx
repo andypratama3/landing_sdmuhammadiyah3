@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Quicksand, Poppins } from "next/font/google"
+import { headers } from "next/headers"
 import "./globals.css"
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
@@ -132,11 +133,15 @@ export const viewport = {
   initialScale: 1,
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // Get nonce from headers - FIX: await the promise and use get()
+  const headersList = await headers()
+  const nonce = headersList.get('x-nonce') || ''
+
   return (
     <html lang="id" suppressHydrationWarning>
       <head>
@@ -147,11 +152,11 @@ export default function RootLayout({
         {/* GTM NoScript - must be immediately after opening body tag */}
         <GTMNoScript />
         
-        {/* Google Analytics & GTM Scripts */}
-        <GoogleAnalytics />
+        {/* Google Analytics & GTM Scripts with Nonce */}
+        <GoogleAnalytics nonce={nonce} />
         
-        {/* Structured Data for SEO */}
-        <StructuredData />
+        {/* Structured Data for SEO with Nonce */}
+        <StructuredData nonce={nonce} />
         
         {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange> */}
           <ApiInitializer />

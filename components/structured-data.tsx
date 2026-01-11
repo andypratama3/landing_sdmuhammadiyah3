@@ -1,6 +1,10 @@
 'use client';
 
-export default function StructuredData() {
+interface StructuredDataProps {
+  nonce?: string;
+}
+
+export default function StructuredData({ nonce }: StructuredDataProps) {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
@@ -11,7 +15,7 @@ export default function StructuredData() {
     "logo": "https://sdmuhammadiyah3smd.com/SD3_logo1.png",
     "image": "https://sdmuhammadiyah3smd.com/SD3_logo1.png",
     "description": "Sekolah Dasar Islam unggulan di Samarinda yang fokus pada pengembangan karakter, pembelajaran inovatif, dan tahfidz Al-Qur'an. Akreditasi A dan Sekolah Penggerak.",
-    "foundingDate": "1985", // Sesuaikan dengan tahun berdiri
+    "foundingDate": "1985",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Jl. Dato Iba RT. 04/IV, Sungai Keledang",
@@ -100,14 +104,17 @@ export default function StructuredData() {
     <>
       <script
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
       <script
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
       <script
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
     </>

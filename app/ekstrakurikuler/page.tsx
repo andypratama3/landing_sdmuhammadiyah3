@@ -327,7 +327,7 @@ export default function EkstrakurikulerPage() {
                   {selectedActivity.fotoArray.length > 1 && (
                     <div className="grid grid-cols-4 gap-2">
                       {selectedActivity.fotoArray.slice(1, 5).map((foto, index) => (
-                        <div key={index} className="relative h-20 overflow-hidden rounded-lg">
+                        <div key={index} className="relative w-full h-full overflow-hidden rounded-lg">
                           <Image
                             src={foto}
                             alt={`${selectedActivity.name} ${index + 2}`}

@@ -1,12 +1,13 @@
 {
   "name": "SD Muhammadiyah 3 Samarinda",
-  "short_name": "SD Muh 3 SMD",
-  "description": "Sekolah Kreatif - Pembelajaran Inovatif dan Berkarakter",
+  "short_name": "SD Muh3 Samarinda",
+  "description": "Sekolah Kreatif SD Muhammadiyah 3 Samarinda - Pembelajaran Inovatif dan Berkarakter",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#33b962",
   "orientation": "portrait-primary",
+
   "icons": [
     {
       "src": "/SD3_logo1.png",
@@ -21,7 +22,42 @@
       "purpose": "any maskable"
     }
   ],
+
   "categories": ["education", "schools"],
   "lang": "id-ID",
-  "dir": "ltr"
+  "dir": "ltr",
+
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://sdmuhammadiyah3smd.com/",
+      "id": "sdmuhammadiyah3smd.com"
+    }
+  ],
+
+  "external_links": {
+    "primary_website": "https://sdmuhammadiyah3smd.com/",
+    "prestasi_sekolah": "https://sdmuhammadiyah3smd.com/prestasi-sekolah",
+
+    "official_systems": {
+      "sdmuhammadiyah3smd": "https://sdmuhammadiyah3smd.com/"
+    },
+
+    "education_profiles": {
+      "kemendikbud": "https://sekolah.data.kemendikdasmen.go.id/profil-sekolah/801DA47E-30F5-E011-B245-9B8909FD6E9E",
+      "zekolah": "https://data-sekolah.zekolah.id/sekolah/sd-muhammadiyah-3-samarinda-146937",
+      "ban_pdm": "https://ban-pdm.id/satuanpendidikan/30404112"
+    },
+
+    "social_media": {
+      "facebook": "https://www.facebook.com/sekolahkreatif.muhammadiyahsamarinda/",
+      "instagram": "https://www.instagram.com/SekolahKreatifSamarinda/",
+      "youtube": "https://www.youtube.com/@sekolahkreatifsdmuhammadiy2812",
+      "linktree": "https://linktr.ee/sdmuhammadiyah3smd"
+    },
+
+    "location": {
+      "google_maps": "https://maps.google.com/?q=SD+Muhammadiyah+3+Samarinda"
+    }
+  }
 }

@@ -9,14 +9,36 @@ import { FotoSekolahCard } from '@/components/tentang/fotoSekolahCard'
 
 export default function TentangPage() {
   const timeline = [
-    { year: "2010", event: "Pendirian SD Muhammadiyah 3 Samarinda" },
-    { year: "2012", event: "Pembukaan program Tahfidz Al-Qur'an" },
-    { year: "2015", event: "Akreditasi A pertama kali diraih" },
-    { year: "2018", event: "Perluasan fasilitas dan gedung baru" },
-    { year: "2020", event: "Implementasi sistem pembelajaran digital" },
-    { year: "2022", event: "Menjadi Sekolah Penggerak" },
-    { year: "2023", event: "Meraih Akreditasi Unggul" },
-  ]
+    {
+      year: "1978",
+      event: "Terbit SK Operasional Nomor 220/608/DP.IVB/05/1978 (3 Mei 1978)"
+    },
+    {
+      year: "1979",
+      event: "Pendirian SD Muhammadiyah 3 Samarinda pada 24 Juli 1979 dengan SK Nomor 3855/I-13/KTM-57/1979"
+    },
+    {
+      year: "2006",
+      event: "Meraih Akreditasi B (SK Nomor 125/BAS-SDM/12/2006)"
+    },
+    {
+      year: "2010",
+      event: "Bertransformasi menjadi Sekolah Kreatif SD Muhammadiyah 3 Samarinda dan menerapkan pembelajaran kreatif"
+    },
+    {
+      year: "2015",
+      event: "Meraih Akreditasi A (SK Nomor 308/BAP/SM/HK/X/2015)"
+    },
+    {
+      year: "2020",
+      event: "Kepemimpinan dilanjutkan oleh Bapak Ansar HS, S.Pd., M.M., Gr."
+    },
+    {
+      year: "2021",
+      event: "Meraih Akreditasi A (Unggul) dengan SK Nomor 1347/BAN-SM/SK/2021"
+    }
+  ];
+
 
   const { data: fotosekolah, loading: fotosekolahLoading } = useApi<Fotosekolah[]>(
     '/tentang/foto-sekolah', 

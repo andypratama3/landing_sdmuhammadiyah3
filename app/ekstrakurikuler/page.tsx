@@ -314,12 +314,12 @@ export default function EkstrakurikulerPage() {
               {selectedActivity.fotoArray && selectedActivity.fotoArray.length > 0 && (
                 <div className="space-y-3">
                   {/* Main Image */}
-                  <div className="relative h-64 overflow-hidden rounded-lg sm:h-80">
+                  <div className="relative h-full overflow-hidden rounded-lg sm:h-80">
                     <Image
                       src={selectedActivity.fotoArray[0]}
                       alt={selectedActivity.name}
                       fill
-                      className="object-cover"
+                      className="object-cover w-full h-full"
                     />
                   </div>
 
@@ -388,22 +388,6 @@ export default function EkstrakurikulerPage() {
                   </div>
                 )}
               </div>
-
-              {/* Action Button */}
-              <div className="flex gap-3">
-                <Button 
-                  className="flex-1 bg-[#33b962] hover:bg-[#2a9d52] dark:bg-[#2a7a4a] dark:hover:bg-[#33b962]"
-                >
-                  Daftar Sekarang
-                </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={() => setSelectedActivity(null)}
-                  className="dark:border-gray-600 dark:text-white dark:hover:bg-gray-700"
-                >
-                  Tutup
-                </Button>
-              </div>
             </div>
           )}
         </DialogContent>
@@ -421,13 +405,13 @@ function ActivityCard({
 }) {
   return (
     <Card className="overflow-hidden transition-all cursor-pointer hover:shadow-lg group dark:bg-gray-700 dark:border-gray-600" onClick={onClick}>
-      <div className="relative h-48 overflow-hidden bg-gray-100 dark:bg-gray-600">
+      <div className="relative overflow-hidden bg-gray-100 h- dark:bg-gray-600 h-100 w-100">
         {activity.fotoFirst ? (
           <Image
             src={activity.fotoFirst}
             alt={activity.name}
             fill
-            className="object-cover transition-transform duration-300 group-hover:scale-110"
+            className="object-contain transition-transform duration-300 group-hover:scale-110"
           />
         ) : (
           <div className="flex items-center justify-center w-full h-full">

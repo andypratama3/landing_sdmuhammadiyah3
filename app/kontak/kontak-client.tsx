@@ -32,9 +32,9 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Telepon",
-    content: "(0541) 123-456",
+    content: "(0541) 260066",
     action: "Hubungi",
-    link: "tel:+62541123456",
+    link: "tel:0541-260066",
   },
   {
     icon: Mail,
@@ -48,7 +48,7 @@ const contactInfo = [
     title: "WhatsApp",
     content: "+62 812-3456-7890",
     action: "Chat WhatsApp",
-    link: "https://wa.me/6281234567890",
+    link: "https://wa.me/6285250443151",
   },
 ]
 

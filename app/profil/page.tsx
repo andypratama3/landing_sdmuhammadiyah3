@@ -289,10 +289,16 @@ export default function ProfilPage() {
               <Calendar className="w-12 h-12 text-[#33b962] mb-4" />
               <h3 className="mb-2 text-xl font-bold text-gray-900">Kalender Akademik</h3>
               <p className="mb-4 text-gray-600">Jadwal kegiatan akademik tahun ajaran 2025/2026</p>
-              <Button variant="outline" className="bg-transparent rounded-full">
-                <Download className="w-4 h-4 mr-2" />
-                Download PDF
-              </Button>
+             <Button
+                  asChild
+                  variant="outline"
+                  className="flex items-center bg-transparent rounded-full"
+                >
+                  <a href="/Kalender Pendidikan-TP-2025-2026.pdf" download>
+                    <Download className="w-4 h-4 mr-2" />
+                    <span className="text-sm">Download PDF</span>
+                  </a>
+                </Button>
             </Card>
 
             <Card className="p-8 rounded-3xl border-2 hover:border-[#33b962]/30 transition-all hover:shadow-lg">

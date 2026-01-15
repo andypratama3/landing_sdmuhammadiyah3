@@ -24,6 +24,7 @@ import {
   ArrowLeft,
 } from "lucide-react"
 
+
 import { HtmlContent } from "@/components/html-content"
 import { Berita } from '@/types/berita.types'
 import { useApi } from "@/hooks/useApi"
@@ -377,7 +378,12 @@ export default function BeritaDetailPage() {
                   <CardHeader>
                     <div className="flex items-center gap-4">
                       <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10">
-                        <User className="w-8 h-8 text-primary" />
+                        <Image src="/SD3_logo1.png"
+                          className="rounded-full" 
+                          alt="Logo Sekolah"
+                          width={40}
+                          height={40}
+                        />
                       </div>
                       <div>
                         <h3 className="font-semibold">Admin</h3>

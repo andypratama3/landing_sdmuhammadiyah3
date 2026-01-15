@@ -9,8 +9,6 @@ import { useMutation } from '@/hooks/useApi';
  */
 const VisitorTracker = () => {
 
-  
-
   const { mutate, loading } = useMutation('/visitor/store', 'POST');
 
   const trackVisitor = useCallback(async () => {

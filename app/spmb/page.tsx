@@ -24,7 +24,7 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "PPDB - Penerimaan Peserta Didik Baru - SD Muhammadiyah 3 Samarinda",
+  title: "SPMB - Sistem Penerimaan Murid Baru - SD Muhammadiyah 3 Samarinda",
   description:
     "Pendaftaran siswa baru SD Muhammadiyah 3 Samarinda untuk tahun ajaran 2025/2026. Daftar sekarang dan bergabung dengan Sekolah Kreatif!",
 }
@@ -130,6 +130,9 @@ const faqs = [
 ]
 
 export default function SPMBPage() {
+
+
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}

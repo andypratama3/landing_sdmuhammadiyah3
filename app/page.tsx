@@ -193,9 +193,10 @@ export default function Home() {
                 <Image src="/SD3_logo1.png" alt="Logo" width={100} height={100} className="object-contain" />
               </div>
             </div>
-            <h1 className="mb-6 text-5xl font-bold leading-tight text-white md:text-7xl text-balance">
+            <h1 className="mb-4 text-4xl font-bold leading-tight text-center text-white sm:text-3xl md:text-4xl lg:text-5xl text-balance">
               SD MUHAMMADIYAH 3 SAMARINDA
             </h1>
+
             <p className="mb-4 text-2xl font-semibold md:text-3xl text-white/90">Sekolah Kreatif</p>
             <p className="max-w-3xl mx-auto mb-10 text-xl leading-relaxed text-white/80 text-balance">
               Pembelajaran Inovatif dan Berkarakter

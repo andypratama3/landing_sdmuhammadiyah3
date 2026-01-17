@@ -38,7 +38,7 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/profile-sekolah',
+        source: '/profil-sekolah',
         destination: '/profil',
         permanent: true,
       },

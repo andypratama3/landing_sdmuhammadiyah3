@@ -25,12 +25,24 @@ const nextConfig = {
     unoptimized: process.env.NODE_ENV === 'development',
   },
 
+  
+
   experimental: {
     optimizeCss: true,
   },
 
   typescript: {
     ignoreBuildErrors: true,
+  },
+
+  async redirects() {
+    return [
+      {
+        source: '/profile-sekolah',
+        destination: '/profil',
+        permanent: true,
+      },
+    ]
   },
 
   async headers() {

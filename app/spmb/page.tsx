@@ -1,12 +1,9 @@
+
 import type { Metadata } from "next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
+import { SpmbPage } from '@/components/spmb/spmb'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import {
   Calendar,
@@ -92,6 +89,7 @@ const requirements = [
   },
 ]
 
+
 const fees = [
   { item: "Biaya Pendaftaran SPMB", amount: "Rp 300.000" },
 ]
@@ -130,9 +128,6 @@ const faqs = [
 ]
 
 export default function SPMBPage() {
-
-
-
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -239,7 +234,7 @@ export default function SPMBPage() {
       </section>
 
       {/* Registration Form Preview */}
-      <section className="py-16 bg-background">
+      <section className="py-16 bg-background" id="RegisterForm">
         <div className="container px-4 mx-auto">
           <div className="max-w-3xl mx-auto">
             <div className="mb-12 text-center">
@@ -247,123 +242,7 @@ export default function SPMBPage() {
               <p className="text-muted-foreground">Isi formulir berikut untuk mendaftar sebagai siswa baru</p>
             </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Data Calon Siswa</CardTitle>
-                <CardDescription>Lengkapi semua informasi dengan benar</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="nama">Nama Lengkap *</Label>
-                    <Input id="nama" placeholder="Nama lengkap sesuai akta" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="nik">NIK *</Label>
-                    <Input id="nik" placeholder="Nomor Induk Kependudukan" />
-                  </div>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="tempat-lahir">Tempat Lahir *</Label>
-                    <Input id="tempat-lahir" placeholder="Kota kelahiran" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="tanggal-lahir">Tanggal Lahir *</Label>
-                    <Input id="tanggal-lahir" type="date" />
-                  </div>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="jenis-kelamin">Jenis Kelamin *</Label>
-                    <Select>
-                      <SelectTrigger id="jenis-kelamin">
-                        <SelectValue placeholder="Pilih jenis kelamin" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="laki-laki">Laki-laki</SelectItem>
-                        <SelectItem value="perempuan">Perempuan</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="asal-tk">Asal TK</Label>
-                    <Input id="asal-tk" placeholder="Nama TK (jika ada)" />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="alamat">Alamat Lengkap *</Label>
-                  <Textarea id="alamat" placeholder="Alamat lengkap tempat tinggal" rows={3} />
-                </div>
-
-                <div className="pt-6 border-t">
-                  <h3 className="mb-4 text-lg font-semibold">Data Orang Tua</h3>
-
-                  <div className="space-y-4">
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <div className="space-y-2">
-                        <Label htmlFor="nama-ayah">Nama Ayah *</Label>
-                        <Input id="nama-ayah" placeholder="Nama lengkap ayah" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="pekerjaan-ayah">Pekerjaan Ayah *</Label>
-                        <Input id="pekerjaan-ayah" placeholder="Pekerjaan ayah" />
-                      </div>
-                    </div>
-
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <div className="space-y-2">
-                        <Label htmlFor="nama-ibu">Nama Ibu *</Label>
-                        <Input id="nama-ibu" placeholder="Nama lengkap ibu" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="pekerjaan-ibu">Pekerjaan Ibu *</Label>
-                        <Input id="pekerjaan-ibu" placeholder="Pekerjaan ibu" />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="no-hp">No. WhatsApp Orang Tua *</Label>
-                      <Input id="no-hp" placeholder="08xxxxxxxxxx" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-6 border-t">
-                  <h3 className="mb-4 text-lg font-semibold">Upload Dokumen</h3>
-
-                  <div className="space-y-4">
-                    <div className="p-6 text-center transition-colors border-2 border-dashed rounded-lg cursor-pointer hover:border-primary">
-                      <Upload className="w-12 h-12 mx-auto mb-2 text-muted-foreground" />
-                      <p className="mb-1 text-sm font-medium">Akta Kelahiran</p>
-                      <p className="text-xs text-muted-foreground">PDF, JPG, PNG (Max. 2MB)</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-start pt-4 space-x-2">
-                  <Checkbox id="terms" />
-                  <label
-                    htmlFor="terms"
-                    className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    Saya menyetujui syarat dan ketentuan yang berlaku serta bersedia mengikuti seluruh program sekolah
-                  </label>
-                </div>
-
-                <Button size="lg" className="w-full">
-                  Daftar Sekarang
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-
-                <p className="text-xs text-center text-muted-foreground">
-                  Dengan mendaftar, data Anda akan diproses sesuai kebijakan privasi kami
-                </p>
-              </CardContent>
-            </Card>
+            <SpmbPage />
           </div>
         </div>
       </section>

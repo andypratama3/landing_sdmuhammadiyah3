@@ -10,15 +10,16 @@ import { JadwalItem } from "@/types"
 
 // ========== COLOR MAPPING ==========
 const colorMap: Record<string, string> = {
-  'bg-blue-100': '#dbeafe',
-  'bg-green-100': '#dcfce7',
-  'bg-orange-100': '#fed7aa',
-  'bg-purple-100': '#e9d5ff',
-  'bg-red-100': '#fee2e2',
-  'bg-yellow-100': '#fef3c7',
-  'bg-pink-100': '#fbcfe8',
-  'bg-indigo-100': '#e0e7ff',
-  'bg-gray-100': '#f3f4f6',
+  'bg-blue-100':   '#e0edff', // biru pastel lebih hidup
+  'bg-green-100':  '#e3f8ea', // hijau fresh
+  'bg-orange-100': '#ffecd6', // oranye lembut tapi hangat
+  'bg-purple-100': '#f0e4ff', // ungu pastel
+  'bg-red-100':    '#fde8e8', // merah soft
+  'bg-yellow-100': '#fff3cc', // kuning cerah lembut
+  'bg-pink-100':   '#fde2ef', // pink pastel hidup
+  'bg-indigo-100': '#e4e9ff', // indigo soft
+  'bg-gray-100':   '#f1f3f7', // abu kebiruan (biar gak flat)
+
 }
 
 const DAY_ORDER = [

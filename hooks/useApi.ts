@@ -204,10 +204,8 @@ interface MutationResult<T> {
   error?: string;
   response?: ApiResponse<T>;
 }
+// Update bagian useMutation di hooks/useApi.ts
 
-/**
- * Hook untuk mutation (POST, PUT, DELETE) dengan retry logic
- */
 export function useMutation<T, D = any>(
   endpoint: string,
   method: 'POST' | 'PUT' | 'DELETE' = 'POST',
@@ -240,16 +238,38 @@ export function useMutation<T, D = any>(
         try {
           let apiResponse: ApiResponse<T>;
           
-          switch (method) {
-            case 'POST':
-              apiResponse = await ApiClient.post<T>(endpoint, requestData);
-              break;
-            case 'PUT':
-              apiResponse = await ApiClient.put<T>(endpoint, requestData);
-              break;
-            case 'DELETE':
-              apiResponse = await ApiClient.delete<T>(endpoint);
-              break;
+          // Jika data adalah FormData, gunakan fetch langsung
+          if (requestData instanceof FormData) {
+            const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+            const token = localStorage.getItem('auth_token'); // Sesuaikan dengan cara Anda menyimpan token
+            
+            const headers: Record<string, string> = {};
+            if (token) {
+              headers['Authorization'] = `Bearer ${token}`;
+            }
+            // JANGAN set Content-Type untuk FormData - browser akan set otomatis dengan boundary
+            
+            const fetchResponse = await fetch(`${baseURL}${endpoint}`, {
+              method,
+              headers,
+              body: requestData,
+              credentials: 'include',
+            });
+            
+            apiResponse = await fetchResponse.json();
+          } else {
+            // Untuk non-FormData, gunakan ApiClient seperti biasa
+            switch (method) {
+              case 'POST':
+                apiResponse = await ApiClient.post<T>(endpoint, requestData);
+                break;
+              case 'PUT':
+                apiResponse = await ApiClient.put<T>(endpoint, requestData);
+                break;
+              case 'DELETE':
+                apiResponse = await ApiClient.delete<T>(endpoint);
+                break;
+            }
           }
 
           if (!mountedRef.current) return { success: false, error: 'Component unmounted' };

@@ -47,6 +47,16 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
+      {
+        source: '/tenagapendidikan',
+        destination: '/tenaga-pendidikan',
+        permanent: true,
+      },
+      {
+        source: '/gallery',
+        destination: '/galeri',
+        permanent: true,
+      }
     ]
   },
 

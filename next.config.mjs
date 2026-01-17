@@ -42,6 +42,11 @@ const nextConfig = {
         destination: '/profil',
         permanent: true,
       },
+      {
+        source: '/spmb',
+        destination: '/',
+        permanent: true,
+      },
     ]
   },
 

@@ -53,7 +53,7 @@ export default function ApiInitializer() {
         // console.log('✅ [ApiInitializer] Ready');
 
       } catch (error) {
-        console.error('❌ [ApiInitializer] Failed:', error);
+        // console.error('❌ [ApiInitializer] Failed:', error);
 
         if (!mounted) return;
 
@@ -62,7 +62,7 @@ export default function ApiInitializer() {
         // 🔁 Retry dengan exponential backoff
         if (retryCount < maxRetries) {
           const delay = Math.min(1000 * 2 ** retryCount, 10000);
-          console.log(`🔄 [ApiInitializer] Retry in ${delay}ms...`);
+          // console.log(`🔄 [ApiInitializer] Retry in ${delay}ms...`);
 
           retryTimeout = setTimeout(() => {
             if (mounted) {
@@ -70,7 +70,7 @@ export default function ApiInitializer() {
             }
           }, delay);
         } else {
-          console.error('❌ [ApiInitializer] Max retries reached');
+          // console.error('❌ [ApiInitializer] Max retries reached');
         }
       }
     };

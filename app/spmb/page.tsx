@@ -230,6 +230,21 @@ export default function SPMBPage() {
               </Card>
             ))}
           </div>
+          <div className="max-w-5xl mx-auto mt-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-2xl">Peringatan Khusus</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-5">
+                      <li className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                        <span>Jika Pembayaran Tidak Di Lakukan Sesegera Mungkin, Data Pendaftaran Tidak Akan Tersimpan Ke Dalam Sistem Sekolah Kreatif SD Muhammadiyah 3 Samarinda</span>
+                      </li>
+                  </ul>
+                </CardContent>
+              </Card>
+          </div>
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 "use client";
-
+import { useRef } from "react";
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -31,6 +31,7 @@ import {
   Wallet,
   MessageCircle,
   ChevronRight,
+  Video
 } from "lucide-react"
 
 import { PrestasiSiswa } from "@/types/prestasi.types";
@@ -168,6 +169,39 @@ export default function Home() {
           {words.slice(2).join(" ")}
         </>
       );
+    };
+
+    // handle video 
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+
+    const handlePlay = () => {
+      if (!videoRef.current) return;
+
+      // d-none button when play 
+      const playButton = document.getElementById("playButton");
+      if (playButton) {
+        playButton.classList.add("hidden");
+      }
+
+      videoRef.current.play();
+      videoRef.current.controls = false;
+
+      // d-none button when pause 
+      const pauseButton = document.getElementById("pauseButton");
+      if (pauseButton) {
+        pauseButton.classList.remove("hidden");
+      }
+
+      // add event listener when video is paused
+      videoRef.current.addEventListener("pause", () => {
+        if (pauseButton) {
+          pauseButton.classList.add("hidden");
+        }
+
+        if (playButton) {
+          playButton.classList.remove("hidden");
+        }
+      });
     };
 
 
@@ -378,29 +412,43 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Video Section */}
-      <section id="video" className="py-20 bg-gradient-to-br from-[#33b962]/5 to-[#ffd166]/5 dark:from-gray-900 dark:to-gray-800">
+      <section
+        id="video"
+        className="py-20 bg-gradient-to-br from-[#33b962]/5 to-[#ffd166]/5 dark:from-gray-900 dark:to-gray-800"
+      >
         <div className="container px-4 mx-auto">
+          {/* Title */}
           <div className="max-w-4xl mx-auto mb-12 text-center">
             <h2 className="mb-6 text-3xl font-bold leading-tight text-gray-900 md:text-4xl dark:text-white text-balance">
-              SD Muhammadiyah 3 Samarinda terus berinovasi mengikuti perkembangan teknologi
+              SD Muhammadiyah 3 Samarinda terus berinovasi mengikuti perkembangan
+              teknologi
             </h2>
           </div>
+
+          {/* Video */}
           <div className="max-w-5xl mx-auto">
-            <div className="relative overflow-hidden bg-gray-900 shadow-2xl rounded-3xl aspect-video dark:bg-black">
-              <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative overflow-hidden bg-gray-900 shadow-2xl rounded-3xl aspect-video">
+              {/* Video */}
+              <video
+                ref={videoRef}
+                className="object-cover w-full h-full"
+                poster="/video/poster.jpg"
+                preload="metadata"
+              >
+                <source src="/video/preview.mp4" type="video/mp4" />
+                Browser Anda tidak mendukung video.
+              </video>
+
+              {/* Overlay Play Button */}
+              <div className="absolute inset-0 flex items-center justify-center bg-black/30" id="playButton">
                 <Button
+                  onClick={handlePlay}
                   size="lg"
                   className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full w-20 h-20 p-0 shadow-2xl hover:scale-110 transition-all"
                 >
                   <Play className="w-10 h-10 ml-1" />
                 </Button>
               </div>
-              <img
-                src="/modern-school-classroom.png"
-                alt="Video Preview"
-                className="object-cover w-full h-full opacity-50"
-              />
             </div>
           </div>
         </div>

@@ -131,7 +131,7 @@ export default function SPMBPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 mt-20 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80">
+      <section className="relative py-20 mt-20 text-white bg-linear-to-br from-primary via-primary/90 to-primary/80">
         <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="mb-4 text-white bg-white/20 border-white/30">PPDB 2025/2026</Badge>

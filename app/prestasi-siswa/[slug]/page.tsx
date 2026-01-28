@@ -92,7 +92,7 @@ export default function PrestasiSiswaDetailPage() {
       dataArray = (relatedResponse as any).data
     }
     
-    const filtered = dataArray.filter((item) => item.id !== prestasi.id)
+    const filtered = dataArray.filter((item) => item.id !== prestasi.slug)
     return filtered.slice(0, 3)
   }, [relatedResponse, prestasi])
 
@@ -278,7 +278,7 @@ export default function PrestasiSiswaDetailPage() {
                         <Badge variant="secondary">{prestasi.tingkat}</Badge>
                       )}
                       {prestasi.kategori && prestasi.kategori.length > 0 && prestasi.kategori.map((kat) => (
-                        <Badge key={kat.id} variant="outline">{kat.name}</Badge>
+                        <Badge key={kat.slug} variant="outline">{kat.name}</Badge>
                       ))}
                     </div>
                     
@@ -364,7 +364,7 @@ export default function PrestasiSiswaDetailPage() {
                             <p className="text-sm font-medium text-muted-foreground">Kategori</p>
                             <div className="flex flex-wrap gap-2 mt-1">
                               {prestasi.kategori.map((kat) => (
-                                <Badge key={kat.id} variant="secondary">{kat.name}</Badge>
+                                <Badge key={kat.slug} variant="secondary">{kat.name}</Badge>
                               ))}
                             </div>
                           </div>

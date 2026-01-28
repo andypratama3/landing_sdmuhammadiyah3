@@ -453,7 +453,7 @@ export default function GuruPage() {
                       <div className="grid gap-3">
                         {guruDetail.pelajarans.map((p: Pelajaran) => (
                           <div
-                            key={p.id || p.slug}
+                            key={p.slug}
                             className="group flex items-center gap-4 p-4 bg-linear-to-r from-[#33b962]/8 to-transparent rounded-xl border-l-4 border-[#33b962] hover:shadow-lg hover:bg-linear-to-r hover:from-[#33b962]/12 transition-all"
                           >
                             <div className="shrink-0 w-3 h-3 rounded-full bg-[#33b962] group-hover:scale-150 transition-transform"></div>

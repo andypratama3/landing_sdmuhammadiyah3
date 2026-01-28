@@ -454,7 +454,7 @@ export default function BeritaPage() {
                     ) : regularNews.length > 0 ? (
                       regularNews.map((item) => (
                         <NewsCard 
-                          key={item.id} 
+                          key={item.slug} 
                           news={item}
                           formatDate={formatDate}
                           stripHtml={stripHtml}
@@ -544,7 +544,7 @@ export default function BeritaPage() {
                     ) : popularPosts.length > 0 ? (
                       <ul className="space-y-4">
                         {popularPosts.map((post, index) => (
-                          <li key={post.id}>
+                          <li key={post.slug}>
                             <Link
                               href={`/berita/${post.slug}`}
                               className="flex items-start gap-3 transition-colors group hover:text-primary"

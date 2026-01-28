@@ -49,7 +49,7 @@ export function OrgTreeNode({ node, level = 0, isRoot = false }: OrgTreeNodeProp
           }`}>
             {node.staff.map((staff) => (
               <StaffCard 
-                key={staff.id} 
+                key={staff.slug} 
                 staff={staff} 
                 isMultiple={level !== 0 && node.staff.length > 1} 
               />
@@ -96,7 +96,7 @@ export function OrgTreeNode({ node, level = 0, isRoot = false }: OrgTreeNodeProp
 
             <div className="flex flex-col w-full gap-6">
               {node.children?.map((child) => (
-                <div key={child.id} className="flex flex-col items-center">
+                <div key={child.slug} className="flex flex-col items-center">
                   {node.children && node.children.length > 1  && (
                     <div
                       className="w-1"

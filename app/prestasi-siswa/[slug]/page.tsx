@@ -487,7 +487,7 @@ export default function PrestasiSiswaDetailPage() {
                     <CardContent className="space-y-4">
                       {relatedPrestasi.map((item) => (
                         <Link
-                          key={item.id}
+                          key={item.slug}
                           href={`/prestasi-siswa/${item.slug}`}
                           className="block group"
                         >

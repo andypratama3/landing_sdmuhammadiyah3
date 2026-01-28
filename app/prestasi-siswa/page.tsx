@@ -69,7 +69,7 @@ export default function PrestasiSiswaPage() {
     }
     
     if (selectedCategory !== "all") {
-      params.set('kategori_id', selectedCategory)
+      params.set('kategori_slug', selectedCategory)
     }
     
     if (selectedYear !== "all") {
@@ -110,7 +110,7 @@ export default function PrestasiSiswaPage() {
   const { 
     data: categoryData,
     loading: categoryLoading 
-  } = useApi<{id: string, name: string}[]>('/prestasi/categories/siswa', {
+  } = useApi<{slug: string, name: string}[]>('/prestasi/categories/siswa', {
     cache: true,
     cacheTTL: 600000,
     immediate: true
@@ -153,12 +153,12 @@ export default function PrestasiSiswaPage() {
 
   // Process categories
   const categories = useMemo(() => {
-    const cats = [{ id: "all", name: "Semua Kategori" }]
+    const cats = [{ slug: "all", name: "Semua Kategori" }]
     
     if (categoryData && Array.isArray(categoryData)) {
       categoryData.forEach(cat => {
         cats.push({
-          id: cat.id,
+          slug: cat.slug,
           name: cat.name
         })
       })
@@ -369,12 +369,12 @@ export default function PrestasiSiswaPage() {
               <div className="flex flex-wrap gap-2">
                 {categories.map((category) => (
                   <Button
-                    key={category.id}
-                    variant={selectedCategory === category.id ? "default" : "outline"}
+                    key={category.slug}
+                    variant={selectedCategory === category.slug ? "default" : "outline"}
                     className={`rounded-full ${
-                      selectedCategory === category.id ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""
+                      selectedCategory === category.slug ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""
                     }`}
-                    onClick={() => setSelectedCategory(category.id)}
+                    onClick={() => setSelectedCategory(category.slug)}
                     disabled={categoryLoading}
                   >
                     {category.name}
@@ -419,7 +419,7 @@ export default function PrestasiSiswaPage() {
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {prestasiData.map((achievement) => (
                     <PrestasiCard 
-                      key={achievement.id}
+                      key={achievement.slug}
                       achievement={achievement}
                       formatDate={formatDate}
                       getAwardColor={getAwardColor}
@@ -507,7 +507,7 @@ export default function PrestasiSiswaPage() {
                   ) : popularData && popularData.length > 0 ? (
                     <ul className="space-y-4">
                       {popularData.map((item, index) => (
-                        <li key={item.id}>
+                        <li key={item.slug}>
                           <Link
                             href={`/prestasi-siswa/${item.slug}`}
                             className="flex items-start gap-3 transition-colors group hover:text-primary"
@@ -616,7 +616,7 @@ function PrestasiCard({
             {achievement.kategori && achievement.kategori.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-3">
                 {achievement.kategori.map((cat) => (
-                  <Badge key={cat.id} variant="secondary" className="text-xs">
+                  <Badge key={cat.slug} variant="secondary" className="text-xs">
                     {cat.name}
                   </Badge>
                 ))}

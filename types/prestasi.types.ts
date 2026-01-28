@@ -7,6 +7,7 @@
 export interface Kategori {
   id?: string;
   name: string;
+  slug: string;
 }
 
 // ===== PRESTASI SISWA =====
@@ -68,14 +69,14 @@ export interface PrestasiSiswaFilterParams {
   per_page?: number
   tahun?: string | number
   tingkat?: 'Sekolah' | 'Kecamatan' | 'Kota' | 'Provinsi' | 'Nasional' | 'Internasional'
-  kategori_id?: string | number
+  kategori_slug?: string | number
 }
 
 export interface PrestasiSekolahFilterParams {
   page?: number
   per_page?: number
   tahun?: string | number
-  kategori_id?: string | number
+  kategori_slug?: string | number
 }
 
 // ===== AWARD TYPES =====

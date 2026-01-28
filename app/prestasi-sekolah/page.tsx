@@ -47,7 +47,7 @@ export default function PrestasiSekolahPage() {
     params.set('per_page', '9')
     
     if (selectedCategory !== "all") {
-      params.set('kategori_id', selectedCategory)
+      params.set('kategori_slug', selectedCategory)
     }
     
     if (selectedYear !== "all") {
@@ -78,7 +78,7 @@ export default function PrestasiSekolahPage() {
   const { 
     data: categoryData,
     loading: categoryLoading 
-  } = useApi<{id: string, name: string}[]>('/prestasi/categories/sekolah', {
+  } = useApi<{slug: string, name: string}[]>('/prestasi/categories/sekolah', {
     cache: true,
     cacheTTL: 600000,
     immediate: true
@@ -86,12 +86,12 @@ export default function PrestasiSekolahPage() {
 
   // Process categories
   const categories = useMemo(() => {
-    const cats = [{ id: "all", name: "Semua Kategori" }]
+    const cats = [{ slug: "all", name: "Semua Kategori" }]
     
     if (categoryData && Array.isArray(categoryData)) {
       categoryData.forEach(cat => {
         cats.push({
-          id: cat.id,
+          slug: cat.slug,
           name: cat.name
         })
       })
@@ -281,12 +281,12 @@ export default function PrestasiSekolahPage() {
               <div className="flex flex-wrap gap-2">
                 {categories.map((category) => (
                   <Button
-                    key={category.id}
-                    variant={selectedCategory === category.id ? "default" : "outline"}
+                    key={category.slug}
+                    variant={selectedCategory === category.slug ? "default" : "outline"}
                     className={`rounded-full ${
-                      selectedCategory === category.id ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""
+                      selectedCategory === category.slug ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""
                     }`}
-                    onClick={() => setSelectedCategory(category.id)}
+                    onClick={() => setSelectedCategory(category.slug)}
                     disabled={categoryLoading}
                   >
                     {category.name}
@@ -335,7 +335,7 @@ export default function PrestasiSekolahPage() {
               <div className="space-y-8 ">
                 {prestasiData.map((achievement) => (
                   <PrestasiSekolahCard 
-                    key={achievement.id}
+                    key={achievement.slug}
                     achievement={achievement}
                     formatDate={formatDate}
                     getCategoryIcon={getCategoryIcon}
@@ -472,7 +472,7 @@ function PrestasiSekolahCard({
             <div className="flex items-start justify-between mb-4">
               <div className="flex flex-wrap gap-2">
                 {achievement.kategori && achievement.kategori.length > 0 && achievement.kategori.map((kat) => (
-                  <Badge key={kat.id} className="bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20">
+                  <Badge key={kat.slug} className="bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20">
                     {kat.name}
                   </Badge>
                 ))}

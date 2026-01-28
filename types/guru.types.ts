@@ -9,11 +9,8 @@ export interface Karyawan {
   sex?: string;
   phone?: string;
   slug?: string;
-  user_id?: string;
-  deleted_at?: string | null;
-  created_at?: string;
-  updated_at?: string;
 }
+
 
 /**
  * Pelajaran/Subject

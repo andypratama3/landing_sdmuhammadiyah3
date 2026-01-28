@@ -107,8 +107,8 @@ export default function GuruPage() {
 
   const filters = useMemo(() => {
     return [
-      { id: "all", label: "Semua Guru" },
-      ...pelajarans.map((p: any) => ({ id: p.slug, label: p.name })),
+      { slug: "all", label: "Semua Guru" },
+      ...pelajarans.map((p: any) => ({ slug: p.slug, label: p.name })),
     ]
   }, [pelajarans])
 
@@ -204,14 +204,14 @@ export default function GuruPage() {
             <div className="flex flex-wrap gap-2">
               {filters.map((filter) => (
                 <Button
-                  key={filter.id}
-                  variant={activeFilter === filter.id ? "default" : "outline"}
+                  key={filter.slug}
+                  variant={activeFilter === filter.slug ? "default" : "outline"}
                   className={`rounded-full font-medium transition-all ${
-                    activeFilter === filter.id
+                    activeFilter === filter.slug
                       ? "bg-[#33b962] text-white shadow-lg hover:bg-[#2a9d52]"
                       : "bg-white text-gray-700 border-2 border-gray-200 hover:border-[#33b962] hover:text-[#33b962]"
                   }`}
-                  onClick={() => setActiveFilter(filter.id)}
+                  onClick={() => setActiveFilter(filter.slug)}
                 >
                   {filter.label}
                 </Button>

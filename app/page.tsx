@@ -559,7 +559,7 @@ export default function Home() {
                 <div className="absolute -top-6 left-0 text-7xl text-[#33b962] select-none">"</div>
                 <p className="px-6 text-lg sm:text-xl italic leading-relaxed text-gray-700 dark:text-gray-300 font-medium">
                   "Kami berkomitmen untuk memberikan pendidikan terbaik yang menggabungkan ilmu pengetahuan, teknologi, dan
-                nilai-nilai Islami untuk membentuk generasi yang unggul dan berakhlak mulia."
+                  nilai-nilai Islami untuk membentuk generasi yang unggul dan berakhlak mulia."
                 </p>
                 <div className="absolute -bottom-10 right-0 text-7xl text-[#33b962] select-none rotate-180">"</div>
               </div>
@@ -661,7 +661,8 @@ export default function Home() {
                 key={index}
                 className="group relative flex flex-col items-center"
               >
-                <div className="w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+                {/* Mobile: Always colorful & visible. Desktop (lg+): Grayscale & faded until hover */}
+                <div className="w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center lg:grayscale lg:opacity-60 lg:group-hover:grayscale-0 lg:group-hover:opacity-100 transition-all duration-500">
                   <Image
                     src={partner.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/cooperation/${partner.foto}` : "/placeholder.svg"}
                     alt={partner.name}
@@ -670,7 +671,8 @@ export default function Home() {
                     className="object-contain transition-transform"
                   />
                 </div>
-                <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {/* Mobile: Always visible. Desktop (lg+): Hidden until hover */}
+                <div className="mt-4 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300">
                   <p className="text-xs font-black text-gray-400 uppercase tracking-widest">{partner.name}</p>
                 </div>
               </div>
@@ -683,9 +685,9 @@ export default function Home() {
       <section className="relative py-24 overflow-hidden bg-white dark:bg-gray-900">
         <div className="absolute top-0 right-0 w-64 h-64 translate-x-1/2 -translate-y-1/2 bg-[#playful-blue]/10 rounded-full blur-3xl animate-blob animation-delay-4000" />
         <div className="container relative z-10 px-4 mx-auto text-center">
-            <Badge className="mb-6 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] dark:text-[#4ade80] border-[#33b962]/20 px-6 py-3 text-sm font-bold rounded-full">
-              PENGHARGAAN
-            </Badge>
+          <Badge className="mb-6 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] dark:text-[#4ade80] border-[#33b962]/20 px-6 py-3 text-sm font-bold rounded-full">
+            PENGHARGAAN
+          </Badge>
           <h2 className="mb-8 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight">Penghargaan Nasional</h2>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-16 lg:gap-32">
             <div className="group flex flex-col items-center">

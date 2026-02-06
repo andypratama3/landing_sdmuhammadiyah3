@@ -136,7 +136,7 @@ export default function Navigation() {
               size="sm"
               className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-4 shadow-xl hover:scale-105 transition-all font-black uppercase tracking-widest text-[10px] h-8 whitespace-nowrap"
             >
-              <Link href="#">PPDB 2025</Link>
+              <Link href="#">SPMB {new Date().getFullYear()}</Link>
             </Button>
           </div>
 
@@ -226,7 +226,7 @@ export default function Navigation() {
                 className="w-full bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-2xl py-6 text-lg font-black shadow-xl"
                 onClick={() => setIsOpen(false)}
               >
-                <Link href="#">PPDB 2025</Link>
+                <Link href="#">SPMB {new Date().getFullYear()}</Link>
               </Button>
             </div>
           </div>

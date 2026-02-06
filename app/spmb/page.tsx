@@ -30,7 +30,7 @@ const timeline = [
   {
     title: "Pengumuman Pendaftaran",
     date: "1 Januari 2025",
-    description: "Pengumuman resmi dibuka pendaftaran PPDB 2025/2026",
+    description: "Pengumuman resmi dibuka pendaftaran SPMB 2025/2026",
     icon: FileText,
   },
   {
@@ -134,7 +134,7 @@ export default function SPMBPage() {
       <section className="relative py-20 mt-20 text-white bg-linear-to-br from-primary via-primary/90 to-primary/80">
         <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 text-white bg-white/20 border-white/30">PPDB 2025/2026</Badge>
+            <Badge className="mb-4 text-white bg-white/20 border-white/30">SPMB 2025/2026</Badge>
             <h1 className="mb-4 text-4xl font-bold md:text-5xl">Pendaftaran Peserta Didik Baru</h1>
             <p className="max-w-2xl mx-auto mb-6 text-lg md:text-xl text-white/90">Tahun Ajaran 2025/2026</p>
             <Badge className="px-6 py-2 mb-8 text-lg text-white bg-green-500">
@@ -293,7 +293,7 @@ export default function SPMBPage() {
           <div className="max-w-3xl mx-auto">
             <div className="mb-12 text-center">
               <h2 className="mb-4 text-3xl font-bold md:text-4xl">Pertanyaan yang Sering Diajukan</h2>
-              <p className="text-muted-foreground">Temukan jawaban untuk pertanyaan umum seputar PPDB</p>
+              <p className="text-muted-foreground">Temukan jawaban untuk pertanyaan umum seputar SPMB</p>
             </div>
 
             <Accordion type="single" collapsible className="w-full">
@@ -342,7 +342,7 @@ export default function SPMBPage() {
                   <CardTitle>Email</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-white/90">ppdb@sdmuh3smd.sch.id</p>
+                  <p className="text-white/90">Spmb@sdmuh3smd.sch.id</p>
                 </CardContent>
               </Card>
             </div>

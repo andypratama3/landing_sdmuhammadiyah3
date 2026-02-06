@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     "Sekolah Dasar Samarinda Seberang",
     "SD Islam Terbaik Samarinda",
     "Pendaftaran SD Muhammadiyah",
-    "PPDB SD Muhammadiyah 3",
+    "SPMB SD Muhammadiyah 3",
     "Tahfidz Al-Qur'an Samarinda",
     "Akreditasi A Samarinda",
   ],

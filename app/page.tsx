@@ -558,7 +558,8 @@ export default function Home() {
               <div className="relative">
                 <div className="absolute -top-6 left-0 text-7xl text-[#33b962] select-none">"</div>
                 <p className="px-6 text-lg sm:text-xl italic leading-relaxed text-gray-700 dark:text-gray-300 font-medium">
-                  "Sinergi antara Iman, Ilmu, dan Akhlak adalah fondasi utama kami dalam melahirkan generasi masa depan yang siap menghadapi tantangan zaman dengan integritas dan kreativitas."
+                  "Kami berkomitmen untuk memberikan pendidikan terbaik yang menggabungkan ilmu pengetahuan, teknologi, dan
+                nilai-nilai Islami untuk membentuk generasi yang unggul dan berakhlak mulia."
                 </p>
                 <div className="absolute -bottom-10 right-0 text-7xl text-[#33b962] select-none rotate-180">"</div>
               </div>

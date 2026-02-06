@@ -623,15 +623,15 @@ function PrestasiCard({
         </div>
 
         <div className="p-8 flex-1 flex flex-col">
-          <div className="flex items-center gap-6 mb-6">
+          <div className="d-flex items-center gap-6 mb-6">
             <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#33b962]">
               <Calendar className="w-3.5 h-3.5 brightness-110" />
               <span>{formatDate(achievement.tanggal)}</span>
             </div>
             {achievement.penyelenggara && (
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400">
+              <div className="flex mt-2 items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400">
                 <MapPin className="w-3.5 h-3.5" />
-                <span className="truncate max-w-[120px]">{achievement.penyelenggara}</span>
+                <span className="truncate max-w-[150px]">{achievement.penyelenggara}</span>
               </div>
             )}
           </div>

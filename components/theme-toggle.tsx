@@ -17,19 +17,19 @@ export function ThemeToggle() {
     return <div className="w-10 h-10" />
   }
 
-  // return (
-  //   <Button
-  //     variant="ghost"
-  //     size="icon"
-  //     onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-  //     className="rounded-full hover:bg-gray-200 dark:hover:bg-gray-800"
-  //     aria-label="Toggle theme"
-  //   >
-  //     {theme === 'dark' ? (
-  //       <Sun className="w-5 h-5 text-yellow-500" />
-  //     ) : (
-  //       <Moon className="w-5 h-5 text-gray-700" />
-  //     )}
-  //   </Button>
-  // )
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      className="rounded-full hover:bg-gray-200 dark:hover:bg-gray-800"
+      aria-label="Toggle theme"
+    >
+      {theme === 'dark' ? (
+        <Sun className="w-5 h-5 text-yellow-500" />
+      ) : (
+        <Moon className="w-5 h-5 text-gray-700" />
+      )}
+    </Button>
+  )
 }

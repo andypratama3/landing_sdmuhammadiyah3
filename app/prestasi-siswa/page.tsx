@@ -53,7 +53,7 @@ export default function PrestasiSiswaPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [selectedLevel, setSelectedLevel] = useState("all")
   const [currentPage, setCurrentPage] = useState(1)
-  
+
   const contentRef = useRef<HTMLDivElement>(null)
   const debouncedSearchQuery = useDebounce(searchInput, 500)
   const isTyping = searchInput !== debouncedSearchQuery
@@ -63,31 +63,31 @@ export default function PrestasiSiswaPage() {
     const params = new URLSearchParams()
     params.set('page', currentPage.toString())
     params.set('per_page', '12')
-    
+
     if (selectedLevel !== "all") {
       params.set('tingkat', selectedLevel)
     }
-    
+
     if (selectedCategory !== "all") {
       params.set('kategori_slug', selectedCategory)
     }
-    
+
     if (selectedYear !== "all") {
       params.set('tahun', selectedYear)
     }
-    
+
     if (debouncedSearchQuery.trim()) {
       params.set('search', debouncedSearchQuery.trim())
     }
-    
+
     return params.toString()
   }, [currentPage, selectedLevel, selectedCategory, selectedYear, debouncedSearchQuery])
 
   // Fetch prestasi data
-  const { 
+  const {
     data: prestasiData,
-    meta: paginationMeta, 
-    loading: prestasiLoading, 
+    meta: paginationMeta,
+    loading: prestasiLoading,
     error: prestasiError,
     refetch: refetchPrestasi
   } = useApi<PrestasiSiswa[]>(`/prestasi/siswa?${queryString}`, {
@@ -97,29 +97,29 @@ export default function PrestasiSiswaPage() {
   })
 
   // Fetch tingkat counts
-  const { 
+  const {
     data: tingkatData,
-    loading: tingkatLoading 
-  } = useApi<{tingkat: string, total: number}[]>('/prestasi/siswa/count-by-tingkat', {
+    loading: tingkatLoading
+  } = useApi<{ tingkat: string, total: number }[]>('/prestasi/siswa/count-by-tingkat', {
     cache: true,
     cacheTTL: 600000,
     immediate: true
   })
 
   // Fetch category data
-  const { 
+  const {
     data: categoryData,
-    loading: categoryLoading 
-  } = useApi<{slug: string, name: string}[]>('/prestasi/categories/siswa', {
+    loading: categoryLoading
+  } = useApi<{ slug: string, name: string }[]>('/prestasi/categories/siswa', {
     cache: true,
     cacheTTL: 600000,
     immediate: true
   })
 
   // Fetch popular prestasi
-  const { 
+  const {
     data: popularData,
-    loading: popularLoading 
+    loading: popularLoading
   } = useApi<PrestasiSiswa[]>('/prestasi/siswa/popular', {
     cache: true,
     cacheTTL: 300000,
@@ -129,13 +129,13 @@ export default function PrestasiSiswaPage() {
   // Process levels
   const levels = useMemo(() => {
     const lvls = [{ id: "all", label: "Semua Tingkat", count: 0 }]
-    
+
     if (tingkatData && Array.isArray(tingkatData)) {
       const totalCount = tingkatData.reduce((sum, t) => sum + (t.total || 0), 0)
       lvls[0].count = totalCount
 
       const levelOrder = ['Internasional', 'Nasional', 'Provinsi', 'Kota', 'Kecamatan', 'Sekolah']
-      
+
       levelOrder.forEach(levelName => {
         const found = tingkatData.find(t => t.tingkat === levelName)
         if (found) {
@@ -147,14 +147,14 @@ export default function PrestasiSiswaPage() {
         }
       })
     }
-    
+
     return lvls
   }, [tingkatData])
 
   // Process categories
   const categories = useMemo(() => {
     const cats = [{ slug: "all", name: "Semua Kategori" }]
-    
+
     if (categoryData && Array.isArray(categoryData)) {
       categoryData.forEach(cat => {
         cats.push({
@@ -163,7 +163,7 @@ export default function PrestasiSiswaPage() {
         })
       })
     }
-    
+
     return cats
   }, [categoryData])
 
@@ -223,7 +223,7 @@ export default function PrestasiSiswaPage() {
   // Generate page numbers
   const pageNumbers = useMemo(() => {
     if (!paginationMeta) return []
-    
+
     const pages: (number | string)[] = []
     const maxVisible = 5
     let startPage = Math.max(1, paginationMeta.current_page - 2)
@@ -253,44 +253,55 @@ export default function PrestasiSiswaPage() {
   const isSearching = isTyping || prestasiLoading
 
   return (
-    <div className="min-h-screen mt-20">
-      {/* Hero */}
-      <section className="relative py-20 text-white bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45]">
-        <div className="container px-4 mx-auto">
-          <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 text-white bg-white/20 border-white/30">
-              Hall of Fame
+    <div className="pt-24 pb-16 min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+      {/* Animated Background Blobs */}
+      <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+
+      {/* Hero Section */}
+      <section className="relative py-24 sm:py-32 overflow-hidden bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#238b45] text-white">
+        <div className="absolute inset-0 bg-black/10 dark:bg-black/20" />
+        <div className="container relative z-10 px-4 mx-auto mt-8">
+          <div className="max-w-4xl mx-auto text-center text-fade-in-up">
+            <Badge className="px-6 py-2 mb-8 text-white bg-white/20 border-white/30 backdrop-blur-md font-black uppercase tracking-widest text-[10px]">
+              Hall of Fame & Achievements
             </Badge>
-            <h1 className="mb-4 text-4xl font-bold md:text-5xl">Prestasi Siswa</h1>
-            <p className="max-w-2xl mx-auto mb-8 text-lg md:text-xl text-white/90">
-              Kebanggaan kami atas pencapaian luar biasa siswa-siswi berprestasi
+            <h1 className="mb-6 text-fluid-h1 font-black leading-tight drop-shadow-md text-balance">
+              Prestasi Siswa SDMuh3
+            </h1>
+            <p className="max-w-2xl mx-auto mb-12 text-lg sm:text-xl md:text-2xl text-white/95 font-medium leading-relaxed">
+              Merayakan setiap langkah kecil menuju kesuksesan besar. Kebanggaan kami atas pencapaian luar biasa siswa-siswi.
             </p>
 
-            {/* Search Bar */}
+            {/* Premium Search Bar */}
             <div className="max-w-2xl mx-auto">
-              <div className="relative">
-                {isTyping ? (
-                  <Loader2 className="absolute w-5 h-5 transform -translate-y-1/2 left-4 top-1/2 text-muted-foreground animate-spin" />
-                ) : (
-                  <Search className="absolute w-5 h-5 transform -translate-y-1/2 left-4 top-1/2 text-muted-foreground" />
-                )}
-                <Input
-                  type="text"
-                  placeholder="Cari prestasi siswa..."
-                  className="py-6 pl-12 pr-4 text-lg bg-white text-foreground"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                />
-                {searchInput && (
-                  <button
-                    onClick={() => setSearchInput("")}
-                    className="absolute p-1 transition-colors transform -translate-y-1/2 rounded-full right-4 top-1/2 hover:bg-gray-200"
-                  >
-                    <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                )}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-linear-to-r from-white/20 to-white/10 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200" />
+                <div className="relative">
+                  {isTyping ? (
+                    <Loader2 className="absolute w-6 h-6 transform -translate-y-1/2 left-5 top-1/2 text-white/50 animate-spin" />
+                  ) : (
+                    <Search className="absolute w-6 h-6 transform -translate-y-1/2 left-5 top-1/2 text-white/70 group-hover:text-white transition-colors" />
+                  )}
+                  <Input
+                    type="text"
+                    placeholder="Cari prestasi siswa..."
+                    className="h-16 pl-14 pr-12 text-lg bg-white/10 backdrop-blur-xl dark:bg-black/20 text-white placeholder:text-white/60 border-white/20 focus:border-white/40 focus:ring-white/20 rounded-2xl w-full transition-all duration-300"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                  />
+                  {searchInput && (
+                    <button
+                      onClick={() => setSearchInput("")}
+                      className="absolute p-2 transition-all transform -translate-y-1/2 rounded-xl right-3 top-1/2 hover:bg-white/10 text-white/70 hover:text-white"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -304,8 +315,8 @@ export default function PrestasiSiswaPage() {
             <AlertCircle className="w-4 h-4" />
             <AlertDescription className="flex items-center justify-between">
               <span>Terjadi kesalahan saat memuat data.</span>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="sm"
                 onClick={() => refetchPrestasi()}
                 className="ml-4"
@@ -319,81 +330,87 @@ export default function PrestasiSiswaPage() {
       )}
 
       {/* Filters */}
-      <section className="py-12 bg-white border-b">
+      <section className="py-12 bg-white dark:bg-gray-950 border-b dark:border-gray-800 relative z-20">
         <div className="container px-4 mx-auto">
-          <div className="max-w-6xl mx-auto space-y-6">
-            {/* Year Filter */}
-            <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-700">Tahun</label>
-              <div className="flex flex-wrap gap-2">
-                {years.map((year) => (
-                  <Button
-                    key={year.id}
-                    variant={selectedYear === year.id ? "default" : "outline"}
-                    className={`rounded-full ${
-                      selectedYear === year.id ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""
-                    }`}
-                    onClick={() => setSelectedYear(year.id)}
-                    disabled={tingkatLoading || categoryLoading}
-                  >
-                    {year.label}
-                  </Button>
-                ))}
+          <div className="max-w-6xl mx-auto space-y-8">
+            <div className="grid md:grid-cols-3 gap-8 items-end">
+              {/* Year Filter */}
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-widest text-[#33b962] mb-2 block">Tahun</label>
+                <div className="flex flex-wrap gap-2">
+                  {years.map((year) => (
+                    <Button
+                      key={year.id}
+                      variant={selectedYear === year.id ? "default" : "outline"}
+                      className={`rounded-xl px-4 h-10 font-black uppercase tracking-widest text-[9px] transition-all duration-300 ${selectedYear === year.id
+                          ? "bg-[#33b962] text-white shadow-lg shadow-emerald-500/20 border-0"
+                          : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 hover:border-[#33b962] hover:text-[#33b962]"
+                        }`}
+                      onClick={() => setSelectedYear(year.id)}
+                      disabled={tingkatLoading || categoryLoading}
+                    >
+                      {year.label}
+                    </Button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Level Filter */}
-            <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-700">Tingkat Kompetisi</label>
-              <div className="flex flex-wrap gap-2">
-                {levels.map((level) => (
-                  <Button
-                    key={level.id}
-                    variant={selectedLevel === level.id ? "default" : "outline"}
-                    className={`rounded-full ${
-                      selectedLevel === level.id ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""
-                    }`}
-                    onClick={() => setSelectedLevel(level.id)}
-                    disabled={tingkatLoading}
-                  >
-                    {level.label}
-                   
-                  </Button>
-                ))}
+              {/* Level Filter */}
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-widest text-[#33b962] mb-2 block">Tingkat Kompetisi</label>
+                <div className="flex flex-wrap gap-2">
+                  {levels.map((level) => (
+                    <Button
+                      key={level.id}
+                      variant={selectedLevel === level.id ? "default" : "outline"}
+                      className={`rounded-xl px-4 h-10 font-black uppercase tracking-widest text-[9px] transition-all duration-300 ${selectedLevel === level.id
+                          ? "bg-[#33b962] text-white shadow-lg shadow-emerald-500/20 border-0"
+                          : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 hover:border-[#33b962] hover:text-[#33b962]"
+                        }`}
+                      onClick={() => setSelectedLevel(level.id)}
+                      disabled={tingkatLoading}
+                    >
+                      {level.label}
+                    </Button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Category Filter */}
-            <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-700">Kategori</label>
-              <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <Button
-                    key={category.slug}
-                    variant={selectedCategory === category.slug ? "default" : "outline"}
-                    className={`rounded-full ${
-                      selectedCategory === category.slug ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""
-                    }`}
-                    onClick={() => setSelectedCategory(category.slug)}
-                    disabled={categoryLoading}
-                  >
-                    {category.name}
-                  </Button>
-                ))}
+              {/* Category Filter */}
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-widest text-[#33b962] mb-2 block">Kategori Prestasi</label>
+                <div className="flex flex-wrap gap-2">
+                  {categories.map((category) => (
+                    <Button
+                      key={category.slug}
+                      variant={selectedCategory === category.slug ? "default" : "outline"}
+                      className={`rounded-xl px-4 h-10 font-black uppercase tracking-widest text-[9px] transition-all duration-300 ${selectedCategory === category.slug
+                          ? "bg-[#33b962] text-white shadow-lg shadow-emerald-500/20 border-0"
+                          : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 hover:border-[#33b962] hover:text-[#33b962]"
+                        }`}
+                      onClick={() => setSelectedCategory(category.slug)}
+                      disabled={categoryLoading}
+                    >
+                      {category.name}
+                    </Button>
+                  ))}
+                </div>
               </div>
             </div>
 
             {!isSearching && paginationMeta && (
-              <Badge className="bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20 px-4 py-2">
-                Total: {paginationMeta.total} Prestasi
-              </Badge>
+              <div className="flex items-center gap-3 px-6 py-2 bg-[#33b962]/5 rounded-full border border-emerald-500/10 w-fit transition-transform hover:scale-105">
+                <span className="text-[10px] font-black uppercase tracking-widest text-[#33b962]">
+                  Ditemukan {paginationMeta.total} Prestasi Siswa Luar Biasa
+                </span>
+              </div>
             )}
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section ref={contentRef} className="py-16 bg-gray-50">
+      <section ref={contentRef} className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="container px-4 mx-auto">
           <div className="grid gap-8 lg:grid-cols-4">
             {/* Prestasi Grid */}
@@ -418,7 +435,7 @@ export default function PrestasiSiswaPage() {
               ) : prestasiData && prestasiData.length > 0 ? (
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {prestasiData.map((achievement) => (
-                    <PrestasiCard 
+                    <PrestasiCard
                       key={achievement.slug}
                       achievement={achievement}
                       formatDate={formatDate}
@@ -431,7 +448,7 @@ export default function PrestasiSiswaPage() {
                   <AlertCircle className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
                   <h3 className="mb-2 text-lg font-semibold">Tidak ada prestasi</h3>
                   <p className="text-muted-foreground">
-                    {debouncedSearchQuery 
+                    {debouncedSearchQuery
                       ? `Tidak ditemukan prestasi dengan kata kunci "${debouncedSearchQuery}"`
                       : 'Belum ada prestasi untuk filter ini'}
                   </p>
@@ -441,8 +458,8 @@ export default function PrestasiSiswaPage() {
               {/* Pagination */}
               {!isSearching && prestasiData && prestasiData.length > 0 && paginationMeta && paginationMeta.last_page > 1 && (
                 <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     onClick={() => handlePageChange(paginationMeta.current_page - 1)}
                     disabled={paginationMeta.current_page === 1}
                   >
@@ -465,7 +482,7 @@ export default function PrestasiSiswaPage() {
                     )
                   ))}
 
-                  <Button 
+                  <Button
                     variant="outline"
                     onClick={() => handlePageChange(paginationMeta.current_page + 1)}
                     disabled={paginationMeta.current_page === paginationMeta.last_page}
@@ -486,9 +503,9 @@ export default function PrestasiSiswaPage() {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Popular Prestasi */}
-              <Card>
+              <Card className="dark:bg-gray-800 dark:border-gray-700">
                 <div className="p-6">
-                  <h3 className="flex items-center gap-2 mb-4 text-lg font-bold">
+                  <h3 className="flex items-center gap-2 mb-4 text-lg font-bold dark:text-white">
                     <Trophy className="w-5 h-5 text-[#33b962]" />
                     Prestasi Terbaru
                   </h3>
@@ -536,8 +553,8 @@ export default function PrestasiSiswaPage() {
               </Card>
 
               {/* Statistics */}
-              <Card className="p-6">
-                <h3 className="flex items-center gap-2 mb-4 text-lg font-bold">
+              <Card className="p-6 dark:bg-gray-800 dark:border-gray-700">
+                <h3 className="flex items-center gap-2 mb-4 text-lg font-bold dark:text-white">
                   <Medal className="w-5 h-5 text-[#33b962]" />
                   Statistik
                 </h3>
@@ -558,71 +575,83 @@ export default function PrestasiSiswaPage() {
   )
 }
 
-function PrestasiCard({ 
-  achievement, 
+function PrestasiCard({
+  achievement,
   formatDate,
   getAwardColor
-}: { 
+}: {
   achievement: PrestasiSiswa
   formatDate: (date: string) => string
   getAwardColor: (award: string | null | undefined) => string
 }) {
   return (
     <Link href={`/prestasi-siswa/${achievement.slug}`}>
-      <Card className="overflow-hidden transition-all duration-300 border-0 shadow-lg cursor-pointer rounded-3xl hover:shadow-2xl hover:-translate-y-2 group">
-        <div className="relative overflow-hidden h-80">
+      <Card className="overflow-hidden transition-all duration-500 border-0 shadow-lg cursor-pointer rounded-[2.5rem] hover:shadow-2xl hover:-translate-y-2 group dark:bg-gray-900/40 glass h-full flex flex-col">
+        <div className="relative overflow-hidden h-72 sm:h-80 md:h-96">
           <Image
             src={achievement.foto
               ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${achievement.foto}`
               : "/placeholder.svg"}
             alt={achievement.name}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-          
+          <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent" />
+
           {achievement.juara && (
-            <div className="absolute top-4 right-4">
-              <Badge className={`${getAwardColor(achievement.juara)} border-0 font-bold`}>
+            <div className="absolute top-6 right-6 z-20">
+              <Badge className={`${getAwardColor(achievement.juara)} border-0 font-black px-4 py-2 rounded-xl shadow-2xl brightness-110 tracking-widest text-[9px] uppercase backdrop-blur-md`}>
                 Juara {achievement.juara}
               </Badge>
             </div>
           )}
-          
-          <div className="absolute top-4 left-4">
-            <Trophy className="w-8 h-8 text-[#ffd700]" />
-          </div>
-          
-          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-            <h3 className="mb-2 text-lg font-bold line-clamp-2">{achievement.name}</h3>
-            
-            {achievement.penyelenggara && (
-              <p className="mb-3 text-sm text-white/80">{achievement.penyelenggara}</p>
-            )}
-            
-            <div className="flex flex-wrap gap-3 text-xs">
-              <div className="flex items-center gap-1">
-                <Calendar className="w-3 h-3" />
-                <span>{formatDate(achievement.tanggal)}</span>
+
+          <div className="absolute top-6 left-6 z-20">
+            <div className="relative group/trophy">
+              <div className="absolute -inset-4 bg-yellow-500/20 rounded-full blur-xl opacity-0 group-hover/trophy:opacity-100 transition-opacity duration-500" />
+              <div className="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 shadow-2xl transform transition-transform duration-500 group-hover:rotate-12">
+                <Trophy className="w-8 h-8 text-[#ffd700] brightness-125 drop-shadow-[0_4px_10px_rgba(255,215,0,0.5)]" />
               </div>
-              {achievement.tingkat && (
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-3 h-3" />
-                  <span>{achievement.tingkat}</span>
-                </div>
-              )}
             </div>
-            
-            {achievement.kategori && achievement.kategori.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-3">
-                {achievement.kategori.map((cat) => (
-                  <Badge key={cat.slug} variant="secondary" className="text-xs">
-                    {cat.name}
-                  </Badge>
-                ))}
+          </div>
+
+          <div className="absolute bottom-4 left-6 right-6 z-20">
+            <Badge className="bg-[#33b962] text-white border-0 font-black uppercase tracking-widest text-[9px] px-3 py-1 mb-2">
+              {achievement.tingkat}
+            </Badge>
+          </div>
+        </div>
+
+        <div className="p-8 flex-1 flex flex-col">
+          <div className="flex items-center gap-6 mb-6">
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#33b962]">
+              <Calendar className="w-3.5 h-3.5 brightness-110" />
+              <span>{formatDate(achievement.tanggal)}</span>
+            </div>
+            {achievement.penyelenggara && (
+              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                <MapPin className="w-3.5 h-3.5" />
+                <span className="truncate max-w-[120px]">{achievement.penyelenggara}</span>
               </div>
             )}
           </div>
+
+          <h3 className="mb-3 text-lg font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-[#33b962] transition-colors leading-tight">
+            {achievement.name}
+          </h3>
+
+          <div className="mt-auto pt-6 border-t border-gray-100 dark:border-white/5 flex items-center justify-between">
+            <div className="flex flex-wrap gap-1">
+              {achievement.kategori && achievement.kategori.length > 0 && achievement.kategori.slice(0, 2).map((cat) => (
+                <Badge key={cat.slug} className="bg-emerald-50 dark:bg-emerald-900/20 text-[#33b962] border-emerald-500/10 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md">
+                  {cat.name}
+                </Badge>
+              ))}
+            </div>
+          </div>
+            <Button variant="default" className="text-[9px] font-black uppercase tracking-widest text-[#33b962] p-2 mt-4 hover:translate-x-1 text-white transition-transform">
+              Lihat 
+            </Button>
         </div>
       </Card>
     </Link>

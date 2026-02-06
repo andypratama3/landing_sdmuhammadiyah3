@@ -47,9 +47,9 @@ export const RapotHierarchySystem = () => {
   }, [selectedYear, selectedClass, debouncedSearchQuery]);
 
   // Fetch Tahun Ajaran
-  const { 
+  const {
     data: tahunList,
-    loading: tahunLoading, 
+    loading: tahunLoading,
     error: tahunError
   } = useApi<TahunResponse[]>('/rapot/tahun', {
     cache: true,
@@ -58,10 +58,10 @@ export const RapotHierarchySystem = () => {
   });
 
   // Fetch Siswa
-  const { 
+  const {
     data: siswaList,
     meta: siswaMeta,
-    loading: siswaLoading, 
+    loading: siswaLoading,
     error: siswaError,
     response: siswaResponseObj
   } = useApi<SiswaResponse[]>(
@@ -103,16 +103,16 @@ export const RapotHierarchySystem = () => {
 
   // Download handler
   const handleDownload = useCallback(async (
-    siswaName: string, 
-    semester: string, 
-    rapotId: string, 
+    siswaName: string,
+    semester: string,
+    rapotId: string,
     siswaId: string
   ) => {
     try {
       addToast('info', 'Memulai download...');
 
       const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/rapot/download/${siswaId}/${rapotId}`;
-      
+
       const response = await fetch(apiUrl, {
         method: 'GET',
         credentials: 'include',
@@ -120,7 +120,7 @@ export const RapotHierarchySystem = () => {
           'Accept': 'application/pdf,application/octet-stream,image/*',
         },
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
@@ -128,7 +128,7 @@ export const RapotHierarchySystem = () => {
 
       const contentDisposition = response.headers.get('Content-Disposition');
       let filename = `rapot_${siswaName}_${semester}.pdf`;
-      
+
       if (contentDisposition) {
         const filenameMatch = contentDisposition.match(/filename="(.+)"/);
         if (filenameMatch) {
@@ -137,7 +137,7 @@ export const RapotHierarchySystem = () => {
       }
 
       const blob = await response.blob();
-      
+
       if (blob.size === 0) {
         throw new Error('File kosong atau tidak dapat diakses');
       }
@@ -149,25 +149,25 @@ export const RapotHierarchySystem = () => {
       link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
-      
+
       setTimeout(() => {
         window.URL.revokeObjectURL(url);
         document.body.removeChild(link);
       }, 100);
 
       addToast('success', `Berhasil mendownload rapot ${siswaName}`);
-      
+
     } catch (error) {
       console.error('Error downloading rapot:', error);
-      
+
       let errorMessage = 'Gagal mengunduh file rapot';
-      
+
       if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
         errorMessage = 'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.';
       } else if (error instanceof Error) {
         errorMessage = error.message;
       }
-      
+
       addToast('error', errorMessage);
     }
   }, [addToast]);
@@ -175,7 +175,7 @@ export const RapotHierarchySystem = () => {
   // Group siswa by class
   const siswaGroupedByClass = useMemo(() => {
     if (!siswaList || siswaList.length === 0) return {};
-    
+
     const grouped: Record<string, SiswaResponse[]> = {};
     siswaList.forEach(siswa => {
       if (!grouped[siswa.class]) {
@@ -216,16 +216,21 @@ export const RapotHierarchySystem = () => {
     <>
       <ToastContainer toasts={toasts} removeToast={removeToast} />
 
-      <div className="min-h-screen px-4 py-8 bg-gradient-to-br from-emerald-50 via-white to-teal-50">
-        <div className="max-w-6xl mx-auto">
+      <div className="min-h-screen px-4 py-8 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-300 relative overflow-hidden">
+        {/* Playful background elements */}
+        <div className="absolute top-20 left-10 w-64 h-64 bg-emerald-400/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-teal-400/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-white/5 dark:bg-black/5 rounded-full blur-[150px] animate-spin-slow pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto relative z-10">
           <RapotHeader />
 
           <FilterCard
             selectedYear={selectedYear}
             onYearChange={handleTahunChange}
-            tahunList={tahunList}
+            tahunList={tahunList ?? undefined}
             tahunLoading={tahunLoading}
-            tahunError={tahunError}
+            tahunError={tahunError ?? undefined}
             selectedClass={selectedClass}
             onClassChange={setSelectedClass}
             classList={classList}
@@ -234,8 +239,8 @@ export const RapotHierarchySystem = () => {
             onSearchChange={setSearchQuery}
             debouncedSearchQuery={debouncedSearchQuery}
             isTyping={isTyping}
-            siswaMeta={siswaMeta}
-            siswaList={siswaList}
+            siswaMeta={siswaMeta ?? undefined}
+            siswaList={siswaList ?? undefined}
             siswaResponseObj={siswaResponseObj}
           />
 

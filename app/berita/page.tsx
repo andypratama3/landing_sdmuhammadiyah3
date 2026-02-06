@@ -6,15 +6,15 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, Clock, User, Search, ArrowRight, TrendingUp, AlertCircle, RefreshCw, Loader2 , Eye} from "lucide-react"
+import { Calendar, Clock, User, Search, ArrowRight, TrendingUp, AlertCircle, RefreshCw, Loader2, Eye, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useApi } from "@/hooks/useApi"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import Head from "next/head"
-import { 
-  Berita, 
+import {
+  Berita,
   CategoryCountResponse,
   PopularBeritaResponse,
 } from "@/types";
@@ -71,37 +71,37 @@ export default function BeritaPage() {
   const [searchInput, setSearchInput] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("semua")
   const [currentPage, setCurrentPage] = useState(1)
-  
+
   // Ref untuk scroll target
   const contentRef = useRef<HTMLDivElement>(null)
-  
+
   // Debounce search query with 500ms delay
   const debouncedSearchQuery = useDebounce(searchInput, 500)
-  
+
   // Track if user is typing
   const isTyping = searchInput !== debouncedSearchQuery
-  
+
   // Build query string with pagination, category, and search
   const queryString = useMemo(() => {
     const params = new URLSearchParams()
     params.set('page', currentPage.toString())
-    
+
     if (selectedCategory !== "semua") {
       params.set('category', selectedCategory)
     }
-    
+
     if (debouncedSearchQuery.trim()) {
       params.set('search', debouncedSearchQuery.trim())
     }
-    
+
     return params.toString()
   }, [currentPage, selectedCategory, debouncedSearchQuery])
 
-  const { 
+  const {
     data: newsData,
-    meta: paginationMeta, 
+    meta: paginationMeta,
     links: paginationLinks,
-    loading: newsLoading, 
+    loading: newsLoading,
     error: newsError,
     refetch: refetchNews,
     response: newsResponse
@@ -112,9 +112,9 @@ export default function BeritaPage() {
   })
 
   // Fetch category counts
-  const { 
+  const {
     data: categoryData,
-    loading: categoryLoading 
+    loading: categoryLoading
   } = useApi<CategoryCount[]>('/berita-count-data', {
     cache: true,
     cacheTTL: 600000,
@@ -124,7 +124,7 @@ export default function BeritaPage() {
   // Process categories
   const categories = useMemo(() => {
     const cats = [{ name: "Semua", count: 0, value: "semua" }]
-    
+
     if (categoryData && Array.isArray(categoryData)) {
       const totalCount = categoryData.reduce((sum, cat) => sum + (cat.total || 0), 0)
       cats[0].count = totalCount
@@ -137,17 +137,17 @@ export default function BeritaPage() {
         })
       })
     }
-    
+
     return cats
   }, [categoryData])
 
   // Get popular posts
-  const { 
+  const {
     data: popularData,
-    loading: popularPostsLoading 
+    loading: popularPostsLoading
   } = useApi<Berita[]>(`/berita-popular`, {
     cache: true,
-    cacheTTL: 300000, 
+    cacheTTL: 300000,
     immediate: true
   })
 
@@ -155,7 +155,7 @@ export default function BeritaPage() {
     if (!popularData) return []
     return Array.isArray(popularData) ? popularData.slice(0, 10) : []
   }, [popularData])
-  
+
   // Featured news - ALWAYS from original data (first page, no filter only)
   const featuredNews = useMemo(() => {
     if (!newsData || newsData.length === 0) return null
@@ -165,12 +165,12 @@ export default function BeritaPage() {
   // Regular news for list (skip featured only on page 1, no filters)
   const regularNews = useMemo(() => {
     if (!newsData || newsData.length === 0) return []
-    
+
     // Only skip featured on first page when no filter
     if (currentPage === 1 && selectedCategory === "semua" && !debouncedSearchQuery.trim()) {
       return newsData.slice(1)
     }
-    
+
     return newsData
   }, [newsData, currentPage, selectedCategory, debouncedSearchQuery])
 
@@ -181,7 +181,7 @@ export default function BeritaPage() {
 
   // ✅ AUTO SCROLL saat currentPage berubah
   useEffect(() => {
-    if (contentRef.current) {      
+    if (contentRef.current) {
       // Alternative: scroll ke top page
       window.scrollTo({
         top: 0,
@@ -217,7 +217,7 @@ export default function BeritaPage() {
   // Generate page numbers array
   const pageNumbers = useMemo(() => {
     if (!paginationMeta) return []
-    
+
     const pages: (number | string)[] = []
     const maxVisible = 5
     let startPage = Math.max(1, paginationMeta.current_page - 2)
@@ -268,43 +268,51 @@ export default function BeritaPage() {
         <meta name="twitter:description" content={pageDescription} />
       </Head>
 
-      <div className="min-h-screen mt-20">
+      <div className="min-h-screen pt-24 pb-16 bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+        {/* Animated Background Blobs */}
+        <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+        <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+        <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+
         {/* Header Section */}
-        <section className="relative py-20 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80">
-          <div className="container px-4 mx-auto">
-            <div className="max-w-4xl mx-auto text-center">
-              <Badge className="mb-4 text-white bg-white/20 border-white/30">
+        <section className="relative py-24 sm:py-32 overflow-hidden bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#238b45] text-white">
+          <div className="absolute inset-0 bg-black/10 dark:bg-black/20" />
+          <div className="container relative z-10 px-4 mx-auto mt-8">
+            <div className="max-w-4xl mx-auto text-center text-fade-in-up">
+              <Badge className="px-6 py-2 mb-8 text-white bg-white/20 border-white/30 backdrop-blur-md font-black uppercase tracking-widest text-[10px]">
                 Berita & Pengumuman
               </Badge>
-              <h1 className="mb-4 text-4xl font-bold md:text-5xl">Berita Terkini</h1>
-              <p className="max-w-2xl mx-auto mb-8 text-lg md:text-xl text-white/90">
-                Informasi terbaru tentang kegiatan, prestasi, dan pengumuman penting
+              <h1 className="mb-6 text-fluid-h1 font-black leading-tight drop-shadow-md text-balance">
+                Berita Terkini SDMuh3
+              </h1>
+              <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl text-white/95 font-medium leading-relaxed mb-10">
+                Informasi terbaru tentang kegiatan, prestasi, dan pengumuman penting di Sekolah Kreatif.
               </p>
 
               {/* Search Bar */}
               <div className="max-w-2xl mx-auto">
-                <div className="relative">
-                  {isTyping ? (
-                    <Loader2 className="absolute w-5 h-5 transform -translate-y-1/2 left-4 top-1/2 text-muted-foreground animate-spin" />
-                  ) : (
-                    <Search className="absolute w-5 h-5 transform -translate-y-1/2 left-4 top-1/2 text-muted-foreground" />
-                  )}
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
+                    {isTyping ? (
+                      <Loader2 className="w-6 h-6 text-[#33b962] animate-spin" />
+                    ) : (
+                      <Search className="w-6 h-6 text-gray-400 group-focus-within:text-[#33b962] transition-colors" />
+                    )}
+                  </div>
                   <Input
                     type="text"
                     placeholder="Cari berita atau pengumuman..."
-                    className="py-6 pl-12 pr-4 text-lg bg-white text-foreground"
+                    className="pl-16 pr-14 text-lg bg-white/90 dark:bg-gray-900/90 backdrop-blur-md text-foreground dark:text-white border-white/30 dark:border-gray-800 rounded-full h-18 shadow-2xl focus-visible:ring-2 focus-visible:ring-[#ffd166] transition-all font-bold"
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                   />
                   {searchInput && (
                     <button
                       onClick={() => setSearchInput("")}
-                      className="absolute p-1 transition-colors transform -translate-y-1/2 rounded-full right-4 top-1/2 hover:bg-gray-200"
+                      className="absolute p-2 transition-colors -translate-y-1/2 rounded-full right-5 top-1/2 hover:bg-gray-100 dark:hover:bg-gray-800"
                       aria-label="Clear search"
                     >
-                      <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
+                      <X className="w-5 h-5 text-gray-400" />
                     </button>
                   )}
                 </div>
@@ -320,8 +328,8 @@ export default function BeritaPage() {
               <AlertCircle className="w-4 h-4" />
               <AlertDescription className="flex items-center justify-between">
                 <span>Terjadi kesalahan saat memuat data.</span>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="sm"
                   onClick={() => refetchNews()}
                   className="ml-4"
@@ -336,7 +344,7 @@ export default function BeritaPage() {
 
         {/* Featured News */}
         {newsLoading && currentPage === 1 && selectedCategory === "semua" && !debouncedSearchQuery.trim() ? (
-          <section className="py-16 bg-background">
+          <section className="py-16 bg-background dark:bg-gray-950">
             <div className="container px-4 mx-auto">
               <Card className="overflow-hidden">
                 <div className="grid gap-0 md:grid-cols-2">
@@ -353,46 +361,43 @@ export default function BeritaPage() {
             </div>
           </section>
         ) : (currentPage === 1 && selectedCategory === "semua" && !debouncedSearchQuery.trim()) && featuredNews ? (
-          <section className="py-16 bg-background">
-            <div className="container px-4 mx-auto">
-              <Card className="overflow-hidden transition-all hover:shadow-xl">
+          <section className="py-16 bg-background dark:bg-gray-950 overflow-hidden relative">
+            <div className="container relative z-10 px-4 mx-auto">
+              <Card className="overflow-hidden card-premium dark:bg-gray-900/40 dark:backdrop-blur-xl border-0 shadow-2xl rounded-[2.5rem] group">
                 <div className="grid gap-0 md:grid-cols-2">
-                  <div className="relative h-64 md:h-auto">
+                  <div className="relative h-64 md:h-auto overflow-hidden">
                     <Image
                       src={featuredNews.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${featuredNews.foto}` : "/placeholder.svg"}
                       alt={featuredNews.judul}
                       fill
-                      className="object-contain"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
                   </div>
-                  <div className="flex flex-col justify-center p-8">
-                    <Badge className="mb-4 w-fit">
+                  <div className="flex flex-col justify-center p-10 md:p-16">
+                    <Badge className="mb-6 w-fit bg-emerald-500 text-white border-0 px-4 py-1 font-black uppercase tracking-widest text-[10px]">
                       {featuredNews.category}
                     </Badge>
-                    <h2 className="mb-4 text-3xl font-bold">
+                    <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white leading-tight line-clamp-2 group-hover:text-[#33b962] transition-colors uppercase tracking-tight">
                       {featuredNews.judul}
-                    </h2>
-                    <p className="mb-6 text-lg text-muted-foreground">
-                      {stripHtml(featuredNews.desc)}
+                    </h3>
+                    <p className="mb-8 text-lg font-medium text-gray-600 dark:text-gray-400 leading-relaxed">
+                      {stripHtml(featuredNews.desc, 200)}
                     </p>
-                    <div className="flex items-center gap-4 mb-6 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
+                    <div className="flex flex-wrap items-center gap-6 mb-10 text-xs font-bold uppercase tracking-widest text-gray-500">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-[#33b962]" />
                         <span>{formatDate(featuredNews.created_at)}</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-4 h-4" />
-                        <span>{timeAgo(featuredNews.created_at)}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <User className="w-4 h-4" />
-                        <span>SD Muhammadiyah 3</span>
+                      <div className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-[#33b962]" />
+                        <span>Admin SDMuh3</span>
                       </div>
                     </div>
                     <Link href={`/berita/${featuredNews.slug}`}>
-                      <Button size="lg" className="w-fit">
+                      <Button size="lg" className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-10 py-7 text-lg font-black shadow-xl hover:scale-105 transition-all group">
                         Baca Selengkapnya
-                        <ArrowRight className="w-4 h-4 ml-2" />
+                        <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
                   </div>
@@ -403,24 +408,25 @@ export default function BeritaPage() {
         ) : null}
 
         {/* Main Content - ✅ Tambahkan ref di sini untuk scroll target */}
-        <section ref={contentRef} className="py-16 bg-muted/30">
-          <div className="container px-4 mx-auto">
+        <section ref={contentRef} className="py-24 bg-muted/30 dark:bg-black/20 transition-colors duration-500 relative">
+          <div className="container relative z-10 px-4 mx-auto">
             <div className="grid gap-8 lg:grid-cols-3">
               {/* News List */}
               <div className="lg:col-span-2">
-                <Tabs 
-                  value={selectedCategory} 
+                <Tabs
+                  value={selectedCategory}
                   onValueChange={setSelectedCategory}
                   className="w-full"
                 >
-                  <TabsList className="grid w-full mb-8" style={{
+                  <TabsList className="grid w-full h-auto p-2 mb-8 bg-white dark:bg-gray-950/40 dark:backdrop-blur-xl dark:border-white/10 rounded-2xl" style={{
                     gridTemplateColumns: `repeat(${Math.min(categories.length, 4)}, minmax(0, 1fr))`
                   }}>
                     {categories.map((category) => (
-                      <TabsTrigger 
-                        key={category.value} 
+                      <TabsTrigger
+                        key={category.value}
                         value={category.value}
                         disabled={categoryLoading}
+                        className="rounded-xl data-[state=active]:bg-[#33b962] data-[state=active]:text-white dark:data-[state=active]:bg-[#33b962]"
                       >
                         {category.name}
                       </TabsTrigger>
@@ -453,8 +459,8 @@ export default function BeritaPage() {
                       </div>
                     ) : regularNews.length > 0 ? (
                       regularNews.map((item) => (
-                        <NewsCard 
-                          key={item.slug} 
+                        <NewsCard
+                          key={item.slug}
                           news={item}
                           formatDate={formatDate}
                           stripHtml={stripHtml}
@@ -465,7 +471,7 @@ export default function BeritaPage() {
                         <AlertCircle className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
                         <h3 className="mb-2 text-lg font-semibold">Tidak ada berita</h3>
                         <p className="text-muted-foreground">
-                          {debouncedSearchQuery 
+                          {debouncedSearchQuery
                             ? `Tidak ditemukan berita dengan kata kunci "${debouncedSearchQuery}"`
                             : 'Belum ada berita untuk kategori ini'}
                         </p>
@@ -474,11 +480,11 @@ export default function BeritaPage() {
                   </TabsContent>
                 </Tabs>
 
-              
+
                 {!isSearching && regularNews.length > 0 && paginationMeta && paginationMeta.last_page > 1 && (
                   <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       onClick={() => handlePageChange(paginationMeta.current_page - 1)}
                       disabled={paginationMeta.current_page === 1}
                     >
@@ -500,7 +506,7 @@ export default function BeritaPage() {
                       )
                     ))}
 
-                    <Button 
+                    <Button
                       variant="outline"
                       onClick={() => handlePageChange(paginationMeta.current_page + 1)}
                       disabled={paginationMeta.current_page === paginationMeta.last_page}
@@ -591,11 +597,10 @@ export default function BeritaPage() {
                             <button
                               onClick={() => {
                                 setSelectedCategory(category.value);
-                                
+
                               }}
-                              className={`flex items-center justify-between p-2 transition-colors rounded-lg hover:bg-muted group w-full text-left ${
-                                selectedCategory === category.value ? 'bg-muted' : ''
-                              }`}
+                              className={`flex items-center justify-between p-2 transition-colors rounded-lg hover:bg-muted group w-full text-left ${selectedCategory === category.value ? 'bg-muted' : ''
+                                }`}
                             >
                               <span className="text-sm font-medium transition-colors group-hover:text-primary">
                                 {category.name}
@@ -617,67 +622,64 @@ export default function BeritaPage() {
   )
 }
 
-function NewsCard({ 
-  news, 
-  formatDate, 
-  stripHtml 
-}: { 
+function NewsCard({
+  news,
+  formatDate,
+  stripHtml
+}: {
   news: Berita
   formatDate: (date: string) => string
   stripHtml: (html: string, maxLength?: number) => string
 }) {
   return (
     <Link href={`/berita/${news.slug}`} className="block">
-  <Card className="overflow-hidden transition-all cursor-pointer hover:shadow-lg group">
-    <div className="grid gap-0 md:grid-cols-3">
-      <div className="relative h-48 p-4 mx-5 ml-1 md:h-auto">
-        <Image
-          src={
-            news.foto
-              ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${news.foto}`
-              : "/placeholder.svg"
-          }
-          alt={news.judul}
-          width={600}
-          height={400}
-          className="object-cover w-full h-full transition-transform duration-300 rounded-2xl group-hover:scale-110"
-        />
-      </div>
-
-      <div className="p-6 md:col-span-2">
-        <Badge className="mb-3">{news.category}</Badge>
-
-        <h3 className="mb-2 text-xl font-bold line-clamp-2 group-hover:text-primary">
-          {news.judul}
-        </h3>
-
-        <p className="mb-4 text-muted-foreground line-clamp-2">
-          {stripHtml(news.desc)}
-        </p>
-
-        <div className="flex items-center gap-2 mb-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
-            <span> {formatDate(news.created_at)}</span>
+      <Card className="overflow-hidden transition-all duration-500 cursor-pointer hover:shadow-2xl hover:-translate-y-2 group dark:bg-gray-900/40 border-0 shadow-lg rounded-[2rem] card-premium glass">
+        <div className="grid gap-0 md:grid-cols-3">
+          <div className="relative h-64 md:h-auto overflow-hidden p-0">
+            <Image
+              src={
+                news.foto
+                  ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${news.foto}`
+                  : "/placeholder.svg"
+              }
+              alt={news.judul}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
+            <Badge className="absolute top-6 left-6 bg-white/20 backdrop-blur-md text-white border-white/30 font-black uppercase tracking-widest text-[9px]">
+              {news.category}
+            </Badge>
           </div>
-          <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4" />
-            <span> {timeAgo(news.created_at)}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Eye className="w-4 h-4" />
-            <span> {news.views} Views</span>
+
+          <div className="p-8 md:col-span-2">
+            <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white leading-tight line-clamp-2 group-hover:text-[#33b962] transition-colors uppercase tracking-tight">
+              {news.judul}
+            </h3>
+
+            <p className="mb-6 text-gray-600 dark:text-gray-400 font-medium line-clamp-2 leading-relaxed">
+              {stripHtml(news.desc, 180)}
+            </p>
+
+            <div className="flex flex-wrap items-center gap-6 mb-6 text-[10px] font-black uppercase tracking-widest text-gray-500">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-[#33b962] brightness-125" />
+                <span>{formatDate(news.created_at)}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Eye className="w-4 h-4 text-[#33b962] brightness-125" />
+                <span>{news.views} VIEWS</span>
+              </div>
+            </div>
+
+            <Button variant="outline" size="sm" className="rounded-full font-black uppercase tracking-widest text-[10px] px-6 py-5 border-2 border-emerald-500/10 hover:bg-[#33b962] hover:text-white transition-all h-auto">
+              BACA SELENGKAPNYA
+              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
           </div>
         </div>
-
-        <Button variant="outline" size="sm" tabIndex={-1}>
-          Baca Selengkapnya
-          <ArrowRight className="w-4 h-4 ml-2" />
-        </Button>
-      </div>
-    </div>
-  </Card>
-</Link>
+      </Card>
+    </Link>
 
   )
 }

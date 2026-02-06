@@ -41,9 +41,9 @@ export default function GaleriDetailPage() {
   const touchThreshold = 50
 
   // ✅ Fetch gallery detail
-  const { 
+  const {
     data: galleryResponse,
-    loading: galleryLoading, 
+    loading: galleryLoading,
     error: galleryError,
     refetch: refetchGallery
   } = useApi<{ data: Gallery }>(`/gallery/${slug}`, {
@@ -71,15 +71,15 @@ export default function GaleriDetailPage() {
   const allImages = useMemo(() => {
     if (!gallery) return []
     const imgs: Array<{ src: string; isCover: boolean }> = []
-    
+
     if (gallery.cover) {
       imgs.push({ src: gallery.cover, isCover: true })
     }
-    
+
     images.forEach(img => {
       imgs.push({ src: img, isCover: false })
     })
-    
+
     return imgs
   }, [gallery, images])
 
@@ -154,9 +154,9 @@ export default function GaleriDetailPage() {
   }, [gallery?.gallery_kategori])
 
   // ✅ Fetch related galleries
-  const { 
+  const {
     data: relatedResponse,
-    loading: relatedLoading 
+    loading: relatedLoading
   } = useApi<Gallery[]>(
     `/gallery${relatedQueryString ? `?${relatedQueryString}` : ''}`,
     {
@@ -182,13 +182,13 @@ export default function GaleriDetailPage() {
 
   // Navigation handlers
   const goToPrevious = () => {
-    setSelectedImage((prev) => 
+    setSelectedImage((prev) =>
       prev === 0 ? allImages.length - 1 : prev - 1
     )
   }
 
   const goToNext = () => {
-    setSelectedImage((prev) => 
+    setSelectedImage((prev) =>
       prev === allImages.length - 1 ? 0 : prev + 1
     )
   }
@@ -204,7 +204,7 @@ export default function GaleriDetailPage() {
 
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return
-    
+
     const distance = touchStart - touchEnd
     const isLeftSwipe = distance > touchThreshold
     const isRightSwipe = distance < -touchThreshold
@@ -239,10 +239,10 @@ export default function GaleriDetailPage() {
   }
 
   // Meta info
-  const pageTitle = gallery 
+  const pageTitle = gallery
     ? `${gallery.name} - Gallery SD Muhammadiyah 3 Samarinda`
     : "Gallery - SD Muhammadiyah 3 Samarinda"
-  
+
   const pageDescription = gallery
     ? `Dokumentasi kegiatan ${gallery.name} di SD Muhammadiyah 3 Samarinda`
     : ""
@@ -266,7 +266,7 @@ export default function GaleriDetailPage() {
           title: gallery?.name || '',
           text: pageDescription,
           url: window.location.href,
-        }).catch(() => {})
+        }).catch(() => { })
       } else {
         navigator.clipboard.writeText(window.location.href)
           .then(() => alert('Link berhasil disalin!'))
@@ -350,13 +350,13 @@ export default function GaleriDetailPage() {
                 <AlertCircle className="w-4 h-4" />
                 <AlertDescription className="flex items-center justify-between">
                   <span>
-                    {galleryError 
-                      ? "Terjadi kesalahan saat memuat gallery." 
+                    {galleryError
+                      ? "Terjadi kesalahan saat memuat gallery."
                       : "Gallery tidak ditemukan."}
                   </span>
                   {galleryError && (
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
                       onClick={() => refetchGallery()}
                       className="ml-4"
@@ -383,8 +383,8 @@ export default function GaleriDetailPage() {
         <meta property="og:description" content={pageDescription} />
         <meta property="og:type" content="article" />
         {allImages.length > 0 && (
-          <meta 
-            property="og:image" 
+          <meta
+            property="og:image"
             content={getImagePath(allImages[0])}
           />
         )}
@@ -393,10 +393,15 @@ export default function GaleriDetailPage() {
         <meta name="twitter:description" content={pageDescription} />
       </Head>
 
-      <div className="min-h-screen mt-20 bg-background">
+      <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+        {/* Animated Background Blobs */}
+        <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+        <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+        <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+
         <PageHeader
           title={gallery.name}
-          description="Galeri SD Muhammadiyah 3 Samarinda"
+          description="Galeri Aktivitas Sekolah Kreatif SD Muhammadiyah 3 Samarinda"
           breadcrumbs={[{ label: "Beranda", href: "/" }, { label: "Galeri", href: "/galeri" }, { label: gallery.name }]}
         />
 
@@ -433,9 +438,9 @@ export default function GaleriDetailPage() {
 
                   {/* Main Image */}
                   {allImages.length > 0 ? (
-                    <div className="relative w-full mb-6 overflow-hidden bg-gray-100 rounded-lg group h-150">
+                    <div className="relative w-full mb-12 overflow-hidden bg-gray-100 dark:bg-gray-900 shadow-2xl rounded-[2.5rem] group h-[400px] sm:h-[500px] lg:h-[600px] border border-gray-100 dark:border-white/5">
                       {/* Image Container */}
-                      <div 
+                      <div
                         className="relative w-full h-full cursor-grab active:cursor-grabbing"
                         onTouchStart={handleTouchStart}
                         onTouchMove={handleTouchMove}
@@ -445,7 +450,7 @@ export default function GaleriDetailPage() {
                           src={getImagePath(allImages[selectedImage])}
                           alt={gallery.name}
                           fill
-                          className="object-contain rounded-2xl"
+                          className="object-contain p-4 sm:p-8 transition-transform duration-700"
                           priority
                           onError={(e) => {
                             const target = e.target as HTMLImageElement
@@ -459,31 +464,31 @@ export default function GaleriDetailPage() {
                         <>
                           <button
                             onClick={goToPrevious}
-                            className="absolute p-2 text-white transition-all -translate-y-1/2 rounded-full opacity-0 left-4 top-1/2 bg-black/50 hover:bg-black/70 group-hover:opacity-100"
+                            className="absolute p-4 text-white transition-all -translate-y-1/2 rounded-full opacity-0 left-6 top-1/2 bg-black/40 backdrop-blur-md hover:bg-[#33b962] group-hover:opacity-100 shadow-xl"
                             aria-label="Previous image"
                           >
-                            <ChevronLeft className="w-6 h-6" />
+                            <ChevronLeft className="w-8 h-8" />
                           </button>
                           <button
                             onClick={goToNext}
-                            className="absolute p-2 text-white transition-all -translate-y-1/2 rounded-full opacity-0 right-4 top-1/2 bg-black/50 hover:bg-black/70 group-hover:opacity-100"
+                            className="absolute p-4 text-white transition-all -translate-y-1/2 rounded-full opacity-0 right-6 top-1/2 bg-black/40 backdrop-blur-md hover:bg-[#33b962] group-hover:opacity-100 shadow-xl"
                             aria-label="Next image"
                           >
-                            <ChevronRight className="w-6 h-6" />
+                            <ChevronRight className="w-8 h-8" />
                           </button>
                         </>
                       )}
 
                       {/* Image Counter */}
                       {allImages.length > 1 && (
-                        <div className="absolute px-3 py-1 text-sm text-white rounded-full bg-black/70 top-4 right-4">
+                        <div className="absolute px-6 py-2 text-xs font-black uppercase tracking-widest text-white rounded-full bg-black/40 backdrop-blur-md top-6 right-6 border border-white/10">
                           {selectedImage + 1} / {allImages.length}
                         </div>
                       )}
                     </div>
                   ) : (
-                    <div className="flex items-center justify-center w-full mb-6 bg-gray-100 rounded-lg aspect-video">
-                      <ImageIcon className="w-16 h-16 text-gray-400" />
+                    <div className="flex items-center justify-center w-full mb-12 bg-gray-100 dark:bg-gray-900 rounded-[2.5rem] aspect-video border border-dashed border-gray-300 dark:border-white/10">
+                      <ImageIcon className="w-20 h-20 text-gray-300 dark:text-gray-700" />
                     </div>
                   )}
 
@@ -496,11 +501,10 @@ export default function GaleriDetailPage() {
                           <button
                             key={index}
                             onClick={() => setSelectedImage(index)}
-                            className={`relative overflow-hidden rounded-lg aspect-square group ${
-                              selectedImage === index 
-                                ? 'ring-2 ring-primary ring-offset-2' 
+                            className={`relative overflow-hidden rounded-lg aspect-square group ${selectedImage === index
+                                ? 'ring-2 ring-primary ring-offset-2'
                                 : ''
-                            }`}
+                              }`}
                           >
                             <Image
                               src={getImagePath(img)}
@@ -546,7 +550,7 @@ export default function GaleriDetailPage() {
                             className="w-full h-full"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                             title={`Video ${gallery.name}`}
-                            referrerPolicy="strict-origin-when-cross-origin" 
+                            referrerPolicy="strict-origin-when-cross-origin"
                             loading="lazy"
                             allowFullScreen={true}
                           />
@@ -569,29 +573,29 @@ export default function GaleriDetailPage() {
                   <div className="flex items-center gap-4">
                     <span className="text-sm font-medium">Bagikan:</span>
                     <div className="flex gap-2">
-                      <Button 
-                        size="icon" 
+                      <Button
+                        size="icon"
                         variant="outline"
                         onClick={() => handleShare('facebook')}
                       >
                         <Facebook className="w-4 h-4" />
                       </Button>
-                      <Button 
-                        size="icon" 
+                      <Button
+                        size="icon"
                         variant="outline"
                         onClick={() => handleShare('twitter')}
                       >
                         <Twitter className="w-4 h-4" />
                       </Button>
-                      <Button 
-                        size="icon" 
+                      <Button
+                        size="icon"
                         variant="outline"
                         onClick={() => handleShare('linkedin')}
                       >
                         <Linkedin className="w-4 h-4" />
                       </Button>
-                      <Button 
-                        size="icon" 
+                      <Button
+                        size="icon"
                         variant="outline"
                         onClick={() => handleShare('native')}
                       >
@@ -605,37 +609,46 @@ export default function GaleriDetailPage() {
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Info Card */}
-                <Card>
-                  <CardHeader>
-                    <h3 className="text-lg font-bold">Informasi Gallery</h3>
-                  </CardHeader>
-                  <CardContent className="space-y-4 ">
-                    <div className="flex items-start gap-3">
-                      <Calendar className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                <Card className="border-0 shadow-2xl rounded-[2.5rem] bg-white dark:bg-gray-900/40 card-premium glass overflow-hidden">
+                  <div className="bg-[#33b962] p-8 text-white relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
+                    <h3 className="text-xl font-black uppercase tracking-tight relative z-10 transition-colors">
+                      Informasi Detail
+                    </h3>
+                  </div>
+                  <CardContent className="p-8 space-y-8">
+                    <div className="flex items-center gap-4 group">
+                      <div className="w-12 h-12 rounded-2xl bg-[#33b962]/10 dark:bg-[#33b962]/20 flex items-center justify-center border border-emerald-500/10 transition-transform group-hover:rotate-12">
+                        <Calendar className="w-6 h-6 text-[#33b962]" />
+                      </div>
                       <div>
-                        <p className="text-sm font-medium text-muted-foreground">Tanggal</p>
-                        <p className="text-base font-semibold">{formatDate(gallery.created_at)}</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-[#33b962] mb-1">Tanggal</p>
+                        <p className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-tight">{formatDate(gallery.created_at)}</p>
                       </div>
                     </div>
-                    
-                    <Separator />
-                    
-                    <div className="flex items-start gap-3">
-                      <ImageIcon className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+
+                    <Separator className="bg-gray-100 dark:bg-white/5" />
+
+                    <div className="flex items-center gap-4 group">
+                      <div className="w-12 h-12 rounded-2xl bg-[#33b962]/10 dark:bg-[#33b962]/20 flex items-center justify-center border border-emerald-500/10 transition-transform group-hover:rotate-12">
+                        <ImageIcon className="w-6 h-6 text-[#33b962]" />
+                      </div>
                       <div>
-                        <p className="text-sm font-medium text-muted-foreground">Jumlah Foto</p>
-                        <p className="text-base font-semibold">{allImages.length} Foto</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-[#33b962] mb-1">Dokumentasi</p>
+                        <p className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-tight">{allImages.length} Foto</p>
                       </div>
                     </div>
 
                     {videoEmbed && videoEmbed.embedUrl && (
                       <>
-                        <Separator />
-                        <div className="flex items-start gap-3">
-                          <ExternalLink className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                        <Separator className="bg-gray-100 dark:bg-white/5" />
+                        <div className="flex items-center gap-4 group">
+                          <div className="w-12 h-12 rounded-2xl bg-[#33b962]/10 dark:bg-[#33b962]/20 flex items-center justify-center border border-emerald-500/10 transition-transform group-hover:rotate-12">
+                            <ExternalLink className="w-6 h-6 text-[#33b962]" />
+                          </div>
                           <div>
-                            <p className="text-sm font-medium text-muted-foreground">Media</p>
-                            <p className="text-base font-semibold">Video Tersedia</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-[#33b962] mb-1">Media</p>
+                            <p className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-tight">Video Tersedia</p>
                           </div>
                         </div>
                       </>
@@ -643,12 +656,12 @@ export default function GaleriDetailPage() {
 
                     {gallery.gallery_kategori && gallery.gallery_kategori.length > 0 && (
                       <>
-                        <Separator />
+                        <Separator className="bg-gray-100 dark:bg-white/5" />
                         <div>
-                          <p className="mb-2 text-sm font-medium text-muted-foreground">Kategori</p>
+                          <p className="mb-4 text-[10px] font-black uppercase tracking-widest text-[#33b962]">Kategori</p>
                           <div className="flex flex-wrap gap-2">
                             {gallery.gallery_kategori.map((cat) => (
-                              <Badge key={cat.id} variant="secondary">
+                              <Badge key={cat.id} className="bg-[#33b962]/10 text-[#33b962] border-emerald-500/10 px-4 py-1.5 font-black uppercase tracking-widest text-[9px] rounded-lg">
                                 {cat.name}
                               </Badge>
                             ))}

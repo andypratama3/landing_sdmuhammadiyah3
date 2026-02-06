@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Quicksand, Poppins } from "next/font/google"
+import { Quicksand, Poppins, Outfit, Plus_Jakarta_Sans } from "next/font/google"
 import { headers } from "next/headers"
 import "./globals.css"
 import Navigation from "@/components/navigation"
@@ -14,23 +14,31 @@ import CookieConsent from "@/components/cookie"
 import GoogleAnalytics, { GTMNoScript } from "@/components/google-analytics"
 import StructuredData from "@/components/structured-data"
 
-const quicksand = Quicksand({ subsets: ["latin"], variable: "--font-sans" })
+const quicksand = Quicksand({ subsets: ["latin"], variable: "--font-quicksand" })
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-sans",
+  variable: "--font-poppins",
+});
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+});
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://sdmuhammadiyah3smd.com'),
-  
+
   title: {
     default: "SD Muhammadiyah 3 Samarinda - Sekolah Kreatif",
     template: "%s | SD Muhammadiyah 3 Samarinda"
   },
-  
+
   description: "Sekolah Dasar Islam terdepan yang menghasilkan generasi kreatif, berakhlak mulia, cerdas, dan berprestasi dengan dilandasi nilai-nilai Islami.",
-  
+
   keywords: [
     "SD Muhammadiyah 3 Samarinda",
     "Sekolah Kreatif Muhammadiyah 3 Samarinda",
@@ -50,17 +58,17 @@ export const metadata: Metadata = {
     "Tahfidz Al-Qur'an Samarinda",
     "Akreditasi A Samarinda",
   ],
-  
+
   authors: [
-    { 
+    {
       name: "SD Muhammadiyah 3 Samarinda",
       url: "https://sdmuhammadiyah3smd.com"
     }
   ],
-  
+
   creator: "SD Muhammadiyah 3 Samarinda",
   publisher: "SD Muhammadiyah 3 Samarinda",
-  
+
   robots: {
     index: true,
     follow: true,
@@ -72,7 +80,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  
+
   openGraph: {
     type: "website",
     locale: "id_ID",
@@ -89,22 +97,22 @@ export const metadata: Metadata = {
       },
     ],
   },
-  
+
   twitter: {
     card: "summary_large_image",
     title: "SD Muhammadiyah 3 Samarinda - Sekolah Kreatif",
     description: "Sekolah Dasar Islam unggulan di Samarinda dengan pembelajaran inovatif",
     images: ["/SD3_logo1.png"],
   },
-  
+
   verification: {
     google: "your-google-verification-code",
   },
-  
+
   alternates: {
     canonical: "https://sdmuhammadiyah3smd.com",
   },
-  
+
   icons: {
     icon: [
       {
@@ -119,7 +127,7 @@ export const metadata: Metadata = {
     apple: "/SD3_logo1.png",
     shortcut: "/SD3_logo1.png",
   },
-  
+
   manifest: "/manifest.json",
   category: "education",
 }
@@ -148,29 +156,29 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className={`${poppins.className} font-sans antialiased`}>
+      <body className={`${outfit.variable} ${plusJakartaSans.variable} ${poppins.variable} ${quicksand.variable} font-outfit antialiased`}>
         {/* GTM NoScript - must be immediately after opening body tag */}
         <GTMNoScript />
-        
+
         {/* Google Analytics & GTM Scripts with Nonce */}
         <GoogleAnalytics nonce={nonce} />
-        
+
         {/* Structured Data for SEO with Nonce */}
         <StructuredData nonce={nonce} />
-        
-        {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange> */}
+
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ApiInitializer />
-          <ApiInitializerStatus /> 
+          <ApiInitializerStatus />
           <VisitorTracker />
-          
+
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />
           <WhatsAppButton />
           <BackToTop />
 
-          <CookieConsent/>
-        {/* </ThemeProvider> */}
+          <CookieConsent />
+        </ThemeProvider>
       </body>
     </html>
   )

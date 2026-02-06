@@ -36,9 +36,9 @@ export default function BeritaDetailPage() {
   const slug = (params?.slug as string) || ''
 
   // ✅ Fetch berita detail
-  const { 
+  const {
     data: beritaResponse,
-    loading: beritaLoading, 
+    loading: beritaLoading,
     error: beritaError,
     refetch: refetchBerita
   } = useApi<{ data: Berita }>(`/berita/${slug}`, {
@@ -63,9 +63,9 @@ export default function BeritaDetailPage() {
   }, [berita?.category])
 
   // ✅ Fetch related berita
-  const { 
+  const {
     data: relatedResponse,
-    loading: relatedLoading 
+    loading: relatedLoading
   } = useApi<Berita[]>(
     `/berita?${relatedQueryString}`,
     {
@@ -78,14 +78,14 @@ export default function BeritaDetailPage() {
   // ✅ Filter related berita (exclude current berita)
   const relatedBerita = useMemo(() => {
     if (!relatedResponse || !berita) return []
-    
+
     let dataArray: Berita[] = []
     if (Array.isArray(relatedResponse)) {
       dataArray = relatedResponse
     } else if ((relatedResponse as any).data && Array.isArray((relatedResponse as any).data)) {
       dataArray = (relatedResponse as any).data
     }
-    
+
     const filtered = dataArray.filter((item) => item.id !== berita.id)
     return filtered.slice(0, 3)
   }, [relatedResponse, berita])
@@ -111,10 +111,10 @@ export default function BeritaDetailPage() {
   }, [berita?.desc])
 
   // Meta info
-  const pageTitle = berita 
+  const pageTitle = berita
     ? `${berita.judul} - SD Muhammadiyah 3 Samarinda`
     : "Berita - SD Muhammadiyah 3 Samarinda"
-  
+
   const pageDescription = useMemo(() => {
     if (!berita?.desc) return ""
     try {
@@ -143,7 +143,7 @@ export default function BeritaDetailPage() {
           title: berita?.judul || '',
           text: pageDescription,
           url: window.location.href,
-        }).catch(() => {})
+        }).catch(() => { })
       } else {
         navigator.clipboard.writeText(window.location.href)
           .then(() => alert('Link berhasil disalin!'))
@@ -228,13 +228,13 @@ export default function BeritaDetailPage() {
                 <AlertCircle className="w-4 h-4" />
                 <AlertDescription className="flex items-center justify-between">
                   <span>
-                    {beritaError 
-                      ? "Terjadi kesalahan saat memuat berita." 
+                    {beritaError
+                      ? "Terjadi kesalahan saat memuat berita."
                       : "Berita tidak ditemukan."}
                   </span>
                   {beritaError && (
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
                       onClick={() => refetchBerita()}
                       className="ml-4"
@@ -261,9 +261,9 @@ export default function BeritaDetailPage() {
         <meta property="og:description" content={pageDescription} />
         <meta property="og:type" content="article" />
         {berita.foto && (
-          <meta 
-            property="og:image" 
-            content={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${berita.foto}`} 
+          <meta
+            property="og:image"
+            content={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${berita.foto}`}
           />
         )}
         <meta name="twitter:card" content="summary_large_image" />
@@ -271,44 +271,51 @@ export default function BeritaDetailPage() {
         <meta name="twitter:description" content={pageDescription} />
       </Head>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen pt-24 pb-16 bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+        {/* Animated Background Blobs */}
+        <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+        <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+        <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+
         {/* Header */}
 
         {/* Main Content */}
         <section className="py-12">
-            <PageHeader
-              title={"Berita Sekolah"}
-              description="Berita Sekolah - SD Muhammadiyah 3 Samarinda"
-              breadcrumbs={[{ label: "Beranda", href: "/" }, { label: "Berita", href: "/berita" }, { label: berita?.judul} ]}
-            />
-    
+          <PageHeader
+            title={"Berita Sekolah"}
+            description="Informasi terbaru dan terpercaya Seputar Sekolah Kreatif SD Muhammadiyah 3 Samarinda"
+            breadcrumbs={[{ label: "Beranda", href: "/" }, { label: "Berita", href: "/berita" }, { label: berita?.judul }]}
+          />
+
           <div className="container px-4 mx-auto">
             <div className="grid gap-8 lg:grid-cols-3">
               {/* Article Content */}
               <div className="lg:col-span-2">
                 <article>
                   {/* Article Header */}
-                  <div className="mb-8">
-                    <Badge className="mb-4 capitalize">{berita.category}</Badge>
-                    <h1 className="mb-4 text-4xl font-bold">{berita.judul}</h1>
-                    <div className="flex flex-wrap items-center gap-4 mb-6 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
+                  <div className="mb-10">
+                    <Badge className="mb-6 bg-[#33b962]/10 text-[#33b962] border-emerald-500/20 px-4 py-1.5 font-black uppercase tracking-widest text-[10px] rounded-full">
+                      {berita.category}
+                    </Badge>
+                    <h1 className="mb-6 text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight tracking-tight">{berita.judul}</h1>
+                    <div className="flex flex-wrap items-center gap-6 text-[10px] font-black uppercase tracking-widest text-gray-500">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-[#33b962]" />
                         <span>{formatDate(berita.created_at)}</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-4 h-4" />
-                        <span>{readingTime} menit</span>
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-4 h-4 text-[#33b962]" />
+                        <span>{readingTime} MENIT BACA</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <User className="w-4 h-4" />
-                        <span>Admin</span>
+                      <div className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-[#33b962]" />
+                        <span>ADMIN SDMUH3</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Featured Image */}
-                  <div className="relative w-full mb-8 overflow-hidden rounded-lg h-150">
+                  <div className="relative w-full mb-12 overflow-hidden rounded-[2.5rem] shadow-2xl border-0 group">
                     <Image
                       src={
                         berita.foto
@@ -316,18 +323,20 @@ export default function BeritaDetailPage() {
                           : "/placeholder.svg"
                       }
                       alt={berita.judul}
-                      fill                      
-                      className="object-contain"
+                      width={1200}
+                      height={675}
+                      className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                       priority
                     />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
 
                   {/* Article Body */}
                   {berita.desc && (
                     <div className="mb-8">
-                      <HtmlContent 
+                      <HtmlContent
                         content={berita.desc}
-                        className="prose prose-lg max-w-none"
+                        className="prose prose-sm sm:prose-base md:prose-lg max-w-none dark:prose-invert"
                       />
                     </div>
                   )}
@@ -335,33 +344,37 @@ export default function BeritaDetailPage() {
                   <Separator className="my-8" />
 
                   {/* Share Buttons */}
-                  <div className="flex items-center gap-4">
-                    <span className="text-sm font-medium">Bagikan:</span>
+                  <div className="flex items-center gap-4 py-8 border-t border-gray-100 dark:border-white/5">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">BAGIKAN ARTIKEL:</span>
                     <div className="flex gap-2">
-                      <Button 
-                        size="icon" 
+                      <Button
+                        size="icon"
                         variant="outline"
+                        className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#1877F2] hover:text-white transition-all"
                         onClick={() => handleShare('facebook')}
                       >
                         <Facebook className="w-4 h-4" />
                       </Button>
-                      <Button 
-                        size="icon" 
+                      <Button
+                        size="icon"
                         variant="outline"
+                        className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#1DA1F2] hover:text-white transition-all"
                         onClick={() => handleShare('twitter')}
                       >
                         <Twitter className="w-4 h-4" />
                       </Button>
-                      <Button 
-                        size="icon" 
+                      <Button
+                        size="icon"
                         variant="outline"
+                        className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#0A66C2] hover:text-white transition-all"
                         onClick={() => handleShare('linkedin')}
                       >
                         <Linkedin className="w-4 h-4" />
                       </Button>
-                      <Button 
-                        size="icon" 
+                      <Button
+                        size="icon"
                         variant="outline"
+                        className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#33b962] hover:text-white transition-all"
                         onClick={() => handleShare('native')}
                       >
                         <Share2 className="w-4 h-4" />
@@ -379,7 +392,7 @@ export default function BeritaDetailPage() {
                     <div className="flex items-center gap-4">
                       <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10">
                         <Image src="/SD3_logo1.png"
-                          className="rounded-full" 
+                          className="rounded-full"
                           alt="Logo Sekolah"
                           width={40}
                           height={40}
@@ -432,7 +445,7 @@ export default function BeritaDetailPage() {
                                     ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${item.foto}`
                                     : "/placeholder.svg"
                                 }
-                                
+
                                 alt={item.judul}
                                 fill
                                 className="object-cover transition-transform group-hover:scale-110"

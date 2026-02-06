@@ -7,9 +7,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { 
-  Trophy, BookOpen, Users, Calendar, Clock, UserCircle, Target, 
-  X, AlertCircle, RefreshCw 
+import {
+  Trophy, BookOpen, Users, Calendar, Clock, UserCircle, Target,
+  X, AlertCircle, RefreshCw
 } from "lucide-react"
 import Image from "next/image"
 import { useState, useMemo } from "react"
@@ -67,11 +67,11 @@ export default function EkstrakurikulerPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
 
   // Fetch ekstrakurikuler data
-  const { 
-    data: ekstrakurikulerData, 
-    loading, 
+  const {
+    data: ekstrakurikulerData,
+    loading,
     error,
-    refetch 
+    refetch
   } = useApi<Ekstrakurikuler[]>('/ekstrakurikuler', {
     cache: true,
     cacheTTL: 300000,
@@ -81,17 +81,17 @@ export default function EkstrakurikulerPage() {
   // Process ekstrakurikuler data - parse foto array
   const ekstrakurikuler = useMemo((): EkstrakurikulerWithPhotos[] => {
     const storageUrl = process.env.NEXT_PUBLIC_STORAGE_URL || ''
-    
+
     return (ekstrakurikulerData || []).map(item => {
       // Parse foto array and prepend storage URL
-      const fotoArray = item.foto 
+      const fotoArray = item.foto
         ? item.foto.split(',').map(f => {
-            const trimmed = f.trim()
-            // Check if already has http/https, if not prepend storage URL
-            return trimmed.startsWith('http') ? trimmed : `${storageUrl}/img/ekstrakurikuler/${trimmed}`
-          })
+          const trimmed = f.trim()
+          // Check if already has http/https, if not prepend storage URL
+          return trimmed.startsWith('http') ? trimmed : `${storageUrl}/img/ekstrakurikuler/${trimmed}`
+        })
         : []
-      
+
       return {
         ...item,
         fotoArray,
@@ -113,46 +113,52 @@ export default function EkstrakurikulerPage() {
   }, [ekstrakurikuler, selectedCategory])
 
   return (
-    <div className="min-h-screen pt-16 pb-16 bg-white dark:bg-gray-900">
+    <div className="pt-24 pb-16 min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+      {/* Animated Background Blobs */}
+      <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+
       {/* Hero Section */}
-      <section className="relative py-16 sm:py-20 text-white bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#1a4d2e] dark:via-[#2a7a4a] dark:to-[#1f5c3a]">
-        <div className="container px-4 mx-auto">
-          <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 text-white sm:mb-6 bg-white/20 border-white/30">Ekstrakurikuler</Badge>
-            <h1 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl">Kegiatan Ekstrakurikuler</h1>
-            <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-white/90">
-              Berbagai pilihan kegiatan untuk mengembangkan bakat, minat, dan karakter siswa di luar jam pelajaran regular
+      <section className="relative py-24 sm:py-32 overflow-hidden bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#238b45] text-white">
+        <div className="absolute inset-0 bg-black/10 dark:bg-black/20" />
+        <div className="container relative z-10 px-4 mx-auto mt-8">
+          <div className="max-w-4xl mx-auto text-center text-fade-in-up">
+            <Badge className="px-6 py-2 mb-8 text-white bg-white/20 border-white/30 backdrop-blur-md font-black uppercase tracking-widest text-[10px]">
+              Eksplorasi Bakat & Minat
+            </Badge>
+            <h1 className="mb-6 text-fluid-h1 font-black leading-tight drop-shadow-md text-balance">
+              Ekstrakurikuler Kreatif
+            </h1>
+            <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl text-white/95 font-medium leading-relaxed">
+              Temukan keseruanmu melaui berbagai pilihan kegiatan ekstrakurikuler yang inspiratif dan menyenangkan.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-12 sm:py-16 bg-gray-50 dark:bg-gray-800">
-        <div className="container px-4 mx-auto">
-          <div className="mb-8 text-center sm:mb-12">
-            <h2 className="mb-3 text-2xl font-bold text-gray-900 sm:mb-4 sm:text-3xl md:text-4xl dark:text-white">
-              Manfaat Mengikuti Ekstrakurikuler
+      <section className="relative py-24 sm:py-32 bg-gray-50 dark:bg-gray-950 overflow-hidden transition-colors duration-500">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-400/5 rounded-full blur-[120px] animate-blob pointer-events-none" />
+        <div className="container relative z-10 px-4 mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight">
+              Kenapa Ikut Ekstra?
             </h2>
-            <p className="max-w-2xl mx-auto text-sm text-gray-600 sm:text-base dark:text-gray-400">
-              Kegiatan ekstrakurikuler memberikan banyak manfaat untuk perkembangan anak
+            <p className="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400 font-medium">
+              Ayo kembangkan dirimu jadi lebih hebat melalui beragam manfaat positif
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {benefits.map((benefit, index) => {
               const Icon = benefit.icon
               return (
-                <Card key={index} className="text-center transition-all hover:shadow-lg dark:bg-gray-700 dark:border-gray-600">
-                  <CardHeader>
-                    <div className="flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full bg-[#33b962]/10 dark:bg-[#33b962]/20">
-                      <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-[#33b962]" />
-                    </div>
-                    <CardTitle className="text-lg text-gray-900 sm:text-xl dark:text-white">{benefit.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">{benefit.description}</p>
-                  </CardContent>
+                <Card key={index} className="card-premium p-10 text-center glass dark:bg-gray-900/40 border-0 group transition-all hover:scale-105">
+                  <div className="flex items-center justify-center w-20 h-20 mx-auto mb-8 rounded-3xl bg-white/50 dark:bg-emerald-900/20 group-hover:bg-[#33b962] transition-all duration-500 shadow-xl brightness-110 filter drop-shadow-[0_10px_15px_rgba(51,185,98,0.2)]">
+                    <Icon className="w-10 h-10 text-[#33b962] group-hover:text-white transition-colors brightness-125" />
+                  </div>
+                  <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white group-hover:text-[#33b962] transition-colors uppercase tracking-tight leading-tight">{benefit.title}</h3>
+                  <p className="text-sm font-medium leading-relaxed text-gray-600 dark:text-gray-400">{benefit.description}</p>
                 </Card>
               )
             })}
@@ -160,15 +166,15 @@ export default function EkstrakurikulerPage() {
         </div>
       </section>
 
-      {/* Extracurricular Activities */}
-      <section className="py-12 bg-white sm:py-16 dark:bg-gray-900">
-        <div className="container px-4 mx-auto">
-          <div className="mb-8 text-center sm:mb-12">
-            <h2 className="mb-3 text-2xl font-bold text-gray-900 sm:mb-4 sm:text-3xl md:text-4xl dark:text-white">
-              Pilihan Kegiatan Ekstrakurikuler
+      <section className="relative py-24 bg-white dark:bg-gray-900 overflow-hidden transition-colors duration-500">
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-teal-400/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+        <div className="container relative z-10 px-4 mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight">
+              Pilih Kegiatan Favoritmu!
             </h2>
-            <p className="max-w-2xl mx-auto text-sm text-gray-600 sm:text-base dark:text-gray-400">
-              Temukan kegiatan yang sesuai dengan minat dan bakat anak Anda
+            <p className="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400 font-medium">
+              Ada banyak pilihan seru yang bisa kamu ikuti setiap harinya
             </p>
           </div>
 
@@ -203,8 +209,8 @@ export default function EkstrakurikulerPage() {
               <AlertCircle className="w-4 h-4" />
               <AlertDescription className="flex items-center justify-between">
                 <span>{error}</span>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="sm"
                   onClick={() => refetch?.()}
                   className="ml-4"
@@ -228,10 +234,10 @@ export default function EkstrakurikulerPage() {
           ) : (
             // Data Loaded
             <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
-              <TabsList className="grid w-full h-auto max-w-4xl grid-cols-2 gap-2 p-2 mx-auto mb-6 bg-gray-100 sm:mb-8 sm:grid-cols-3 md:grid-cols-6 dark:bg-gray-800">
-                <TabsTrigger value="all" className="text-xs sm:text-sm">Semua</TabsTrigger>
+              <TabsList className="grid w-full h-auto max-w-4xl grid-cols-2 gap-2 p-2 mx-auto mb-8 bg-gray-100 dark:bg-gray-950/40 dark:backdrop-blur-xl dark:border-white/10 sm:grid-cols-3 md:grid-cols-6 rounded-2xl">
+                <TabsTrigger value="all" className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-md">Semua</TabsTrigger>
                 {categories.map((cat) => (
-                  <TabsTrigger key={cat} value={cat} className="text-xs sm:text-sm">
+                  <TabsTrigger key={cat} value={cat} className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-md">
                     {categoryMap[cat] || cat}
                   </TabsTrigger>
                 ))}
@@ -240,9 +246,9 @@ export default function EkstrakurikulerPage() {
               <TabsContent value={selectedCategory} className="mt-6">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
                   {filteredEkstrakurikuler.map((activity) => (
-                    <ActivityCard 
-                      key={activity.id} 
-                      activity={activity} 
+                    <ActivityCard
+                      key={activity.id}
+                      activity={activity}
                       onClick={() => setSelectedActivity(activity)}
                     />
                   ))}
@@ -266,7 +272,7 @@ export default function EkstrakurikulerPage() {
               </p>
             </div>
 
-            <Card className="dark:bg-gray-700 dark:border-gray-600">
+            <Card className="dark:bg-gray-800 dark:border-gray-700">
               <CardContent className="pt-6">
                 <ul className="space-y-4">
                   {requirements.map((requirement, index) => (
@@ -274,13 +280,13 @@ export default function EkstrakurikulerPage() {
                       <div className="w-6 h-6 rounded-full bg-[#33b962]/10 dark:bg-[#33b962]/20 flex items-center justify-center shrink-0 mt-0.5">
                         <span className="text-sm font-semibold text-[#33b962]">{index + 1}</span>
                       </div>
-                      <p className="text-sm text-gray-900 sm:text-base dark:text-white">{requirement}</p>
+                      <p className="text-sm text-gray-900 dark:text-gray-200 sm:text-base">{requirement}</p>
                     </li>
                   ))}
                 </ul>
 
-                <div className="p-4 mt-8 bg-gray-100 rounded-lg dark:bg-gray-600">
-                  <p className="mb-4 text-xs text-gray-600 sm:text-sm dark:text-gray-300">
+                <div className="p-4 mt-8 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                  <p className="mb-4 text-xs text-gray-600 dark:text-gray-400 sm:text-sm">
                     <strong>Catatan:</strong> Pendaftaran dapat dilakukan di kantor tata usaha atau melalui wali kelas.
                     Kegiatan dimulai setelah pembayaran lunas.
                   </p>
@@ -296,7 +302,7 @@ export default function EkstrakurikulerPage() {
 
       {/* Detail Modal */}
       <Dialog open={!!selectedActivity} onOpenChange={() => setSelectedActivity(null)}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto dark:bg-gray-800">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white/90 dark:bg-gray-950/80 backdrop-blur-2xl border-white/20 dark:border-white/10 shadow-2xl rounded-[2.5rem]">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
               {selectedActivity?.name}
@@ -396,73 +402,72 @@ export default function EkstrakurikulerPage() {
   )
 }
 
-function ActivityCard({ 
-  activity, 
-  onClick 
-}: { 
+function ActivityCard({
+  activity,
+  onClick
+}: {
   activity: EkstrakurikulerWithPhotos
-  onClick: () => void 
+  onClick: () => void
 }) {
   return (
-    <Card className="overflow-hidden transition-all cursor-pointer hover:shadow-lg group dark:bg-gray-700 dark:border-gray-600" onClick={onClick}>
-      <div className="relative overflow-hidden bg-gray-100 h- dark:bg-gray-600 h-100 w-100">
+    <Card className="card-premium h-full dark:bg-gray-900/40 dark:backdrop-blur-xl border-0 shadow-lg group flex flex-col overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 rounded-[2.5rem] glass" onClick={onClick}>
+      <div className="relative overflow-hidden h-72 w-full bg-linear-to-br from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-900">
         {activity.fotoFirst ? (
           <Image
             src={activity.fotoFirst}
             alt={activity.name}
             fill
-            className="object-contain transition-transform duration-300 group-hover:scale-110"
+            className="object-contain p-6 transition-transform duration-700 group-hover:scale-110"
           />
         ) : (
           <div className="flex items-center justify-center w-full h-full">
-            <BookOpen className="w-12 h-12 text-gray-400" />
+            <BookOpen className="w-16 h-16 text-gray-400 opacity-30" />
           </div>
         )}
-        <div className="absolute top-4 right-4">
-          <Badge className="border-white bg-white/90 text-[#33b962]">
+        <div className="absolute top-6 left-6 z-20">
+          <Badge className="bg-white/20 backdrop-blur-md text-white border-white/30 font-black uppercase tracking-widest text-[10px] rounded-full px-4 py-1.5 shadow-xl">
             {categoryMap[activity.kategori.toLowerCase()] || activity.kategori}
           </Badge>
         </div>
         {/* Photo count badge if multiple photos */}
         {activity.fotoArray.length > 1 && (
-          <div className="absolute bottom-4 right-4">
-            <Badge className="text-xs text-white border-white bg-black/60">
-              {activity.fotoArray.length} foto
+          <div className="absolute bottom-6 right-6 z-20">
+            <Badge className="text-[10px] font-black uppercase tracking-widest text-white border-white/20 bg-black/40 backdrop-blur-md rounded-full px-4 py-1">
+              {activity.fotoArray.length} PANORAMA
             </Badge>
           </div>
         )}
       </div>
-      <CardHeader>
-        <CardTitle className="text-lg text-gray-900 sm:text-xl dark:text-white line-clamp-1">
+      <div className="flex flex-col flex-1 p-8">
+        <h3 className="text-2xl font-black text-gray-900 sm:text-2xl dark:text-white line-clamp-1 group-hover:text-[#33b962] transition-colors uppercase tracking-tight mb-3">
           {activity.name}
-        </CardTitle>
-        <CardDescription className="text-xs text-gray-600 sm:text-sm dark:text-gray-400 line-clamp-2">
+        </h3>
+        <p className="text-sm font-medium text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed mb-6">
           {activity.desc}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        {activity.jam && (
-          <div className="flex items-center gap-2 text-xs text-gray-600 sm:text-sm dark:text-gray-400">
-            <Clock className="w-4 h-4 shrink-0" />
-            <span className="truncate">{activity.jam} - Selesai </span>
-          </div>
-        )}
-        {activity.kelas && (
-          <div className="flex items-center gap-2 text-xs text-gray-600 sm:text-sm dark:text-gray-400">
-            <Users className="w-4 h-4 shrink-0" />
-            <span className="truncate">{activity.kelas}</span>
-          </div>
-        )}
-        {activity.guru && (
-          <div className="flex items-center gap-2 text-xs text-gray-600 sm:text-sm dark:text-gray-400">
-            <UserCircle className="w-4 h-4 shrink-0" />
-            <span className="truncate">{activity.guru}</span>
-          </div>
-        )}
-        <Button className="w-full mt-4 bg-[#33b962] hover:bg-[#2a9d52] dark:bg-[#2a7a4a] dark:hover:bg-[#33b962] text-sm">
-          Lihat Detail
-        </Button>
-      </CardContent>
+        </p>
+
+        <div className="mt-auto space-y-4 pt-6 border-t border-gray-100 dark:border-white/5">
+          {activity.jam && (
+            <div className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+              <div className="w-8 h-8 bg-[#33b962]/10 rounded-xl flex items-center justify-center brightness-110 shadow-inner">
+                <Clock className="w-4 h-4 text-[#33b962] brightness-125" />
+              </div>
+              <span className="truncate">{activity.jam} - Selesai </span>
+            </div>
+          )}
+          {activity.guru && (
+            <div className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+              <div className="w-8 h-8 bg-blue-500/10 rounded-xl flex items-center justify-center brightness-110 shadow-inner">
+                <UserCircle className="w-4 h-4 text-blue-500 brightness-125" />
+              </div>
+              <span className="truncate">{activity.guru}</span>
+            </div>
+          )}
+          <Button className="w-full mt-4 bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-2xl font-black uppercase tracking-widest text-[11px] h-12 shadow-xl hover:scale-[1.05] transition-all">
+            LIHAT DETAIL AKTIVITAS
+          </Button>
+        </div>
+      </div>
     </Card>
   )
 }

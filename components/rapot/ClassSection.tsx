@@ -16,16 +16,16 @@ interface ClassSectionProps {
   ) => Promise<void>;
 }
 
-export const ClassSection = ({ 
-  kelas, 
-  students, 
-  expandedStudents, 
+export const ClassSection = ({
+  kelas,
+  students,
+  expandedStudents,
   onToggleStudent,
-  onDownload 
+  onDownload
 }: ClassSectionProps) => {
   return (
-    <div className="overflow-hidden bg-white shadow-lg rounded-2xl">
-      <div className="px-6 py-4 bg-gradient-to-r from-emerald-500 to-teal-600">
+    <div className="overflow-hidden bg-white dark:bg-gray-900 shadow-lg rounded-2xl border border-gray-100 dark:border-gray-800 transition-colors duration-300">
+      <div className="px-6 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 dark:from-emerald-600 dark:to-teal-800">
         <h2 className="text-xl font-bold text-white">
           Kelas {kelas} ({students.length} siswa)
         </h2>

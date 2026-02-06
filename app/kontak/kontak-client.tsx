@@ -103,50 +103,57 @@ const socialMedia = [
 
 export default function KontakClient() {
   return (
-    <div className="min-h-screen mt-20">
+    <div className="min-h-screen pt-16 bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+      {/* Animated Background Blobs */}
+      <div className="absolute top-24 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-48 right-16 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+
       {/* Hero Section */}
-      <section className="relative py-20 text-white bg-gradient-to-br from-primary via-primary/90 to-primary/80">
-        <div className="container px-4 mx-auto mt-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 text-white bg-white/20 border-white/30">Kontak Kami</Badge>
-            <h1 className="mb-4 text-4xl font-bold md:text-5xl">Hubungi Kami</h1>
-            <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/90">
-              Ada pertanyaan? Tim kami siap membantu Anda. Hubungi kami melalui telepon, email, WhatsApp, atau kunjungi
-              langsung sekolah kami.
+      <section className="relative py-24 sm:py-32 overflow-hidden bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#238b45] text-white">
+        <div className="absolute inset-0 bg-black/10 dark:bg-black/20" />
+        <div className="container relative z-10 px-4 mx-auto mt-8">
+          <div className="max-w-4xl mx-auto text-center text-fade-in-up">
+            <Badge className="px-6 py-2 mb-8 text-white bg-white/20 border-white/30 backdrop-blur-md font-bold uppercase tracking-widest text-[10px]">
+              Eksplorasi Kontak & Lokasi
+            </Badge>
+            <h1 className="mb-6 text-fluid-h1 font-black leading-tight drop-shadow-md">
+              Hubungi Kami
+            </h1>
+            <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl text-white/95 font-medium leading-relaxed">
+              Tim kami siap membantu menjawab pertanyaan dan memberikan informasi yang Anda butuhkan seputar sekolah kami.
             </p>
           </div>
         </div>
       </section>
 
       {/* Contact Information Cards */}
-      <section className="py-16 bg-background">
-        <div className="container px-4 mx-auto">
-          <div className="grid max-w-6xl grid-cols-1 gap-6 mx-auto md:grid-cols-2 lg:grid-cols-4">
+      <section className="relative py-24 bg-white/50 dark:bg-gray-950/50 backdrop-blur-md transition-colors duration-500">
+        <div className="container relative z-10 px-4 mx-auto">
+          <div className="grid max-w-6xl grid-cols-1 gap-8 mx-auto md:grid-cols-2 lg:grid-cols-4">
             {contactInfo.map((info, index) => {
               const Icon = info.icon
               return (
-                <Card key={index} className="text-center transition-all hover:shadow-lg">
-                  <CardHeader>
-                    <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10">
-                      <Icon className="w-8 h-8 text-primary" />
+                <Card key={index} className="card-premium p-8 text-center glass dark:bg-gray-900/40 border-0 group transition-all hover:scale-[1.05]">
+                  <div className="flex flex-col h-full">
+                    <div className="flex items-center justify-center w-20 h-20 mx-auto mb-8 rounded-3xl bg-white/50 dark:bg-emerald-900/20 group-hover:bg-[#33b962] transition-all duration-500 shadow-xl brightness-110 filter drop-shadow-[0_10px_15px_rgba(51,185,98,0.2)]">
+                      <Icon className="w-10 h-10 text-[#33b962] group-hover:text-white transition-colors brightness-125" />
                     </div>
-                    <CardTitle className="text-lg">{info.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="mb-4 text-sm text-muted-foreground">{info.content}</p>
-                    <Button variant="outline" size="sm" className="w-full bg-transparent" asChild>
+                    <h3 className="mb-4 text-xl font-black text-gray-900 dark:text-white uppercase tracking-tight">{info.title}</h3>
+                    <p className="mb-8 text-sm font-medium text-gray-600 dark:text-gray-400 leading-relaxed flex-grow">{info.content}</p>
+                    <Button variant="outline" size="lg" className="w-full rounded-2xl font-bold border-2 border-emerald-500/20 hover:bg-emerald-500 hover:text-white dark:hover:bg-emerald-500 dark:text-gray-300 dark:border-white/10 transition-all shadow-sm" asChild>
                       <a href={info.link} target="_blank" rel="noopener noreferrer">
                         {info.action}
                       </a>
                     </Button>
-                  </CardContent>
+                  </div>
                 </Card>
               )
             })}
           </div>
 
           {/* Office Hours */}
-          <Card className="max-w-2xl mx-auto mt-8">
+          <Card className="max-w-2xl mx-auto mt-8 dark:bg-gray-900 dark:border-gray-800">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
@@ -179,7 +186,7 @@ export default function KontakClient() {
       </section>
 
       {/* Google Maps */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-16 bg-muted/30 dark:bg-gray-900/30">
         <div className="container px-4 mx-auto">
           <div className="max-w-6xl mx-auto">
             <div className="mb-8 text-center">
@@ -212,7 +219,7 @@ export default function KontakClient() {
       </section>
 
       {/* Contact Form */}
-      {/* <section className="py-16 bg-background">
+      {/* <section className="py-16 bg-background dark:bg-gray-950">
         <div className="container px-4 mx-auto">
           <div className="max-w-3xl mx-auto">
             <div className="mb-12 text-center">
@@ -308,7 +315,7 @@ export default function KontakClient() {
       </section> */}
 
       {/* Department Contacts */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-16 bg-muted/30 dark:bg-gray-900/30">
         <div className="container px-4 mx-auto">
           <div className="max-w-5xl mx-auto">
             <div className="mb-12 text-center">
@@ -318,27 +325,27 @@ export default function KontakClient() {
 
             <div className="grid gap-6 md:grid-cols-3">
               {departments.map((dept, index) => (
-                <Card key={index} className="transition-all hover:shadow-lg">
-                  <CardHeader>
-                    <CardTitle className="text-xl">{dept.name}</CardTitle>
-                    <CardDescription>PIC: {dept.pic}</CardDescription>
-                  </CardHeader>
-                 <CardContent className="space-y-3">
+                <Card key={index} className="card-premium p-6 transition-all hover:scale-[1.02] dark:bg-gray-900/60 border-0 glass">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center mb-6 brightness-110 shadow-inner">
+                      <Phone className="w-8 h-8 text-[#33b962] brightness-125" />
+                    </div>
+                    <h3 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-tight mb-2">{dept.name}</h3>
+                    <p className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-6 uppercase tracking-widest text-[10px]">PIC: {dept.pic}</p>
                     <a
                       href={`https://wa.me/+62${dept.phone.replace(/^0/, '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block w-full"
+                      className="w-full"
                     >
                       <Button
                         size="lg"
-                        className="flex items-center justify-center gap-2 w-full px-4 py-5 text-base font-semibold text-white rounded-full bg-gradient-to-r from-[#33b962] to-[#28a745] hover:opacity-90 transition-all hover:scale-105"
+                        className="w-full rounded-2xl font-black bg-[#33b962] hover:bg-[#2a9d52] text-white shadow-xl hover:scale-[1.05] transition-all uppercase tracking-widest text-xs h-12"
                       >
-                        <Phone className="w-5 h-5 text-white shrink-0" />
-                        <span>{dept.phone} (WA)</span>
+                        {dept.phone}
                       </Button>
                     </a>
-                  </CardContent>
+                  </div>
                 </Card>
               ))}
             </div>
@@ -347,7 +354,7 @@ export default function KontakClient() {
       </section>
 
       {/* Social Media */}
-      <section className="py-16 bg-background">
+      <section className="py-16 transition-colors duration-300 bg-background dark:bg-gray-950">
         <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto">
             <div className="mb-12 text-center">
@@ -361,23 +368,21 @@ export default function KontakClient() {
                 return (
                   <Card
                     key={index}
-                    className="text-center transition-all cursor-pointer hover:shadow-lg group"
+                    className="card-premium p-8 text-center transition-all cursor-pointer hover:scale-[1.05] group dark:bg-gray-900/60 border-0 glass overflow-hidden relative"
                     onClick={() => window.open(social.link, "_blank")}
                   >
-                    <CardHeader>
+                    <div className="flex flex-col h-full items-center">
                       <div
-                        className={`mx-auto w-16 h-16 rounded-full ${social.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
+                        className={`w-20 h-20 rounded-3xl ${social.color} flex items-center justify-center mb-6 transition-all duration-500 shadow-xl brightness-110 filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.1)] group-hover:rotate-12`}
                       >
-                        <Icon className="w-8 h-8 text-white" />
+                        <Icon className="w-10 h-10 text-white brightness-125" />
                       </div>
-                      <CardTitle className="text-xl">{social.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="mb-4 text-sm text-muted-foreground">{social.handle}</p>
-                      <Button variant="outline" size="sm" className="w-full bg-transparent">
-                        Kunjungi
+                      <h3 className="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight mb-2">{social.name}</h3>
+                      <p className="mb-8 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">{social.handle}</p>
+                      <Button variant="outline" size="lg" className="mt-auto w-full rounded-2xl font-black border-2 border-emerald-500/10 hover:bg-[#33b962] hover:text-white transition-all uppercase tracking-widest text-[10px] h-11">
+                        Kunjungi Profile
                       </Button>
-                    </CardContent>
+                    </div>
                   </Card>
                 )
               })}

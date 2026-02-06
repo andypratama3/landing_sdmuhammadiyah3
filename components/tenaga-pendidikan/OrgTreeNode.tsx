@@ -44,14 +44,13 @@ export function OrgTreeNode({ node, level = 0, isRoot = false }: OrgTreeNodeProp
         </div>
 
         {node.staff && node.staff.length > 0 && (
-          <div className={`mb-4 flex flex-wrap justify-center gap-4 ${
-            node.staff.length === 1 ? 'w-full' : 'max-w-full'
-          }`}>
+          <div className={`mb-4 flex flex-wrap justify-center gap-4 ${node.staff.length === 1 ? 'w-full' : 'max-w-full'
+            }`}>
             {node.staff.map((staff) => (
-              <StaffCard 
-                key={staff.slug} 
-                staff={staff} 
-                isMultiple={level !== 0 && node.staff.length > 1} 
+              <StaffCard
+                key={staff.slug}
+                staff={staff}
+                isMultiple={level !== 0 && node.staff.length > 1}
               />
             ))}
           </div>
@@ -60,7 +59,7 @@ export function OrgTreeNode({ node, level = 0, isRoot = false }: OrgTreeNodeProp
         {hasChildren && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className={`mt-2 p-2 rounded-full transition-colors ${colors.icon} hover:bg-gray-100`}
+            className={`mt-2 p-2 rounded-full transition-colors ${colors.icon} hover:bg-accent hover:text-accent-foreground`}
             aria-expanded={isExpanded}
           >
             {isExpanded ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
@@ -97,7 +96,7 @@ export function OrgTreeNode({ node, level = 0, isRoot = false }: OrgTreeNodeProp
             <div className="flex flex-col w-full gap-6">
               {node.children?.map((child) => (
                 <div key={child.slug} className="flex flex-col items-center">
-                  {node.children && node.children.length > 1  && (
+                  {node.children && node.children.length > 1 && (
                     <div
                       className="w-1"
                       style={{

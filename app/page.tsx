@@ -184,7 +184,7 @@ export default function Home() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="relative min-h-[95vh] flex items-center bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#238b45] py-20 overflow-hidden">
+      <section className="relative min-h-[95vh] flex items-center bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#238b45] py-20 overflow-hidden">
         {/* Playful background elements */}
         <div className="absolute top-20 left-[10%] w-64 h-64 bg-white/10 rounded-full blur-[100px] animate-blob pointer-events-none" />
         <div className="absolute bottom-20 right-[10%] w-80 h-80 bg-[#ffd166]/10 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
@@ -254,7 +254,7 @@ export default function Home() {
                 key={index}
                 className="card-premium p-6 sm:p-10 text-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-xl"
               >
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-linear-to-br from-[#33b962] to-[#2a9d52] rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl rotate-3 group-hover:rotate-0 transition-all duration-300 brightness-110 filter drop-shadow-[0_10px_10px_rgba(51,185,98,0.3)]">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-[#33b962] to-[#2a9d52] rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl rotate-3 group-hover:rotate-0 transition-all duration-300 brightness-110 filter drop-shadow-[0_10px_10px_rgba(51,185,98,0.3)]">
                   <stat.icon className="w-8 h-8 sm:w-10 sm:h-10 text-white brightness-110" />
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black text-[#33b962] mb-2">{stat.value}</h3>
@@ -266,7 +266,7 @@ export default function Home() {
       </section>
 
       {/* Program Unggulan Section */}
-      <section className="py-24 bg-linear-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
+      <section className="py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
         <div className="container px-4 mx-auto">
           <div className="mb-20 text-center">
             <Badge className="mb-6 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] dark:text-[#4ade80] border-[#33b962]/20 px-6 py-3 text-sm font-bold rounded-full">
@@ -350,7 +350,7 @@ export default function Home() {
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
                   <div className="absolute bottom-0 left-0 right-0 p-12 transform group-hover:-translate-y-4 transition-transform duration-700">
                     <Badge className="bg-white/20 backdrop-blur-md text-white border-white/30 font-black uppercase tracking-widest text-[10px] mb-6 px-4 py-1.5 h-auto">
                       Jelajahi Fasilitas
@@ -476,7 +476,7 @@ export default function Home() {
                         fill
                         className="object-cover transition-transform duration-1000 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
                   </div>
                 </div>
@@ -556,11 +556,11 @@ export default function Home() {
               <p className="text-[#33b962] dark:text-[#4ade80] font-black text-base sm:text-lg mb-10 uppercase tracking-widest">Kepala Sekolah</p>
 
               <div className="relative">
-                <div className="absolute -top-6 left-0 text-7xl text-[#33b962]/10 select-none">"</div>
+                <div className="absolute -top-6 left-0 text-7xl text-[#33b962] select-none">"</div>
                 <p className="px-6 text-lg sm:text-xl italic leading-relaxed text-gray-700 dark:text-gray-300 font-medium">
                   "Sinergi antara Iman, Ilmu, dan Akhlak adalah fondasi utama kami dalam melahirkan generasi masa depan yang siap menghadapi tantangan zaman dengan integritas dan kreativitas."
                 </p>
-                <div className="absolute -bottom-10 right-0 text-7xl text-[#33b962]/10 select-none rotate-180">"</div>
+                <div className="absolute -bottom-10 right-0 text-7xl text-[#33b962] select-none rotate-180">"</div>
               </div>
             </div>
           </div>
@@ -601,7 +601,7 @@ export default function Home() {
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500" />
                   <div className="absolute bottom-0 left-0 right-0 p-10 transform group-hover:-translate-y-4 transition-transform duration-700">
                     <div className="w-14 h-14 bg-[#ffd166] rounded-[1.25rem] flex items-center justify-center mb-6 shadow-2xl rotate-12 group-hover:rotate-0 transition-transform duration-500 brightness-110">
                       <Trophy className="w-8 h-8 text-gray-900" />
@@ -642,7 +642,7 @@ export default function Home() {
       <section className="relative py-24 overflow-hidden bg-gray-50 border-t border-gray-100 dark:bg-gray-950 dark:border-gray-800">
         <div className="absolute top-1/2 left-0 w-48 h-48 bg-[#playful-pink]/10 rounded-full blur-3xl animate-blob" />
         <div className="container relative z-10 px-4 mx-auto text-center">
-          <Badge className="mb-8 bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-6 py-2 text-sm font-bold rounded-full">PARTNER KAMI</Badge>
+          <Badge className="mb-6 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] dark:text-[#4ade80] border-[#33b962]/20 px-6 py-3 text-sm font-bold rounded-full">PARTNER KAMI</Badge>
           <h2 className="mb-16 text-3xl font-black text-gray-900 dark:text-white uppercase tracking-[0.2em]">Dukungan & Kerja Sama</h2>
 
           <div className="flex flex-wrap items-center justify-center gap-12 lg:gap-20">
@@ -682,7 +682,10 @@ export default function Home() {
       <section className="relative py-24 overflow-hidden bg-white dark:bg-gray-900">
         <div className="absolute top-0 right-0 w-64 h-64 translate-x-1/2 -translate-y-1/2 bg-[#playful-blue]/10 rounded-full blur-3xl animate-blob animation-delay-4000" />
         <div className="container relative z-10 px-4 mx-auto text-center">
-          <h2 className="mb-16 text-2xl font-black text-gray-900 dark:text-white uppercase tracking-[0.2em] opacity-40">Penghargaan Nasional</h2>
+            <Badge className="mb-6 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] dark:text-[#4ade80] border-[#33b962]/20 px-6 py-3 text-sm font-bold rounded-full">
+              PENGHARGAAN
+            </Badge>
+          <h2 className="mb-8 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight">Penghargaan Nasional</h2>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-16 lg:gap-32">
             <div className="group flex flex-col items-center">
               <div className="relative w-40 h-40 flex items-center justify-center mb-6 overflow-visible transition-all duration-700">
@@ -710,7 +713,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#1a4d2e] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#1a4d2e] text-white relative overflow-hidden transition-colors duration-500">
+      <section className="py-32 bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#1a4d2e] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#1a4d2e] text-white relative overflow-hidden transition-colors duration-500">
         <div className="absolute top-0 right-0 rounded-full w-[600px] h-[600px] bg-white/5 blur-[120px] -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 rounded-full w-[600px] h-[600px] bg-white/5 blur-[120px] translate-y-1/2 -translate-x-1/2" />
 

@@ -289,7 +289,7 @@ export default function GuruPage() {
 
                       {/* Badge - Top Right */}
                       <div className="absolute z-10 top-6 right-6">
-                        <Badge className="bg-white/20 backdrop-blur-md text-white border-white/30 shadow-2xl font-black px-4 py-2 text-[10px] uppercase tracking-widest rounded-full">
+                        <Badge className="bg-[#33b962] backdrop-blur-md text-white border-white/30 shadow-2xl font-black px-4 py-2 text-[10px] uppercase tracking-widest rounded-full">
                           {guru.pelajarans && guru.pelajarans.length > 0
                             ? guru.pelajarans[0].name
                             : "Guru"}
@@ -365,13 +365,13 @@ export default function GuruPage() {
           onClick={() => setSelectedSlug(null)}
         >
           <div
-            className="modal-scroll relative w-full max-w-3xl bg-white dark:bg-gray-900 rounded-3xl shadow-2xl max-h-[95vh] overflow-y-auto"
+            className="modal-scroll mt-35 relative w-full max-w-3xl bg-white dark:bg-gray-900 rounded-3xl shadow-2xl max-h-[95vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={() => setSelectedSlug(null)}
-              className="absolute z-20 p-2 text-gray-400 dark:text-gray-500 transition-all bg-white dark:bg-gray-800 rounded-full top-6 right-6 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-110 shadow-lg"
+              className="absolute z-20  p-2 text-gray-400 dark:text-gray-500 transition-all bg-white dark:bg-gray-800 rounded-full top-6 right-6 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-110 shadow-lg"
             >
               <X className="w-6 h-6" />
             </button>

@@ -8,7 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Search, Users, AlertCircle, Loader2, X, Network } from "lucide-react"
 import { useApi } from "@/hooks/useApi"
-import { Staff, StrukturNode, TenagaPendidikanResponse,TenagaPendidikan } from "@/types/tenagaPendidikan.types"
+import { Staff, StrukturNode, TenagaPendidikanResponse, TenagaPendidikan } from "@/types/tenagaPendidikan.types"
 import { OrgTreeNode } from "@/components/tenaga-pendidikan/OrgTreeNode"
 import { GridStaffCard } from "@/components/tenaga-pendidikan/GridStaffCard"
 import { useDebounce } from "@/hooks/useDebounce"
@@ -20,11 +20,11 @@ export default function TenagaPendidikanPage() {
   const debouncedSearchQuery = useDebounce(searchInput, 500)
   const isTyping = searchInput !== debouncedSearchQuery
 
-  const { 
-    data: tenagaPendidikanResponse, 
-    loading, 
+  const {
+    data: tenagaPendidikanResponse,
+    loading,
     error,
-    refetch 
+    refetch
   } = useApi<TenagaPendidikan>('/tenaga-kependidikan', {
     cache: true,
     cacheTTL: 300000,
@@ -34,7 +34,7 @@ export default function TenagaPendidikanPage() {
   // Extract hierarchical data from API response
   const hierarchyData = useMemo(() => {
     if (!tenagaPendidikanResponse) return []
-    
+
     const dataArray = tenagaPendidikanResponse || tenagaPendidikanResponse
     return Array.isArray(dataArray) ? dataArray : []
   }, [tenagaPendidikanResponse])
@@ -42,7 +42,7 @@ export default function TenagaPendidikanPage() {
   // Process hierarchy data to include full image URLs
   const processedHierarchyData = useMemo(() => {
     const storageUrl = process.env.NEXT_PUBLIC_STORAGE_URL || ''
-    
+
     const processNode = (node: any): StrukturNode => {
       return {
         id: node.id,
@@ -60,7 +60,7 @@ export default function TenagaPendidikanPage() {
         children: (node.children || []).map(processNode)
       }
     }
-    
+
     return hierarchyData.map(processNode)
   }, [hierarchyData])
 
@@ -68,17 +68,17 @@ export default function TenagaPendidikanPage() {
   const allStaff = useMemo(() => {
     const flattenStaff = (nodes: StrukturNode[]): Staff[] => {
       let result: Staff[] = []
-      
+
       nodes.forEach(node => {
         result = [...result, ...node.staff]
         if (node.children && node.children.length > 0) {
           result = [...result, ...flattenStaff(node.children)]
         }
       })
-      
+
       return result
     }
-    
+
     return flattenStaff(processedHierarchyData)
   }, [processedHierarchyData])
 
@@ -101,7 +101,7 @@ export default function TenagaPendidikanPage() {
             </div>
           </div>
         </section>
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-gray-50 dark:bg-muted/20">
           <div className="container px-4 mx-auto max-w-7xl">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 6 }).map((_, i) => (
@@ -119,7 +119,7 @@ export default function TenagaPendidikanPage() {
   }
 
   return (
-    <div className="pt-24 pb-16 bg-white">
+    <div className="pt-24 pb-16 bg-background">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#1a6d3b] py-24 text-white">
         <div className="absolute inset-0 opacity-10">
@@ -138,7 +138,7 @@ export default function TenagaPendidikanPage() {
       </section>
 
       {/* Filter & Search */}
-      <section className="py-12 bg-white border-b border-gray-100">
+      <section className="py-12 bg-background border-b border-border">
         <div className="container px-4 mx-auto max-w-7xl">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -166,13 +166,13 @@ export default function TenagaPendidikanPage() {
                   {isTyping ? (
                     <Loader2 className="w-5 h-5 text-[#33b962] animate-spin" />
                   ) : (
-                    <Search className="w-5 h-5 text-gray-400" />
+                    <Search className="w-5 h-5 text-muted-foreground" />
                   )}
                 </div>
                 <Input
                   type="text"
                   placeholder="Cari nama staf..."
-                  className="pl-10 pr-10 border-2 border-gray-200 rounded-full focus:border-[#33b962] focus:ring-2 focus:ring-[#33b962]/20 transition-all"
+                  className="pl-10 pr-10 border-2 border-border rounded-full focus:border-[#33b962] focus:ring-2 focus:ring-[#33b962]/20 transition-all bg-background"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                 />
@@ -181,14 +181,14 @@ export default function TenagaPendidikanPage() {
                     onClick={() => setSearchInput("")}
                     className="absolute p-1 transition-colors -translate-y-1/2 rounded-full right-2 top-1/2 hover:bg-gray-200"
                   >
-                    <X className="w-5 h-5 text-gray-400" />
+                    <X className="w-5 h-5 text-muted-foreground" />
                   </button>
                 )}
               </div>
 
               <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#33b962]/10">
                 <span className="font-semibold text-[#33b962]">{allStaff.length}</span>
-                <span className="text-sm text-gray-600">Tenaga Pendidikan</span>
+                <span className="text-sm text-muted-foreground">Tenaga Pendidikan</span>
               </div>
             </div>
           </div>
@@ -202,8 +202,8 @@ export default function TenagaPendidikanPage() {
             <AlertCircle className="w-4 h-4" />
             <AlertDescription className="flex items-center justify-between">
               <span>Terjadi kesalahan saat memuat data tenaga pendidikan.</span>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="sm"
                 onClick={() => refetch?.()}
                 className="ml-4"
@@ -216,14 +216,14 @@ export default function TenagaPendidikanPage() {
       )}
 
       {/* Content Section */}
-      <section className="py-20 bg-gray-50/50">
+      <section className="py-20 bg-muted/20">
         <div className="container px-4 mx-auto max-w-7xl">
           {isSearching ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {isTyping && (
                 <div className="flex items-center justify-center gap-2 py-8 col-span-full">
                   <Loader2 className="w-5 h-5 animate-spin text-[#33b962]" />
-                  <span className="text-gray-500">Mencari Tenaga Pendidikan...</span>
+                  <span className="text-muted-foreground">Mencari Tenaga Pendidikan...</span>
                 </div>
               )}
               {Array.from({ length: 6 }).map((_, i) => (
@@ -248,8 +248,8 @@ export default function TenagaPendidikanPage() {
                       ))
                     ) : (
                       <div className="py-20 text-center">
-                        <Network className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-                        <p className="text-lg text-gray-500">Tidak ada struktur organisasi yang tersedia</p>
+                        <Network className="w-16 h-16 mx-auto mb-4 text-muted-foreground/50" />
+                        <p className="text-lg text-muted-foreground">Tidak ada struktur organisasi yang tersedia</p>
                       </div>
                     )}
                   </div>
@@ -267,9 +267,9 @@ export default function TenagaPendidikanPage() {
                     </div>
                   ) : (
                     <div className="py-20 text-center">
-                      <Users className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-                      <p className="text-lg text-gray-500">
-                        {debouncedSearchQuery 
+                      <Users className="w-16 h-16 mx-auto mb-4 text-muted-foreground/50" />
+                      <p className="text-lg text-muted-foreground">
+                        {debouncedSearchQuery
                           ? `Tidak ditemukan staf dengan nama "${debouncedSearchQuery}"`
                           : 'Tidak ada staf yang ditemukan'}
                       </p>

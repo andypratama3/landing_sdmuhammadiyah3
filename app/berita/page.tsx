@@ -283,7 +283,7 @@ export default function BeritaPage() {
                 Berita & Pengumuman
               </Badge>
               <h1 className="mb-6 text-fluid-h1 font-black leading-tight drop-shadow-md text-balance">
-                Berita Terkini SDMuh3
+                Berita Terkini SD Muhammadiyah 3 Samarinda
               </h1>
               <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl text-white/95 font-medium leading-relaxed mb-10">
                 Informasi terbaru tentang kegiatan, prestasi, dan pengumuman penting di Sekolah Kreatif.

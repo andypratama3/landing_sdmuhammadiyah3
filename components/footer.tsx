@@ -155,7 +155,7 @@ export default function Footer() {
             </div>
             <div>
               <p className="font-black text-white uppercase tracking-widest text-xs">Statistik Pengunjung</p>
-              <p className="text-[10px] font-bold text-gray-500 uppercase">Data Real-time</p>
+              <p className="text-[10px] font-bold text-white uppercase">Data Real-time</p>
             </div>
           </div>
 
@@ -166,19 +166,19 @@ export default function Footer() {
               <>
                 <div className="text-center">
                   <p className="text-xl font-black text-white">{data?.visitor_by_day.toLocaleString()}</p>
-                  <p className="text-[10px] font-black uppercase text-gray-500 tracking-tighter">Hari Ini</p>
+                  <p className="text-[10px] font-black uppercase text-white tracking-tighter">Hari Ini</p>
                 </div>
                 <div className="text-center">
                   <p className="text-xl font-black text-white">{data?.visitor_by_month.toLocaleString()}</p>
-                  <p className="text-[10px] font-black uppercase text-gray-500 tracking-tighter">Bulan Ini</p>
+                  <p className="text-[10px] font-black uppercase text-white tracking-tighter">Bulan Ini</p>
                 </div>
                 <div className="text-center">
                   <p className="text-xl font-black text-white">{data?.visitor_by_year.toLocaleString()}</p>
-                  <p className="text-[10px] font-black uppercase text-gray-500 tracking-tighter">Tahun Ini</p>
+                  <p className="text-[10px] font-black uppercase text-white tracking-tighter">Tahun Ini</p>
                 </div>
                 <div className="text-center">
                   <p className="text-xl font-black text-[#33b962]">{data?.visitor_all_year.toLocaleString()}</p>
-                  <p className="text-[10px] font-black uppercase text-gray-500 tracking-tighter">Total</p>
+                  <p className="text-[10px] font-black uppercase text-white tracking-tighter">Total</p>
                 </div>
               </>
             )}
@@ -187,7 +187,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="flex flex-col items-center justify-between gap-6 pt-12 mt-12 text-xs font-bold uppercase tracking-[0.2em] border-t border-white/5 md:flex-row">
-          <p className="text-center md:text-left">&copy; 2025 SD Muhammadiyah 3 Samarinda. <span className="text-white">Sekolah Kreatif.</span></p>
+          <p className="text-center md:text-left">&copy; {new Date().getFullYear()} Sekolah Kreatif SD Muhammadiyah 3 Samarinda</p>
           <div className="flex gap-8">
             <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>

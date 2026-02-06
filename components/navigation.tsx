@@ -107,7 +107,7 @@ export default function Navigation() {
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="block px-6 py-2.5 text-[11px] font-black text-gray-600 dark:text-gray-400 hover:text-white dark:hover:text-[#4ade80] hover:bg-[#33b962]/10 dark:hover:bg-[#33b962]/20 transition-all border-b-2 border-[#33b962] rounded-full uppercase tracking-widest hover:pl-8 hover:brightness-125"
+                          className="block px-6 py-2.5 text-[11px] font-black text-gray-600 dark:text-gray-400 hover:text-[#33b962] dark:hover:text-[#4ade80] hover:bg-[#33b962]/10 dark:hover:bg-[#33b962]/20 transition-all uppercase tracking-widest hover:pl-8 hover:brightness-125"
                         >
                           {item.label}
                         </Link>

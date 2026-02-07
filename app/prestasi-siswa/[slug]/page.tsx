@@ -505,7 +505,9 @@ export default function PrestasiSiswaDetailPage() {
                       <div className="flex gap-4">
                         <div className="relative flex-shrink-0 w-24 h-24 overflow-hidden rounded-lg">
                           <Image
-                            src={item.foto || "/placeholder.svg"}
+                            src={item.foto
+                              ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${item.foto}`
+                              : "/placeholder.svg"}
                             alt={item.name}
                             fill
                             className="object-cover transition-transform group-hover:scale-110"

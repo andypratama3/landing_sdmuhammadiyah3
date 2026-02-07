@@ -509,7 +509,8 @@ export default function PrestasiSiswaDetailPage() {
                               ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${item.foto}`
                               : "/placeholder.svg"}
                             alt={item.name}
-                            fill
+                            width={1200}
+                            height={800}
                             className="object-cover transition-transform group-hover:scale-110"
                           />
                         </div>

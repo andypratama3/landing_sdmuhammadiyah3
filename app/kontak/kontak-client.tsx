@@ -167,15 +167,15 @@ export default function KontakClient() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                <div className="flex items-center justify-between text-white p-3 rounded-lg bg-muted/50">
                   <span className="font-medium">Senin - Jumat</span>
-                  <span className="text-muted-foreground">07:00 - 15:00 WIB</span>
+                  <span className="text-white">07:00 - 15:00 WIB</span>
                 </div>
-                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                <div className="flex items-center justify-between text-white p-3 rounded-lg bg-muted/50">
                   <span className="font-medium">Sabtu</span>
-                  <span className="text-muted-foreground">07:00 - 12:00 WIB</span>
+                  <span className="text-white">07:00 - 12:00 WIB</span>
                 </div>
-                <div className="flex items-center justify-between p-3 rounded-lg bg-red-500/10">
+                <div className="flex items-center justify-between text-white p-3 rounded-lg bg-red-500/10">
                   <span className="font-medium">Minggu & Hari Libur</span>
                   <span className="font-semibold text-red-600">Tutup</span>
                 </div>

@@ -100,8 +100,8 @@ export default function FooterAdvanced() {
     { href: "/jadwal", label: "Jadwal Pelajaran" },
     { href: "/galeri", label: "Kalender Akademik" },
     { href: "/berita", label: "Berita Terbaru" },
-    { href: "/prestasi-siswa", label: "Achievement Siswa" },
-    { href: "/prestasi-sekolah", label: "Prestasi Institusi" }
+    { href: "/prestasi-siswa", label: "Prestasi Siswa" },
+    { href: "/prestasi-sekolah", label: "Prestasi Sekolah" }
   ];
 
   const socialLinks = [

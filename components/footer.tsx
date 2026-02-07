@@ -25,10 +25,26 @@ export default function FooterAdvanced() {
   const [hoveredStat, setHoveredStat] = useState<string | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+
+  // Auto-refresh setiap 30 detik (hanya untuk data statistik)
+  useEffect(() => {
+    const REFRESH_INTERVAL = 30000; // 30 detik
+
+    const intervalId = setInterval(() => {
+      refetch();
+      setLastUpdate(new Date());
+    }, REFRESH_INTERVAL);
+
+    return () => clearInterval(intervalId);
+  }, [refetch]);
 
   useEffect(() => {
     setMounted(true);
-    const handler = () => refetch();
+    const handler = () => {
+      refetch();
+      setLastUpdate(new Date());
+    };
     window.addEventListener('visitor-updated', handler);
     return () => window.removeEventListener('visitor-updated', handler);
   }, [refetch]);
@@ -129,6 +145,16 @@ export default function FooterAdvanced() {
       href: "mailto:sdmuhammadiyah3smd@gmail.com"
     }
   ];
+
+  // Format waktu update terakhir
+  const formatLastUpdate = () => {
+    const now = new Date();
+    const diff = Math.floor((now.getTime() - lastUpdate.getTime()) / 1000);
+    
+    if (diff < 60) return `${diff} detik yang lalu`;
+    if (diff < 3600) return `${Math.floor(diff / 60)} menit yang lalu`;
+    return lastUpdate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+  };
 
   return (
     <footer className="relative mt-20 pt-24 pb-12 overflow-hidden transition-colors duration-300 dark:bg-gray-950 dark:text-gray-400 bg-white text-gray-600">
@@ -265,24 +291,34 @@ export default function FooterAdvanced() {
                   Statistik Pengunjung
                 </p>
                 <p className="text-[10px] font-bold uppercase dark:text-white/70 text-gray-600">
-                  Data Real-time
+                  Data Real-time • Update otomatis setiap 30 detik
                 </p>
               </div>
             </div>
 
-            {/* Trend Indicator */}
-            {!loading && data?.trend_percentage && (
+            <div className="flex items-center gap-3">
+              {/* Last Update Time */}
               <div className="flex items-center gap-2 px-3 py-2 rounded-lg dark:bg-white/5 dark:border-white/10 bg-gray-100 border border-gray-200">
-                <div className={`w-2 h-2 rounded-full animate-pulse ${
-                  data.trend === 'up' ? 'bg-[#33b962]' : 'bg-red-400'
-                }`} />
-                <span className={`text-xs font-bold uppercase tracking-wider ${
-                  data.trend === 'up' ? 'text-[#33b962]' : 'text-red-400'
-                }`}>
-                  {data.trend === 'up' ? '+' : '-'}{data.trend_percentage}%
+                <div className="w-2 h-2 rounded-full bg-[#33b962] animate-pulse" />
+                <span className="text-[10px] font-bold uppercase tracking-wider dark:text-white/70 text-gray-600">
+                  {formatLastUpdate()}
                 </span>
               </div>
-            )}
+
+              {/* Trend Indicator */}
+              {!loading && data?.trend_percentage && (
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg dark:bg-white/5 dark:border-white/10 bg-gray-100 border border-gray-200">
+                  <div className={`w-2 h-2 rounded-full animate-pulse ${
+                    data.trend === 'up' ? 'bg-[#33b962]' : 'bg-red-400'
+                  }`} />
+                  <span className={`text-xs font-bold uppercase tracking-wider ${
+                    data.trend === 'up' ? 'text-[#33b962]' : 'text-red-400'
+                  }`}>
+                    {data.trend === 'up' ? '+' : '-'}{data.trend_percentage}%
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Stats Grid */}
@@ -295,7 +331,7 @@ export default function FooterAdvanced() {
                   <div className="w-2 h-2 rounded-full bg-[#33b962] animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
                 <span className="text-xs uppercase tracking-widest animate-pulse dark:text-white/50 text-gray-400">
-                  Sinkronisasi data...
+                  Memperbarui data...
                 </span>
               </div>
             ) : (

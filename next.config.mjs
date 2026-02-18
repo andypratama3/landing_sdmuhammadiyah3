@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compress: true,
+  output: 'standalone',
 
   images: {
     remotePatterns: [
@@ -24,8 +25,6 @@ const nextConfig = {
     ],
     unoptimized: process.env.NODE_ENV === 'development',
   },
-
-  
 
   experimental: {
     optimizeCss: true,
@@ -62,6 +61,21 @@ const nextConfig = {
 
   async headers() {
     return [
+      // Cache Next.js static assets forever
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }
+        ]
+      },
+      // Cache images and fonts
+      {
+        source: '/(.*)\.(jpg|jpeg|png|gif|ico|svg|webp|avif|woff|woff2)$',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=2592000' }
+        ]
+      },
+      // Security headers for all routes
       {
         source: '/:path*',
         headers: [

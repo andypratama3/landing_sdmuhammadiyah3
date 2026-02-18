@@ -600,7 +600,8 @@ export default function Home() {
                     src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/` + achievement.foto || "/placeholder.svg"}
                     alt={achievement.name}
                     fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500" />
                   <div className="absolute bottom-0 left-0 right-0 p-10 transform group-hover:-translate-y-4 transition-transform duration-700">

@@ -394,12 +394,12 @@ export default function BeritaPage() {
                         <span>Admin SDMuh3</span>
                       </div>
                     </div>
-                    <Link href={`/berita/${featuredNews.slug}`}>
-                      <Button size="lg" className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-10 py-7 text-lg font-black shadow-xl hover:scale-105 transition-all group">
+                    <Button asChild size="lg" className="w-fit bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-10 py-7 text-lg font-black shadow-xl hover:scale-105 transition-all group">
+                      <Link href={`/berita/${featuredNews.slug}`}>
                         Baca Selengkapnya
                         <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   </div>
                 </div>
               </Card>
@@ -407,7 +407,6 @@ export default function BeritaPage() {
           </section>
         ) : null}
 
-        {/* Main Content - ✅ Tambahkan ref di sini untuk scroll target */}
         <section ref={contentRef} className="py-24 bg-muted/30 dark:bg-black/20 transition-colors duration-500 relative">
           <div className="container relative z-10 px-4 mx-auto">
             <div className="grid gap-8 lg:grid-cols-3">

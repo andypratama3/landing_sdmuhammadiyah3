@@ -395,7 +395,7 @@ export default function BeritaPage() {
                         <span>Admin SDMuh3</span>
                       </div>
                     </div>
-                    <Button asChild size="lg" className="w-fit bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-10 py-7 text-lg font-black shadow-xl hover:scale-105 transition-all group">
+                    <Button size="lg" className="w-fit bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-10 py-7 text-lg font-black shadow-xl hover:scale-105 transition-all group">
                         Baca Selengkapnya
                         <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>

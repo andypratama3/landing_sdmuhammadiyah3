@@ -363,6 +363,7 @@ export default function BeritaPage() {
         ) : (currentPage === 1 && selectedCategory === "semua" && !debouncedSearchQuery.trim()) && featuredNews ? (
           <section className="py-16 bg-background dark:bg-gray-950 overflow-hidden relative">
             <div className="container relative z-10 px-4 mx-auto">
+              <Link href={`/berita/${featuredNews.slug}`}>
               <Card className="overflow-hidden card-premium dark:bg-gray-900/40 dark:backdrop-blur-xl border-0 shadow-2xl rounded-[2.5rem] group">
                 <div className="grid gap-0 md:grid-cols-2">
                   <div className="relative h-64 md:h-auto overflow-hidden">
@@ -395,14 +396,13 @@ export default function BeritaPage() {
                       </div>
                     </div>
                     <Button asChild size="lg" className="w-fit bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-10 py-7 text-lg font-black shadow-xl hover:scale-105 transition-all group">
-                      <Link href={`/berita/${featuredNews.slug}`}>
                         Baca Selengkapnya
                         <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Link>
                     </Button>
                   </div>
                 </div>
               </Card>
+              </Link>
             </div>
           </section>
         ) : null}

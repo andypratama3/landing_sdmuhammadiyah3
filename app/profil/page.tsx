@@ -199,7 +199,7 @@ export default function ProfilPage() {
               {/* Wakil Kepala */}
               <div className="grid gap-8 md:grid-cols-3">
                 {[
-                  { title: "Bendahara Sekolah", name: "PRANANDA PRIYANDAN MAHMUD, S.E.", icon: BookOpen },
+                  { title: "Wakil Kurikulum", name: "Wiwik Kurniasih S.Pd", icon: BookOpen },
                   { title: "Waka Bid. Kesiswaan", name: "MISBAHUL JUM'AH, S.Pd.I", icon: Users },
                   { title: "Wakil Kepala Humas", name: "Fadhilaturrahman S.Pd", icon: Heart }
                 ].map((item, idx) => (

@@ -1,10 +1,10 @@
 'use client';
 
 import Link from "next/link"
-import { Facebook, Instagram, Youtube, Mail, Phone, MapPin, CloudCog, TrendingUp, Activity, Users, BarChart3, ChevronRight } from "lucide-react"
+import { Facebook, Instagram, Youtube, Mail, Phone, MapPin, CloudCog, TrendingUp, Activity, Users, BarChart3 } from "lucide-react"
 import Image from 'next/image'
 import { useApi } from '@/hooks/useApi';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 interface VisitorData {
   visitor_by_day: number;
@@ -16,6 +16,8 @@ interface VisitorData {
   peak_hour?: string;
 }
 
+const REFRESH_INTERVAL = 30000; // 30 detik
+
 export default function FooterAdvanced() {
   const { data, loading, error, refetch } = useApi<VisitorData>('/views', {
     cache: false,
@@ -26,28 +28,52 @@ export default function FooterAdvanced() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  const [secondsAgo, setSecondsAgo] = useState(0);
 
-  // Auto-refresh setiap 30 detik (hanya untuk data statistik)
+  // ✅ FIX: Simpan refetch ke ref agar interval tidak perlu refetch sebagai dependency
+  const refetchRef = useRef(refetch);
   useEffect(() => {
-    const REFRESH_INTERVAL = 30000; // 30 detik
+    refetchRef.current = refetch;
+  }, [refetch]);
 
+  // ✅ FIX: Interval stabil — tidak bergantung pada refetch langsung
+  useEffect(() => {
     const intervalId = setInterval(() => {
-      refetch();
+      refetchRef.current();
       setLastUpdate(new Date());
+      setSecondsAgo(0);
     }, REFRESH_INTERVAL);
 
     return () => clearInterval(intervalId);
-  }, [refetch]);
+  }, []); // dependency kosong = interval hanya dibuat sekali
 
+  // ✅ Hitung detik sejak update terakhir (setiap detik)
+  useEffect(() => {
+    const tick = setInterval(() => {
+      setSecondsAgo(prev => prev + 1);
+    }, 1000);
+    return () => clearInterval(tick);
+  }, []);
+
+  // ✅ Reset counter saat data baru masuk
+  useEffect(() => {
+    if (!loading) {
+      setLastUpdate(new Date());
+      setSecondsAgo(0);
+    }
+  }, [data]);
+
+  // Listen to external visitor-updated event
   useEffect(() => {
     setMounted(true);
     const handler = () => {
-      refetch();
+      refetchRef.current();
       setLastUpdate(new Date());
+      setSecondsAgo(0);
     };
     window.addEventListener('visitor-updated', handler);
     return () => window.removeEventListener('visitor-updated', handler);
-  }, [refetch]);
+  }, []);
 
   // Detect system dark mode preference
   useEffect(() => {
@@ -64,6 +90,13 @@ export default function FooterAdvanced() {
 
   if (!mounted) return null;
 
+  // ✅ Format waktu real berdasarkan counter detik
+  const formatLastUpdate = useCallback(() => {
+    if (secondsAgo < 60) return `${secondsAgo} detik yang lalu`;
+    if (secondsAgo < 3600) return `${Math.floor(secondsAgo / 60)} menit yang lalu`;
+    return lastUpdate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+  }, [secondsAgo, lastUpdate]);
+
   const stats = [
     {
       id: 'day',
@@ -72,7 +105,6 @@ export default function FooterAdvanced() {
       icon: Activity,
       color: 'text-blue-400',
       bgColor: 'bg-blue-400/20',
-      darkBg: 'dark:bg-blue-400/20',
     },
     {
       id: 'month',
@@ -81,7 +113,6 @@ export default function FooterAdvanced() {
       icon: Users,
       color: 'text-purple-400',
       bgColor: 'bg-purple-400/20',
-      darkBg: 'dark:bg-purple-400/20',
     },
     {
       id: 'year',
@@ -90,7 +121,6 @@ export default function FooterAdvanced() {
       icon: TrendingUp,
       color: 'text-pink-400',
       bgColor: 'bg-pink-400/20',
-      darkBg: 'dark:bg-pink-400/20',
     },
     {
       id: 'total',
@@ -99,7 +129,6 @@ export default function FooterAdvanced() {
       icon: BarChart3,
       color: 'text-[#33b962]',
       bgColor: 'bg-[#33b962]/20',
-      darkBg: 'dark:bg-[#33b962]/20',
       highlight: true,
     },
   ];
@@ -146,27 +175,11 @@ export default function FooterAdvanced() {
     }
   ];
 
-  // Format waktu update terakhir
-  const formatLastUpdate = () => {
-    const now = new Date();
-    const diff = Math.floor((now.getTime() - lastUpdate.getTime()) / 1000);
-    
-    if (diff < 60) return `${diff} detik yang lalu`;
-    if (diff < 3600) return `${Math.floor(diff / 60)} menit yang lalu`;
-    return lastUpdate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-  };
-
   return (
     <footer className="relative mt-20 pt-24 pb-12 overflow-hidden transition-colors duration-300 dark:bg-gray-950 dark:text-gray-400 bg-white text-gray-600">
       {/* Background decorations */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#33b962] to-transparent opacity-30" />
       <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full blur-[100px] transition-colors duration-300 dark:bg-[#33b962]/5 bg-[#33b962]/3" />
-      
-      {/* Light mode background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl opacity-0 dark:opacity-0" />
-        <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-purple-50/50 rounded-full blur-3xl opacity-0 dark:opacity-0" />
-      </div>
 
       <div className="container relative z-10 px-4 mx-auto">
         {/* Main Grid */}
@@ -258,7 +271,7 @@ export default function FooterAdvanced() {
                     </div>
                     <div className="flex-1">
                       <p className="text-[10px] font-bold uppercase text-[#33b962] mb-1">{contact.label}</p>
-                      <p className={`text-sm font-medium leading-relaxed transition-colors dark:group-hover:text-white group-hover:text-gray-900`}>
+                      <p className="text-sm font-medium leading-relaxed transition-colors dark:group-hover:text-white group-hover:text-gray-900">
                         {contact.value}
                       </p>
                     </div>
@@ -297,11 +310,11 @@ export default function FooterAdvanced() {
             </div>
 
             <div className="flex items-center gap-3">
-              {/* Last Update Time */}
+              {/* Last Update Time — realtime counter */}
               <div className="flex items-center gap-2 px-3 py-2 rounded-lg dark:bg-white/5 dark:border-white/10 bg-gray-100 border border-gray-200">
-                <div className="w-2 h-2 rounded-full bg-[#33b962] animate-pulse" />
+                <div className={`w-2 h-2 rounded-full transition-colors ${loading ? 'bg-yellow-400 animate-pulse' : 'bg-[#33b962] animate-pulse'}`} />
                 <span className="text-[10px] font-bold uppercase tracking-wider dark:text-white/70 text-gray-600">
-                  {formatLastUpdate()}
+                  {loading ? 'Memperbarui...' : formatLastUpdate()}
                 </span>
               </div>
 
@@ -323,7 +336,8 @@ export default function FooterAdvanced() {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {loading ? (
+            {loading && !data ? (
+              // ✅ Hanya tampil loading penuh saat pertama kali (belum ada data sama sekali)
               <div className="col-span-2 sm:col-span-4 flex items-center justify-center py-8 gap-3">
                 <div className="flex gap-1">
                   <div className="w-2 h-2 rounded-full bg-[#33b962] animate-bounce" style={{ animationDelay: '0ms' }} />
@@ -331,10 +345,11 @@ export default function FooterAdvanced() {
                   <div className="w-2 h-2 rounded-full bg-[#33b962] animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
                 <span className="text-xs uppercase tracking-widest animate-pulse dark:text-white/50 text-gray-400">
-                  Memperbarui data...
+                  Memuat data...
                 </span>
               </div>
             ) : (
+              // ✅ Saat refresh (loading=true tapi data sudah ada), tetap tampilkan data lama + opacity rendah
               stats.map((stat) => {
                 const Icon = stat.icon;
                 const isHovered = hoveredStat === stat.id;
@@ -343,9 +358,11 @@ export default function FooterAdvanced() {
                   <div
                     key={stat.id}
                     className={`relative p-4 rounded-xl transition-all duration-300 cursor-pointer group border ${
+                      loading ? 'opacity-60' : 'opacity-100'
+                    } ${
                       isDarkMode
-                        ? `dark:bg-white/5 dark:border-white/10 dark:hover:bg-white/8`
-                        : `bg-white border-gray-200 hover:bg-gray-50`
+                        ? 'dark:bg-white/5 dark:border-white/10 dark:hover:bg-white/8'
+                        : 'bg-white border-gray-200 hover:bg-gray-50'
                     }`}
                     onMouseEnter={() => setHoveredStat(stat.id)}
                     onMouseLeave={() => setHoveredStat(null)}
@@ -368,7 +385,7 @@ export default function FooterAdvanced() {
                     <p className={`font-black transition-all duration-300 ${
                       stat.highlight ? stat.color : 'dark:text-white text-gray-900'
                     } ${isHovered ? 'text-2xl' : 'text-lg sm:text-xl'}`}>
-                      {stat.value?.toLocaleString()}
+                      {stat.value?.toLocaleString() ?? '—'}
                     </p>
 
                     {/* Label */}
@@ -384,7 +401,7 @@ export default function FooterAdvanced() {
                     <div className={`h-0.5 rounded-full mt-2 transition-all duration-300 ${
                       stat.highlight
                         ? 'bg-gradient-to-r from-[#33b962] to-[#33b962]/30'
-                        : `bg-gradient-to-r from-current to-current/30`
+                        : 'bg-gradient-to-r from-current to-current/30'
                     } ${isHovered ? 'w-full' : 'w-1/2'}`} />
                   </div>
                 );
@@ -405,7 +422,7 @@ export default function FooterAdvanced() {
 
         {/* Bottom Bar */}
         <div className="flex flex-col items-center justify-between gap-6 pt-12 mt-12 text-xs font-bold uppercase tracking-[0.2em] border-t dark:border-white/5 border-gray-200 md:flex-row">
-          <p className="text-center text-neon-walking md:text-left font-bold dark:text-gray-400 text-gray-600">
+          <p className="text-center md:text-left font-bold dark:text-gray-400 text-gray-600">
             &copy; {new Date().getFullYear()} Sekolah Kreatif SD Muhammadiyah 3 Samarinda
           </p>
           <div className="flex gap-8">
@@ -418,6 +435,6 @@ export default function FooterAdvanced() {
           </div>
         </div>
       </div>
-    </footer> 
+    </footer>
   )
 }

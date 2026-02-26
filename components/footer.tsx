@@ -16,6 +16,48 @@ interface VisitorData {
   peak_hour?: string;
 }
 
+// ===== FLIP NUMBER COMPONENT =====
+function FlipDigit({ digit, className }: { digit: string; className?: string }) {
+  const [cur, setCur] = useState(digit);
+  const [nxt, setNxt] = useState(digit);
+  const [flip, setFlip] = useState(false);
+
+  useEffect(() => {
+    if (digit !== cur) {
+      setNxt(digit);
+      setFlip(true);
+      const t = setTimeout(() => { setCur(digit); setFlip(false); }, 350);
+      return () => clearTimeout(t);
+    }
+  }, [digit, cur]);
+
+  if (digit === "," || digit === ".") {
+    return <span className="opacity-60">{digit}</span>;
+  }
+
+  return (
+    <span className="relative inline-flex flex-col overflow-hidden" style={{ height: "1.2em", verticalAlign: "bottom" }}>
+      <span className="transition-all duration-[350ms] ease-in-out leading-none" style={{ transform: flip ? "translateY(-120%)" : "translateY(0%)", opacity: flip ? 0 : 1 }}>
+        {cur}
+      </span>
+      <span className="absolute inset-0 leading-none transition-all duration-[350ms] ease-in-out" style={{ transform: flip ? "translateY(0%)" : "translateY(120%)", opacity: flip ? 1 : 0 }}>
+        {nxt}
+      </span>
+    </span>
+  );
+}
+
+function FlipNumber({ value, className }: { value: string; className?: string }) {
+  return (
+    <span className={"inline-flex items-end font-black tabular-nums " + (className || "")}>
+      {value.split("").map((char, i) => (
+        <FlipDigit key={i} digit={char} />
+      ))}
+    </span>
+  );
+}
+// =================================
+
 export default function FooterAdvanced() {
   const { data, loading, error, refetch, clearCache } = useApi<VisitorData>('/views', {
     cache: true,
@@ -376,7 +418,10 @@ export default function FooterAdvanced() {
                     <p className={`font-black transition-all duration-300 ${
                       stat.highlight ? stat.color : 'dark:text-white text-gray-900'
                     } ${isHovered ? 'text-2xl' : 'text-lg sm:text-xl'}`}>
-                      {stat.value?.toLocaleString()}
+                      <FlipNumber
+                        value={stat.value?.toLocaleString('id-ID') ?? '0'}
+                        className={`${stat.highlight ? stat.color : 'dark:text-white text-gray-900'} ${isHovered ? 'text-2xl' : 'text-lg sm:text-xl'}`}
+                      />
                     </p>
 
                     {/* Label */}

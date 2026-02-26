@@ -13,6 +13,7 @@ import VisitorTracker from '@/components/visitor-tracker'
 import CookieConsent from "@/components/cookie"
 import GoogleAnalytics, { GTMNoScript } from "@/components/google-analytics"
 import StructuredData from "@/components/structured-data"
+import Preloader from "@/components/Preloader"
 
 const quicksand = Quicksand({ subsets: ["latin"], variable: "--font-quicksand" })
 const poppins = Poppins({
@@ -167,6 +168,7 @@ export default async function RootLayout({
         <StructuredData nonce={nonce} />
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Preloader />
           <ApiInitializer />
           <ApiInitializerStatus />
           <VisitorTracker />

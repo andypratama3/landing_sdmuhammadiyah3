@@ -168,7 +168,7 @@ export default async function RootLayout({
         <StructuredData nonce={nonce} />
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Preloader />
+          {/* <Preloader /> */}
           <ApiInitializer />
           <ApiInitializerStatus />
           <VisitorTracker />

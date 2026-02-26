@@ -100,7 +100,7 @@ export default function TentangPage() {
               Eksplorasi Tentang Kami
             </Badge>
             <h1 className="mb-6 text-fluid-h1 font-black leading-tight drop-shadow-md text-balance">
-              Sekolah Kreatif SDMuh3 Samarinda
+              Sekolah Kreatif SD Muhammadiyah 3 Samarinda
             </h1>
             <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl text-white/95 font-medium leading-relaxed">
               Mewujudkan generasi kreatif, inovatif, dan berakhlak mulia melalui sistem pendidikan yang menyenangkan.

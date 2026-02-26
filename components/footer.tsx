@@ -17,41 +17,61 @@ interface VisitorData {
 }
 
 // ===== FLIP NUMBER COMPONENT =====
-function FlipDigit({ digit, className }: { digit: string; className?: string }) {
-  const [cur, setCur] = useState(digit);
-  const [nxt, setNxt] = useState(digit);
-  const [flip, setFlip] = useState(false);
+function FlipDigit({ digit }: { digit: string }) {
+  const [displayed, setDisplayed] = useState(digit);
+  const [incoming, setIncoming] = useState(digit);
+  const [animating, setAnimating] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (digit !== cur) {
-      setNxt(digit);
-      setFlip(true);
-      const t = setTimeout(() => { setCur(digit); setFlip(false); }, 350);
-      return () => clearTimeout(t);
-    }
-  }, [digit, cur]);
+    if (digit === displayed && !animating) return;
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setIncoming(digit);
+    setAnimating(true);
+    timerRef.current = setTimeout(() => {
+      setDisplayed(digit);
+      setAnimating(false);
+    }, 400);
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [digit]); // eslint-disable-line
 
-  if (digit === "," || digit === ".") {
-    return <span className="opacity-60">{digit}</span>;
+  if (digit === "." || digit === ",") {
+    return <span style={{ opacity: 0.5 }}>{digit}</span>;
   }
 
   return (
-    <span className="relative inline-flex flex-col overflow-hidden" style={{ height: "1.2em", verticalAlign: "bottom" }}>
-      <span className="transition-all duration-[350ms] ease-in-out leading-none" style={{ transform: flip ? "translateY(-120%)" : "translateY(0%)", opacity: flip ? 0 : 1 }}>
-        {cur}
+    <span style={{ position: "relative", display: "inline-block", overflow: "hidden", lineHeight: "1", height: "1em" }}>
+      {/* current sliding out */}
+      <span style={{
+        display: "block",
+        transition: "transform 400ms cubic-bezier(0.4,0,0.2,1), opacity 400ms",
+        transform: animating ? "translateY(-110%)" : "translateY(0%)",
+        opacity: animating ? 0 : 1,
+      }}>
+        {displayed}
       </span>
-      <span className="absolute inset-0 leading-none transition-all duration-[350ms] ease-in-out" style={{ transform: flip ? "translateY(0%)" : "translateY(120%)", opacity: flip ? 1 : 0 }}>
-        {nxt}
+      {/* incoming sliding in */}
+      <span style={{
+        position: "absolute", top: 0, left: 0, right: 0,
+        display: "block",
+        transition: "transform 400ms cubic-bezier(0.4,0,0.2,1), opacity 400ms",
+        transform: animating ? "translateY(0%)" : "translateY(110%)",
+        opacity: animating ? 1 : 0,
+      }}>
+        {incoming}
       </span>
     </span>
   );
 }
 
-function FlipNumber({ value, className }: { value: string; className?: string }) {
+function FlipNumber({ value }: { value: string }) {
+  // key dari kanan agar digit satuan, puluhan, dst. stabil saat panjang berubah
+  const chars = value.split("");
+  const len = chars.length;
   return (
-    <span className={"inline-flex items-end font-black tabular-nums " + (className || "")}>
-      {value.split("").map((char, i) => (
-        <FlipDigit key={i} digit={char} />
+    <span style={{ display: "inline-flex", alignItems: "flex-end", fontVariantNumeric: "tabular-nums" }}>
+      {chars.map((char, i) => (
+        <FlipDigit key={len - i} digit={char} />
       ))}
     </span>
   );
@@ -373,7 +393,8 @@ export default function FooterAdvanced() {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {loading ? (
+            {loading && !data ? (
+              // Initial load only — setelah ada data, jangan unmount kartu
               <div className="col-span-2 sm:col-span-4 flex items-center justify-center py-8 gap-3">
                 <div className="flex gap-1">
                   <div className="w-2 h-2 rounded-full bg-[#33b962] animate-bounce" style={{ animationDelay: '0ms' }} />
@@ -418,10 +439,7 @@ export default function FooterAdvanced() {
                     <p className={`font-black transition-all duration-300 ${
                       stat.highlight ? stat.color : 'dark:text-white text-gray-900'
                     } ${isHovered ? 'text-2xl' : 'text-lg sm:text-xl'}`}>
-                      <FlipNumber
-                        value={stat.value?.toLocaleString('id-ID') ?? '0'}
-                        className={`${stat.highlight ? stat.color : 'dark:text-white text-gray-900'} ${isHovered ? 'text-2xl' : 'text-lg sm:text-xl'}`}
-                      />
+                      <FlipNumber value={stat.value?.toLocaleString('id-ID') ?? '0'} />
                     </p>
 
                     {/* Label */}

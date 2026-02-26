@@ -17,8 +17,8 @@ interface VisitorData {
 }
 
 export default function FooterAdvanced() {
-  const { data, loading, error, refetch } = useApi<VisitorData>('/views', {
-    cache: false,
+  const { data, loading, error, refetch, clearCache } = useApi<VisitorData>('/views', {
+    cache: true,
     immediate: true,
   });
 
@@ -27,16 +27,19 @@ export default function FooterAdvanced() {
   const [mounted, setMounted] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
-  // ✅ FIX: Stabilkan referensi refetch agar interval tidak terus di-reset
+  // ✅ FIX: Stabilkan referensi refetch & clearCache
   const refetchRef = useRef(refetch);
+  const clearCacheRef = useRef(clearCache);
   useEffect(() => {
     refetchRef.current = refetch;
-  }, [refetch]);
+    clearCacheRef.current = clearCache;
+  }, [refetch, clearCache]);
 
-  // ✅ FIX: Interval stabil — dependency kosong, tidak di-reset setiap render
+  // ✅ FIX: clearCache dulu sebelum refetch agar data selalu fresh
   useEffect(() => {
     const REFRESH_INTERVAL = 30000;
     const intervalId = setInterval(() => {
+      clearCacheRef.current();
       refetchRef.current();
       setLastUpdate(new Date());
     }, REFRESH_INTERVAL);
@@ -46,6 +49,7 @@ export default function FooterAdvanced() {
   useEffect(() => {
     setMounted(true);
     const handler = () => {
+      clearCacheRef.current();
       refetchRef.current();
       setLastUpdate(new Date());
     };

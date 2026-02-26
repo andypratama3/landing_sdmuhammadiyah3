@@ -31,7 +31,7 @@ function FlipDigit({ digit }: { digit: string }) {
     timerRef.current = setTimeout(() => {
       setDisplayed(digit);
       setAnimating(false);
-    }, 400);
+    }, 700);
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, [digit]); // eslint-disable-line
 
@@ -40,12 +40,12 @@ function FlipDigit({ digit }: { digit: string }) {
   }
 
   return (
-    <span style={{ position: "relative", display: "inline-block", overflow: "hidden", lineHeight: "1", height: "1em" }}>
+    <span style={{ position: "relative", display: "inline-block", overflow: "hidden", lineHeight: "1.1", height: "1.1em" }}>
       {/* current sliding out */}
       <span style={{
         display: "block",
-        transition: "transform 400ms cubic-bezier(0.4,0,0.2,1), opacity 400ms",
-        transform: animating ? "translateY(-110%)" : "translateY(0%)",
+        transition: "transform 700ms cubic-bezier(0.25,0.46,0.45,0.94), opacity 700ms ease",
+        transform: animating ? "translateY(-120%)" : "translateY(0%)",
         opacity: animating ? 0 : 1,
       }}>
         {displayed}
@@ -54,8 +54,8 @@ function FlipDigit({ digit }: { digit: string }) {
       <span style={{
         position: "absolute", top: 0, left: 0, right: 0,
         display: "block",
-        transition: "transform 400ms cubic-bezier(0.4,0,0.2,1), opacity 400ms",
-        transform: animating ? "translateY(0%)" : "translateY(110%)",
+        transition: "transform 700ms cubic-bezier(0.25,0.46,0.45,0.94), opacity 700ms ease",
+        transform: animating ? "translateY(0%)" : "translateY(120%)",
         opacity: animating ? 1 : 0,
       }}>
         {incoming}

@@ -171,11 +171,12 @@ export default async function RootLayout({
           {/* <Preloader /> */}
           <ApiInitializer />
           <ApiInitializerStatus />
-          <VisitorTracker />
 
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />
+          <VisitorTracker />
+
           <WhatsAppButton />
           <BackToTop />
 

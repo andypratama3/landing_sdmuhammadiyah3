@@ -88,6 +88,7 @@ export default function FooterAdvanced() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  const [secondsAgo, setSecondsAgo] = useState(0);
 
   // ✅ FIX: Stabilkan referensi refetch & clearCache
   const refetchRef = useRef(refetch);
@@ -104,8 +105,17 @@ export default function FooterAdvanced() {
       clearCacheRef.current();
       refetchRef.current();
       setLastUpdate(new Date());
+      setSecondsAgo(0);
     }, REFRESH_INTERVAL);
     return () => clearInterval(intervalId);
+  }, []);
+
+  // ✅ Ticker: update setiap detik agar indikator "X detik yang lalu" hidup
+  useEffect(() => {
+    const tickId = setInterval(() => {
+      setSecondsAgo(prev => prev + 1);
+    }, 1000);
+    return () => clearInterval(tickId);
   }, []);
 
   useEffect(() => {
@@ -114,6 +124,7 @@ export default function FooterAdvanced() {
       clearCacheRef.current();
       refetchRef.current();
       setLastUpdate(new Date());
+      setSecondsAgo(0);
     };
     window.addEventListener('visitor-updated', handler);
     return () => window.removeEventListener('visitor-updated', handler);
@@ -218,11 +229,8 @@ export default function FooterAdvanced() {
 
   // Format waktu update terakhir
   const formatLastUpdate = () => {
-    const now = new Date();
-    const diff = Math.floor((now.getTime() - lastUpdate.getTime()) / 1000);
-    
-    if (diff < 60) return `${diff} detik yang lalu`;
-    if (diff < 3600) return `${Math.floor(diff / 60)} menit yang lalu`;
+    if (secondsAgo < 60) return `${secondsAgo} detik yang lalu`;
+    if (secondsAgo < 3600) return `${Math.floor(secondsAgo / 60)} menit yang lalu`;
     return lastUpdate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
   };
 

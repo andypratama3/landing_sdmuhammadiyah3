@@ -277,35 +277,9 @@ export default function VerifyResultPage({
   const data = result?.data
   const hasFile = !!data?.file_url
 
-  const handleDownload = async () => {
-    if (!data?.file_url) return
-
-    try {
-      setIsDownloading(true)
-      const response = await fetch(data.file_url)
-      if (!response.ok) throw new Error("Gagal mengunduh file")
-
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const link = document.createElement("a")
-      link.href = url
-      
-      let filename = data.file_url.split("/").pop() || "Dokumen"
-      if (!filename.includes(".")) {
-        filename = `${data.label ? data.label.replace(/\s+/g, '_') : 'Dokumen'}.pdf`
-      }
-      
-      link.download = filename
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
-    } catch (error) {
-      console.error("Gagal mengunduh, mengalihkan...", error)
-      window.open(data.file_url, "_blank", "noopener,noreferrer")
-    } finally {
-      setIsDownloading(false)
-    }
+  const handleDownload = () => {
+    if (!data?.file_url || !code) return
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/v2/signature/download/${encodeURIComponent(code)}`
   }
 
   return (

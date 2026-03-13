@@ -238,6 +238,7 @@ export default function VerifyResultPage({
   const [mode, setMode] = useState<PageMode>("loading")
   const [result, setResult] = useState<VerifyResult | null>(null)
   const [isSyncing, setIsSyncing] = useState(false)
+  const [isDownloading, setIsDownloading] = useState(false)
   const [showPreview, setShowPreview] = useState(true)
   const [previewReady, setPreviewReady] = useState(false)
 
@@ -276,8 +277,35 @@ export default function VerifyResultPage({
   const data = result?.data
   const hasFile = !!data?.file_url
 
-  const handleDownload = () => {
-    if (data?.file_url) window.open(data.file_url, "_blank", "noopener,noreferrer")
+  const handleDownload = async () => {
+    if (!data?.file_url) return
+
+    try {
+      setIsDownloading(true)
+      const response = await fetch(data.file_url)
+      if (!response.ok) throw new Error("Gagal mengunduh file")
+
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement("a")
+      link.href = url
+      
+      let filename = data.file_url.split("/").pop() || "Dokumen"
+      if (!filename.includes(".")) {
+        filename = `${data.label ? data.label.replace(/\s+/g, '_') : 'Dokumen'}.pdf`
+      }
+      
+      link.download = filename
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error("Gagal mengunduh, mengalihkan...", error)
+      window.open(data.file_url, "_blank", "noopener,noreferrer")
+    } finally {
+      setIsDownloading(false)
+    }
   }
 
   return (
@@ -345,10 +373,10 @@ export default function VerifyResultPage({
                       <div className="flex items-center justify-center sm:justify-start gap-2">
                         <div className="flex items-center gap-1.5 bg-primary text-white px-3 py-0.5 rounded-full shadow-lg shadow-primary/20">
                           <ShieldCheck className="w-2.5 h-2.5" strokeWidth={3} />
-                          <span className="text-[9px] font-black tracking-widest uppercase">VALID</span>
+                          <span className="text-[9px] text-white tracking-widest uppercase">VALID</span>
                         </div>
                       </div>
-                      <p className="text-[10px] font-bold tracking-widest uppercase text-primary/80 mt-1">
+                      <p className="text-[10px] font-bold tracking-widest uppercase text-primary mt-1">
                         Terverifikasi · SD Muhammadiyah 3 Samarinda
                       </p>
                     </div>
@@ -394,13 +422,19 @@ export default function VerifyResultPage({
 
               <button
                 onClick={handleDownload}
-                disabled={!hasFile}
+                disabled={!hasFile || isDownloading}
                 title={!hasFile ? "File tidak tersedia" : "Download dokumen"}
-                className={`group relative overflow-hidden rounded-2xl p-[1px] shadow-md transition-all active:scale-95 ${!hasFile ? "opacity-40 cursor-not-allowed" : ""}`}
+                className={`group relative overflow-hidden rounded-2xl p-[1px] shadow-md transition-all active:scale-95 ${(!hasFile || isDownloading) ? "opacity-40 cursor-not-allowed" : ""}`}
               >
                 <div className="glass bg-white/80 dark:bg-black/40 rounded-[calc(1rem-1px)] px-5 py-3.5 flex items-center justify-center gap-2.5 hover:bg-secondary/5 transition-colors">
-                  <Download className={`w-4 h-4 text-foreground/80 transition-transform ${hasFile ? "group-hover:-translate-y-1" : ""}`} />
-                  <span className="font-black text-xs uppercase tracking-widest text-foreground">Download</span>
+                  {isDownloading ? (
+                    <RefreshCw className="w-4 h-4 text-foreground/80 animate-spin" />
+                  ) : (
+                    <Download className={`w-4 h-4 text-foreground/80 transition-transform ${hasFile ? "group-hover:-translate-y-1" : ""}`} />
+                  )}
+                  <span className="font-black text-xs uppercase tracking-widest text-foreground">
+                    {isDownloading ? "Mengunduh..." : "Download"}
+                  </span>
                 </div>
               </button>
             </div>
@@ -530,12 +564,12 @@ export default function VerifyResultPage({
                 <div className="p-1.5 rounded-lg bg-primary/5 text-primary">
                   <Hash className="w-4 h-4" />
                 </div>
-                <p className="text-[10px] font-black tracking-[0.2em] uppercase text-muted-foreground">Digital Signature Fingerprint</p>
+                <p className="text-[10px] font-white tracking-[0.2em] uppercase text-muted-foreground">Digital Signature Fingerprint</p>
               </div>
-              <div className="p-4 rounded-xl bg-white/50 dark:bg-background/50 border border-border/40 font-mono text-[11px] text-primary/80 break-all leading-relaxed shadow-inner select-all">
+              <div className="p-4 rounded-xl bg-white/50 dark:bg-background/50 border border-border/40 font-mono text-[11px] text-white break-all leading-relaxed shadow-inner select-all">
                 {code}
               </div>
-              <p className="mt-3 text-[10px] text-muted-foreground/50 text-center font-bold tracking-wider uppercase">
+              <p className="mt-3 text-[10px] text-white text-center font-bold tracking-wider uppercase">
                 © {new Date().getFullYear()} SD Muhammadiyah 3 Samarinda · Blockchain Protected
               </p>
             </div>

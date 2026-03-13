@@ -107,7 +107,7 @@ export default function VerifyPage() {
 
         {/* Form */}
         <div className="max-w-lg mx-auto px-6 animate-fade-in-up">
-          <div className="glass-neon-border relative overflow-hidden rounded-[2rem] p-[1px] shadow-2xl shadow-primary/10">
+          <div className="relative overflow-hidden rounded-[2rem] p-[1px] shadow-2xl shadow-primary/10">
             <div className="glass bg-white/95 dark:bg-black/60 rounded-[calc(2rem-1px)] p-6 sm:p-8">
 
               {/* Card header */}

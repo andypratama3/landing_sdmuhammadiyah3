@@ -191,7 +191,7 @@ function DetailRow({
 function VerifyingLoader({ code }: { code: string }) {
   return (
     <div className="max-w-2xl mx-auto px-6 animate-fade-in-up">
-      <div className="glass-neon-border relative overflow-hidden rounded-[2rem] p-[1px] shadow-2xl shadow-primary/10">
+      <div className="relative overflow-hidden rounded-[2rem] p-[1px] shadow-2xl shadow-primary/10">
         <div className="glass bg-white/95 dark:bg-black/60 rounded-[calc(2rem-1px)] p-10 flex flex-col items-center text-center gap-6">
           <div className="relative w-20 h-20">
             <div className="absolute inset-0 rounded-full border-4 border-primary/10" />
@@ -330,7 +330,7 @@ export default function VerifyResultPage({
 
             {/* STATUS BANNER: VALID */}
             {isValid && (
-              <div className="glass-neon-border group relative overflow-hidden rounded-[2rem] p-[1px] shadow-2xl shadow-primary/10">
+              <div className="group relative overflow-hidden rounded-[2rem] p-[1px] shadow-2xl shadow-primary/10">
                 <div className="relative glass bg-white/95 dark:bg-black/60 rounded-[calc(2rem-1px)] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 text-center sm:text-left overflow-hidden">
                   <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full -mr-20 -mt-20 blur-3xl pointer-events-none" />
                   <div className="relative shrink-0 group-hover:scale-105 transition-transform duration-500">
@@ -382,7 +382,7 @@ export default function VerifyResultPage({
               <button
                 onClick={handleSync}
                 disabled={isSyncing}
-                className="glass-neon-border group relative overflow-hidden rounded-2xl p-[1px] shadow-md transition-all active:scale-95 disabled:opacity-60"
+                className="group relative overflow-hidden rounded-2xl p-[1px] shadow-md transition-all active:scale-95 disabled:opacity-60"
               >
                 <div className="glass bg-white/80 dark:bg-black/40 rounded-[calc(1rem-1px)] px-5 py-3.5 flex items-center justify-center gap-2.5 hover:bg-primary/5 transition-colors">
                   <RefreshCw className={`w-4 h-4 text-primary transition-transform duration-500 ${isSyncing ? "animate-spin" : "group-hover:rotate-180"}`} />
@@ -396,7 +396,7 @@ export default function VerifyResultPage({
                 onClick={handleDownload}
                 disabled={!hasFile}
                 title={!hasFile ? "File tidak tersedia" : "Download dokumen"}
-                className={`glass-neon-border group relative overflow-hidden rounded-2xl p-[1px] shadow-md transition-all active:scale-95 ${!hasFile ? "opacity-40 cursor-not-allowed" : ""}`}
+                className={`group relative overflow-hidden rounded-2xl p-[1px] shadow-md transition-all active:scale-95 ${!hasFile ? "opacity-40 cursor-not-allowed" : ""}`}
               >
                 <div className="glass bg-white/80 dark:bg-black/40 rounded-[calc(1rem-1px)] px-5 py-3.5 flex items-center justify-center gap-2.5 hover:bg-secondary/5 transition-colors">
                   <Download className={`w-4 h-4 text-secondary transition-transform ${hasFile ? "group-hover:-translate-y-1" : ""}`} />
@@ -409,7 +409,7 @@ export default function VerifyResultPage({
             {isValid && hasFile && (
               <>
                 {showPreview ? (
-                  <div className="glass-neon-border relative overflow-hidden rounded-[2rem] p-[1px] shadow-2xl">
+                  <div className="relative overflow-hidden rounded-[2rem] p-[1px] shadow-2xl">
                     <div className="glass bg-white/95 dark:bg-black/60 rounded-[calc(2rem-1px)] overflow-hidden">
                       <div className="px-6 sm:px-8 py-4 border-b border-border/40 bg-muted/20 flex items-center justify-between">
                         <div className="flex items-center gap-3">

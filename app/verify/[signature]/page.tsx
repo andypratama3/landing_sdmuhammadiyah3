@@ -177,7 +177,7 @@ function DetailRow({
         {icon}
       </div>
       <div className="flex-1 min-w-0 font-outfit">
-        <p className="text-[10px] text-[#33b962] uppercase tracking-[0.15em] text-muted-foreground/70 mb-1">
+        <p className="text-[10px] font-black uppercase tracking-[0.15em] text-muted-foreground/70 mb-1">
           {label}
         </p>
         <p className={`text-[15px] leading-tight text-foreground/90 break-words ${bold ? "font-bold" : "font-medium"}`}>
@@ -202,7 +202,7 @@ function VerifyingLoader({ code }: { code: string }) {
             </div>
           </div>
           <div>
-            <h3 className="text-xl text-[#33b962] text-foreground mb-2">Memverifikasi Dokumen</h3>
+            <h3 className="text-xl font-black text-foreground mb-2">Memverifikasi Dokumen</h3>
             <p className="text-sm text-muted-foreground font-medium">
               Memeriksa keaslian kode verifikasi...
             </p>
@@ -290,18 +290,18 @@ export default function VerifyResultPage({
         <div className="absolute top-[20%] right-[5%] w-[30%] h-[30%] bg-accent/5 rounded-full blur-[100px] animate-blob animation-delay-4000" />
       </div>
 
-      <div className="relative z-10 pt-28 pb-16">
+      <div className="relative z-10 pt-32 md:pt-40 pb-16">
 
         {/* Hero */}
         <div className="max-w-xl mx-auto px-6 text-center mb-10 animate-fade-in-up">
           <div className="inline-flex items-center gap-2.5 bg-primary/10 backdrop-blur-md rounded-full px-5 py-2 mb-7 border border-primary/20">
             <ScanLine className="w-4 h-4 text-primary" strokeWidth={2.5} />
-            <span className="text-[10px] text-[#33b962] tracking-[0.25em] uppercase text-primary leading-none">
+            <span className="text-[10px] font-black tracking-[0.25em] uppercase text-primary leading-none">
               Sistem Verifikasi Dokumen
             </span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl text-[#33b962] text-foreground mb-4 tracking-tight leading-none">
+          <h1 className="text-4xl md:text-5xl font-black text-foreground mb-4 tracking-tight leading-none">
             Hasil Verifikasi
             <br />
             <span className="text-primary italic inline-block mt-1">Dokumen Digital</span>
@@ -322,7 +322,7 @@ export default function VerifyResultPage({
             {/* Back button */}
             <button
               onClick={() => router.push("/verify")}
-              className="inline-flex items-center gap-2 text-xs text-[#33b962] uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors group"
+              className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors group"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Cek Kode Lain
@@ -345,14 +345,14 @@ export default function VerifyResultPage({
                       <div className="flex items-center justify-center sm:justify-start gap-2">
                         <div className="flex items-center gap-1.5 bg-primary text-white px-3 py-0.5 rounded-full shadow-lg shadow-primary/20">
                           <ShieldCheck className="w-2.5 h-2.5" strokeWidth={3} />
-                          <span className="text-[9px] text-[#33b962] tracking-widest uppercase">VALID</span>
+                          <span className="text-[9px] font-black tracking-widest uppercase">VALID</span>
                         </div>
                       </div>
-                      <p className="text-[10px] font-bold tracking-widest uppercase text-primary/50 mt-1">
+                      <p className="text-[10px] font-bold tracking-widest uppercase text-primary/80 mt-1">
                         Terverifikasi · SD Muhammadiyah 3 Samarinda
                       </p>
                     </div>
-                    <h2 className="text-2xl sm:text-3xl text-[#33b962] text-foreground tracking-tight leading-none mb-2">
+                    <h2 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight leading-none mb-2">
                       Dokumen Sah &amp; Valid
                     </h2>
                     <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 font-medium leading-relaxed">
@@ -370,8 +370,8 @@ export default function VerifyResultPage({
                   {config.icon}
                 </div>
                 <div className={`flex-1 ${config.colorClass}`}>
-                  <span className="text-[10px] text-[#33b962] tracking-widest uppercase opacity-60 block mb-1">VERIFIKASI GAGAL</span>
-                  <h2 className="text-2xl text-[#33b962] mb-1 leading-tight">{config.title}</h2>
+                  <span className="text-[10px] font-black tracking-widest uppercase opacity-60 block mb-1">VERIFIKASI GAGAL</span>
+                  <h2 className="text-2xl font-black mb-1 leading-tight">{config.title}</h2>
                   <p className="text-sm font-medium opacity-80">{result.message}</p>
                 </div>
               </div>
@@ -386,7 +386,7 @@ export default function VerifyResultPage({
               >
                 <div className="glass bg-white/80 dark:bg-black/40 rounded-[calc(1rem-1px)] px-5 py-3.5 flex items-center justify-center gap-2.5 hover:bg-primary/5 transition-colors">
                   <RefreshCw className={`w-4 h-4 text-primary transition-transform duration-500 ${isSyncing ? "animate-spin" : "group-hover:rotate-180"}`} />
-                  <span className="text-[#33b962] text-xs uppercase tracking-widest text-foreground">
+                  <span className="font-black text-xs uppercase tracking-widest text-foreground">
                     {isSyncing ? "Mensinkronkan..." : "Sinkronkan"}
                   </span>
                 </div>
@@ -399,8 +399,8 @@ export default function VerifyResultPage({
                 className={`group relative overflow-hidden rounded-2xl p-[1px] shadow-md transition-all active:scale-95 ${!hasFile ? "opacity-40 cursor-not-allowed" : ""}`}
               >
                 <div className="glass bg-white/80 dark:bg-black/40 rounded-[calc(1rem-1px)] px-5 py-3.5 flex items-center justify-center gap-2.5 hover:bg-secondary/5 transition-colors">
-                  <Download className={`w-4 h-4 text-secondary transition-transform ${hasFile ? "group-hover:-translate-y-1" : ""}`} />
-                  <span className="text-[#33b962] text-xs uppercase tracking-widest text-foreground">Download</span>
+                  <Download className={`w-4 h-4 text-foreground/80 transition-transform ${hasFile ? "group-hover:-translate-y-1" : ""}`} />
+                  <span className="font-black text-xs uppercase tracking-widest text-foreground">Download</span>
                 </div>
               </button>
             </div>
@@ -416,12 +416,12 @@ export default function VerifyResultPage({
                           <div className="p-2 rounded-lg bg-amber-500/10 text-amber-500">
                             <Eye className="w-4 h-4" />
                           </div>
-                          <span className="text-xs text-[#33b962] uppercase tracking-widest text-foreground/80">Pratinjau Dokumen</span>
+                          <span className="text-xs font-black uppercase tracking-widest text-foreground/80">Pratinjau Dokumen</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className="flex items-center gap-1.5 bg-secondary/10 px-3 py-1 rounded-full">
-                            <div className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
-                            <span className="text-[9px] text-[#33b962] uppercase tracking-widest text-secondary">LIVE</span>
+                          <div className="flex items-center gap-1.5 bg-red-500/10 px-3 py-1 rounded-full">
+                            <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                            <span className="text-[9px] font-black uppercase tracking-widest text-red-500">LIVE</span>
                           </div>
                           <button
                             onClick={() => setShowPreview(false)}
@@ -436,7 +436,7 @@ export default function VerifyResultPage({
                         {!previewReady && (
                           <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/70 backdrop-blur-sm z-20">
                             <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-3" />
-                            <p className="text-xs text-[#33b962] uppercase tracking-widest text-primary animate-pulse">Memuat Dokumen...</p>
+                            <p className="text-xs font-black uppercase tracking-widest text-primary animate-pulse">Memuat Dokumen...</p>
                           </div>
                         )}
                         <iframe
@@ -451,7 +451,7 @@ export default function VerifyResultPage({
                 ) : (
                   <button
                     onClick={() => { setShowPreview(true); setPreviewReady(false) }}
-                    className="w-full rounded-2xl border border-dashed border-border/50 py-4 flex items-center justify-center gap-2 text-xs text-[#33b962] uppercase tracking-widest text-muted-foreground hover:text-primary hover:border-primary/40 transition-all"
+                    className="w-full rounded-2xl border border-dashed border-border/50 py-4 flex items-center justify-center gap-2 text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-primary hover:border-primary/40 transition-all"
                   >
                     <Eye className="w-4 h-4" />
                     Tampilkan Pratinjau Dokumen
@@ -469,13 +469,13 @@ export default function VerifyResultPage({
                       <ShieldCheck className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className="text-xs text-[#33b962] text-foreground/90 uppercase tracking-[0.15em] block leading-none mb-1">Data Dokumen</span>
-                      <span className="text-[9px] text-muted-foreground text-[#33b962] tracking-[0.2em] uppercase leading-none opacity-60">Resmi Terverifikasi</span>
+                      <span className="text-xs font-black text-foreground/90 uppercase tracking-[0.15em] block leading-none mb-1">Data Dokumen</span>
+                      <span className="text-[9px] text-muted-foreground font-black tracking-[0.2em] uppercase leading-none opacity-60">Resmi Terverifikasi</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 bg-secondary/20 px-3 py-1.5 rounded-full border border-secondary/30">
-                    <BookOpen className="w-3 h-3 text-secondary" />
-                    <span className="text-[10px] text-foreground text-[#33b962] uppercase tracking-widest leading-none">
+                    <BookOpen className="w-3 h-3 text-secondary-foreground" />
+                    <span className="text-[10px] text-foreground font-black uppercase tracking-widest leading-none">
                       {DOC_TYPE_LABELS[data.document_type] ?? data.document_type}
                     </span>
                   </div>
@@ -497,7 +497,7 @@ export default function VerifyResultPage({
                       <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Statistik Verifikasi</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-lg text-[#33b962] text-primary">{data.scan_count.toLocaleString("id-ID")}</span>
+                      <span className="text-lg font-black text-primary">{data.scan_count.toLocaleString("id-ID")}</span>
                       <span className="text-[10px] font-bold text-muted-foreground/60 uppercase">Scan</span>
                     </div>
                   </div>
@@ -520,7 +520,7 @@ export default function VerifyResultPage({
             {isValid && (
               <div className="bg-secondary/10 border border-secondary/30 rounded-xl px-5 py-4 text-center">
                 <p className="text-xs text-muted-foreground">🏫 Diterbitkan &amp; diverifikasi secara resmi oleh</p>
-                <p className="text-sm text-[#33b962] text-primary mt-1">SD Muhammadiyah 3 Samarinda</p>
+                <p className="text-sm font-black text-primary mt-1">SD Muhammadiyah 3 Samarinda</p>
               </div>
             )}
 
@@ -530,7 +530,7 @@ export default function VerifyResultPage({
                 <div className="p-1.5 rounded-lg bg-primary/5 text-primary">
                   <Hash className="w-4 h-4" />
                 </div>
-                <p className="text-[10px] text-[#33b962] tracking-[0.2em] uppercase text-muted-foreground">Digital Signature Fingerprint</p>
+                <p className="text-[10px] font-black tracking-[0.2em] uppercase text-muted-foreground">Digital Signature Fingerprint</p>
               </div>
               <div className="p-4 rounded-xl bg-white/50 dark:bg-background/50 border border-border/40 font-mono text-[11px] text-primary/80 break-all leading-relaxed shadow-inner select-all">
                 {code}
@@ -546,13 +546,13 @@ export default function VerifyResultPage({
                 📞
               </div>
               <div>
-                <p className="text-lg text-[#33b962] text-primary mb-0.5">Butuh bantuan?</p>
+                <p className="text-lg font-black text-primary mb-0.5">Butuh bantuan?</p>
                 <p className="text-sm font-medium text-muted-foreground mb-2">
                   Tim admin kami siap membantu verifikasi manual jika diperlukan.
                 </p>
                 <a
                   href="https://sdmuhammadiyah3smd.com/kontak"
-                  className="inline-flex items-center gap-2 text-sm text-[#33b962] text-primary hover:text-primary/80 group/btn"
+                  className="inline-flex items-center gap-2 text-sm font-black text-primary hover:text-primary/80 group/btn"
                 >
                   Hubungi Sekretariat
                   <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center group-hover/btn:translate-x-1 transition-transform">→</div>
@@ -570,20 +570,20 @@ export default function VerifyResultPage({
                 <WifiOff className="w-8 h-8 text-destructive" />
               </div>
               <div>
-                <h3 className="text-lg text-[#33b962] text-foreground mb-1">Gagal Terhubung ke Server</h3>
+                <h3 className="text-lg font-black text-foreground mb-1">Gagal Terhubung ke Server</h3>
                 <p className="text-sm text-muted-foreground">Periksa koneksi internet Anda, lalu coba lagi.</p>
               </div>
               <div className="flex gap-3 flex-wrap justify-center">
                 <button
                   onClick={() => runVerify()}
-                  className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl text-[#33b962] text-xs uppercase tracking-widest hover:bg-primary/90 transition-colors"
+                  className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-primary/90 transition-colors"
                 >
                   <RefreshCw className="w-4 h-4" />
                   Coba Lagi
                 </button>
                 <button
                   onClick={() => router.push("/verify")}
-                  className="flex items-center gap-2 px-6 py-3 bg-muted text-muted-foreground rounded-xl text-[#33b962] text-xs uppercase tracking-widest hover:bg-muted/80 transition-colors"
+                  className="flex items-center gap-2 px-6 py-3 bg-muted text-muted-foreground rounded-xl font-black text-xs uppercase tracking-widest hover:bg-muted/80 transition-colors"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   Kembali

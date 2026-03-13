@@ -117,7 +117,7 @@ const nextConfig = {
               "font-src 'self' fonts.gstatic.com",
               "img-src 'self' data: blob: https://dashboard.sdmuhammadiyah3smd.com https://www.google-analytics.com",
               "connect-src 'self' https://dashboard.sdmuhammadiyah3smd.com https://www.google-analytics.com https://region1.google-analytics.com",
-              "frame-src 'self' https://www.youtube.com https://www.google.com https://google.maps.com",
+              "frame-src 'self' https://www.youtube.com https://www.google.com https://google.maps.com https://dashboard.sdmuhammadiyah3smd.com",
               "object-src 'none'"
             ].join('; ')
           }

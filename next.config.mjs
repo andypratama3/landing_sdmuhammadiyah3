@@ -36,20 +36,6 @@ const nextConfig = {
 
   async redirects() {
     return [
-      // www → non-www (HTTPS)
-      {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'www.sdmuhammadiyah3smd.com' }],
-        destination: 'https://sdmuhammadiyah3smd.com/:path*',
-        permanent: true,
-      },
-      // HTTP → HTTPS
-      {
-        source: '/:path*',
-        has: [{ type: 'header', key: 'x-forwarded-proto', value: 'http' }],
-        destination: 'https://sdmuhammadiyah3smd.com/:path*',
-        permanent: true,
-      },
       {
         source: '/profil-sekolah',
         destination: '/profil',

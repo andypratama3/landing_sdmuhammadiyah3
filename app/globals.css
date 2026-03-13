@@ -182,7 +182,11 @@ select:disabled {
   }
 
   .glass-dark {
-    @apply bg-black/40 backdrop-blur-2xl border border-white/10 shadow-2xl;
+    @apply bg-black/40 dark:bg-black/60 backdrop-blur-2xl border border-white/10 shadow-2xl shadow-black/20;
+  }
+
+  .glass-card {
+    @apply bg-white/40 dark:bg-white/5 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg;
   }
 
   .text-fluid-h1 {
@@ -351,65 +355,61 @@ select:disabled {
       transparent 100%);
   background-size: 200% auto;
   animation: neon-walking 10s linear infinite;
+}
 
-  /* Neon Border Rotation Effect */
-  @property --angle {
-    syntax: '<angle>';
-    initial-value: 0deg;
-    inherits: false;
-  }
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
 
-  .glass-neon-border {
-    position: relative;
-    border-color: transparent !important;
-    /* Hide original border */
+@keyframes spin-angle {
+  to {
+    --angle: 360deg;
   }
+}
 
-  .glass-neon-border::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 2px;
-    /* Thickness of the neon border */
-    background: conic-gradient(from var(--angle),
-        transparent 0%,
-        transparent 70%,
-        #4ade80 100%);
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    animation: spin-angle 3s linear infinite;
-  }
+.glass-neon-border {
+  position: relative;
+  border-color: transparent !important;
+}
 
-  /* Optional: Add a second blurred layer for glow */
-  .glass-neon-border::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 2px;
-    background: conic-gradient(from var(--angle),
-        transparent 0%,
-        transparent 70%,
-        #4ade80 100%);
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    animation: spin-angle 3s linear infinite;
-    filter: blur(8px);
-    opacity: 0.5;
-  }
+.glass-neon-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from var(--angle),
+      transparent 0%,
+      transparent 70%,
+      #4ade80 100%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: spin-angle 3s linear infinite;
+}
 
-  @keyframes spin-angle {
-    to {
-      --angle: 360deg;
-    }
-  }
+.glass-neon-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from var(--angle),
+      transparent 0%,
+      transparent 70%,
+      #4ade80 100%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: spin-angle 3s linear infinite;
+  filter: blur(8px);
+  opacity: 0.5;
 }

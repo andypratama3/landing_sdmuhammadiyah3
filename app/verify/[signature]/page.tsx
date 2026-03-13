@@ -279,7 +279,7 @@ export default function VerifyResultPage({
 
   const handleDownload = () => {
     if (!data?.file_url || !code) return
-    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/v2/signature/download/${encodeURIComponent(code)}`
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/signature/download/${encodeURIComponent(code)}`
   }
 
   return (

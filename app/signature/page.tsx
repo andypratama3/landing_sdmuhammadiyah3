@@ -28,11 +28,11 @@ import {
   Keyboard,
 } from "lucide-react"
 
-
 // ─────────────────────────────────────────────
 // TYPES
 // ─────────────────────────────────────────────
 import type { Signature, RawApiResponse } from "@/types/signature.types"
+import { ApiClient } from "@/lib/api"
 
 type VerifyStatus = "valid" | "not_found" | "expired" | "revoked"
 type PageMode = "form" | "loading" | "result" | "network_error"
@@ -134,43 +134,49 @@ function formatDate(d?: string | null): string {
   })
 }
 
+// ─────────────────────────────────────────────
+// ✅ FIXED: fetchVerification — sekarang pakai ApiClient
+// ApiClient otomatis handle token, auto-refresh via /api/token
+// jika dapat "Token not provided" / "Unauthenticated"
+// ─────────────────────────────────────────────
 export async function fetchVerification(
-    verificationCode: string,
-    signal?: AbortSignal
+  verificationCode: string,
+  signal?: AbortSignal
 ): Promise<Signature> {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? ""
-    const token =
-        typeof window !== "undefined"
-            ? localStorage.getItem("jwt_token")
-            : null
-
-    const res = await fetch(
-        `${baseUrl}/signature/verify?verification_code=${encodeURIComponent(verificationCode)}`,
-        {
-            signal,
-            headers: {
-                "Content-Type": "application/json",
-                ...(token ? { Authorization: `Bearer ${token}` } : {}),
-            },
-        }
+  try {
+    const json = await ApiClient.get<RawApiResponse>(
+      `/signature/verify?verification_code=${encodeURIComponent(verificationCode)}`,
+      { signal }
     )
 
-    if (!res.ok) {
-        return {
-            status: "not_found",
-            message: "Terjadi kesalahan pada server. Silakan coba lagi.",
-            data: null,
-        }
+    if (!json.success) {
+      return {
+        status: "not_found",
+        message: json.message ?? "Terjadi kesalahan.",
+        data: null,
+      }
     }
-
-    const json: RawApiResponse = await res.json()
 
     return {
-        status:  json.data?.status  ?? "not_found",
-        message: json.message       ?? "Terjadi kesalahan.",
-        data:    json.data?.data    ?? null,
+      status:  (json.data as any)?.status  ?? "not_found",
+      message: json.message                ?? "Terjadi kesalahan.",
+      data:    (json.data as any)?.data    ?? null,
     }
+  } catch (err: any) {
+    // Jangan catch AbortError — biarkan naik ke caller
+    if (err?.name === "AbortError") throw err
+
+    return {
+      status: "not_found",
+      message: "Terjadi kesalahan pada server. Silakan coba lagi.",
+      data: null,
+    }
+  }
 }
+
+// ─────────────────────────────────────────────
+// COMPONENTS
+// ─────────────────────────────────────────────
 
 function DetailRow({
   icon,
@@ -781,7 +787,9 @@ export default function VerifyPage({
 
   const handleFormSubmit = (code: string) => {
     // Update URL tanpa full page reload agar bisa di-share / di-bookmark
-    window.history.pushState(null, "", `/verify/${encodeURIComponent(code)}`)
+    if (typeof window !== "undefined") {
+      window.history.pushState(null, "", `/verify/${encodeURIComponent(code)}`)
+    }
     runVerify(code)
   }
 
@@ -794,7 +802,9 @@ export default function VerifyPage({
 
   const handleReset = () => {
     // Kembali ke form, update URL ke /verify
-    window.history.pushState(null, "", "/verify")
+    if (typeof window !== "undefined") {
+      window.history.pushState(null, "", "/verify")
+    }
     setMode("form")
     setResult(null)
     setActiveCode("")

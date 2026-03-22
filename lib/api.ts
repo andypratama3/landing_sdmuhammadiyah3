@@ -68,8 +68,7 @@ class TokenReadyManager {
 }
 
 export class ApiClient {
-  private static baseURL = process.env.API_URL
-  private static apiSecret = process.env.API_SECRET_KEY
+  private static baseURL = process.env.NEXT_PUBLIC_API_URL
   private static maxRetries = 2
   private static retryDelay = 1000
   private static isInitializing = false
@@ -89,70 +88,17 @@ export class ApiClient {
   }
 
   /**
-   * Generate HMAC-SHA256 signature
-   */
-  private static async generateSignature(
-    timestamp: string,
-    nonce: string
-  ): Promise<string> {
-    const stringToSign = `${timestamp}.${nonce}`
-    const secretBytes = new Uint8Array(
-      (this.apiSecret || '').match(/.{1,2}/g)?.map(byte => parseInt(byte, 16)) || []
-    )
-
-    const encoder = new TextEncoder()
-    const data = encoder.encode(stringToSign)
-
-    const cryptoKey = await crypto.subtle.importKey(
-      'raw',
-      secretBytes,
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['sign']
-    )
-
-    const signature = await crypto.subtle.sign('HMAC', cryptoKey, data)
-
-    return Array.from(new Uint8Array(signature))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('')
-  }
-
-  /**
-   * Generate UUID v4
-   */
-  private static generateUUID(): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-      const r = (Math.random() * 16) | 0
-      const v = c === 'x' ? r : (r & 0x3) | 0x8
-      return v.toString(16)
-    })
-  }
-
-  /**
-   * 🔐 Generate new token dari backend
+   * 🔐 Generate new token via Next.js server route
    */
   private static async generateNewToken(): Promise<boolean> {
     try {
       this.log('🔑 Generating token...')
 
-      const timestamp = Math.floor(Date.now() / 1000).toString()
-      const nonce = this.generateUUID()
-
-      if (!this.apiSecret) {
-        throw new Error('API_SECRET not configured')
-      }
-
-      const signature = await this.generateSignature(timestamp, nonce)
-
-      const response = await fetch(`${this.baseURL}/auth/token`, {
+      const response = await fetch(`/api/token`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'X-TIMESTAMP': timestamp,
-          'X-NONCE': nonce,
-          'X-SIGNATURE': signature,
         },
         signal: AbortSignal.timeout(10000),
       })

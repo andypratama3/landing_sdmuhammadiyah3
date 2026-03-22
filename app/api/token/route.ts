@@ -140,7 +140,7 @@ export async function POST(req: NextRequest) {
             'User-Agent': 'NextJS-Client/1.0',
           },
           cache: 'no-store',
-          signal: AbortSignal.timeout(10000), // 10 second timeout (shorter)
+          signal: AbortSignal.timeout(30000), // 30 second timeout
         }
       )
     } catch (err: any) {

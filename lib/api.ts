@@ -68,8 +68,8 @@ class TokenReadyManager {
 }
 
 export class ApiClient {
-  private static baseURL = process.env.NEXT_PUBLIC_API_URL
-  private static apiSecret = process.env.NEXT_PUBLIC_API_SECRET
+  private static baseURL = process.env.API_URL
+  private static apiSecret = process.env.API_SECRET_KEY
   private static maxRetries = 2
   private static retryDelay = 1000
   private static isInitializing = false

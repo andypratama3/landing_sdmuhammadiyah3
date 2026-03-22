@@ -52,20 +52,8 @@ export async function POST(req: NextRequest) {
     // ============================================
     // 0️⃣ CHECK RETRY COOLDOWN
     // ============================================
-    if (!TokenRetryCache.shouldAttempt()) {
-      const timeUntilRetry = TokenRetryCache.getTimeUntilNextRetry()
-      const minutesLeft = Math.ceil(timeUntilRetry / 1000 / 60)
-      
-      return NextResponse.json(
-        { 
-          success: false, 
-          message: `Backend temporarily unavailable, retry in ${minutesLeft} minutes`,
-          error: 'RETRY_COOLDOWN',
-          retryAfter: timeUntilRetry,
-        },
-        { status: 503 }
-      )
-    }
+    // (Disabled to help debug the actual error string)
+    // if (!TokenRetryCache.shouldAttempt()) { ... }
 
     // ============================================
     // 1️⃣ GENERATE SIGNATURE
@@ -159,15 +147,11 @@ export async function POST(req: NextRequest) {
       isNetworkError = true
       console.error('❌ Network error calling backend:', err.message)
 
-      // Mark backend as down untuk prevent spam retries
-      TokenRetryCache.markBackendDown()
-
       return NextResponse.json(
         { 
           success: false, 
-          message: 'Backend service unavailable',
+          message: `Network error calling backend: ${err.message}`,
           error: 'BACKEND_UNAVAILABLE',
-          retryAfter: 5 * 60 * 1000, // Retry after 5 minutes
         },
         { status: 503 }
       )
@@ -179,16 +163,14 @@ export async function POST(req: NextRequest) {
     if (!backendResponse.ok) {
       // Backend is responding but with error
       console.error(`❌ Backend error: ${backendResponse.status}`)
-
-      // Mark as down untuk cooldown
-      TokenRetryCache.markBackendDown()
+      
+      const debugText = await backendResponse.text().catch(() => 'No response body')
 
       return NextResponse.json(
         { 
           success: false, 
-          message: `Authentication failed: ${backendResponse.status}`,
-          error: 'BACKEND_ERROR',
-          retryAfter: 5 * 60 * 1000,
+          message: `Authentication failed: ${backendResponse.status} ${backendResponse.statusText}. Detail: ${debugText}`,
+          error: 'BACKEND_ERROR'
         },
         { status: 503 }
       )

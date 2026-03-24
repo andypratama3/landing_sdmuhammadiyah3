@@ -48,7 +48,9 @@ class TokenReadyManager {
     // Tunggu dengan timeout
     return new Promise((resolve) => {
       const timer = setTimeout(() => {
-        console.warn('⏱️ Token ready timeout')
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('⏱️ Token ready timeout')
+        }
         resolve(false)
       }, timeout)
 
@@ -84,7 +86,7 @@ export class ApiClient {
   }
 
   private static error(...args: any[]): void {
-    console.error('[API-ERROR]', ...args)
+    if (this.DEBUG) console.error('[API-ERROR]', ...args)
   }
 
   /**
@@ -100,7 +102,7 @@ export class ApiClient {
         headers: {
           'Content-Type': 'application/json',
         },
-        signal: AbortSignal.timeout(10000),
+        signal: AbortSignal.timeout(30000), // Diperpanjang menjadi 30 detik
       })
 
       if (!response.ok) {
@@ -194,8 +196,8 @@ export class ApiClient {
       }
     }
 
-    // 🔐 Tunggu token ready (max 10 detik)
-    const tokenReady = await TokenReadyManager.waitUntilReady(10000)
+    // 🔐 Tunggu token ready (max 30 detik)
+    const tokenReady = await TokenReadyManager.waitUntilReady(30000)
     
     if (!tokenReady) {
       this.warn('⚠️ Token not ready, attempting request anyway...')

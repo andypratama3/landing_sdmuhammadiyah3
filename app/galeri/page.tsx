@@ -117,21 +117,25 @@ export default function GaleriPage() {
       <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
       <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
-      {/* Hero Section */}
-      <section className="relative py-24 sm:py-32 overflow-hidden bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#238b45] text-white">
-        <div className="absolute inset-0 bg-black/10 dark:bg-black/20" />
-        <div className="container relative z-10 px-4 mx-auto mt-8">
-          <div className="max-w-4xl mx-auto text-center text-fade-in-up">
-            <Badge className="px-6 py-2 mb-8 text-white bg-white/20 border-white/30 backdrop-blur-md font-black uppercase tracking-widest text-[10px]">
-              Gallery Aktivitas Sekolah Kreatif
-            </Badge>
-            <h1 className="mb-8 text-fluid-h1 font-black leading-tight drop-shadow-md text-balance uppercase tracking-tight">
-              Momen Kreatif Kami
-            </h1>
-            <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl text-white/95 font-medium leading-relaxed font-outfit">
-              Dokumentasi perjalanan inspiratif, kegiatan seru, dan prestasi membanggakan seluruh civitas akademika SD Muhammadiyah 3 Samarinda.
-            </p>
-          </div>
+      {/* Cinematic Modern Hero Section */}
+      <section className="relative w-full py-16 lg:py-24 bg-[#0f172a] overflow-hidden rounded-b-[3rem] lg:rounded-b-[4rem] mb-8 border-b-8 border-[#33b962] shadow-2xl">
+        {/* Abstract Dark Theme Background */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:40px_40px]" />
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#33b962]/20 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#ffd166]/10 rounded-full blur-[100px] pointer-events-none" />
+        </div>
+
+        <div className="container relative z-10 px-4 mx-auto max-w-5xl text-center">
+          <Badge className="bg-white/10 text-white hover:bg-white/20 border border-white/20 px-5 py-2 mb-8 text-xs font-black uppercase tracking-[0.2em] backdrop-blur-md shadow-lg inline-flex items-center gap-2">
+            📸 Lensa SD Muhammadiyah 3
+          </Badge>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] mb-8 tracking-tighter drop-shadow-lg">
+            Rekam <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#33b962] to-[#60e08c]">Jejak Digital</span>
+          </h1>
+          <p className="text-white/70 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+            Eksplorasi ribuan dokumentasi perjalanan inspiratif, kegiatan interaktif, dan galeri momen berharga dari seluruh civitas akademika kami.
+          </p>
         </div>
       </section>
 

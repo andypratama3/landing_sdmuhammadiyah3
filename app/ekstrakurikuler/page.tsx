@@ -119,20 +119,53 @@ export default function EkstrakurikulerPage() {
       <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
       <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
-      {/* Hero Section */}
-      <section className="relative py-24 sm:py-32 overflow-hidden bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#238b45] text-white">
-        <div className="absolute inset-0 bg-black/10 dark:bg-black/20" />
-        <div className="container relative z-10 px-4 mx-auto mt-8">
-          <div className="max-w-4xl mx-auto text-center text-fade-in-up">
-            <Badge className="px-6 py-2 mb-8 text-white bg-white/20 border-white/30 backdrop-blur-md font-black uppercase tracking-widest text-[10px]">
-              Eksplorasi Bakat & Minat
-            </Badge>
-            <h1 className="mb-6 text-fluid-h1 font-black leading-tight drop-shadow-md text-balance">
-              Ekstrakurikuler Kreatif
-            </h1>
-            <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl text-white/95 font-medium leading-relaxed">
-              Temukan keseruanmu melaui berbagai pilihan kegiatan ekstrakurikuler yang inspiratif dan menyenangkan.
-            </p>
+      {/* Dynamic Activity Bento Hero Section */}
+      <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800 z-10 relative pointer-events-auto">
+        <div className="container px-4 mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            
+            {/* Energetic Text Banner (Spans 8 cols) */}
+            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl hover:shadow-2xl transition-all">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
+              <div className="absolute -top-32 -right-32 w-80 h-80 bg-white/20 rounded-full blur-[80px] pointer-events-none" />
+
+              <div className="relative z-10 max-w-2xl">
+                <Badge className="bg-white text-[#33b962] border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#ffd166] animate-pulse"></span>
+                  Eksplorasi Bakat & Minat
+                </Badge>
+                <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[1.05] mb-6 tracking-tight drop-shadow-sm uppercase">
+                  Kegiatan <br /> <span className="text-[#ffd166]">Kreatif</span>
+                </h1>
+                <p className="text-white/95 text-lg font-medium max-w-xl leading-relaxed drop-shadow-sm">
+                  Kembangkan potensi dirimu tanpa batas. Temukan keseruan melalui berbagai pilihan ekstrakurikuler yang inspiratif, kompetitif, dan menyenangkan di Sekolah Kreatif!
+                </p>
+              </div>
+            </div>
+
+            {/* Quick Icons/Visual Hooks (Spans 4 cols) */}
+            <div className="lg:col-span-4 flex flex-col gap-6">
+              <div className="bg-[#ffd166] dark:bg-[#d6a33c] border-0 rounded-[2.5rem] p-8 shadow-sm flex flex-row items-center justify-between flex-1 transition-colors relative overflow-hidden group hover:shadow-xl">
+                <div className="absolute top-[-50%] right-[-20%] w-48 h-48 bg-white/20 rounded-full blur-[40px] pointer-events-none" />
+                <div className="z-10">
+                  <h3 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight mb-2">Trophy & <br/> Prestasi</h3>
+                </div>
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all z-10">
+                  <Trophy className="w-8 h-8 text-[#ffd166]" />
+                </div>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-row items-center justify-between flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962] hover:shadow-xl">
+                <div className="absolute bottom-[-50%] right-[-20%] w-48 h-48 bg-[#33b962]/10 rounded-full blur-[40px] pointer-events-none" />
+                <div className="z-10">
+                  <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight mb-2">Pilih <br/> Bakatmu</h3>
+                </div>
+                <div className="w-16 h-16 bg-[#33b962] text-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 -rotate-6 transition-all z-10">
+                  <Target className="w-8 h-8" />
+                </div>
+              </div>
+            </div>
+            
           </div>
         </div>
       </section>

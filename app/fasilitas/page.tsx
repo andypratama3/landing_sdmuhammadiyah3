@@ -52,41 +52,61 @@ export default function FasilitasPage() {
       <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
       <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
-      {/* Hero Section */}
-      <section className="relative py-24 sm:py-32 overflow-hidden bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#238b45] text-white">
-        <div className="absolute inset-0 bg-black/10 dark:bg-black/20" />
-        <div className="container relative z-10 px-4 mx-auto mt-8">
-          <div className="max-w-4xl mx-auto text-center text-fade-in-up">
-            <Badge className="px-6 py-2 mb-8 text-white bg-white/20 border-white/30 backdrop-blur-md font-black uppercase tracking-widest text-[10px]">
-              Sarana & Prasarana
-            </Badge>
-            <h1 className="mb-6 text-fluid-h1 font-black leading-tight drop-shadow-md text-balance">
-              Fasilitas Terbaik
-            </h1>
-            <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl text-white/95 font-medium leading-relaxed">
-              Dukungan fasilitas lengkap dan modern untuk menunjang kreativitas serta potensi terbaik setiap siswa.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Modern Integrated Hero & Image Section */}
+      <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
+        <div className="container px-4 mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            {/* Main Typographic Card (Spans 5 cols) */}
+            <div className="lg:col-span-5 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
+              <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-white/20 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Hero Image Section */}
-      <section className="py-32 bg-white dark:bg-gray-950 relative overflow-hidden">
-        <div className="absolute top-1/2 right-0 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
-        <div className="container px-4 mx-auto">
-          <div className="mb-16 text-center max-w-3xl mx-auto">
-            <h2 className="text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight mb-6 uppercase tracking-tight">Gedung Harapan</h2>
-            <p className="text-lg sm:text-xl font-medium text-gray-500 dark:text-gray-400 leading-relaxed">Pusat Pembelajaran Kreatif & Inovatif SD Muhammadiyah 3 Samarinda yang dirancang untuk menginspirasi setiap bakat siswa.</p>
-          </div>
-          <div className="max-w-6xl mx-auto overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.15)] rounded-[4rem] card-premium glass border-0 relative aspect-21/9 group">
-            <Image
-              src="/GedungSekolah.jpeg"
-              alt="Gedung Sekolah"
-              fill
-              className="object-cover transition-transform duration-1000 group-hover:scale-105"
-              priority
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="relative z-10">
+                <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                  Sarana & Prasarana
+                </Badge>
+                <h1 className="text-4xl md:text-5xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm">
+                  Fasilitas <br /> Kelas Dunia
+                </h1>
+                <p className="text-white/95 text-lg font-medium max-w-sm mb-10 leading-relaxed drop-shadow-sm">
+                  Dukungan infrastruktur lengkap dan modern yang dirancang khusus untuk memacu potensi, bakat, dan kreativitas setiap siswa kami.
+                </p>
+                <div className="flex gap-4">
+                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-lg">
+                    <Building className="w-6 h-6 text-white mb-2" />
+                    <span className="text-white font-bold text-sm block">Gedung Modern</span>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-lg">
+                    <CheckCircle className="w-6 h-6 text-[#ffd166] mb-2" />
+                    <span className="text-white font-bold text-sm block">Standar Tinggi</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Immersive Image Display (Spans 7 cols) */}
+            <div className="lg:col-span-7 relative h-[400px] lg:h-auto rounded-[2.5rem] overflow-hidden group shadow-xl bg-gray-200">
+              <Image
+                src="/GedungSekolah.jpeg"
+                alt="Gedung Harapan SD Muhammadiyah 3"
+                fill
+                className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80" />
+              
+              <div className="absolute bottom-8 left-8 right-8 z-10 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                <Badge className="bg-[#ffd166] text-gray-900 border-0 px-4 py-1.5 mb-4 text-[10px] font-black uppercase tracking-widest shadow-lg">
+                  Pusat Pembelajaran Inspiratif
+                </Badge>
+                <h2 className="text-3xl font-black text-white leading-tight drop-shadow-md">
+                  Gedung Harapan Utama
+                </h2>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

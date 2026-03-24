@@ -274,50 +274,103 @@ export default function BeritaPage() {
         <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
         <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
-        {/* Header Section */}
-        <section className="relative py-24 sm:py-32 overflow-hidden bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#238b45] text-white">
-          <div className="absolute inset-0 bg-black/10 dark:bg-black/20" />
-          <div className="container relative z-10 px-4 mx-auto mt-8">
-            <div className="max-w-4xl mx-auto text-center text-fade-in-up">
-              <Badge className="px-6 py-2 mb-8 text-white bg-white/20 border-white/30 backdrop-blur-md font-black uppercase tracking-widest text-[10px]">
-                Berita & Pengumuman
-              </Badge>
-              <h1 className="mb-6 text-fluid-h1 font-black leading-tight drop-shadow-md text-balance">
-                Berita Terkini SD Muhammadiyah 3 Samarinda
-              </h1>
-              <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl text-white/95 font-medium leading-relaxed mb-10">
-                Informasi terbaru tentang kegiatan, prestasi, dan pengumuman penting di Sekolah Kreatif.
-              </p>
+        {/* Editoral Bento Grid Hero Section */}
+        <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50">
+          <div className="container px-4 mx-auto max-w-7xl">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              
+              {/* Main Headline & Search (Spans 8 cols) */}
+              <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 lg:p-14 relative overflow-hidden flex flex-col justify-between min-h-[400px] lg:min-h-[480px] shadow-xl">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
+                <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
 
-              {/* Search Bar */}
-              <div className="max-w-2xl mx-auto">
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
-                    {isTyping ? (
-                      <Loader2 className="w-6 h-6 text-[#33b962] animate-spin" />
-                    ) : (
-                      <Search className="w-6 h-6 text-gray-400 group-focus-within:text-[#33b962] transition-colors" />
+                <div className="relative z-10">
+                  <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 md:mb-10 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                    Portal Berita Resmi
+                  </Badge>
+                  <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm">
+                    Informasi Terkini <br /> SD Muhammadiyah 3
+                  </h1>
+                  <p className="text-white/95 text-lg md:text-xl font-medium max-w-xl mb-10 leading-relaxed drop-shadow-sm">
+                    Lebih dekat dengan kegiatan edukatif, capaian prestasi siswa, dan momen tak terlupakan di Sekolah Kreatif.
+                  </p>
+                </div>
+
+                {/* Search Bar - Structural & Clean */}
+                <div className="relative w-full max-w-xl z-10">
+                  <div className="flex items-center bg-white/95 dark:bg-gray-900 border border-white/20 shadow-2xl rounded-2xl p-2 focus-within:ring-4 focus-within:ring-white/30 transition-all">
+                    <div className="pl-4 pr-3 text-gray-400">
+                      {isTyping ? <Loader2 className="w-6 h-6 animate-spin text-[#33b962]" /> : <Search className="w-6 h-6" />}
+                    </div>
+                    <Input
+                      type="text"
+                      placeholder="Cari agenda atau berita..."
+                      className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 focus-visible:ring-0 px-2 h-14 outline-none"
+                      value={searchInput}
+                      onChange={(e) => setSearchInput(e.target.value)}
+                    />
+                    {searchInput && (
+                      <button onClick={() => setSearchInput("")} className="px-3 text-gray-400 hover:text-gray-600">
+                        <X className="w-5 h-5" />
+                      </button>
                     )}
+                    <Button className="bg-[#ffd166] hover:bg-[#ffb703] text-gray-900 rounded-xl px-6 sm:px-8 h-12 font-black uppercase tracking-widest text-sm shadow-md transition-transform hover:scale-105 hidden sm:flex">
+                      Cari
+                    </Button>
                   </div>
-                  <Input
-                    type="text"
-                    placeholder="Cari berita atau pengumuman..."
-                    className="pl-16 pr-14 text-lg bg-white/90 dark:bg-gray-900/90 backdrop-blur-md text-foreground dark:text-white border-white/30 dark:border-gray-800 rounded-full h-18 shadow-2xl focus-visible:ring-2 focus-visible:ring-[#ffd166] transition-all font-bold"
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                  />
-                  {searchInput && (
-                    <button
-                      onClick={() => setSearchInput("")}
-                      className="absolute p-2 transition-colors -translate-y-1/2 rounded-full right-5 top-1/2 hover:bg-gray-100 dark:hover:bg-gray-800"
-                      aria-label="Clear search"
-                    >
-                      <X className="w-5 h-5 text-gray-400" />
-                    </button>
-                  )}
                 </div>
               </div>
+
+              {/* Side Stats/Info (Spans 4 cols) */}
+              <div className="lg:col-span-4 flex flex-col gap-6">
+                
+                {/* Info Card 1 */}
+                <div className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 flex flex-col justify-center relative overflow-hidden group hover:border-[#ffd166] transition-colors shadow-sm hover:shadow-xl">
+                  <div className="absolute top-[-20%] right-[-20%] w-48 h-48 bg-[#ffd166]/10 rounded-full blur-[40px] pointer-events-none transition-all group-hover:bg-[#ffd166]/20" />
+                  <div className="relative z-10">
+                    <div className="w-14 h-14 bg-gray-50 dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 rounded-2xl flex items-center justify-center mb-6 text-[#ffd166] group-hover:scale-110 transition-transform">
+                      <TrendingUp className="w-7 h-7" />
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">Selalu Update</h3>
+                    <p className="text-gray-500 dark:text-gray-400 font-medium text-sm md:text-base leading-relaxed">
+                      Dapatkan informasi paling cepat tentang kegiatan dan event terbaru dari siswa dan guru.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Info Card 2 */}
+                <div className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 flex flex-col justify-center relative overflow-hidden group hover:border-[#33b962] transition-colors shadow-sm hover:shadow-xl">
+                  <div className="absolute bottom-[-20%] left-[-20%] w-48 h-48 bg-[#33b962]/10 rounded-full blur-[40px] pointer-events-none transition-all group-hover:bg-[#33b962]/20" />
+                  <div className="relative z-10">
+                    <div className="w-14 h-14 bg-gray-50 dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 rounded-2xl flex items-center justify-center mb-6 text-[#33b962] group-hover:scale-110 transition-transform">
+                      <Calendar className="w-7 h-7" />
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">Jadwal & Agenda</h3>
+                    <p className="text-gray-500 dark:text-gray-400 font-medium text-sm md:text-base leading-relaxed">
+                      Pantau terus jadwal penting dan agenda sekolah agar Anda tidak tertinggal informasi akademis.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
             </div>
+            
+            {/* Quick Links / Trending Tags */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-8">
+              <span className="text-sm font-bold tracking-widest uppercase text-gray-400 px-2 lg:mr-2">Topik Populer:</span>
+              {["Prestasi", "PPDB", "Kreatif", "Ekskul", "Lomba"].map((tag) => (
+                 <button 
+                  key={tag}
+                  onClick={() => setSearchInput(tag)}
+                  className="px-5 py-2 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-widest bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:bg-[#33b962] hover:text-white dark:hover:bg-[#33b962] text-gray-600 dark:text-gray-400 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+
           </div>
         </section>
 

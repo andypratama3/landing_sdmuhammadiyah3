@@ -359,12 +359,12 @@ export default function BeritaPage() {
             
             {/* Quick Links / Trending Tags */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-8">
-              <span className="text-sm font-bold tracking-widest uppercase text-gray-400 px-2 lg:mr-2">Topik Populer:</span>
+              <span className="text-sm font-bold tracking-widest uppercase text-white px-2 lg:mr-2">Topik Populer:</span>
               {["Prestasi", "PPDB", "Kreatif", "Ekskul", "Lomba"].map((tag) => (
                  <button 
                   key={tag}
                   onClick={() => setSearchInput(tag)}
-                  className="px-5 py-2 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-widest bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:bg-[#33b962] hover:text-white dark:hover:bg-[#33b962] text-gray-600 dark:text-gray-400 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
+                  className="px-5 py-2 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-widest bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:bg-[#33b962] hover:text-white dark:hover:bg-[#33b962] text-gray-600 dark:text-white transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
                 >
                   {tag}
                 </button>

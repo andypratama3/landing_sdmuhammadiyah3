@@ -193,7 +193,7 @@ export async function POST(req: NextRequest) {
     // ============================================
     // 5️⃣ CREATE RESPONSE WITH COOKIES
     // ============================================
-    const setCookieHeader = backendResponse.headers.get('set-cookie')
+    const setCookies = backendResponse.headers.getSetCookie()
 
     const response = NextResponse.json(
       { 
@@ -210,9 +210,11 @@ export async function POST(req: NextRequest) {
       }
     )
 
-    // Forward Set-Cookie header from backend
-    if (setCookieHeader) {
-      response.headers.set('set-cookie', setCookieHeader)
+    // Forward Set-Cookie headers from backend
+    if (setCookies && setCookies.length > 0) {
+      setCookies.forEach(cookie => {
+        response.headers.append('set-cookie', cookie)
+      })
     }
 
     return response

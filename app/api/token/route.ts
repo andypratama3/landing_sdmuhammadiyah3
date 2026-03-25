@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
 
     try {
       backendResponse = await fetch(
-        `${apiUrl}/auth/token`,
+        `${apiUrl}/v2/auth/token`,
         {
           method: 'POST',
           headers: {

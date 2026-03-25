@@ -359,7 +359,7 @@ export default function BeritaPage() {
             
             {/* Quick Links / Trending Tags */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-8">
-              <span className="text-sm font-bold tracking-widest uppercase text-white px-2 lg:mr-2">Topik Populer:</span>
+              <span className="text-sm font-bold tracking-widest uppercase text-gray-600 dark:text-white px-2 lg:mr-2">Topik Populer:</span>
               {["Prestasi", "PPDB", "Kreatif", "Ekskul", "Lomba"].map((tag) => (
                  <button 
                   key={tag}

@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
   // Generate a random nonce
-  const nonce = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString('base64')
+  const nonce = crypto.randomUUID().replace(/-/g, '')
   
   const requestHeaders = new Headers(request.headers)
   

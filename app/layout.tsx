@@ -5,15 +5,12 @@ import { headers } from "next/headers"
 import "./globals.css"
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
-import WhatsAppButton from "@/components/whatsapp-button"
-import BackToTop from "@/components/back-to-top"
-import ApiInitializer, { ApiInitializerStatus } from "@/components/api-initializer"
 import { ThemeProvider } from "@/components/theme-provider"
-import VisitorTracker from '@/components/visitor-tracker'
-import CookieConsent from "@/components/cookie"
+import ApiInitializer, { ApiInitializerStatus } from "@/components/api-initializer"
 import GoogleAnalytics, { GTMNoScript } from "@/components/google-analytics"
 import StructuredData from "@/components/structured-data"
 import Preloader from "@/components/Preloader"
+import InteractiveUI from "@/components/interactive-ui"
 
 const quicksand = Quicksand({ subsets: ["latin"], variable: "--font-quicksand" })
 const poppins = Poppins({
@@ -168,19 +165,16 @@ export default async function RootLayout({
         <StructuredData nonce={nonce} />
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {/* <Preloader /> */}
           <ApiInitializer />
           <ApiInitializerStatus />
 
+          <Preloader />
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />
-          <VisitorTracker />
 
-          <WhatsAppButton />
-          <BackToTop />
-
-          <CookieConsent />
+          {/* Deferred Interactive Modals */}
+          <InteractiveUI />
         </ThemeProvider>
       </body>
     </html>

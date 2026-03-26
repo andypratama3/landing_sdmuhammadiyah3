@@ -259,87 +259,73 @@ export default function PrestasiSiswaPage() {
       <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
       <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
-      {/* Premium Bento Hero Section */}
-      <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800 pointer-events-auto">
+      {/* Editorial Bento Grid Hero Section */}
+      <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
         <div className="container px-4 mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
-            {/* Main Showcase Banner (Spans 7 cols) */}
-            <div className="lg:col-span-7 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+            {/* Main Typographic Card (Spans 8 cols) */}
+            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
-              <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-yellow-400/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative z-10">
-                <Badge className="bg-white text-[#33b962] border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
                   Hall of Fame
                 </Badge>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.05] mb-6 tracking-tight drop-shadow-sm">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
                   Prestasi <br /> <span className="text-[#ffd166]">Siswa & Siswi</span>
                 </h1>
-                <p className="text-white/95 text-lg font-medium max-w-lg mb-0 leading-relaxed drop-shadow-sm">
+                <p className="text-white/95 text-lg font-medium max-w-xl mb-10 leading-relaxed drop-shadow-sm">
                   Merayakan setiap langkah kecil menuju kesuksesan besar. Sebuah rekam jejak kebanggaan dan pencapaian luar biasa.
                 </p>
-              </div>
-            </div>
-
-            {/* Quick Search & Stats Board (Spans 5 cols) */}
-            <div className="lg:col-span-5 flex flex-col gap-6">
-              
-              {/* Search Widget */}
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 group hover:border-[#33b962] transition-colors relative overflow-hidden hover:shadow-xl">
-                <div className="absolute bottom-[-20%] right-[-20%] w-48 h-48 bg-[#33b962]/10 rounded-full blur-[40px] pointer-events-none transition-all group-hover:bg-[#33b962]/20" />
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight flex items-center gap-2 relative z-10">
-                  <Search className="w-5 h-5 text-[#33b962]" /> Telusuri Prestasi
-                </h3>
-                <div className="relative flex items-center bg-gray-50 dark:bg-gray-800 border box-border border-gray-200 dark:border-gray-700 rounded-2xl p-1.5 focus-within:ring-2 focus-within:ring-[#33b962]/30 transition-all z-10">
-                  <Input
-                    type="text"
-                    placeholder="Cari nama atau lomba..."
-                    className="flex-1 bg-transparent border-none shadow-none text-base font-semibold text-gray-900 dark:text-white placeholder:text-gray-400 focus-visible:ring-0 px-3 h-12 outline-none"
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                  />
-                  {searchInput && (
-                    <button onClick={() => setSearchInput("")} className="px-2 text-gray-400 hover:text-gray-600">
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                  {isTyping ? (
-                    <div className="w-12 flex justify-center"><Loader2 className="w-5 h-5 animate-spin text-[#33b962]" /></div>
-                  ) : (
-                    <Button className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-xl px-4 h-10 font-bold shadow-md">
+                
+                {/* Search Bar Integration */}
+                <div className="relative w-full max-w-xl">
+                  <div className="flex items-center bg-white/95 dark:bg-gray-900 border border-white/20 shadow-2xl rounded-2xl p-2 focus-within:ring-4 focus-within:ring-white/30 transition-all">
+                    <div className="pl-4 pr-3 text-gray-400">
+                      {isTyping ? <Loader2 className="w-6 h-6 animate-spin text-[#33b962]" /> : <Search className="w-6 h-6" />}
+                    </div>
+                    <Input
+                      type="text"
+                      placeholder="Cari nama atau lomba..."
+                      className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 focus-visible:ring-0 px-2 h-14 outline-none"
+                      value={searchInput}
+                      onChange={(e) => setSearchInput(e.target.value)}
+                    />
+                    {searchInput && (
+                      <button onClick={() => setSearchInput("")} className="px-3 text-gray-400 hover:text-gray-600">
+                        <X className="w-5 h-5" />
+                      </button>
+                    )}
+                    <Button className="bg-[#ffd166] hover:bg-[#ffb703] text-gray-900 rounded-xl px-6 sm:px-8 h-12 font-black uppercase tracking-widest text-sm shadow-md transition-transform hover:scale-105 hidden sm:flex">
                       Cari
                     </Button>
-                  )}
+                  </div>
                 </div>
               </div>
-
-              {/* Achievement Highlights */}
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-row items-center justify-around flex-1 group hover:border-[#ffd166] transition-colors relative overflow-hidden hover:shadow-xl">
-                <div className="absolute top-[-20%] left-[-20%] w-48 h-48 bg-[#ffd166]/10 rounded-full blur-[40px] pointer-events-none transition-all group-hover:bg-[#ffd166]/20" />
-                
-                <div className="text-center z-10">
-                  <div className="w-12 h-12 mx-auto bg-gray-50 dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 rounded-2xl flex items-center justify-center mb-3 text-[#ffd166] group-hover:scale-110 transition-transform">
-                    <Trophy className="w-6 h-6" />
-                  </div>
-                  <span className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-1">Piala</span>
-                  <span className="text-2xl font-black text-gray-900 dark:text-white">+++</span>
-                </div>
-                
-                <div className="w-px h-16 bg-gray-200 dark:bg-gray-800 z-10" />
-
-                <div className="text-center z-10">
-                  <div className="w-12 h-12 mx-auto bg-gray-50 dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 rounded-2xl flex items-center justify-center mb-3 text-[#33b962] group-hover:scale-110 transition-transform">
-                    <Medal className="w-6 h-6" />
-                  </div>
-                  <span className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-1">Medali</span>
-                  <span className="text-2xl font-black text-gray-900 dark:text-white">+++</span>
-                </div>
-
-              </div>
-
             </div>
+
+            {/* Side Highlights (Spans 4 cols) */}
+            <div className="lg:col-span-4 flex flex-col gap-6">
+              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
+                 <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center mb-6 text-[#33b962] group-hover:scale-110 transition-transform">
+                    <Trophy className="w-8 h-8" />
+                  </div>
+                <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Emas & Juara</h3>
+                <p className="text-sm font-medium text-gray-500 mt-2">Kebanggaan SD Muhammadiyah 3</p>
+              </div>
+              
+              <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
+                    <Medal className="w-8 h-8" />
+                  </div>
+                <h3 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight">Kompetitif</h3>
+                <p className="text-sm font-medium text-gray-800 mt-2">Mencetak Generasi Juara Dunia</p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Award, Star, Shield, Calendar, CheckCircle, Search, Loader2, AlertCircle, RefreshCw, Eye } from "lucide-react"
+import { Award, Star, Shield, Calendar, CheckCircle, Search, Loader2, AlertCircle, RefreshCw, Eye, X } from "lucide-react"
 import { useApi } from "@/hooks/useApi"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -192,51 +192,73 @@ export default function PrestasiSekolahPage() {
       <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
       <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
-      {/* Hero Section */}
-      <section className="relative py-24 sm:py-32 overflow-hidden bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#238b45] text-white">
-        <div className="absolute inset-0 bg-black/10 dark:bg-black/20" />
-        <div className="container relative z-10 px-4 mx-auto mt-8">
-          <div className="max-w-4xl mx-auto text-center text-fade-in-up">
-            <Badge className="px-6 py-2 mb-8 text-white bg-white/20 border-white/30 backdrop-blur-md font-black uppercase tracking-widest text-[10px]">
-              Achievements & Milestones
-            </Badge>
-            <h1 className="mb-6 text-fluid-h1 font-black leading-tight drop-shadow-md text-balance">
-              Prestasi Sekolah
-            </h1>
-            <p className="max-w-2xl mx-auto mb-12 text-lg sm:text-xl md:text-2xl text-white/95 font-medium leading-relaxed">
-              Pengakuan dan penghargaan atas dedikasi dalam memberikan pendidikan berkualitas bagi generasi masa depan.
-            </p>
+      {/* Editorial Bento Grid Hero Section */}
+      <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
+        <div className="container px-4 mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            
+            {/* Main Typographic Card (Spans 8 cols) */}
+            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
+              <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Premium Search Bar */}
-            <div className="max-w-2xl mx-auto">
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-linear-to-r from-white/20 to-white/10 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200" />
-                <div className="relative">
-                  {isTyping ? (
-                    <Loader2 className="absolute w-6 h-6 transform -translate-y-1/2 left-5 top-1/2 text-white/50 animate-spin" />
-                  ) : (
-                    <Search className="absolute w-6 h-6 transform -translate-y-1/2 left-5 top-1/2 text-white/70 group-hover:text-white transition-colors" />
-                  )}
-                  <Input
-                    type="text"
-                    placeholder="Cari prestasi sekolah..."
-                    className="h-16 pl-14 pr-12 text-lg bg-white/10 backdrop-blur-xl dark:bg-black/20 text-white placeholder:text-white/60 border-white/20 focus:border-white/40 focus:ring-white/20 rounded-2xl w-full transition-all duration-300"
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                  />
-                  {searchInput && (
-                    <button
-                      onClick={() => setSearchInput("")}
-                      className="absolute p-2 transition-all transform -translate-y-1/2 rounded-xl right-3 top-1/2 hover:bg-white/10 text-white/70 hover:text-white"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  )}
+              <div className="relative z-10">
+                <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+                  Achievements & Milestones
+                </Badge>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
+                  Prestasi <br /> <span className="text-[#ffd166]">Institusi</span>
+                </h1>
+                <p className="text-white/95 text-lg font-medium max-w-xl mb-10 leading-relaxed drop-shadow-sm">
+                  Pengakuan dan penghargaan atas dedikasi dalam memberikan pendidikan berkualitas bagi generasi masa depan.
+                </p>
+                
+                {/* Search Bar Integration */}
+                <div className="relative w-full max-w-xl">
+                  <div className="flex items-center bg-white/95 dark:bg-gray-900 border border-white/20 shadow-2xl rounded-2xl p-2 focus-within:ring-4 focus-within:ring-white/30 transition-all">
+                    <div className="pl-4 pr-3 text-gray-400">
+                      {isTyping ? <Loader2 className="w-6 h-6 animate-spin text-[#33b962]" /> : <Search className="w-6 h-6" />}
+                    </div>
+                    <Input
+                      type="text"
+                      placeholder="Cari prestasi sekolah..."
+                      className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 focus-visible:ring-0 px-2 h-14 outline-none"
+                      value={searchInput}
+                      onChange={(e) => setSearchInput(e.target.value)}
+                    />
+                    {searchInput && (
+                      <button onClick={() => setSearchInput("")} className="px-3 text-gray-400 hover:text-gray-600">
+                        <X className="w-5 h-4" />
+                      </button>
+                    )}
+                    <Button className="bg-[#ffd166] hover:bg-[#ffb703] text-gray-900 rounded-xl px-6 sm:px-8 h-12 font-black uppercase tracking-widest text-sm shadow-md transition-transform hover:scale-105 hidden sm:flex">
+                      Cari
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Side Highlights (Spans 4 cols) */}
+            <div className="lg:col-span-4 flex flex-col gap-6">
+              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
+                 <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center mb-6 text-[#33b962] group-hover:scale-110 transition-transform">
+                    <Award className="w-8 h-8" />
+                  </div>
+                <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Akreditasi</h3>
+                <p className="text-sm font-medium text-gray-500 mt-2">Peringkat UNGGUL (A) Nasional</p>
+              </div>
+              
+              <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
+                    <Star className="w-8 h-8" />
+                  </div>
+                <h3 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight">Kualitas</h3>
+                <p className="text-sm font-medium text-gray-800 mt-2">Sekolah Penggerak & Berprestasi</p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

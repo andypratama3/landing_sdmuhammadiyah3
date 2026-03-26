@@ -10,7 +10,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import {
   Search, CreditCard, CheckCircle, XCircle, Printer, Wallet,
   ChevronDown, ChevronRight, Loader2, AlertCircle, RefreshCw,
-  Users, GraduationCap, ArrowRight
+  Users, GraduationCap, ArrowRight, Shield
 } from "lucide-react"
 import Image from "next/image"
 import { useState, useMemo, useEffect } from "react"
@@ -162,17 +162,85 @@ export default function PembayaranPage() {
       <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
       <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
-      {/* Hero */}
-      <section className="relative bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] dark:from-[#33b962] dark:via-[#2a9d52] dark:to-[#238b45] py-24 sm:py-32 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/10 dark:bg-black/20" />
-        <div className="container relative z-10 px-4 mx-auto">
-          <Breadcrumb items={[{ label: "Pembayaran" }]} />
-          <div className="max-w-4xl mx-auto mt-12 text-center text-fade-in-up">
-            <Badge className="px-6 py-2 mb-8 text-white bg-white/20 border-white/30 backdrop-blur-md font-black uppercase tracking-widest text-[10px]">Payment Portal</Badge>
-            <h1 className="mb-8 text-fluid-h1 font-black leading-tight drop-shadow-md">Portal Pembayaran</h1>
-            <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl text-white/95 font-medium leading-relaxed">
-              Sistem administrasi digital untuk kemudahan cek riwayat dan pembayaran biaya pendidikan putra-putri Anda.
-            </p>
+      {/* Editorial Bento Grid Hero Section */}
+      <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
+        <div className="container px-4 mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            
+            {/* Main Typographic Card (Spans 8 cols) */}
+            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
+              <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="relative z-10">
+                <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                  Payment Portal
+                </Badge>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
+                  Portal <br /> <span className="text-[#ffd166]">Administrasi</span>
+                </h1>
+                <p className="text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
+                  Sistem administrasi digital untuk kemudahan cek riwayat dan pembayaran biaya pendidikan putra-putri Anda secara transparan dan akuntabel.
+                </p>
+                
+                {!selectedNisn && (
+                  <div className="relative w-full max-w-xl">
+                    <div className="flex items-center bg-white/95 dark:bg-gray-900 border border-white/20 shadow-2xl rounded-2xl p-2 focus-within:ring-4 focus-within:ring-white/30 transition-all">
+                      <div className="pl-4 pr-3 text-gray-400">
+                        {isTyping ? <Loader2 className="w-6 h-6 animate-spin text-[#33b962]" /> : <Search className="w-6 h-6" />}
+                      </div>
+                      <Input
+                        type="text"
+                        placeholder="Masukkan 10 digit NISN..."
+                        className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 focus-visible:ring-0 px-2 h-14 outline-none tracking-widest"
+                        value={nisnInput}
+                        onChange={(e) => setNisnInput(e.target.value)}
+                        maxLength={10}
+                        onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                      />
+                      <Button 
+                        onClick={handleSearch}
+                        disabled={nisnInput.length !== 10}
+                        className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-xl px-6 h-14 font-black uppercase tracking-widest text-xs shadow-lg ml-2 shrink-0 transition-all active:scale-95"
+                      >
+                        Cek Tagihan
+                      </Button>
+                    </div>
+                  </div>
+                )}
+                
+                {selectedNisn && (
+                   <Button 
+                   onClick={handleReset}
+                   className="bg-white text-[#33b962] hover:bg-white/90 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl flex items-center gap-3"
+                 >
+                   <RefreshCw className="w-4 h-4" />
+                   Ganti NISN
+                 </Button>
+                )}
+              </div>
+            </div>
+
+            {/* Side Highlights (Spans 4 cols) */}
+            <div className="lg:col-span-4 flex flex-col gap-6">
+              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
+                 <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center mb-6 text-[#33b962] group-hover:scale-110 transition-transform">
+                    <Shield className="w-8 h-8" />
+                  </div>
+                <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Aman</h3>
+                <p className="text-sm font-medium text-gray-500 mt-2">Enkripsi Data & Transaksi Terjamin</p>
+              </div>
+              
+              <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
+                    <CreditCard className="w-8 h-8" />
+                  </div>
+                <h3 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight">Mudah</h3>
+                <p className="text-sm font-medium text-gray-800 mt-2">Cek & Bayar Kapan Saja</p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

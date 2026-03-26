@@ -18,7 +18,10 @@ import {
   Upload,
   ArrowRight,
   CheckCheck,
+  Shield,
+  Zap
 } from "lucide-react"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "SPMB - Sistem Penerimaan Murid Baru - SD Muhammadiyah 3 Samarinda",
@@ -130,31 +133,57 @@ const faqs = [
 export default function SPMBPage() {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative py-20 mt-20 text-white bg-linear-to-br from-primary via-primary/90 to-primary/80">
-        <div className="container px-4 mx-auto">
-          <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-4 text-white bg-white/20 border-white/30">SPMB 2025/2026</Badge>
-            <h1 className="mb-4 text-4xl font-bold md:text-5xl">Pendaftaran Peserta Didik Baru</h1>
-            <p className="max-w-2xl mx-auto mb-6 text-lg md:text-xl text-white/90">Tahun Ajaran 2025/2026</p>
-            <Badge className="px-6 py-2 mb-8 text-lg text-white bg-green-500">
-              <CheckCircle2 className="inline w-5 h-5 mr-2" />
-              Pendaftaran Dibuka
-            </Badge>
-            <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <Button size="lg" variant="secondary" className="px-8 text-lg">
-                Daftar Sekarang
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="px-8 text-lg text-white border-white bg-white/10 hover:bg-white/20"
-              >
-                <Phone className="w-5 h-5 mr-2" />
-                Hubungi Kami
-              </Button>
+      {/* Editorial Bento Grid Hero Section */}
+      <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
+        <div className="container px-4 mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            
+            {/* Main Typographic Card (Spans 8 cols) */}
+            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
+              <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="relative z-10">
+                <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                  Pendaftaran Siswa Baru
+                </Badge>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
+                  Portal <br /> <span className="text-[#ffd166]">SPMB 2025/2026</span>
+                </h1>
+                <p className="text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
+                  Bergabunglah bersama keluarga besar SD Muhammadiyah 3 Samarinda. Kami berkomitmen membentuk generasi cerdas, kreatif, dan berakhlak mulia.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Button asChild className="bg-white text-[#33b962] hover:bg-white/90 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl">
+                    <Link href="#RegisterForm">Daftar Sekarang</Link>
+                  </Button>
+                  <Button asChild variant="outline" className="text-white border-white/30 bg-white/10 hover:bg-white/20 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs">
+                    <Link href="/kontak">Hubungi Kami</Link>
+                  </Button>
+                </div>
+              </div>
             </div>
+
+            {/* Side Highlights (Spans 4 cols) */}
+            <div className="lg:col-span-4 flex flex-col gap-6">
+              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
+                 <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center mb-6 text-[#33b962] group-hover:scale-110 transition-transform">
+                    <CheckCircle2 className="w-8 h-8" />
+                  </div>
+                <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Terpadu</h3>
+                <p className="text-sm font-medium text-gray-500 mt-2">Sistem Pendaftaran Online 24/7</p>
+              </div>
+              
+              <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
+                    <Shield className="w-8 h-8" />
+                  </div>
+                <h3 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight">Resmi</h3>
+                <p className="text-sm font-medium text-gray-800 mt-2">Data Terintegrasi & Aman</p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

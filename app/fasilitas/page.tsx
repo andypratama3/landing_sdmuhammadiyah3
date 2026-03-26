@@ -2,6 +2,7 @@
 
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import Breadcrumb from "@/components/breadcrumb"
 import { Building, Users, CheckCircle, Ruler, ChevronRight } from "lucide-react"
 import PanoViewerComponent from "@/components/View360Image"
@@ -52,58 +53,57 @@ export default function FasilitasPage() {
       <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
       <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
-      {/* Modern Integrated Hero & Image Section */}
+      {/* Editorial Bento Grid Hero Section */}
       <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
         <div className="container px-4 mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
-            {/* Main Typographic Card (Spans 5 cols) */}
-            <div className="lg:col-span-5 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+            {/* Main Typographic Card (Spans 8 cols) */}
+            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
-              <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-white/20 rounded-full blur-3xl pointer-events-none" />
-
+              <div className="absolute inset-0 bg-gradient-to-r from-[#33b962] via-[#33b962]/80 to-transparent z-0" />
+              <Image
+                src="/GedungSekolah.jpeg"
+                alt="Gedung Harapan SD Muhammadiyah 3"
+                fill
+                className="object-cover opacity-20 z-[-1] transition-transform duration-1000 group-hover:scale-105"
+              />
+              
               <div className="relative z-10">
                 <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                   Sarana & Prasarana
                 </Badge>
-                <h1 className="text-4xl md:text-5xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm">
-                  Fasilitas <br /> Kelas Dunia
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
+                  Fasilitas <br /> <span className="text-[#ffd166]">Pembelajaran</span>
                 </h1>
-                <p className="text-white/95 text-lg font-medium max-w-sm mb-10 leading-relaxed drop-shadow-sm">
+                <p className="text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
                   Dukungan infrastruktur lengkap dan modern yang dirancang khusus untuk memacu potensi, bakat, dan kreativitas setiap siswa kami.
                 </p>
-                <div className="flex gap-4">
-                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-lg">
-                    <Building className="w-6 h-6 text-white mb-2" />
-                    <span className="text-white font-bold text-sm block">Gedung Modern</span>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-lg">
-                    <CheckCircle className="w-6 h-6 text-[#ffd166] mb-2" />
-                    <span className="text-white font-bold text-sm block">Standar Tinggi</span>
-                  </div>
+                <div className="flex flex-wrap gap-4">
+                  <Button asChild className="bg-white text-[#33b962] hover:bg-white/90 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl">
+                    <Link href="#daftar-fasilitas">Lihat Daftar</Link>
+                  </Button>
                 </div>
               </div>
             </div>
 
-            {/* Immersive Image Display (Spans 7 cols) */}
-            <div className="lg:col-span-7 relative h-[400px] lg:h-auto rounded-[2.5rem] overflow-hidden group shadow-xl bg-gray-200">
-              <Image
-                src="/GedungSekolah.jpeg"
-                alt="Gedung Harapan SD Muhammadiyah 3"
-                fill
-                className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80" />
+            {/* Side Highlights (Spans 4 cols) */}
+            <div className="lg:col-span-4 flex flex-col gap-6">
+              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
+                 <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center mb-6 text-[#33b962] group-hover:scale-110 transition-transform">
+                    <Building className="w-8 h-8" />
+                  </div>
+                <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Modern</h3>
+                <p className="text-sm font-medium text-gray-500 mt-2">Gedung Berstandar Nasional</p>
+              </div>
               
-              <div className="absolute bottom-8 left-8 right-8 z-10 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <Badge className="bg-[#ffd166] text-gray-900 border-0 px-4 py-1.5 mb-4 text-[10px] font-black uppercase tracking-widest shadow-lg">
-                  Pusat Pembelajaran Inspiratif
-                </Badge>
-                <h2 className="text-3xl font-black text-white leading-tight drop-shadow-md">
-                  Gedung Harapan Utama
-                </h2>
+              <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
+                    <CheckCircle className="w-8 h-8" />
+                  </div>
+                <h3 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight">Lengkap</h3>
+                <p className="text-sm font-medium text-gray-800 mt-2">Sarana Penunjang Kreativitas</p>
               </div>
             </div>
 

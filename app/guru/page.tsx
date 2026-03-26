@@ -25,7 +25,8 @@ export default async function GuruPage({
     });
     if (!res.ok) throw new Error("Gagal mengambil mata pelajaran");
     const json = await res.json();
-    return Array.isArray(json.data) ? json.data : json;
+    const arr = json?.data?.data || json?.data || json;
+    return Array.isArray(arr) ? arr : [];
   };
 
   const fetchGurus = async () => {
@@ -40,7 +41,8 @@ export default async function GuruPage({
     });
     if (!res.ok) throw new Error("Gagal mengambil data guru");
     const json = await res.json();
-    return Array.isArray(json.data) ? json.data : Array.isArray(json) ? json : [];
+    const arr = json?.data?.data || json?.data || json;
+    return Array.isArray(arr) ? arr : [];
   };
 
   let pelajarans: Pelajaran[] = [];

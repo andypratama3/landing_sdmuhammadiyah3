@@ -30,7 +30,7 @@ export async function generateMetadata(
     if (!res.ok) return { title: "Berita Tidak Ditemukan" };
     
     const responseData = await res.json();
-    const berita: Berita = responseData?.data || responseData;
+    const berita: Berita = responseData?.data?.data || responseData?.data || responseData;
 
     if (!berita || !berita.judul) return { title: "Berita Tidak Ditemukan" };
 
@@ -67,7 +67,7 @@ export default async function BeritaDetailPage({ params }: Props) {
     const res = await fetch(`${apiUrl}/berita/${slug}`, { next: { revalidate: 60 } });
     if (!res.ok) throw new Error("Gagal mengambil berita detail");
     const json = await res.json();
-    return json?.data || json;
+    return json?.data?.data || json?.data || json;
   };
 
   let berita: Berita | null = null;
@@ -86,7 +86,7 @@ export default async function BeritaDetailPage({ params }: Props) {
     });
     if (!res.ok) return [];
     const json = await res.json();
-    const arr = Array.isArray(json?.data) ? json.data : Array.isArray(json) ? json : [];
+    const arr = Array.isArray(json?.data?.data) ? json.data.data : Array.isArray(json?.data) ? json.data : Array.isArray(json) ? json : [];
     // Filter self off natively
     return arr.filter((b: Berita) => b.id !== berita!.id).slice(0, 3);
   };

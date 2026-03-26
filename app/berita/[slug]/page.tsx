@@ -120,8 +120,13 @@ export default async function BeritaDetailPage({ params }: Props) {
   };
 
   const readingTime = Math.max(1, Math.ceil((berita.desc?.length || 0) / 500));
-  const pageDescription = berita.desc ? berita.desc.replace(/<[^>]*>/g, "").slice(0, 160) : "";
-
+  
+  // Safely intercept Laravel WYSIWYG Editor outputs overriding wrong frontend domains with the correct Storage bucket URL
+  const processedDesc = berita.desc
+    ? berita.desc.replace(/https?:\/\/sdmuhammadiyah3smd\.com\/storage\//g, process.env.NEXT_PUBLIC_STORAGE_URL || 'https://dashboard.sdmuhammadiyah3smd.com/storage/')
+    : "";
+  
+  const pageDescription = processedDesc ? processedDesc.replace(/<[^>]*>/g, "").slice(0, 160) : "";
   return (
     <div className="min-h-screen pt-24 pb-16 bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
       <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
@@ -169,7 +174,7 @@ export default async function BeritaDetailPage({ params }: Props) {
 
                 <div className="relative w-full mb-12 overflow-hidden rounded-[2.5rem] shadow-2xl border-0 group">
                   <Image
-                    src={ `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${berita.foto}`}
+                    src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${berita.foto}`}
                     alt={berita.judul}
                     width={1200}
                     height={675}
@@ -179,10 +184,10 @@ export default async function BeritaDetailPage({ params }: Props) {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
 
-                {berita.desc && (
+                {processedDesc && (
                   <div className="mb-8">
                     <HtmlContent
-                      content={berita.desc}
+                      content={processedDesc}
                       className="prose prose-sm sm:prose-base md:prose-lg max-w-none dark:prose-invert"
                     />
                   </div>

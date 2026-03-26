@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { GraduationCap, BookOpen, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { getCachedData, buildCacheKey, getCacheVersion } from "@/lib/redis-cache";
+import { getSystemAuthToken } from "@/lib/server-api";
 import { GuruFilterClient } from "@/components/guru/GuruFilterClient";
 import { GuruGridClient } from "@/components/guru/GuruGridClient";
 import type { Guru, Pelajaran } from "@/types";
@@ -20,7 +21,9 @@ export default async function GuruPage({
 
   // Data Fetching Definitions
   const fetchPelajarans = async () => {
+    const token = await getSystemAuthToken();
     const res = await fetch(`${apiUrl}/guru/pelajaran`, {
+      headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
       next: { revalidate: 3600 }, // Native Route Caching ISR
     });
     if (!res.ok) throw new Error("Gagal mengambil mata pelajaran");
@@ -36,7 +39,9 @@ export default async function GuruPage({
     
     // Fallback safe mode if NEXT_PUBLIC_API_URL is undefined
     const validUrl = apiUrl.startsWith('http') ? apiUrl : `https://${apiUrl}`;
+    const token = await getSystemAuthToken();
     const res = await fetch(`${validUrl}/guru?${query.toString()}`, {
+      headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
       next: { revalidate: 60 }, // Micro-cache caching invalidation
     });
     if (!res.ok) throw new Error("Gagal mengambil data guru");

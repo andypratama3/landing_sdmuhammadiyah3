@@ -9,6 +9,7 @@ import { HtmlContent } from "@/components/html-content";
 import { PageHeader } from "@/components/page-header";
 import { BeritaShareClient } from "@/components/berita/BeritaShareClient";
 import { getCachedData } from "@/lib/redis-cache";
+import { getSystemAuthToken } from "@/lib/server-api";
 import type { Berita } from "@/types/berita.types";
 import type { Metadata, ResolvingMetadata } from "next";
 
@@ -26,7 +27,11 @@ export async function generateMetadata(
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://dashboard.sdmuhammadiyah3smd.com/api/v2";
 
   try {
-    const res = await fetch(`${apiUrl}/berita/${slug}`, { next: { revalidate: 3600 } });
+    const token = await getSystemAuthToken();
+    const res = await fetch(`${apiUrl}/berita/${slug}`, { 
+      headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
+      next: { revalidate: 3600 } 
+    });
     if (!res.ok) return { title: "Berita Tidak Ditemukan" };
     
     const responseData = await res.json();
@@ -64,7 +69,11 @@ export default async function BeritaDetailPage({ params }: Props) {
 
   // Double layered Redis caching architecture guaranteeing safety
   const fetchBeritaDetail = async () => {
-    const res = await fetch(`${apiUrl}/berita/${slug}`, { next: { revalidate: 60 } });
+    const token = await getSystemAuthToken();
+    const res = await fetch(`${apiUrl}/berita/${slug}`, { 
+      headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
+      next: { revalidate: 60 } 
+    });
     if (!res.ok) throw new Error("Gagal mengambil berita detail");
     const json = await res.json();
     return json?.data?.data || json?.data || json;
@@ -81,7 +90,9 @@ export default async function BeritaDetailPage({ params }: Props) {
 
   // Fetch related articles utilizing same category safely caching over DB strain
   const fetchRelatedBerita = async () => {
+    const token = await getSystemAuthToken();
     const res = await fetch(`${apiUrl}/berita?category=${encodeURIComponent(berita!.category || '')}`, {
+      headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
       next: { revalidate: 60 }
     });
     if (!res.ok) return [];

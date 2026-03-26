@@ -18,7 +18,8 @@ export async function getSystemAuthToken(): Promise<string | null> {
     const timestamp = Math.floor(Date.now() / 1000).toString();
     const nonce = crypto.randomUUID();
     const stringToSign = `${timestamp}.${nonce}`;
-    const secretKey = Buffer.from(process.env.API_SECRET_KEY || 'abe90478d46d8ae3b2eb28652d0d26189f834b7a6aa3293ff43c23918b3496d2', 'hex');
+    if (!process.env.API_SECRET_KEY) throw new Error('API_SECRET_KEY environment variable is missing');
+    const secretKey = Buffer.from(process.env.API_SECRET_KEY, 'hex');
     const signature = crypto.createHmac('sha256', secretKey).update(stringToSign).digest('hex');
 
     const res = await fetch(`${BASE_URL}/auth/token`, {

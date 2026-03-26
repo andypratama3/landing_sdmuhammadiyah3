@@ -169,7 +169,7 @@ export default async function BeritaDetailPage({ params }: Props) {
 
                 <div className="relative w-full mb-12 overflow-hidden rounded-[2.5rem] shadow-2xl border-0 group">
                   <Image
-                    src={berita.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${berita.foto}` : "/placeholder.svg"}
+                    src={ `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${berita.foto}`}
                     alt={berita.judul}
                     width={1200}
                     height={675}

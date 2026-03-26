@@ -30,7 +30,7 @@ export async function getSystemAuthToken(): Promise<string | null> {
         'X-SIGNATURE': signature,
         'User-Agent': 'NextJS-SSR-Internal/1.0',
       },
-      cache: 'no-store'
+      next: { revalidate: 3000 } // Allows sitemaps and static generation to build without crashing
     });
 
     if (!res.ok) throw new Error(`Token API Failed: ${res.status}`);

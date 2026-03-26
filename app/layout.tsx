@@ -168,7 +168,7 @@ export default async function RootLayout({
           <ApiInitializer />
           <ApiInitializerStatus />
 
-          <Preloader />
+          {/* <Preloader /> */}
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />

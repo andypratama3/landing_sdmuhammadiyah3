@@ -9,9 +9,26 @@ const redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379', {
   }
 });
 
-// Redis connection error handling (Prevents app crash)
+let isRedisUnavailable = false;
+let redisRetryTimer: NodeJS.Timeout | null = null;
+let lastRedisErrorLogged = 0;
+
 redis.on('error', (err) => {
-  console.error('[Redis Error]', err);
+  isRedisUnavailable = true;
+  
+  // Set timer to retry Redis connection check after 30 seconds
+  if (!redisRetryTimer) {
+    redisRetryTimer = setTimeout(() => {
+      isRedisUnavailable = false;
+      redisRetryTimer = null;
+    }, 30000);
+  }
+
+  const now = Date.now();
+  if (now - lastRedisErrorLogged > 60000) {
+    console.warn('[Redis Info] Redis is unavailable, falling back to direct fetch.');
+    lastRedisErrorLogged = now;
+  }
 });
 
 export interface CacheOptions {
@@ -52,6 +69,11 @@ export async function getCachedData<T>(
   options: CacheOptions = {}
 ): Promise<T> {
   const ttl = options.ttlSeconds ?? 3600;
+
+  // Circuit Breaker: Skip Redis if it is confirmed down
+  if (isRedisUnavailable) {
+    return fetcher();
+  }
 
   try {
     const cached = await redis.get(key);

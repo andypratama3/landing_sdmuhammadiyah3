@@ -14,10 +14,10 @@ export default function Preloader() {
         if (typeof window !== "undefined" && window.innerWidth < 768) {
             setRadius(100)
         }
-        // 5 seconds duration as requested
+        // Much shorter duration for a snappier feel
         const timer = setTimeout(() => {
             setIsVisible(false)
-        }, 5500) // 5s animation + 0.5s buffer
+        }, 1800) 
 
         return () => clearTimeout(timer)
     }, [])
@@ -226,7 +226,7 @@ export default function Preloader() {
                         }}
                         transition={{
                             times: [0, 0.85, 1],
-                            duration: 5.5,
+                            duration: 1.8,
                             ease: "easeIn"
                         }}
                     />

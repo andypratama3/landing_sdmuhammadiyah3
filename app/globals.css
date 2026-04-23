@@ -80,8 +80,8 @@
 
 @theme inline {
   --font-outfit: var(--font-outfit), var(--font-sans);
-  --font-plus-jakarta: var(--font-plus-jakarta), var(--font-sans);
-  --font-sans: var(--font-outfit), "Quicksand", "Poppins", "Geist", "Geist Fallback", system-ui, sans-serif;
+  --font-quicksand: var(--font-quicksand), var(--font-sans);
+  --font-sans: var(--font-outfit), var(--font-quicksand), "Geist", "Geist Fallback", system-ui, sans-serif;
   --font-mono: "Geist Mono", "Geist Mono Fallback";
   --color-background: var(--background);
   --color-foreground: var(--foreground);

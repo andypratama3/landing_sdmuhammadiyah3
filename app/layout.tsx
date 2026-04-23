@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Quicksand, Poppins, Outfit, Plus_Jakarta_Sans } from "next/font/google"
+import { Quicksand, Outfit } from "next/font/google"
 import { headers } from "next/headers"
 import "./globals.css"
 import Navigation from "@/components/navigation"
@@ -9,25 +9,22 @@ import { ThemeProvider } from "@/components/theme-provider"
 import ApiInitializer, { ApiInitializerStatus } from "@/components/api-initializer"
 import GoogleAnalytics, { GTMNoScript } from "@/components/google-analytics"
 import StructuredData from "@/components/structured-data"
-import Preloader from "@/components/Preloader"
 import InteractiveUI from "@/components/interactive-ui"
 
-const quicksand = Quicksand({ subsets: ["latin"], variable: "--font-quicksand" })
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
-});
 const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-outfit",
-});
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-plus-jakarta",
+  display: 'swap',
 });
 
+const quicksand = Quicksand({ 
+  subsets: ["latin"], 
+  variable: "--font-quicksand",
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
+  // ... (metadata unchanged)
   metadataBase: new URL('https://sdmuhammadiyah3smd.com'),
 
   title: {
@@ -154,7 +151,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className={`${outfit.variable} ${plusJakartaSans.variable} ${poppins.variable} ${quicksand.variable} font-outfit antialiased`}>
+      <body className={`${outfit.variable} ${quicksand.variable} font-quicksand antialiased`}>
         {/* GTM NoScript - must be immediately after opening body tag */}
         <GTMNoScript />
 
@@ -166,9 +163,7 @@ export default async function RootLayout({
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ApiInitializer />
-          <ApiInitializerStatus />
 
-          {/* <Preloader /> */}
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />

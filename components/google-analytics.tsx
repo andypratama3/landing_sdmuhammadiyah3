@@ -37,6 +37,7 @@ export default function GoogleAnalytics({ nonce }: GoogleAnalyticsProps) {
         <>
           <Script
             strategy="afterInteractive"
+            nonce={nonce}
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           />
           <Script

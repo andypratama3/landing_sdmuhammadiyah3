@@ -1,3 +1,6 @@
+export const revalidate = 3600
+
+import { Suspense } from "react";
 import { Badge } from "@/components/ui/badge";
 import { GraduationCap, BookOpen, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -116,7 +119,9 @@ export default async function GuruPage({
       </section>
 
       {/* Hydrated Client Components Wrapper */}
-      <GuruFilterClient pelajarans={pelajarans} totalGurus={gurus.length} />
+      <Suspense fallback={<div className="py-12" />}>
+        <GuruFilterClient pelajarans={pelajarans} totalGurus={gurus.length} />
+      </Suspense>
 
       {errorState && (
         <div className="container px-4 mx-auto mt-8 max-w-7xl">

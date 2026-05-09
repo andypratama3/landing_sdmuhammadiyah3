@@ -1,11 +1,12 @@
 import { Redis } from 'ioredis';
 import crypto from 'crypto';
 
-const redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379', {
+const redis = new Redis(process.env.REDIS_URL || 'redis://127.0.0.1:6379', {
   password: process.env.REDIS_PASSWORD || undefined, // Automatically uses password if defined in .env
-  maxRetriesPerRequest: 3,
+  maxRetriesPerRequest: 1,
   retryStrategy(times) {
-    return Math.min(times * 50, 2000); // Backoff for stability
+    if (times > 2) return null;
+    return Math.min(times * 50, 2000);
   }
 });
 
@@ -26,7 +27,7 @@ redis.on('error', (err) => {
 
   const now = Date.now();
   if (now - lastRedisErrorLogged > 60000) {
-    console.warn('[Redis Info] Redis is unavailable, falling back to direct fetch.');
+    console.warn(`[Redis] ${err.message}`);
     lastRedisErrorLogged = now;
   }
 });
@@ -117,8 +118,14 @@ export async function getCachedData<T>(
  * 3. Cache Invalidation Helper utilizing Version Rotation Concept
  */
 export async function getCacheVersion(prefix: string): Promise<string> {
+  if (isRedisUnavailable) {
+    return 'v1';
+  }
   try {
-    const version = await redis.get(`${prefix}:version`);
+    const version = await Promise.race([
+      redis.get(`${prefix}:version`),
+      new Promise<never>((_, reject) => setTimeout(() => reject(new Error('redis timeout')), 2000))
+    ]);
     return version || 'v1';
   } catch {
     return 'v1';

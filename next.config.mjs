@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compress: true,
-  output: 'standalone',
 
   images: {
     minimumCacheTTL: 2592000,
@@ -85,10 +84,7 @@ const nextConfig = {
       {
         source: '/:path*',
         headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
+
           {
             key: 'X-Frame-Options',
             value: 'SAMEORIGIN'
@@ -97,10 +93,7 @@ const nextConfig = {
             key: 'X-XSS-Protection',
             value: '1; mode=block'
           },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
-          },
+
           {
             key: 'Strict-Transport-Security',
             value: 'max-age=31536000; includeSubDomains; preload'
@@ -113,13 +106,17 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
-              "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
-              "font-src 'self' fonts.gstatic.com",
-              "img-src 'self' data: blob: https://dashboard.sdmuhammadiyah3smd.com https://www.google-analytics.com https://www.googletagmanager.com https://www.transparenttextures.com",
-              "connect-src 'self' https://dashboard.sdmuhammadiyah3smd.com https://www.google-analytics.com https://region1.google-analytics.com",
-              "frame-src 'self' https://www.youtube.com https://www.google.com https://google.maps.com https://dashboard.sdmuhammadiyah3smd.com",
-              "object-src 'none'"
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://maps.googleapis.com https://maps.gstatic.com https://fonts.googleapis.com https://static.cloudflareinsights.com https://www.tiktok.com https://www.youtube.com https://www.youtube-nocookie.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' data: https://fonts.gstatic.com",
+              "img-src 'self' data: https: blob: https://maps.googleapis.com https://maps.gstatic.com https://*.googleusercontent.com https://www.google-analytics.com https://www.googletagmanager.com https://stats.g.doubleclick.net https://*.tiktok.com https://i.ytimg.com https://yt3.ggpht.com https://dashboard.sdmuhammadiyah3smd.com",
+              "connect-src 'self' https://dashboard.sdmuhammadiyah3smd.com https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://maps.googleapis.com https://youtube.com https://www.youtube.com https://www.youtube-nocookie.com https://stats.g.doubleclick.net https://www.tiktok.com",
+              "frame-src 'self' https://www.google.com https://youtube.com https://www.youtube.com https://www.youtube-nocookie.com https://www.tiktok.com https://tiktok.com https://dashboard.sdmuhammadiyah3smd.com",
+              "frame-ancestors 'self'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "object-src 'none'",
+              "media-src 'self' https: blob:"
             ].join('; ')
           }
         ]

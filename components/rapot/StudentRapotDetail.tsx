@@ -125,7 +125,7 @@ export const StudentRapotDetail = ({
                       </p>
                     )}
                     {rapot.file_size && (
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
                         Ukuran: {rapot.file_size}
                       </p>
                     )}

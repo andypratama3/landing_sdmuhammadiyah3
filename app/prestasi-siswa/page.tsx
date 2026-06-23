@@ -12,23 +12,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import Image from "next/image"
 import Link from "next/link"
 import { PrestasiSiswa } from "@/types"
-
-// Debounce hook
-function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value)
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value)
-    }, delay)
-
-    return () => {
-      clearTimeout(handler)
-    }
-  }, [value, delay])
-
-  return debouncedValue
-}
+import { useDebounce } from "@/hooks/useDebounce"
 
 function timeAgo(dateString: string) {
   const date = new Date(dateString)
@@ -314,7 +298,7 @@ export default function PrestasiSiswaPage() {
                     <Trophy className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Emas & Juara</h3>
-                <p className="text-sm font-medium text-gray-500 mt-2">Kebanggaan SD Muhammadiyah 3</p>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Kebanggaan SD Muhammadiyah 3</p>
               </div>
               
               <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
@@ -651,8 +635,7 @@ function PrestasiCard({
               <span>{formatDate(achievement.tanggal)}</span>
             </div>
             {achievement.penyelenggara && (
-              <div className="flex mt-2 items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400">
-                <MapPin className="w-3.5 h-3.5" />
+              <div className="flex mt-2 items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">\n                <MapPin className="w-3.5 h-3.5" />
                 <span className="truncate max-w-[150px]">{achievement.penyelenggara}</span>
               </div>
             )}

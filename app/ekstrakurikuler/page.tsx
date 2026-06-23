@@ -256,7 +256,7 @@ export default function EkstrakurikulerPage() {
           ) : ekstrakurikuler.length === 0 ? (
             // Empty State
             <div className="py-12 text-center">
-              <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+              <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-400 dark:text-gray-500" />
               <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
                 Belum Ada Data Ekstrakurikuler
               </h3>
@@ -454,7 +454,7 @@ function ActivityCard({
           />
         ) : (
           <div className="flex items-center justify-center w-full h-full">
-            <BookOpen className="w-16 h-16 text-gray-400 opacity-30" />
+            <BookOpen className="w-16 h-16 text-gray-400 dark:text-gray-500 opacity-30" />
           </div>
         )}
         <div className="absolute top-6 left-6 z-20">

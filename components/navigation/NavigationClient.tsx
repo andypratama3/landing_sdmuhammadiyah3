@@ -186,7 +186,7 @@ export default function NavigationClient({
                 className="w-full bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-2xl py-6 text-lg font-black shadow-xl"
                 onClick={() => setIsOpen(false)}
               >
-                <Link href="#">SPMB 2025</Link>
+                <Link href="/spmb">SPMB {new Date().getFullYear()}</Link>
               </Button>
             </div>
           </div>

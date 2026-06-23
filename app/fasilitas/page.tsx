@@ -95,7 +95,7 @@ export default function FasilitasPage() {
                     <Building className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Modern</h3>
-                <p className="text-sm font-medium text-gray-500 mt-2">Gedung Berstandar Nasional</p>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Gedung Berstandar Nasional</p>
               </div>
               
               <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
@@ -180,14 +180,14 @@ export default function FasilitasPage() {
                       </div>
 
                       <div className="mb-10">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Tentang Fasilitas</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Tentang Fasilitas</p>
                         <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400 font-medium">{facility.desc || "Fasilitas modern yang dirancang khusus untuk mendukung perkembangan kreativitas dan bakat siswa secara maksimal."}</p>
                       </div>
 
                       {/* Equipment/Features */}
                       {facility.kelengkapan && facility.kelengkapan.length > 0 && (
                         <div>
-                          <p className="mb-4 text-[10px] font-black uppercase tracking-widest text-gray-400">Kelengkapan Premium</p>
+                          <p className="mb-4 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">Kelengkapan Premium</p>
                           <div className="flex flex-wrap gap-3">
                             {facility.kelengkapan.map((item) => (
                               <Badge key={item.id} className="bg-[#33b962]/10 text-[#33b962] border-emerald-500/10 dark:bg-emerald-900/30 font-black uppercase tracking-widest text-[9px] px-3 py-1.5 rounded-lg shadow-sm">

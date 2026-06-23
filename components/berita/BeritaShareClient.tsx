@@ -41,7 +41,7 @@ export function BeritaShareClient({
 
   return (
     <div className="flex items-center gap-4 py-8 border-t border-gray-100 dark:border-white/5">
-      <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">BAGIKAN ARTIKEL:</span>
+      <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">BAGIKAN ARTIKEL:</span>
       <div className="flex gap-2">
         <Button
           size="icon"

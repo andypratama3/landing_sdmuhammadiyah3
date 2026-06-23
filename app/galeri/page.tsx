@@ -142,18 +142,18 @@ export default function GaleriPage() {
                 
                 <div className="relative w-full max-w-xl">
                   <div className="flex items-center bg-white/95 dark:bg-gray-900 border border-white/20 shadow-2xl rounded-2xl p-2 focus-within:ring-4 focus-within:ring-white/30 transition-all">
-                    <div className="pl-4 pr-3 text-gray-400">
+                    <div className="pl-4 pr-3 text-gray-400 dark:text-gray-500">
                       <Search className="w-6 h-6" />
                     </div>
                     <Input
                       type="text"
                       placeholder="Telusuri momen atau kegiatan..."
-                      className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 focus-visible:ring-0 px-2 h-14 outline-none"
+                      className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus-visible:ring-0 px-2 h-14 outline-none"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     {searchTerm && (
-                      <button onClick={() => setSearchTerm("")} className="px-3 text-gray-400 hover:text-gray-600">
+                      <button onClick={() => setSearchTerm("")} className="px-3 text-gray-400 dark:text-gray-500 hover:text-gray-600">
                         <X className="w-5 h-5" />
                       </button>
                     )}
@@ -169,7 +169,7 @@ export default function GaleriPage() {
                     <Camera className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Arsip Foto</h3>
-                <p className="text-sm font-medium text-gray-500 mt-2">Ribuan Momen Tertangkap Kamera</p>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Ribuan Momen Tertangkap Kamera</p>
               </div>
               
               <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
@@ -351,8 +351,7 @@ export default function GaleriPage() {
                           <h3 className="mb-3 text-lg font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-[#33b962] transition-colors leading-tight">
                             {item.name}
                           </h3>
-                          <div className="flex items-center gap-3 mb-4 text-[10px] font-black uppercase tracking-widest text-gray-500">
-                            <Calendar className="w-3.5 h-3.5 text-[#33b962] brightness-125" />
+                          <div className="flex items-center gap-3 mb-4 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">\n                            <Calendar className="w-3.5 h-3.5 text-[#33b962] brightness-125" />
                             {formatDate(item.created_at)}
                           </div>
 
@@ -404,8 +403,7 @@ export default function GaleriPage() {
                             <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight leading-tight group-hover:text-[#33b962] transition-colors">
                               {item.name}
                             </h3>
-                            <div className="flex items-center justify-center md:justify-start gap-3 mb-6 text-[11px] font-black uppercase tracking-widest text-gray-500">
-                              <Calendar className="w-4 h-4 text-[#33b962]" />
+                            <div className="flex items-center justify-center md:justify-start gap-3 mb-6 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">\n                              <Calendar className="w-4 h-4 text-[#33b962]" />
                               {formatDate(item.created_at)}
                             </div>
 
@@ -448,8 +446,7 @@ export default function GaleriPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <p className="text-lg text-gray-500">
-                    {activeFilter !== "semua"
+                  <p className="text-lg text-gray-500 dark:text-gray-400">\n                    {activeFilter !== "semua"
                       ? `Tidak ada gallery untuk kategori "${activeFilter}"`
                       : "Belum ada gallery yang tersedia"
                     }

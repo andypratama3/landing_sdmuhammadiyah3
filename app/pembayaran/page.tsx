@@ -17,20 +17,7 @@ import { useState, useMemo, useEffect } from "react"
 import { useApi } from "@/hooks/useApi"
 import type { PembayaranResponse, PembayaranItem, GroupedPembayaran } from "@/types/pembayaran.types"
 
-// Debounce hook
-function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value)
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value)
-    }, delay)
-
-    return () => clearTimeout(handler)
-  }, [value, delay])
-
-  return debouncedValue
-}
+import { useDebounce } from "@/hooks/useDebounce"
 
 export default function PembayaranPage() {
   const [nisnInput, setNisnInput] = useState("")
@@ -193,7 +180,7 @@ export default function PembayaranPage() {
                       <Input
                         type="text"
                         placeholder="Masukkan 10 digit NISN..."
-                        className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 focus-visible:ring-0 px-2 h-14 outline-none tracking-widest"
+                        className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus-visible:ring-0 px-2 h-14 outline-none tracking-widest"
                         value={nisnInput}
                         onChange={(e) => setNisnInput(e.target.value)}
                         maxLength={10}
@@ -229,7 +216,7 @@ export default function PembayaranPage() {
                     <Shield className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Aman</h3>
-                <p className="text-sm font-medium text-gray-500 mt-2">Enkripsi Data & Transaksi Terjamin</p>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Enkripsi Data & Transaksi Terjamin</p>
               </div>
               
               <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
@@ -264,7 +251,7 @@ export default function PembayaranPage() {
                     {isTyping ? (
                       <Loader2 className="w-6 h-6 text-[#33b962] animate-spin" />
                     ) : (
-                      <Search className="w-6 h-6 text-gray-400 group-focus-within:text-[#33b962] transition-colors" />
+                      <Search className="w-6 h-6 text-gray-400 dark:text-gray-500 group-focus-within:text-[#33b962] transition-colors" />
                     )}
                   </div>
                   <Input
@@ -348,7 +335,7 @@ export default function PembayaranPage() {
                     <div className="space-y-4">
                       <div className="relative">
                         {isTyping ? (
-                          <Loader2 className="absolute w-5 h-5 text-gray-400 -translate-y-1/2 left-4 top-1/2 animate-spin" />
+                          <Loader2 className="absolute w-5 h-5 text-gray-400 dark:text-gray-500 -translate-y-1/2 left-4 top-1/2 animate-spin" />
                         ) : (
                           <Search className="absolute w-5 h-5 text-gray-400 -translate-y-1/2 left-4 top-1/2" />
                         )}
@@ -393,7 +380,7 @@ export default function PembayaranPage() {
                         ) : (
                           <div className="flex flex-col items-center justify-center w-full h-full bg-gray-50 dark:bg-gray-800">
                             <Users className="w-20 h-20 text-gray-200 dark:text-gray-700 mb-4" />
-                            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Pas Foto Siswa</span>
+                            <span className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Pas Foto Siswa</span>
                           </div>
                         )}
                         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -412,12 +399,12 @@ export default function PembayaranPage() {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-10 pb-8 border-b border-gray-100 dark:border-gray-800">
                           <div className="space-y-1">
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">NISN SISWA</p>
+                            <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">NISN SISWA</p>
                             <p className="text-xl font-black text-gray-900 dark:text-white tracking-widest">{siswa.nisn}</p>
                           </div>
                           {siswa.no_hp && (
                             <div className="space-y-1">
-                              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">KONTAK TERDAFTAR</p>
+                              <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">KONTAK TERDAFTAR</p>
                               <div className="flex items-center gap-2">
                                 <Wallet className="w-4 h-4 text-[#33b962]" />
                                 <p className="text-xl font-bold text-gray-900 dark:text-white">{siswa.no_hp}</p>

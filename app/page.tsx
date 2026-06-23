@@ -417,7 +417,7 @@ export default async function Home() {
                   </div>
                   <div>
                     <p className="font-black text-2xl text-gray-900 dark:text-white font-outfit">100%</p>
-                    <p className="text-sm font-bold text-gray-500 uppercase tracking-tighter font-quicksand">Siswa Ceria</p>
+                    <p className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tighter font-quicksand">Siswa Ceria</p>
                   </div>
                 </div>
               </div>
@@ -512,7 +512,7 @@ export default async function Home() {
                   />
                 </div>
                 <div className="mt-4 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-xs font-black text-gray-400 uppercase tracking-widest font-quicksand">{partner.name}</p>
+                  <p className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest font-quicksand">{partner.name}</p>
                 </div>
               </div>
             ))}

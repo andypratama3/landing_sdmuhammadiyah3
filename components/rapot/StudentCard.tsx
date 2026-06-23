@@ -35,7 +35,7 @@ export const StudentCard = ({ student, isExpanded, onToggle, children }: Student
           {isExpanded ? (
             <ChevronUp className="w-5 h-5 text-emerald-500" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-gray-400" />
+            <ChevronDown className="w-5 h-5 text-gray-400 dark:text-gray-500" />
           )}
         </div>
       </button>

@@ -12,23 +12,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import Image from "next/image"
 import Link from "next/link"
 import { PrestasiSekolah } from "@/types"
-
-// Debounce hook
-function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value)
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value)
-    }, delay)
-
-    return () => {
-      clearTimeout(handler)
-    }
-  }, [value, delay])
-
-  return debouncedValue
-}
+import { useDebounce } from "@/hooks/useDebounce"
 
 export default function PrestasiSekolahPage() {
   const [searchInput, setSearchInput] = useState("")
@@ -217,18 +201,18 @@ export default function PrestasiSekolahPage() {
                 {/* Search Bar Integration */}
                 <div className="relative w-full max-w-xl">
                   <div className="flex items-center bg-white/95 dark:bg-gray-900 border border-white/20 shadow-2xl rounded-2xl p-2 focus-within:ring-4 focus-within:ring-white/30 transition-all">
-                    <div className="pl-4 pr-3 text-gray-400">
+                    <div className="pl-4 pr-3 text-gray-400 dark:text-gray-500">
                       {isTyping ? <Loader2 className="w-6 h-6 animate-spin text-[#33b962]" /> : <Search className="w-6 h-6" />}
                     </div>
                     <Input
                       type="text"
                       placeholder="Cari prestasi sekolah..."
-                      className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 focus-visible:ring-0 px-2 h-14 outline-none"
+                      className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus-visible:ring-0 px-2 h-14 outline-none"
                       value={searchInput}
                       onChange={(e) => setSearchInput(e.target.value)}
                     />
                     {searchInput && (
-                      <button onClick={() => setSearchInput("")} className="px-3 text-gray-400 hover:text-gray-600">
+                      <button onClick={() => setSearchInput("")} className="px-3 text-gray-400 dark:text-gray-500 hover:text-gray-600">
                         <X className="w-5 h-4" />
                       </button>
                     )}
@@ -247,7 +231,7 @@ export default function PrestasiSekolahPage() {
                     <Award className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Akreditasi</h3>
-                <p className="text-sm font-medium text-gray-500 mt-2">Peringkat UNGGUL (A) Nasional</p>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Peringkat UNGGUL (A) Nasional</p>
               </div>
               
               <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
@@ -522,8 +506,7 @@ function PrestasiSekolahCard({
                   </Badge>
                 ))}
               </div>
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400">
-                <Calendar className="w-3.5 h-3.5 text-[#33b962] brightness-125" />
+              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">\n                <Calendar className="w-3.5 h-3.5 text-[#33b962] brightness-125" />
                 <span>{formatDate(achievement.tanggal)}</span>
               </div>
             </div>
@@ -538,8 +521,7 @@ function PrestasiSekolahCard({
 
             <div className="mt-auto flex items-center justify-between pt-6 border-t border-gray-100 dark:border-white/5">
               {achievement.views !== undefined && (
-                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400">
-                  <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
+                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">\n                  <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
                     <Eye className="w-4 h-4 text-blue-500" />
                   </div>
                   <span>{achievement.views} DILIHAT</span>

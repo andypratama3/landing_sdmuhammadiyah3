@@ -62,13 +62,13 @@ export default function Navigation() {
         <div className="p-0.5 rounded-full bg-gray-100 dark:bg-gray-800">
           <ThemeToggle />
         </div>
-        <Button
-          asChild
-          size="sm"
-          className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-4 shadow-xl hover:scale-105 transition-all font-black uppercase tracking-widest text-[10px] h-8 whitespace-nowrap"
-        >
-          <Link href="#">SPMB {new Date().getFullYear()}</Link>
-        </Button>
+          <Button
+            asChild
+            size="sm"
+            className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-4 shadow-xl hover:scale-105 transition-all font-black uppercase tracking-widest text-[10px] h-8 whitespace-nowrap cursor-pointer"
+          >
+            <Link href="/spmb">SPMB {new Date().getFullYear()}</Link>
+          </Button>
       </div>
     </NavigationClient>
   );

@@ -119,7 +119,7 @@ export default function ProfilPage() {
                     <Shield className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Integritas</h3>
-                <p className="text-sm font-medium text-gray-500 mt-2">Menjunjung tinggi kejujuran & nilai moral</p>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Menjunjung tinggi kejujuran & nilai moral</p>
               </div>
               
               <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">

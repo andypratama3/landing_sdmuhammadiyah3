@@ -19,7 +19,7 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
     return (
       <div className="py-20 text-center">
         <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-        <p className="text-lg text-gray-500">Tidak ada guru yang ditemukan.</p>
+        <p className="text-lg text-gray-500 dark:text-gray-400">Tidak ada guru yang ditemukan.</p>
       </div>
     );
   }
@@ -81,7 +81,7 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
                             <div className="flex items-center justify-center w-8 h-8 bg-[#33b962]/10 dark:bg-emerald-900/20 rounded-xl shadow-inner">
                               <BookOpen className="w-4 h-4 text-[#33b962]" />
                             </div>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">{guru.pelajarans.length} Pelajaran</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">{guru.pelajarans.length} Pelajaran</span>
                           </div>
                         )}
                       </div>

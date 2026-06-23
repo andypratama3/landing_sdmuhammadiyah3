@@ -105,7 +105,7 @@ export default async function GuruPage({
               <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
                 <GraduationCap className="w-10 h-10 text-[#33b962] mb-4 group-hover:scale-110 transition-transform" />
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Tenaga Ahli</h3>
-                <p className="text-sm font-medium text-gray-500 mt-2">Berpengalaman di bidangnya</p>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Berpengalaman di bidangnya</p>
               </div>
               
               <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group">

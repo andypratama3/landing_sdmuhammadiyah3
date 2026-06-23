@@ -60,7 +60,7 @@ export const FotoSekolahCard: React.FC<FotoSekolahCardProps> = ({
         ))
       ) : (
         // Empty State
-        <div className="py-12 text-center text-gray-500 col-span-full">
+        <div className="py-12 text-center text-gray-500 dark:text-gray-400 col-span-full">
           <p className="text-lg">Tidak ada galeri tersedia</p>
         </div>
       )}

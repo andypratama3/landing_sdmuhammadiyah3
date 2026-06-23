@@ -44,7 +44,7 @@ export function PageHeader({ title, description, breadcrumbs }: PageHeaderProps)
                               {item.label}
                             </Link>
                           ) : (
-                            <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">
+                            <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
                               {item.label}
                             </span>
                           )}

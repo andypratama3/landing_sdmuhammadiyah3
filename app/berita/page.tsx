@@ -19,22 +19,7 @@ import {
   PopularBeritaResponse,
 } from "@/types";
 
-// Debounce hook
-function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value)
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value)
-    }, delay)
-
-    return () => {
-      clearTimeout(handler)
-    }
-  }, [value, delay])
-
-  return debouncedValue
-}
+import { useDebounce } from "@/hooks/useDebounce"
 
 function timeAgo(dateString: string) {
   const date = new Date(dateString)
@@ -307,12 +292,12 @@ export default function BeritaPage() {
                     <Input
                       type="text"
                       placeholder="Cari agenda atau berita..."
-                      className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 focus-visible:ring-0 px-2 h-14 outline-none"
+                      className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus-visible:ring-0 px-2 h-14 outline-none"
                       value={searchInput}
                       onChange={(e) => setSearchInput(e.target.value)}
                     />
                     {searchInput && (
-                      <button onClick={() => setSearchInput("")} className="px-3 text-gray-400 hover:text-gray-600">
+                      <button onClick={() => setSearchInput("")} className="px-3 text-gray-400 dark:text-gray-500 hover:text-gray-600">
                         <X className="w-5 h-5" />
                       </button>
                     )}
@@ -359,7 +344,7 @@ export default function BeritaPage() {
             
             {/* Quick Links / Trending Tags */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-8">
-              <span className="text-sm font-bold tracking-widest uppercase text-gray-600 dark:text-white px-2 lg:mr-2">Topik Populer:</span>
+              <span className="text-sm font-bold tracking-widest uppercase text-gray-700 dark:text-white px-2 lg:mr-2">Topik Populer:</span>
               {["Prestasi", "PPDB", "Kreatif", "Ekskul", "Lomba"].map((tag) => (
                  <button 
                   key={tag}
@@ -438,7 +423,7 @@ export default function BeritaPage() {
                     <p className="mb-8 text-lg font-medium text-gray-600 dark:text-gray-400 leading-relaxed">
                       {stripHtml(featuredNews.desc, 200)}
                     </p>
-                    <div className="flex flex-wrap items-center gap-6 mb-10 text-xs font-bold uppercase tracking-widest text-gray-500">
+                    <div className="flex flex-wrap items-center gap-6 mb-10 text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-[#33b962]" />
                         <span>{formatDate(featuredNews.created_at)}</span>
@@ -491,8 +476,8 @@ export default function BeritaPage() {
                       <div className="space-y-6">
                         {isTyping && (
                           <div className="flex items-center justify-center py-4">
-                            <Loader2 className="w-6 h-6 mr-2 animate-spin text-primary" />
-                            <span className="text-sm text-muted-foreground">Mencari...</span>
+                            <Loader2 className="w-6 h-6 mr-2 animate-spin text-[#33b962]" />
+                            <span className="text-sm text-gray-600 dark:text-gray-400">Mencari...</span>
                           </div>
                         )}
                         {Array.from({ length: 3 }).map((_, i) => (
@@ -520,9 +505,9 @@ export default function BeritaPage() {
                       ))
                     ) : (
                       <Card className="p-12 text-center">
-                        <AlertCircle className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-                        <h3 className="mb-2 text-lg font-semibold">Tidak ada berita</h3>
-                        <p className="text-muted-foreground">
+                        <AlertCircle className="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-gray-500" />
+                        <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Tidak ada berita</h3>
+                        <p className="text-gray-500 dark:text-gray-400">
                           {debouncedSearchQuery
                             ? `Tidak ditemukan berita dengan kata kunci "${debouncedSearchQuery}"`
                             : 'Belum ada berita untuk kategori ini'}
@@ -570,7 +555,7 @@ export default function BeritaPage() {
 
                 {/* Pagination Info */}
                 {!isSearching && paginationMeta && paginationMeta.total > 0 && (
-                  <div className="mt-4 text-sm text-center text-muted-foreground">
+                  <div className="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
                     Menampilkan {paginationMeta.from} - {paginationMeta.to} dari {paginationMeta.total} berita
                   </div>
                 )}
@@ -614,7 +599,7 @@ export default function BeritaPage() {
                                 <p className="text-sm font-medium transition-colors group-hover:text-primary line-clamp-2">
                                   {post.judul}
                                 </p>
-                                <p className="mt-1 text-xs text-muted-foreground">
+                                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                   {post.views || 0} views
                                 </p>
                               </div>
@@ -623,7 +608,7 @@ export default function BeritaPage() {
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-sm text-center text-muted-foreground">
+                      <p className="text-sm text-center text-gray-500 dark:text-gray-400">
                         Belum ada berita populer
                       </p>
                     )}
@@ -713,7 +698,7 @@ function NewsCard({
               {stripHtml(news.desc, 180)}
             </p>
 
-            <div className="flex flex-wrap items-center gap-6 mb-6 text-[10px] font-black uppercase tracking-widest text-gray-500">
+            <div className="flex flex-wrap items-center gap-6 mb-6 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-[#33b962] brightness-125" />
                 <span>{formatDate(news.created_at)}</span>

@@ -145,7 +145,7 @@ export default function KontakClient() {
                     <MessageCircle className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Hubungi</h3>
-                <p className="text-sm font-medium text-gray-500 mt-2">Respon Cepat & Ramah</p>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Respon Cepat & Ramah</p>
               </div>
               
               <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
@@ -175,7 +175,7 @@ export default function KontakClient() {
                     </div>
                     <h3 className="mb-4 text-xl font-black text-gray-900 dark:text-white uppercase tracking-tight">{info.title}</h3>
                     <p className="mb-8 text-sm font-medium text-gray-600 dark:text-gray-400 leading-relaxed flex-grow">{info.content}</p>
-                    <Button variant="outline" size="lg" className="w-full rounded-2xl font-bold border-2 border-emerald-500/20 hover:bg-emerald-500 hover:text-white dark:hover:bg-emerald-500 dark:text-gray-300 dark:border-white/10 transition-all shadow-sm" asChild>
+                    <Button variant="outline" size="lg" className="w-full rounded-2xl font-bold border-2 border-emerald-500/20 hover:bg-emerald-500 hover:text-white dark:hover:bg-emerald-500 text-gray-700 dark:text-white dark:border-white/10 transition-all shadow-sm" asChild>
                       <a href={info.link} target="_blank" rel="noopener noreferrer">
                         {info.action}
                       </a>
@@ -194,24 +194,24 @@ export default function KontakClient() {
                   <Clock className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <CardTitle>Jam Operasional</CardTitle>
-                  <CardDescription>Waktu layanan kantor sekolah</CardDescription>
+                  <CardTitle className="text-gray-900 dark:text-white">Jam Operasional</CardTitle>
+                  <CardDescription className=" dark:text-gray-300">Waktu layanan kantor sekolah</CardDescription>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-white p-3 rounded-lg bg-muted/50">
-                  <span className="font-medium">Senin - Jumat</span>
-                  <span className="text-white">07:00 - 15:00 WIB</span>
+                <div className="flex items-center justify-between p-3 rounded-lg bg-emerald-50 dark:bg-gray-800">
+                  <span className="font-medium text-gray-900 dark:text-white">Senin - Jumat</span>
+                  <span className="font-semibold text-gray-700 dark:text-white">07:00 - 15:00 WIB</span>
                 </div>
-                <div className="flex items-center justify-between text-white p-3 rounded-lg bg-muted/50">
-                  <span className="font-medium">Sabtu</span>
-                  <span className="text-white">07:00 - 12:00 WIB</span>
+                <div className="flex items-center justify-between p-3 rounded-lg bg-emerald-50 dark:bg-gray-800">
+                  <span className="font-medium text-gray-900 dark:text-white">Sabtu</span>
+                  <span className="font-semibold text-gray-700 dark:text-white">07:00 - 12:00 WIB</span>
                 </div>
-                <div className="flex items-center justify-between text-white p-3 rounded-lg bg-red-500/10">
-                  <span className="font-medium">Minggu & Hari Libur</span>
-                  <span className="font-semibold text-red-600">Tutup</span>
+                <div className="flex items-center justify-between p-3 rounded-lg bg-red-50 dark:bg-gray-800">
+                  <span className="font-medium text-gray-900 dark:text-white">Minggu & Hari Libur</span>
+                  <span className="font-semibold text-red-600 dark:text-white">Tutup</span>
                 </div>
               </div>
             </CardContent>
@@ -224,8 +224,8 @@ export default function KontakClient() {
         <div className="container px-4 mx-auto">
           <div className="max-w-6xl mx-auto">
             <div className="mb-8 text-center">
-              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Lokasi Sekolah</h2>
-              <p className="text-muted-foreground">Temukan kami di Google Maps</p>
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl text-gray-900 dark:text-white">Lokasi Sekolah</h2>
+              <p className="text-gray-600 dark:text-gray-400">Temukan kami di Google Maps</p>
             </div>
 
             <div className="rounded-lg overflow-hidden shadow-lg h-[400px] md:h-[500px]">
@@ -353,8 +353,8 @@ export default function KontakClient() {
         <div className="container px-4 mx-auto">
           <div className="max-w-5xl mx-auto">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Kontak Admin</h2>
-              <p className="text-muted-foreground">Hubungi admin terkait untuk keperluan spesifik</p>
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl text-gray-900 dark:text-white">Kontak Admin</h2>
+              <p className="text-gray-600 dark:text-gray-400">Hubungi admin terkait untuk keperluan spesifik</p>
             </div>
 
             <div className="grid gap-6 md:grid-cols-3">
@@ -392,8 +392,8 @@ export default function KontakClient() {
         <div className="container px-4 mx-auto">
           <div className="max-w-4xl mx-auto">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Ikuti Media Sosial Kami</h2>
-              <p className="text-muted-foreground">Dapatkan update terkini tentang kegiatan sekolah</p>
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl text-gray-900 dark:text-white">Ikuti Media Sosial Kami</h2>
+              <p className="text-gray-600 dark:text-gray-400">Dapatkan update terkini tentang kegiatan sekolah</p>
             </div>
 
             <div className="grid gap-6 md:grid-cols-3">
@@ -412,7 +412,7 @@ export default function KontakClient() {
                         <Icon className="w-10 h-10 text-white brightness-125" />
                       </div>
                       <h3 className="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight mb-2">{social.name}</h3>
-                      <p className="mb-8 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">{social.handle}</p>
+                      <p className="mb-8 text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-widest">{social.handle}</p>
                       <Button variant="outline" size="lg" className="mt-auto w-full rounded-2xl font-black border-2 border-emerald-500/10 hover:bg-[#33b962] hover:text-white transition-all uppercase tracking-widest text-[10px] h-11">
                         Kunjungi Profile
                       </Button>

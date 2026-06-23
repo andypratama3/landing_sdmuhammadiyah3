@@ -55,7 +55,7 @@ export function GuruFilterClient({
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="relative w-full md:w-96">
               <div className="absolute inset-y-0 flex items-center pointer-events-none left-3">
-                {isTyping ? <Loader2 className="w-5 h-5 text-[#33b962] animate-spin" /> : <Search className="w-5 h-5 text-gray-400" />}
+                {isTyping ? <Loader2 className="w-5 h-5 text-[#33b962] animate-spin" /> : <Search className="w-5 h-5 text-gray-400 dark:text-gray-500" />}
               </div>
               <Input
                 type="text"
@@ -66,7 +66,7 @@ export function GuruFilterClient({
               />
               {searchInput && (
                 <button onClick={() => setSearchInput("")} className="absolute p-1 transition-colors -translate-y-1/2 rounded-full right-2 top-1/2 hover:bg-gray-200">
-                  <X className="w-5 h-5 text-gray-400" />
+                  <X className="w-5 h-5 text-gray-400 dark:text-gray-500" />
                 </button>
               )}
             </div>

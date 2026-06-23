@@ -154,7 +154,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                           <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-[#33b962]" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] font-bold tracking-wider text-gray-500 uppercase">Email</p>
+                          <p className="text-[10px] font-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">Email</p>
                           <p className="text-gray-800 dark:text-gray-200 font-semibold truncate group-hover:text-[#33b962] transition-colors">{guruDetail.karyawan.email}</p>
                         </div>
                         <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-[#33b962] transition-colors" />
@@ -166,7 +166,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                           <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-[#33b962]" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] font-bold tracking-wider text-gray-500 uppercase">Telepon</p>
+                          <p className="text-[10px] font-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">Telepon</p>
                           <p className="text-gray-800 dark:text-gray-200 font-semibold group-hover:text-[#33b962] transition-colors">{guruDetail.karyawan.phone}</p>
                         </div>
                         <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-[#33b962] transition-colors" />
@@ -178,7 +178,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
             </div>
           </div>
         ) : (
-          <div className="p-8 text-center text-gray-500">Guru tidak ditemukan</div>
+          <div className="p-8 text-center text-gray-500 dark:text-gray-400">Guru tidak ditemukan</div>
         )}
       </div>
     </div>

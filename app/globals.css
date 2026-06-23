@@ -5,25 +5,25 @@
 
 :root {
   --background: oklch(0.99 0 0);
-  --foreground: oklch(0.2 0 0);
+  --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0 0);
+  --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0 0);
-  --primary: oklch(0.58 0.15 150);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.55 0.18 150);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.75 0.12 80);
   --secondary-foreground: oklch(0.2 0 0);
   --muted: oklch(0.95 0.01 0);
-  --muted-foreground: oklch(0.5 0 0);
+  --muted-foreground: oklch(0.4 0 0);
   --accent: oklch(0.8 0.15 65);
   --accent-foreground: oklch(0.2 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.9 0.01 0);
   --input: oklch(0.9 0.01 0);
-  --ring: oklch(0.58 0.15 150);
-  --chart-1: oklch(0.58 0.15 150);
+  --ring: oklch(0.55 0.18 150);
+  --chart-1: oklch(0.55 0.18 150);
   --chart-2: oklch(0.55 0.18 190);
   --chart-3: oklch(0.8 0.15 65);
   --chart-4: oklch(0.65 0.2 30);
@@ -31,7 +31,7 @@
   --radius: 0.75rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.58 0.15 150);
+  --sidebar-primary: oklch(0.55 0.18 150);
   --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
@@ -145,10 +145,13 @@ select:disabled {
     @apply border-border outline-ring/50;
   }
 
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+
   body {
     @apply bg-background text-foreground transition-colors duration-300;
     font-size: 15px;
-    /* Slightly smaller base for Outfit */
     overflow-x: hidden;
     max-width: 100vw;
     -webkit-font-smoothing: antialiased;
@@ -174,11 +177,22 @@ select:disabled {
   p {
     @apply leading-relaxed text-sm sm:text-base;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-white/70 dark:bg-gray-950/40 backdrop-blur-xl border border-gray-200/50 dark:border-white/10 shadow-xl;
+    @apply bg-white/80 dark:bg-gray-950/50 backdrop-blur-xl border border-gray-200/60 dark:border-white/10 shadow-xl;
   }
 
   .glass-dark {
@@ -186,7 +200,7 @@ select:disabled {
   }
 
   .glass-card {
-    @apply bg-white/40 dark:bg-white/5 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg;
+    @apply bg-white/60 dark:bg-white/10 backdrop-blur-md border border-gray-200/40 dark:border-white/20 shadow-lg;
   }
 
   .text-fluid-h1 {
@@ -298,15 +312,14 @@ select:disabled {
   scrollbar-width: none;
 }
 
-/* Custom card hover effects */
 .card-premium {
-  @apply relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 rounded-3xl border border-transparent;
-  @apply dark:bg-gray-950/40 dark:backdrop-blur-xl dark:border-white/10 dark:shadow-2xl dark:shadow-black/20;
+  @apply relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 rounded-3xl border border-gray-200/30 dark:border-white/10;
+  @apply bg-white/80 dark:bg-gray-950/40 dark:backdrop-blur-xl dark:shadow-2xl dark:shadow-black/20 cursor-pointer;
 }
 
 .card-premium::before {
   content: '';
-  @apply absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 transition-opacity duration-500;
+  @apply absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 transition-opacity duration-300;
 }
 
 .card-premium:hover::before {

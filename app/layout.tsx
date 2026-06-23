@@ -150,6 +150,11 @@ export default async function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var e=localStorage.getItem("theme");if(e==="dark"||((!e||e==="system")&&window.matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark");else document.documentElement.classList.remove("dark")}catch(e){}})();`,
+          }}
+        />
       </head>
       <body className={`${outfit.variable} ${quicksand.variable} font-quicksand antialiased`}>
         {/* GTM NoScript - must be immediately after opening body tag */}

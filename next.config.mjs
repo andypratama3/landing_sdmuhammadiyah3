@@ -30,9 +30,6 @@ const nextConfig = {
     unoptimized: process.env.NODE_ENV === 'development',
   },
 
-  experimental: {
-    optimizeCss: true,
-  },
 
   typescript: {
     ignoreBuildErrors: true,

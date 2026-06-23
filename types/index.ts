@@ -14,3 +14,5 @@ export * from './ekstrakurikuler.types';
 export * from './rapot.types';
 
 export * from './spmb.types';
+export * from './tenagaPendidikan.types';
+export * from './signature.types';

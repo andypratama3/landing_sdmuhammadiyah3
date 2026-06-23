@@ -158,7 +158,7 @@ export default async function BeritaDetailPage({ params }: Props) {
                   <h1 className="mb-6 text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight tracking-tight">
                     {berita.judul}
                   </h1>
-                  <div className="flex flex-wrap items-center gap-6 text-[10px] font-black uppercase tracking-widest text-gray-500">
+                  <div className="flex flex-wrap items-center gap-6 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-[#33b962]" />
                       <span>{formatDate(berita.created_at)}</span>

@@ -7,9 +7,13 @@ const BASE_URL =
 
 let cachedSystemToken: string | null = null;
 let tokenExpiresAt: number = 0;
+let backoffUntil: number = 0;
 
 export async function getSystemAuthToken(): Promise<string | null> {
-  // If memory cache holds a valid token (under 50 mins), serve it instantly bypassing crypto load
+  if (!process.env.API_SECRET_KEY) return null;
+
+  if (Date.now() < backoffUntil) return null;
+
   if (cachedSystemToken && Date.now() < tokenExpiresAt) {
     return cachedSystemToken;
   }
@@ -18,7 +22,6 @@ export async function getSystemAuthToken(): Promise<string | null> {
     const timestamp = Math.floor(Date.now() / 1000).toString();
     const nonce = crypto.randomUUID();
     const stringToSign = `${timestamp}.${nonce}`;
-    if (!process.env.API_SECRET_KEY) throw new Error('API_SECRET_KEY environment variable is missing');
     const secretKey = Buffer.from(process.env.API_SECRET_KEY, 'hex');
     const signature = crypto.createHmac('sha256', secretKey).update(stringToSign).digest('hex');
 
@@ -31,15 +34,14 @@ export async function getSystemAuthToken(): Promise<string | null> {
         'X-SIGNATURE': signature,
         'User-Agent': 'NextJS-SSR-Internal/1.0',
       },
-      next: { revalidate: 3000 } // Allows sitemaps and static generation to build without crashing
+      next: { revalidate: 3000 },
     });
 
     if (!res.ok) throw new Error(`Token API Failed: ${res.status}`);
 
-    // Parse the payload out of Set-Cookie specifically emitted by Laravel
     const setCookies = res.headers.getSetCookie();
     let authToken = null;
-    
+
     if (setCookies && setCookies.length > 0) {
       for (const cookie of setCookies) {
         if (cookie.startsWith('access_token=')) {
@@ -51,13 +53,13 @@ export async function getSystemAuthToken(): Promise<string | null> {
 
     if (authToken) {
       cachedSystemToken = authToken;
-      tokenExpiresAt = Date.now() + (50 * 60 * 1000); // Expiration valid locally for 50 minutes Memory
+      tokenExpiresAt = Date.now() + 50 * 60 * 1000;
       return authToken;
     }
-    
+
     return null;
-  } catch (error) {
-    console.error('System Auth generation error:', error);
+  } catch {
+    backoffUntil = Date.now() + 30_000;
     return null;
   }
 }
@@ -67,20 +69,25 @@ export async function serverGetPublic<T>(
   options?: { revalidate?: number }
 ): Promise<ApiResponse<T>> {
   const token = await getSystemAuthToken();
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-    },
-    next: {
-      revalidate: options?.revalidate ?? 3600,
-    },
-  })
+  if (!token) return { success: false, data: [] as T, message: 'Server unavailable' };
 
-  if (!res.ok) {
-    console.error('Public API error:', res.status)
-    return { success: false, data: [] as T, message: 'Server communication error' }
+  try {
+    const res = await fetch(`${BASE_URL}${endpoint}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      next: {
+        revalidate: options?.revalidate ?? 3600,
+      },
+    });
+
+    if (!res.ok) {
+      return { success: false, data: [] as T, message: 'Server communication error' };
+    }
+
+    return res.json();
+  } catch {
+    return { success: false, data: [] as T, message: 'Server unavailable' };
   }
-
-  return res.json()
 }

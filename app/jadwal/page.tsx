@@ -351,13 +351,13 @@ export default function JadwalPage() {
                 <div className="flex flex-wrap gap-4">
                   <div className="relative flex-1 max-w-md">
                     <div className="flex items-center bg-white/95 dark:bg-gray-900 border border-white/20 shadow-2xl rounded-2xl p-2 focus-within:ring-4 focus-within:ring-white/30 transition-all">
-                      <div className="pl-4 pr-3 text-gray-400">
+                      <div className="pl-4 pr-3 text-gray-400 dark:text-gray-500">
                         <Search className="w-6 h-6" />
                       </div>
                       <Input
                         type="text"
                         placeholder="Cari mata pelajaran..."
-                        className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 focus-visible:ring-0 px-2 h-14 outline-none"
+                        className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus-visible:ring-0 px-2 h-14 outline-none"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                       />
@@ -381,7 +381,7 @@ export default function JadwalPage() {
                     <Calendar className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Terstruktur</h3>
-                <p className="text-sm font-medium text-gray-500 mt-2">Waktu Belajar Efektif & Produktif</p>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Waktu Belajar Efektif & Produktif</p>
               </div>
               
               <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
@@ -480,7 +480,7 @@ export default function JadwalPage() {
                     {!selectedGradeId ? (
                       <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-black/20 rounded-2xl border border-dashed border-gray-200 dark:border-white/5 w-full">
                         <Loader className="w-4 h-4 text-gray-400" />
-                        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Pilih kelas terlebih dahulu</span>
+                        <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">Pilih kelas terlebih dahulu</span>
                       </div>
                     ) : categories.map((cls) => (
                       <Button
@@ -664,7 +664,7 @@ export default function JadwalPage() {
                                 <div className="p-2.5 bg-white/50 dark:bg-black/20 rounded-xl backdrop-blur-md">
                                   <Clock className="w-5 h-5 text-[#33b962]" />
                                 </div>
-                                <span className="text-sm font-black text-gray-700 dark:text-gray-300 tracking-[0.1em] uppercase">{lesson.time}</span>
+                                <span className="text-sm font-black text-gray-800 dark:text-gray-200 tracking-[0.1em] uppercase">{lesson.time}</span>
                               </div>
                               <h4 className="text-2xl font-black text-gray-900 dark:text-white leading-tight mb-3 uppercase tracking-tight">{lesson.subject}</h4>
                               {lesson.teacher !== "-" && (
@@ -691,7 +691,7 @@ export default function JadwalPage() {
                       {Object.entries(colorLegend).map(([colorClass, subject]) => (
                         <div key={colorClass} className="flex items-center gap-4 group transition-all hover:scale-105">
                           <div className={`w-10 h-10 rounded-2xl shadow-lg border border-white/20 dark:border-white/5 transition-transform group-hover:rotate-6 ${colorClass} dark:bg-opacity-60`} />
-                          <span className="text-xs font-black text-gray-700 dark:text-gray-300 uppercase tracking-tight line-clamp-2 leading-tight">{subject}</span>
+                          <span className="text-xs font-black text-gray-800 dark:text-gray-200 uppercase tracking-tight line-clamp-2 leading-tight">{subject}</span>
                         </div>
                       ))}
                     </div>

@@ -351,7 +351,7 @@ export default function GaleriPage() {
                           <h3 className="mb-3 text-lg font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-[#33b962] transition-colors leading-tight">
                             {item.name}
                           </h3>
-                          <div className="flex items-center gap-3 mb-4 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">\n                            <Calendar className="w-3.5 h-3.5 text-[#33b962] brightness-125" />
+                          <div className="flex items-center gap-3 mb-4 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">                            <Calendar className="w-3.5 h-3.5 text-[#33b962] brightness-125" />
                             {formatDate(item.created_at)}
                           </div>
 
@@ -403,7 +403,7 @@ export default function GaleriPage() {
                             <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight leading-tight group-hover:text-[#33b962] transition-colors">
                               {item.name}
                             </h3>
-                            <div className="flex items-center justify-center md:justify-start gap-3 mb-6 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">\n                              <Calendar className="w-4 h-4 text-[#33b962]" />
+                            <div className="flex items-center justify-center md:justify-start gap-3 mb-6 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">                              <Calendar className="w-4 h-4 text-[#33b962]" />
                               {formatDate(item.created_at)}
                             </div>
 
@@ -446,7 +446,7 @@ export default function GaleriPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <p className="text-lg text-gray-500 dark:text-gray-400">\n                    {activeFilter !== "semua"
+                  <p className="text-lg text-gray-500 dark:text-gray-400">                    {activeFilter !== "semua"
                       ? `Tidak ada gallery untuk kategori "${activeFilter}"`
                       : "Belum ada gallery yang tersedia"
                     }

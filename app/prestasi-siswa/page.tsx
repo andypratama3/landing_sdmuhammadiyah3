@@ -635,7 +635,7 @@ function PrestasiCard({
               <span>{formatDate(achievement.tanggal)}</span>
             </div>
             {achievement.penyelenggara && (
-              <div className="flex mt-2 items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">\n                <MapPin className="w-3.5 h-3.5" />
+              <div className="flex mt-2 items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">                <MapPin className="w-3.5 h-3.5" />
                 <span className="truncate max-w-[150px]">{achievement.penyelenggara}</span>
               </div>
             )}

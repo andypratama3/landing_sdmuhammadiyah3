@@ -506,7 +506,7 @@ function PrestasiSekolahCard({
                   </Badge>
                 ))}
               </div>
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">\n                <Calendar className="w-3.5 h-3.5 text-[#33b962] brightness-125" />
+              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">               <Calendar className="w-3.5 h-3.5 text-[#33b962] brightness-125" />
                 <span>{formatDate(achievement.tanggal)}</span>
               </div>
             </div>
@@ -521,7 +521,7 @@ function PrestasiSekolahCard({
 
             <div className="mt-auto flex items-center justify-between pt-6 border-t border-gray-100 dark:border-white/5">
               {achievement.views !== undefined && (
-                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">\n                  <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
+                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">                 <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
                     <Eye className="w-4 h-4 text-blue-500" />
                   </div>
                   <span>{achievement.views} DILIHAT</span>

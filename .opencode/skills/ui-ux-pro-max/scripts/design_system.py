@@ -411,7 +411,7 @@ def format_markdown(design_system: dict) -> str:
     lines.append(f"| Background | {colors.get('background', '')} |")
     lines.append(f"| Text | {colors.get('text', '')} |")
     if colors.get("notes"):
-        lines.append(f"\n*Notes: {colors.get('notes', '')}*")
+        lines.append(f"*Notes: {colors.get('notes', '')}*")
     lines.append("")
 
     # Typography section

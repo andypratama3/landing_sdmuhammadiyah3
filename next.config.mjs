@@ -1,12 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compress: true,
+  poweredByHeader: false,
 
   images: {
     minimumCacheTTL: 2592000,
-    deviceSizes: [640, 828, 1080, 1280, 1920],
+    deviceSizes: [375, 640, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
-    formats: ['image/webp'],
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -39,11 +40,6 @@ const nextConfig = {
       {
         source: '/profil-sekolah',
         destination: '/profil',
-        permanent: true,
-      },
-      {
-        source: '/spmb',
-        destination: '/',
         permanent: true,
       },
       {

@@ -357,6 +357,7 @@ export default function PrestasiSekolahDetailPage() {
                     <Button 
                       size="icon" 
                       variant="outline"
+                      className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all"
                       onClick={() => handleShare('facebook')}
                     >
                       <Facebook className="w-4 h-4" />
@@ -364,6 +365,7 @@ export default function PrestasiSekolahDetailPage() {
                     <Button 
                       size="icon" 
                       variant="outline"
+                      className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-all"
                       onClick={() => handleShare('twitter')}
                     >
                       <Twitter className="w-4 h-4" />
@@ -371,6 +373,7 @@ export default function PrestasiSekolahDetailPage() {
                     <Button 
                       size="icon" 
                       variant="outline"
+                      className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all"
                       onClick={() => handleShare('linkedin')}
                     >
                       <Linkedin className="w-4 h-4" />
@@ -378,6 +381,7 @@ export default function PrestasiSekolahDetailPage() {
                     <Button 
                       size="icon" 
                       variant="outline"
+                      className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#33b962] hover:text-white hover:border-[#33b962] transition-all"
                       onClick={() => handleShare('native')}
                     >
                       <Share2 className="w-4 h-4" />

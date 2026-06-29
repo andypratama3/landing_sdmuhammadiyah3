@@ -105,7 +105,7 @@ export default function ProfilPage() {
                   <Button asChild className="bg-white text-[#33b962] hover:bg-white/90 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl">
                     <Link href="/tentang">Visi & Misi</Link>
                   </Button>
-                  <Button asChild variant="outline" className="text-white border-white/30 hover:bg-white/10 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs">
+                  <Button asChild variant="outline-on-dark" className="rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs">
                     <Link href="#identitas">Data Resmi</Link>
                   </Button>
                 </div>
@@ -366,8 +366,8 @@ export default function ProfilPage() {
                 </div>
                 <Button
                   asChild
-                  variant="outline"
-                  className="w-full h-14 bg-transparent border-2 border-emerald-500/20 hover:bg-[#33b962] hover:text-white dark:text-gray-300 dark:border-white/10 rounded-2xl font-bold transition-all shadow-sm"
+                  variant="outline-brand"
+                  className="w-full h-14 rounded-2xl font-bold transition-all shadow-sm"
                 >
                   <a href={doc.link} download>
                     <Download className="w-4 h-4 mr-2" />

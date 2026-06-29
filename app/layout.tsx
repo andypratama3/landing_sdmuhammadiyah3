@@ -10,6 +10,8 @@ import ApiInitializer, { ApiInitializerStatus } from "@/components/api-initializ
 import GoogleAnalytics, { GTMNoScript } from "@/components/google-analytics"
 import StructuredData from "@/components/structured-data"
 import InteractiveUI from "@/components/interactive-ui"
+import { WebVitalsReporter } from "@/components/web-vitals-reporter"
+import { BASE_URL, SCHOOL, SEO_KEYWORDS } from "@/lib/school-info"
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -24,45 +26,21 @@ const quicksand = Quicksand({
 })
 
 export const metadata: Metadata = {
-  // ... (metadata unchanged)
-  metadataBase: new URL('https://sdmuhammadiyah3smd.com'),
+  metadataBase: new URL(BASE_URL),
 
   title: {
-    default: "SD Muhammadiyah 3 Samarinda - Sekolah Kreatif",
-    template: "%s | SD Muhammadiyah 3 Samarinda"
+    default: `${SCHOOL.name} - ${SCHOOL.tagline}`,
+    template: `%s | ${SCHOOL.name}`,
   },
 
-  description: "Sekolah Dasar Islam terdepan yang menghasilkan generasi kreatif, berakhlak mulia, cerdas, dan berprestasi dengan dilandasi nilai-nilai Islami.",
+  description:
+    'SD Muhammadiyah 3 Samarinda — SD terbaik di Samarinda Seberang. Sekolah kreatif Islam berakreditasi A, program tahfidz, prestasi siswa juara. Daftar SPMB 2025/2026.',
 
-  keywords: [
-    "SD Muhammadiyah 3 Samarinda",
-    "Sekolah Kreatif Muhammadiyah 3 Samarinda",
-    "SD Muhammadiyah Samarinda",
-    "Sekolah Dasar Islam Samarinda",
-    "SD Unggulan Kalimantan Timur",
-    "Sekolah Penggerak Samarinda",
-    "Sekolah Terbaik Di Samarinda Kalimantan Timur",
-    "Sekolah Dasar Islam Terbaik Di Samarinda",
-    "Pembelajaran Inovatif",
-    "Pendidikan Berkarakter",
-    "Sekolah Kreatif Kalimantan Timur",
-    "Sekolah Dasar Samarinda Seberang",
-    "SD Islam Terbaik Samarinda",
-    "Pendaftaran SD Muhammadiyah",
-    "SPMB SD Muhammadiyah 3",
-    "Tahfidz Al-Qur'an Samarinda",
-    "Akreditasi A Samarinda",
-  ],
+  keywords: [...SEO_KEYWORDS],
 
-  authors: [
-    {
-      name: "SD Muhammadiyah 3 Samarinda",
-      url: "https://sdmuhammadiyah3smd.com"
-    }
-  ],
-
-  creator: "SD Muhammadiyah 3 Samarinda",
-  publisher: "SD Muhammadiyah 3 Samarinda",
+  authors: [{ name: SCHOOL.name, url: BASE_URL }],
+  creator: SCHOOL.name,
+  publisher: SCHOOL.name,
 
   robots: {
     index: true,
@@ -77,54 +55,54 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    type: "website",
-    locale: "id_ID",
-    url: "https://sdmuhammadiyah3smd.com",
-    title: "SD Muhammadiyah 3 Samarinda - Sekolah Kreatif Unggulan",
-    description: "Sekolah Dasar Islam terdepan dengan pembelajaran inovatif dan pengembangan karakter. Akreditasi A, Sekolah Penggerak, Tahfidz Al-Qur'an.",
-    siteName: "SD Muhammadiyah 3 Samarinda",
+    type: 'website',
+    locale: 'id_ID',
+    url: BASE_URL,
+    title: `${SCHOOL.name} | ${SCHOOL.tagline}`,
+    description:
+      'SD swasta terbaik di Samarinda dengan kurikulum kreatif Islam, akreditasi A, dan prestasi siswa tingkat kota-provinsi.',
+    siteName: SCHOOL.name,
     images: [
       {
-        url: "/SD3_logo1.png",
+        url: '/SD3_logo1.png',
         width: 1200,
         height: 630,
-        alt: "SD Muhammadiyah 3 Samarinda Logo",
+        alt: `${SCHOOL.name} - Sekolah Kreatif`,
       },
     ],
   },
 
   twitter: {
-    card: "summary_large_image",
-    title: "SD Muhammadiyah 3 Samarinda - Sekolah Kreatif",
-    description: "Sekolah Dasar Islam unggulan di Samarinda dengan pembelajaran inovatif",
-    images: ["/SD3_logo1.png"],
+    card: 'summary_large_image',
+    title: `${SCHOOL.name} - Sekolah Kreatif`,
+    description:
+      'SD Islam terbaik di Samarinda — pendaftaran SPMB, tahfidz, akreditasi A.',
+    images: ['/SD3_logo1.png'],
   },
 
-  verification: {
-    google: "your-google-verification-code",
-  },
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? {
+        verification: {
+          google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+        },
+      }
+    : {}),
 
   alternates: {
-    canonical: "https://sdmuhammadiyah3smd.com",
+    canonical: BASE_URL,
   },
 
   icons: {
     icon: [
-      {
-        url: "/SD3_logo1.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/SD3_logo1.png",
-        media: "(prefers-color-scheme: dark)",
-      },
+      { url: '/SD3_logo1.png', media: '(prefers-color-scheme: light)' },
+      { url: '/SD3_logo1.png', media: '(prefers-color-scheme: dark)' },
     ],
-    apple: "/SD3_logo1.png",
-    shortcut: "/SD3_logo1.png",
+    apple: '/SD3_logo1.png',
+    shortcut: '/SD3_logo1.png',
   },
 
-  manifest: "/manifest.json",
-  category: "education",
+  manifest: '/manifest.json',
+  category: 'education',
 }
 
 export const viewport = {
@@ -176,6 +154,7 @@ export default async function RootLayout({
 
           {/* Deferred Interactive Modals */}
           <InteractiveUI />
+          <WebVitalsReporter />
         </ThemeProvider>
       </body>
     </html>

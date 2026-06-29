@@ -67,8 +67,8 @@ export function AchievementsSection({ achievements }: AchievementsSectionProps) 
         <div className="flex flex-col sm:flex-row justify-center gap-5">
           <Button
             asChild
-            variant="outline"
-            className="rounded-full px-10 py-7 text-base font-bold border-2 border-[#33b962] text-[#33b962] hover:bg-[#33b962] hover:text-white shadow-md"
+            variant="outline-brand"
+            className="rounded-full px-10 py-7 text-base font-bold shadow-md"
             size="lg"
           >
             <Link href="/prestasi-sekolah">Prestasi Sekolah</Link>

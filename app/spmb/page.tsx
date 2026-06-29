@@ -1,6 +1,5 @@
 export const dynamic = 'force-static'
 
-import type { Metadata } from "next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -23,12 +22,6 @@ import {
   Zap
 } from "lucide-react"
 import Link from "next/link"
-
-export const metadata: Metadata = {
-  title: "SPMB - Sistem Penerimaan Murid Baru - SD Muhammadiyah 3 Samarinda",
-  description:
-    "Pendaftaran siswa baru SD Muhammadiyah 3 Samarinda untuk tahun ajaran 2025/2026. Daftar sekarang dan bergabung dengan Sekolah Kreatif!",
-}
 
 const timeline = [
   {
@@ -159,7 +152,7 @@ export default function SPMBPage() {
                   <Button asChild className="bg-white text-[#33b962] hover:bg-white/90 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl">
                     <Link href="#RegisterForm">Daftar Sekarang</Link>
                   </Button>
-                  <Button asChild variant="outline" className="text-white border-white/30 bg-white/10 hover:bg-white/20 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs">
+                  <Button asChild variant="outline-on-dark" className="rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs">
                     <Link href="/kontak">Hubungi Kami</Link>
                   </Button>
                 </div>

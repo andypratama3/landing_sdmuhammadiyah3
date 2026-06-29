@@ -12,6 +12,8 @@ import { PageHeader } from "@/components/page-header";
 import { BeritaShareClient } from "@/components/berita/BeritaShareClient";
 import { getCachedData } from "@/lib/redis-cache";
 import { getSystemAuthToken } from "@/lib/server-api";
+import { generateBeritaMetadata, generateArticleJsonLd } from "@/lib/metadata-helpers";
+import { JsonLd } from "@/components/JsonLd";
 import type { Berita } from "@/types/berita.types";
 import type { Metadata, ResolvingMetadata } from "next";
 
@@ -22,45 +24,28 @@ type Props = {
 // Next.js 16 Native Dynamic SEO Generation replacing fatal App Router <Head> bugs
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
+  _parent: ResolvingMetadata
 ): Promise<Metadata> {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://dashboard.sdmuhammadiyah3smd.com/api/v2";
+  const berita = await fetchBeritaBySlug(slug);
+  if (!berita?.judul) return { title: "Berita Tidak Ditemukan" };
+  return generateBeritaMetadata(berita);
+}
 
+async function fetchBeritaBySlug(slug: string): Promise<Berita | null> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://dashboard.sdmuhammadiyah3smd.com/api/v2";
   try {
     const token = await getSystemAuthToken();
-    const res = await fetch(`${apiUrl}/berita/${slug}`, { 
-      headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
-      next: { revalidate: 3600 } 
+    const res = await fetch(`${apiUrl}/berita/${slug}`, {
+      headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+      next: { revalidate: 3600 },
     });
-    if (!res.ok) return { title: "Berita Tidak Ditemukan" };
-    
+    if (!res.ok) return null;
     const responseData = await res.json();
-    const berita: Berita = responseData?.data?.data || responseData?.data || responseData;
-
-    if (!berita || !berita.judul) return { title: "Berita Tidak Ditemukan" };
-
-    const pageDescription = berita.desc ? berita.desc.replace(/<[^>]*>/g, "").slice(0, 160) : "";
-    const imageUrl = berita.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${berita.foto}` : "";
-
-    return {
-      title: `${berita.judul} - SD Muhammadiyah 3 Samarinda`,
-      description: pageDescription,
-      openGraph: {
-        title: berita.judul,
-        description: pageDescription,
-        type: "article",
-        images: imageUrl ? [imageUrl] : [],
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: berita.judul,
-        description: pageDescription,
-      },
-    };
-  } catch (err) {
-    return { title: "Berita - SD Muhammadiyah 3 Samarinda" };
+    return responseData?.data?.data || responseData?.data || responseData;
+  } catch {
+    return null;
   }
 }
 
@@ -131,6 +116,7 @@ export default async function BeritaDetailPage({ params }: Props) {
   const pageDescription = processedDesc ? processedDesc.replace(/<[^>]*>/g, "").slice(0, 160) : "";
   return (
     <div className="min-h-screen pt-24 pb-16 bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+      <JsonLd data={generateArticleJsonLd(berita)} />
       <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
       <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
       <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />

@@ -1,5 +1,6 @@
 export const revalidate = 300
 
+import type { Metadata } from 'next'
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -33,6 +34,15 @@ import {
 } from "lucide-react"
 
 import { PrestasiSiswa } from "@/types/prestasi.types";
+import { pageMetadata } from '@/lib/metadata-helpers'
+
+export const metadata: Metadata = pageMetadata({
+  title: 'SD Muhammadiyah 3 Samarinda | Sekolah Kreatif Islam Terbaik di Samarinda',
+  description:
+    'SD Muhammadiyah 3 Samarinda di Jl. Dato Iba — sekolah kreatif Islam terbaik, akreditasi A, 400+ siswa, prestasi juara. Daftar SPMB 2025/2026 sekarang!',
+  path: '/',
+  keywords: ['homepage', 'sekolah penggerak', 'tahfidz samarinda'],
+})
 
 interface CountData {
   siswa: number;
@@ -197,8 +207,8 @@ export default async function Home() {
               <Button
                 asChild
                 size="lg"
-                variant="outline"
-                className="w-full sm:w-auto px-12 py-8 text-xl font-black text-white bg-white/10 border-2 border-white/30 rounded-2xl hover:bg-white/20 backdrop-blur-md transition-all shadow-xl uppercase tracking-widest"
+                variant="outline-on-dark"
+                className="w-full sm:w-auto px-12 py-8 text-xl font-black border-2 rounded-2xl backdrop-blur-md transition-all shadow-xl uppercase tracking-widest"
               >
                 <Link href="/profil#video" className="flex items-center gap-4">
                   <div className="flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg">
@@ -483,7 +493,7 @@ export default async function Home() {
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <Button asChild variant="outline" className="rounded-full px-12 py-8 text-lg font-bold border-2 border-[#33b962] text-[#33b962] hover:bg-[#33b962] hover:text-white shadow-xl" size="lg">
+            <Button asChild variant="outline-brand" className="rounded-full px-12 py-8 text-lg font-bold shadow-xl" size="lg">
               <Link href="/prestasi-sekolah">Prestasi Sekolah</Link>
             </Button>
             <Button asChild className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-12 py-8 text-lg font-bold shadow-xl hover:scale-105 transition-all" size="lg">
@@ -555,7 +565,7 @@ export default async function Home() {
             <Button asChild size="lg" className="bg-white text-[#33b962] hover:bg-gray-100 rounded-full px-16 py-10 text-2xl shadow-xl hover:scale-105 transition-all font-black">
               <Link href="https://ppdb.sdmuh3smd.com">Daftar Online <ChevronRight className="w-8 h-8 ml-2 inline" /></Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="px-16 py-10 text-2xl font-bold text-white border-4 border-white/20 rounded-full hover:bg-white/10 backdrop-blur-md transition-all">
+            <Button asChild size="lg" variant="outline-on-dark" className="px-16 py-10 text-2xl font-bold border-4 rounded-full backdrop-blur-md transition-all">
               <Link href="/kontak">Hubungi Kami</Link>
             </Button>
           </div>

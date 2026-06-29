@@ -30,8 +30,8 @@ export function CTASection() {
           <Button
             asChild
             size="lg"
-            variant="outline"
-            className="px-12 py-7 text-xl font-bold text-white border-2 border-white/20 rounded-full hover:bg-white/10 backdrop-blur-md transition-all"
+            variant="outline-on-dark"
+            className="px-12 py-7 text-xl font-bold rounded-full backdrop-blur-md transition-all"
           >
             <Link href="/kontak">Hubungi Kami</Link>
           </Button>

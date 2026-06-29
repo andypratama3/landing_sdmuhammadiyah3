@@ -12,7 +12,6 @@ import Link from "next/link"
 import { useApi } from "@/hooks/useApi"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import Head from "next/head"
 import {
   Berita,
   CategoryCountResponse,
@@ -233,26 +232,10 @@ export default function BeritaPage() {
     return pages
   }, [paginationMeta])
 
-  const pageTitle = "Berita & Pengumuman - SD Muhammadiyah 3 Samarinda | Sekolah Kreatif Islami"
-  const pageDescription = "Informasi terbaru seputar kegiatan, prestasi, dan pengumuman penting SD Muhammadiyah 3 Samarinda"
-
-  // Show loading when typing or fetching
   const isSearching = isTyping || newsLoading
 
   return (
     <>
-      <Head>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content={featuredNews?.foto || "/og-image.jpg"} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={pageDescription} />
-      </Head>
-
       <div className="min-h-screen pt-24 pb-16 bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
         {/* Animated Background Blobs */}
         <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
@@ -709,7 +692,7 @@ function NewsCard({
               </div>
             </div>
 
-            <Button variant="outline" size="sm" className="rounded-full font-black uppercase tracking-widest text-[10px] px-6 py-5 border-2 border-emerald-500/10 hover:bg-[#33b962] hover:text-white transition-all h-auto">
+            <Button variant="outline-brand" size="sm" className="rounded-full font-black uppercase tracking-widest text-[10px] px-6 py-5 transition-all h-auto">
               BACA SELENGKAPNYA
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>

@@ -29,7 +29,6 @@ import {
 
 import { useApi } from "@/hooks/useApi"
 import { Gallery } from "@/types/gallery.types"
-import Head from "next/head"
 import { PageHeader } from "@/components/page-header"
 
 export default function GaleriDetailPage() {
@@ -281,9 +280,6 @@ export default function GaleriDetailPage() {
   if (galleryLoading) {
     return (
       <>
-        <Head>
-          <title>Loading...</title>
-        </Head>
         <div className="min-h-screen bg-background">
           {/* Header */}
           <section className="relative py-12 text-white bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45]">
@@ -329,9 +325,6 @@ export default function GaleriDetailPage() {
   if (galleryError || !gallery) {
     return (
       <>
-        <Head>
-          <title>Gallery Tidak Ditemukan</title>
-        </Head>
         <div className="min-h-screen bg-background">
           <section className="relative py-12 text-white bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45]">
             <div className="container px-4 mx-auto">
@@ -376,23 +369,6 @@ export default function GaleriDetailPage() {
 
   return (
     <>
-      <Head>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta property="og:title" content={gallery.name} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:type" content="article" />
-        {allImages.length > 0 && (
-          <meta
-            property="og:image"
-            content={getImagePath(allImages[0])}
-          />
-        )}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={gallery.name} />
-        <meta name="twitter:description" content={pageDescription} />
-      </Head>
-
       <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
         {/* Animated Background Blobs */}
         <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
@@ -576,6 +552,7 @@ export default function GaleriDetailPage() {
                       <Button
                         size="icon"
                         variant="outline"
+                        className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all"
                         onClick={() => handleShare('facebook')}
                       >
                         <Facebook className="w-4 h-4" />
@@ -583,6 +560,7 @@ export default function GaleriDetailPage() {
                       <Button
                         size="icon"
                         variant="outline"
+                        className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-all"
                         onClick={() => handleShare('twitter')}
                       >
                         <Twitter className="w-4 h-4" />
@@ -590,6 +568,7 @@ export default function GaleriDetailPage() {
                       <Button
                         size="icon"
                         variant="outline"
+                        className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all"
                         onClick={() => handleShare('linkedin')}
                       >
                         <Linkedin className="w-4 h-4" />
@@ -597,6 +576,7 @@ export default function GaleriDetailPage() {
                       <Button
                         size="icon"
                         variant="outline"
+                        className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#33b962] hover:text-white hover:border-[#33b962] transition-all"
                         onClick={() => handleShare('native')}
                       >
                         <Share2 className="w-4 h-4" />

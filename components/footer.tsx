@@ -2,47 +2,48 @@ import Link from "next/link"
 import { Facebook, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react"
 import Image from 'next/image'
 import { VisitorStatsClient } from "./visitor-stats-client";
+import { SCHOOL } from "@/lib/school-info"
 
 export default function Footer() {
   const navLinks = [
     { href: "/", label: "Beranda" },
-    { href: "/profil", label: "Profil Sekolah" },
-    { href: "/pembayaran", label: "Sistem Pembayaran" },
-    { href: "/rapot", label: "Rapot Digital" },
-    { href: "/kontak", label: "Hubungi Kami" }
+    { href: "/profil", label: "Profil SD Muhammadiyah 3" },
+    { href: "/spmb", label: "Pendaftaran SPMB" },
+    { href: "/pembayaran", label: "Sistem Pembayaran SPP" },
+    { href: "/kontak", label: "Kontak & Lokasi" }
   ];
 
   const infoLinks = [
     { href: "/jadwal", label: "Jadwal Pelajaran" },
-    { href: "/galeri", label: "Kalender Akademik" },
-    { href: "/berita", label: "Berita Terbaru" },
+    { href: "/guru", label: "Guru & Tenaga Pendidik" },
+    { href: "/berita", label: "Berita & Pengumuman" },
     { href: "/prestasi-siswa", label: "Prestasi Siswa" },
     { href: "/prestasi-sekolah", label: "Prestasi Sekolah" }
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: "https://www.facebook.com/sekolahkreatif.muhammadiyahsamarinda/", label: "Facebook" },
-    { icon: Instagram, href: "https://www.instagram.com/SekolahKreatifSamarinda/", label: "Instagram" },
-    { icon: Youtube, href: "https://www.youtube.com/@sekolahkreatifsdmuhammadiy2812", label: "YouTube" }
+    { icon: Facebook, href: SCHOOL.social.facebook, label: "Facebook" },
+    { icon: Instagram, href: SCHOOL.social.instagram, label: "Instagram" },
+    { icon: Youtube, href: SCHOOL.social.youtube, label: "YouTube" }
   ];
 
   const contactInfo = [
     {
       icon: MapPin,
       label: "Alamat",
-      value: "Jl. Dato Iba RT. 04/IV, Sungai Keledang, Kec. Samarinda Seberang, Kota Samarinda, 75242"
+      value: SCHOOL.address.full
     },
     {
       icon: Phone,
       label: "Telepon",
-      value: "(0541) 260-066",
-      href: "tel:+0541260066"
+      value: SCHOOL.phone,
+      href: `tel:${SCHOOL.phoneTel}`
     },
     {
       icon: Mail,
       label: "Email",
-      value: "sdmuhammadiyah3smd@gmail.com",
-      href: "mailto:sdmuhammadiyah3smd@gmail.com"
+      value: SCHOOL.email,
+      href: `mailto:${SCHOOL.email}`
     }
   ];
 

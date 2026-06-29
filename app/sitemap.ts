@@ -1,6 +1,7 @@
 // app/sitemap.ts
 import { MetadataRoute } from 'next'
 import { serverGetPublic } from '@/lib/server-api'
+import { getAllSeoArticles } from '@/lib/seo-articles'
 
 type Berita = {
   slug: string
@@ -191,16 +192,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/pendaftaran`,
+      url: `${BASE_URL}/spmb`,
       lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.9,
+      changeFrequency: 'weekly',
+      priority: 0.95,
     },
     {
       url: `${BASE_URL}/kontak`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.6,
+      priority: 0.8,
     },
     {
       url: `${BASE_URL}/privacy-policy`,
@@ -209,6 +210,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.3,
     },
   ]
+
+  // ===== SEO ARTICLES (static) =====
+  const seoArticlePages: MetadataRoute.Sitemap = getAllSeoArticles().map((article) => ({
+    url: `${BASE_URL}/berita/${article.slug}`,
+    lastModified: safeParseDate(article.updatedAt),
+    changeFrequency: 'monthly' as const,
+    priority: 0.85,
+  }))
 
   // ===== FETCH DYNAMIC DATA =====
   const [berita, gallery, prestasiSiswa, prestasiSekolah] = await Promise.allSettled([
@@ -262,8 +271,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         }))
       : []
 
-  // ===== LOG STATISTICS =====
-  console.log('[SITEMAP] Generated:', {
+  // ===== LOG STATISTICS (dev only) =====
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[SITEMAP] Generated:', {
     static: staticPages.length,
     berita: beritaPages.length,
     gallery: galleryPages.length,
@@ -276,10 +286,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       prestasiSiswaPages.length +
       prestasiSekolahPages.length,
   })
+  }
 
   // ===== COMBINE ALL =====
   return [
     ...staticPages,
+    ...seoArticlePages,
     ...beritaPages,
     ...galleryPages,
     ...prestasiSiswaPages,

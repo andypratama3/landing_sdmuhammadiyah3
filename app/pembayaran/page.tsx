@@ -416,7 +416,7 @@ export default function PembayaranPage() {
                         <div className="flex flex-wrap gap-4">
                           <Button
                             variant="outline"
-                            className="rounded-full border-2 border-gray-100 dark:border-gray-800 dark:text-white dark:hover:bg-gray-800 h-12 px-8 font-black uppercase tracking-widest text-xs transition-all hover:border-[#33b962] hover:text-[#33b962]"
+                            className="rounded-full border-2 border-gray-100 dark:border-gray-800 text-gray-700 hover:bg-gray-100 hover:text-[#33b962] hover:border-[#33b962] dark:text-white dark:hover:bg-gray-800 dark:hover:text-white h-12 px-8 font-black uppercase tracking-widest text-xs transition-all"
                             onClick={handleReset}
                           >
                             <RefreshCw className="w-4 h-4 mr-2" />
@@ -531,7 +531,7 @@ export default function PembayaranPage() {
                                                     <CheckCircle className="w-3 h-3 mr-1" />
                                                     Lunas
                                                   </Badge>
-                                                  <Button variant="outline" size="sm" className="rounded-full dark:border-gray-600 dark:text-white dark:hover:bg-gray-600 whitespace-nowrap">
+                                                  <Button variant="outline" size="sm" className="rounded-full hover:bg-gray-100 hover:text-gray-900 dark:border-gray-600 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white whitespace-nowrap">
                                                     <Printer className="w-3 h-3 mr-1" />
                                                     Cetak
                                                   </Button>

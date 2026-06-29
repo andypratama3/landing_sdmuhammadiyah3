@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { SCHOOL } from "@/lib/school-info"
 import {
   MapPin,
   Phone,
@@ -25,30 +26,30 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Alamat",
-    content: "Jl. Dato Iba RT. 04/IV, Sungai Keledang, Kec. Samarinda Seberang, Kota Samarinda, Kalimantan Timur 75242",
+    content: SCHOOL.address.full,
     action: "Buka di Google Maps",
-    link: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9477.659215305792!2d117.12429426373527!3d-0.5122169736669224!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df67fb245dc458f%3A0xa8ef3e4834a26bd!2sSekolah%20Kreatif%20SD%20Muhammadiyah%203%20Samarinda!5e0!3m2!1sid!2sid!4v1722696990256!5m2!1sid!2sid",
+    link: SCHOOL.mapsUrl,
   },
   {
     icon: Phone,
     title: "Telepon",
-    content: "(0541) 260066",
+    content: SCHOOL.phone,
     action: "Hubungi",
-    link: "tel:0541-260066",
+    link: `tel:${SCHOOL.phoneTel}`,
   },
   {
     icon: Mail,
     title: "Email",
-    content: "sekolahkreatifmuh3@gmail.com",
+    content: SCHOOL.email,
     action: "Kirim Email",
-    link: "mailto:sekolahkreatifmuh3@gmail.com",
+    link: `mailto:${SCHOOL.email}`,
   },
   {
     icon: MessageCircle,
     title: "WhatsApp",
-    content: "+62 812-3456-7890",
+    content: `+62 ${SCHOOL.whatsapp.slice(2, 5)}-${SCHOOL.whatsapp.slice(5, 9)}-${SCHOOL.whatsapp.slice(9)}`,
     action: "Chat WhatsApp",
-    link: "https://wa.me/6285250443151",
+    link: `https://wa.me/${SCHOOL.whatsapp}?text=${encodeURIComponent(SCHOOL.whatsappMessage)}`,
   },
 ]
 
@@ -125,14 +126,14 @@ export default function KontakClient() {
                   Contact Information
                 </Badge>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
-                  Hubungi <br /> <span className="text-[#ffd166]">Kami Sekarang</span>
+                  Kontak SD Muhammadiyah 3 <br /> <span className="text-[#ffd166]">Jl. Dato Iba Samarinda</span>
                 </h1>
                 <p className="text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
-                  Tim kami siap membantu menjawab pertanyaan dan memberikan informasi yang Anda butuhkan seputar sekolah kami.
+                  Tim kami siap membantu informasi pendaftaran SPMB, jadwal, dan biaya sekolah. Lokasi strategis di Samarinda Seberang.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Button asChild className="bg-white text-[#33b962] hover:bg-white/90 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl">
-                    <a href="https://wa.me/6285250443151" target="_blank" rel="noopener noreferrer">Chat via WhatsApp</a>
+                    <a href={`https://wa.me/${SCHOOL.whatsapp}?text=${encodeURIComponent(SCHOOL.whatsappMessage)}`} target="_blank" rel="noopener noreferrer">Chat via WhatsApp</a>
                   </Button>
                 </div>
               </div>
@@ -175,7 +176,7 @@ export default function KontakClient() {
                     </div>
                     <h3 className="mb-4 text-xl font-black text-gray-900 dark:text-white uppercase tracking-tight">{info.title}</h3>
                     <p className="mb-8 text-sm font-medium text-gray-600 dark:text-gray-400 leading-relaxed flex-grow">{info.content}</p>
-                    <Button variant="outline" size="lg" className="w-full rounded-2xl font-bold border-2 border-emerald-500/20 hover:bg-emerald-500 hover:text-white dark:hover:bg-emerald-500 text-gray-700 dark:text-white dark:border-white/10 transition-all shadow-sm" asChild>
+                    <Button variant="outline-brand" size="lg" className="w-full rounded-2xl font-bold transition-all shadow-sm" asChild>
                       <a href={info.link} target="_blank" rel="noopener noreferrer">
                         {info.action}
                       </a>
@@ -230,7 +231,8 @@ export default function KontakClient() {
 
             <div className="rounded-lg overflow-hidden shadow-lg h-[400px] md:h-[500px]">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9477.659215305792!2d117.12429426373527!3d-0.5122169736669224!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df67fb245dc458f%3A0xa8ef3e4834a26bd!2sSekolah%20Kreatif%20SD%20Muhammadiyah%203%20Samarinda!5e0!3m2!1sid!2sid!4v1722696990256!5m2!1sid!2sid"
+                src={SCHOOL.mapsEmbed}
+                loading="lazy"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -413,7 +415,7 @@ export default function KontakClient() {
                       </div>
                       <h3 className="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight mb-2">{social.name}</h3>
                       <p className="mb-8 text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-widest">{social.handle}</p>
-                      <Button variant="outline" size="lg" className="mt-auto w-full rounded-2xl font-black border-2 border-emerald-500/10 hover:bg-[#33b962] hover:text-white transition-all uppercase tracking-widest text-[10px] h-11">
+                      <Button variant="outline-brand" size="lg" className="mt-auto w-full rounded-2xl font-black transition-all uppercase tracking-widest text-[10px] h-11">
                         Kunjungi Profile
                       </Button>
                     </div>

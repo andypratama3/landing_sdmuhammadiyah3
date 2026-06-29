@@ -1,212 +1,154 @@
-// lib/metadata-helpers.ts
 import { Metadata } from 'next'
+import { BASE_URL, SCHOOL, SEO_KEYWORDS } from './school-info'
+import { articleSchema, achievementSchema } from './structured-data'
+import type { Berita } from '@/types/berita.types'
+import type { PrestasiSiswa, PrestasiSekolah } from '@/types/prestasi.types'
+import type { Gallery } from '@/types/gallery.types'
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://sdmuhammadiyah3smd.com'
+const STORAGE = process.env.NEXT_PUBLIC_STORAGE_URL || 'https://dashboard.sdmuhammadiyah3smd.com/storage'
 
-// ================= GENERATE BERITA METADATA =================
-export function generateBeritaMetadata(berita: {
+function stripHtml(html: string, max = 160) {
+  return html.replace(/<[^>]*>/g, '').trim().slice(0, max)
+}
+
+function beritaImage(foto?: string) {
+  return foto ? `${STORAGE}/img/berita/${foto}` : `${BASE_URL}/SD3_logo1.png`
+}
+
+function galleryImage(gallery: Gallery) {
+  if (gallery.cover) return `${STORAGE}/img/gallery/cover/${gallery.cover}`
+  if (gallery.foto) return `${STORAGE}/img/gallery/${gallery.foto.split(',')[0].trim()}`
+  return `${BASE_URL}/SD3_logo1.png`
+}
+
+function prestasiImage(foto?: string | null) {
+  return foto ? `${STORAGE}/img/prestasi/${foto}` : `${BASE_URL}/SD3_logo1.png`
+}
+
+export function pageMetadata({
+  title,
+  description,
+  path,
+  keywords = [],
+  ogImage,
+  type = 'website',
+}: {
   title: string
-  excerpt?: string
-  content?: string
-  image?: string
-  slug: string
-  created_at?: string
-  author?: string
+  description: string
+  path: string
+  keywords?: string[]
+  ogImage?: string
+  type?: 'website' | 'article'
 }): Metadata {
-  const description =
-    berita.excerpt ||
-    berita.content?.substring(0, 160) ||
-    'Berita terbaru dari SD Muhammadiyah 3 Samarinda'
-
-  const imageUrl = berita.image
-    ? `${process.env.NEXT_PUBLIC_STORAGE_URL}${berita.image}`
-    : `${BASE_URL}/SD3_logo1.png`
+  const url = `${BASE_URL}${path}`
+  const image = ogImage || `${BASE_URL}/SD3_logo1.png`
 
   return {
-    title: berita.title,
+    title,
     description,
-    keywords: [
-      berita.title,
-      'SD Muhammadiyah 3 Samarinda',
-      'Berita Sekolah',
-      'Sekolah Kreatif',
-      'Berita Pendidikan',
-    ],
-    authors: [{ name: berita.author || 'SD Muhammadiyah 3 Samarinda' }],
+    keywords: [...SEO_KEYWORDS, ...keywords],
+    alternates: { canonical: url },
     openGraph: {
-      type: 'article',
-      title: berita.title,
+      type,
+      locale: 'id_ID',
+      url,
+      title,
       description,
-      url: `${BASE_URL}/berita/${berita.slug}`,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: berita.title,
-        },
-      ],
-      publishedTime: berita.created_at,
-      siteName: 'SD Muhammadiyah 3 Samarinda',
+      siteName: SCHOOL.name,
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: berita.title,
+      title,
       description,
-      images: [imageUrl],
-    },
-    alternates: {
-      canonical: `${BASE_URL}/berita/${berita.slug}`,
+      images: [image],
     },
   }
 }
 
-// ================= GENERATE GALLERY METADATA =================
-export function generateGalleryMetadata(gallery: {
-  title: string
-  description?: string
-  image?: string
-  slug: string
-  created_at?: string
-}): Metadata {
-  const description =
-    gallery.description ||
-    `Galeri foto ${gallery.title} - SD Muhammadiyah 3 Samarinda`
+export function generateBeritaMetadata(berita: Berita): Metadata {
+  const description = stripHtml(berita.desc || 'Berita terbaru dari SD Muhammadiyah 3 Samarinda')
+  const imageUrl = beritaImage(berita.foto)
 
-  const imageUrl = gallery.image
-    ? `${process.env.NEXT_PUBLIC_STORAGE_URL}${gallery.image}`
-    : `${BASE_URL}/SD3_logo1.png`
-
-  return {
-    title: gallery.title,
+  return pageMetadata({
+    title: berita.judul,
     description,
-    keywords: [
-      gallery.title,
-      'SD Muhammadiyah 3 Samarinda',
-      'Galeri Sekolah',
-      'Foto Kegiatan',
-      'Aktivitas Siswa',
-    ],
-    openGraph: {
-      type: 'website',
-      title: gallery.title,
-      description,
-      url: `${BASE_URL}/galeri/${gallery.slug}`,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: gallery.title,
-        },
-      ],
-      siteName: 'SD Muhammadiyah 3 Samarinda',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: gallery.title,
-      description,
-      images: [imageUrl],
-    },
-    alternates: {
-      canonical: `${BASE_URL}/galeri/${gallery.slug}`,
-    },
-  }
+    path: `/berita/${berita.slug}`,
+    keywords: [berita.category, 'berita sekolah', 'pengumuman sd samarinda'],
+    ogImage: imageUrl,
+    type: 'article',
+  })
 }
 
-// ================= GENERATE PRESTASI METADATA =================
-export function generatePrestasiMetadata(prestasi: {
-  title: string
-  description?: string
-  juara?: string
-  image?: string
-  slug: string
-  type: 'siswa' | 'sekolah'
-}): Metadata {
-  const description =
-    prestasi.description ||
-    `Prestasi ${prestasi.juara || ''} - ${prestasi.title} - SD Muhammadiyah 3 Samarinda`
-
-  const imageUrl = prestasi.image
-    ? `${process.env.NEXT_PUBLIC_STORAGE_URL}${prestasi.image}`
-    : `${BASE_URL}/SD3_logo1.png`
-
-  const basePath = prestasi.type === 'siswa' ? 'prestasi-siswa' : 'prestasi-sekolah'
-
-  return {
-    title: prestasi.title,
+export function generateGalleryMetadata(gallery: Gallery): Metadata {
+  const description = `Galeri foto ${gallery.name} - ${SCHOOL.name}`
+  return pageMetadata({
+    title: gallery.name,
     description,
-    keywords: [
-      prestasi.title,
-      prestasi.juara || '',
-      'SD Muhammadiyah 3 Samarinda',
-      'Prestasi Sekolah',
-      'Prestasi Siswa',
-      'Juara',
-    ],
-    openGraph: {
-      type: 'article',
-      title: prestasi.title,
-      description,
-      url: `${BASE_URL}/${basePath}/${prestasi.slug}`,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: prestasi.title,
-        },
-      ],
-      siteName: 'SD Muhammadiyah 3 Samarinda',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: prestasi.title,
-      description,
-      images: [imageUrl],
-    },
-    alternates: {
-      canonical: `${BASE_URL}/${basePath}/${prestasi.slug}`,
-    },
-  }
+    path: `/galeri/${gallery.slug}`,
+    keywords: ['galeri sekolah', 'foto kegiatan', 'aktivitas siswa'],
+    ogImage: galleryImage(gallery),
+  })
 }
 
-// ================= GENERATE JSON-LD FOR ARTICLES =================
-export function generateArticleJsonLd(berita: {
-  title: string
-  content: string
-  image?: string
-  slug: string
-  created_at?: string
-  updated_at?: string
-  author?: string
-}) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: berita.title,
-    image: berita.image
-      ? `${process.env.NEXT_PUBLIC_STORAGE_URL}${berita.image}`
-      : `${BASE_URL}/SD3_logo1.png`,
-    datePublished: berita.created_at,
-    dateModified: berita.updated_at || berita.created_at,
-    author: {
-      '@type': 'Organization',
-      name: berita.author || 'SD Muhammadiyah 3 Samarinda',
-      url: BASE_URL,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'SD Muhammadiyah 3 Samarinda',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${BASE_URL}/SD3_logo1.png`,
-      },
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `${BASE_URL}/berita/${berita.slug}`,
-    },
-  }
+export function generatePrestasiSiswaMetadata(prestasi: PrestasiSiswa): Metadata {
+  const description =
+    stripHtml(prestasi.description || '') ||
+    `${prestasi.juara} ${prestasi.name} - ${SCHOOL.name}`
+  return pageMetadata({
+    title: `${prestasi.juara} - ${prestasi.name}`,
+    description,
+    path: `/prestasi-siswa/${prestasi.slug}`,
+    keywords: [prestasi.juara, prestasi.tingkat, 'prestasi siswa', 'juara samarinda'],
+    ogImage: prestasiImage(prestasi.foto),
+    type: 'article',
+  })
+}
+
+export function generatePrestasiSekolahMetadata(prestasi: PrestasiSekolah): Metadata {
+  const description =
+    stripHtml(prestasi.description || '') || `${prestasi.name} - ${SCHOOL.name}`
+  return pageMetadata({
+    title: prestasi.name,
+    description,
+    path: `/prestasi-sekolah/${prestasi.slug}`,
+    keywords: ['prestasi sekolah', 'penghargaan sekolah'],
+    ogImage: prestasiImage(prestasi.foto),
+    type: 'article',
+  })
+}
+
+export function generateArticleJsonLd(berita: Berita) {
+  return articleSchema({
+    title: berita.judul,
+    description: stripHtml(berita.desc || ''),
+    image: beritaImage(berita.foto),
+    slug: berita.slug,
+    publishedAt: berita.created_at,
+    modifiedAt: berita.updated_at,
+  })
+}
+
+export function generatePrestasiSiswaJsonLd(prestasi: PrestasiSiswa) {
+  return achievementSchema({
+    title: prestasi.name,
+    description: stripHtml(prestasi.description || ''),
+    image: prestasiImage(prestasi.foto),
+    slug: prestasi.slug,
+    juara: prestasi.juara,
+    date: prestasi.tanggal,
+    level: prestasi.tingkat,
+    type: 'siswa',
+  })
+}
+
+export function generatePrestasiSekolahJsonLd(prestasi: PrestasiSekolah) {
+  return achievementSchema({
+    title: prestasi.name,
+    description: stripHtml(prestasi.description || ''),
+    image: prestasiImage(prestasi.foto),
+    slug: prestasi.slug,
+    date: prestasi.tanggal,
+    type: 'sekolah',
+  })
 }

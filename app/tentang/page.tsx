@@ -118,7 +118,7 @@ export default function TentangPage() {
                   <Button asChild className="bg-[#ffd166] text-gray-900 hover:bg-[#ffb703] rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl">
                     <Link href="#visi-misi">Visi & Misi</Link>
                   </Button>
-                  <Button asChild variant="outline" className="text-white border-white/30 hover:bg-white/10 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs">
+                  <Button asChild variant="outline-on-dark" className="rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs">
                     <Link href="#sejarah">Sejarah Sekolah</Link>
                   </Button>
                 </div>

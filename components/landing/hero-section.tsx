@@ -51,8 +51,8 @@ export function HeroSection() {
             <Button
               asChild
               size="lg"
-              variant="outline"
-              className="w-full sm:w-auto px-10 py-7 text-lg font-black text-white bg-white/10 border-2 border-white/25 rounded-2xl hover:bg-white/20 backdrop-blur-md transition-all uppercase tracking-widest"
+              variant="outline-on-dark"
+              className="w-full sm:w-auto px-10 py-7 text-lg font-black border-2 rounded-2xl backdrop-blur-md transition-all uppercase tracking-widest"
             >
               <Link href="/profil#video" className="flex items-center gap-3">
                 <div className="flex items-center justify-center w-9 h-9 bg-white rounded-full shadow-lg">

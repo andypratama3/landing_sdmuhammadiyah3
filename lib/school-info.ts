@@ -18,7 +18,7 @@ export const SCHOOL = {
   url: BASE_URL,
   phone: '(0541) 260066',
   phoneTel: '+62541260066',
-  whatsapp: '6285250443151',
+  whatsapp: '6285750893938',
   whatsappMessage:
     'Halo, saya ingin mengetahui informasi pendaftaran SD Muhammadiyah 3 Samarinda',
   email: 'sekolahkreatifmuh3@gmail.com',

@@ -165,6 +165,7 @@ export function spmbEventSchema() {
     name: 'SPMB SD Muhammadiyah 3 Samarinda 2025/2026',
     description:
       'Penerimaan Peserta Didik Baru SD Muhammadiyah 3 Samarinda tahun ajaran 2025/2026.',
+    image: `${BASE_URL}/SD3_logo1.png`,
     startDate: '2025-01-10',
     endDate: '2025-03-10',
     eventStatus: 'https://schema.org/EventScheduled',
@@ -186,12 +187,18 @@ export function spmbEventSchema() {
       name: SCHOOL.name,
       url: SCHOOL.url,
     },
+    performer: {
+      '@type': 'EducationalOrganization',
+      name: SCHOOL.name,
+      url: SCHOOL.url,
+    },
     offers: {
       '@type': 'Offer',
       url: `${BASE_URL}/spmb`,
       availability: 'https://schema.org/InStock',
       price: '0',
       priceCurrency: 'IDR',
+      validFrom: '2025-01-10',
     },
   }
 }
@@ -261,6 +268,10 @@ export function achievementSchema(prestasi: {
     award: prestasi.juara,
     url: `${BASE_URL}/${basePath}/${prestasi.slug}`,
     organizer: {
+      '@type': 'EducationalOrganization',
+      name: SCHOOL.name,
+    },
+    performer: {
       '@type': 'EducationalOrganization',
       name: SCHOOL.name,
     },

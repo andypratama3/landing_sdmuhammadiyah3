@@ -52,6 +52,7 @@ export const SCHOOL = {
       'https://www.facebook.com/sekolahkreatif.muhammadiyahsamarinda',
     instagram: 'https://www.instagram.com/SekolahKreatifSamarinda',
     youtube: 'https://www.youtube.com/@sekolahkreatifsdmuhammadiy2812',
+    tiktok: 'https://www.tiktok.com/@sekolahkreatifsamarinda',
   },
   stats: {
     students: 400,

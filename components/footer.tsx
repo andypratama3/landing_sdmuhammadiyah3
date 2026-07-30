@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Facebook, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react"
+import { TikTok } from "@/components/icons/tiktok-icon"
 import Image from 'next/image'
 import { VisitorStatsClient } from "./visitor-stats-client";
 import { SCHOOL } from "@/lib/school-info"
@@ -24,7 +25,8 @@ export default function Footer() {
   const socialLinks = [
     { icon: Facebook, href: SCHOOL.social.facebook, label: "Facebook" },
     { icon: Instagram, href: SCHOOL.social.instagram, label: "Instagram" },
-    { icon: Youtube, href: SCHOOL.social.youtube, label: "YouTube" }
+    { icon: Youtube, href: SCHOOL.social.youtube, label: "YouTube" },
+    { icon: TikTok, href: SCHOOL.social.tiktok, label: "TikTok" }
   ];
 
   const contactInfo = [

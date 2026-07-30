@@ -21,6 +21,7 @@ import {
   MessageSquare,
   BookOpen,
 } from "lucide-react"
+import { TikTok } from "@/components/icons/tiktok-icon"
 
 const contactInfo = [
   {
@@ -99,6 +100,13 @@ const socialMedia = [
     handle: "SD Muhammadiyah 3 Samarinda",
     link: "https://id.wikipedia.org/wiki/Sd_Muhammadiyah_3_Samarinda",
     color: "bg-gray-800",
+  },
+  {
+    name: "TikTok",
+    icon: TikTok,
+    handle: "@sekolahkreatifsamarinda",
+    link: "https://www.tiktok.com/@sekolahkreatifsamarinda",
+    color: "bg-gray-900",
   },
 ]
 

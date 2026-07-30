@@ -1,5 +1,3 @@
-export const dynamic = 'force-static'
-
 import { PageHeader } from "@/components/page-header"
 import { Card, CardContent } from "@/components/ui/card"
 import { Shield, Lock, Database, Users, FileText, Phone, Mail, MapPin, Baby, Globe } from "lucide-react"

@@ -67,9 +67,10 @@ export default function GaleriPage() {
 
     if (categoryData && Array.isArray(categoryData)) {
       categoryData.forEach(cat => {
+        const name = cat.name ?? ''
         cats.push({
-          name: cat.name.charAt(0).toUpperCase() + cat.name.slice(1),
-          value: cat.name.toLowerCase()
+          name: name.charAt(0).toUpperCase() + name.slice(1),
+          value: name.toLowerCase()
         })
       })
     }

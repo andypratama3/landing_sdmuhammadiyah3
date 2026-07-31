@@ -105,7 +105,7 @@ export default function PrestasiSekolahDetailPage() {
 
   // Get category icon
   const getCategoryIcon = (categoryName: string) => {
-    const name = categoryName.toLowerCase()
+    const name = (categoryName ?? '').toLowerCase()
     if (name.includes('akreditasi')) return Award
     if (name.includes('penghargaan') || name.includes('award')) return Star
     if (name.includes('sertifikat') || name.includes('ramah')) return Shield

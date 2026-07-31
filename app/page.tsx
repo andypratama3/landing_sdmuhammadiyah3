@@ -487,9 +487,10 @@ export default async function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {achievements?.map((achievement, index) => {
               const getBadgeClass = (juara: string) => {
-                if (juara.toLowerCase().includes('juara 1')) return 'ribbon-badge-gold';
-                if (juara.toLowerCase().includes('juara 2')) return 'ribbon-badge-silver';
-                if (juara.toLowerCase().includes('juara 3')) return 'ribbon-badge-bronze';
+                const j = (juara ?? '').toLowerCase();
+                if (j.includes('juara 1')) return 'ribbon-badge-gold';
+                if (j.includes('juara 2')) return 'ribbon-badge-silver';
+                if (j.includes('juara 3')) return 'ribbon-badge-bronze';
                 return 'ribbon-badge-teal';
               };
               return (

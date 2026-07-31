@@ -115,10 +115,11 @@ export default function BeritaPage() {
       cats[0].count = totalCount
 
       categoryData.forEach(cat => {
+        const category = cat.category ?? ''
         cats.push({
-          name: cat.category.charAt(0).toUpperCase() + cat.category.slice(1),
+          name: category.charAt(0).toUpperCase() + category.slice(1),
           count: cat.total || 0,
-          value: cat.category.toLowerCase()
+          value: category.toLowerCase()
         })
       })
     }

@@ -103,14 +103,14 @@ export default function EkstrakurikulerPage() {
 
   // Get unique categories
   const categories = useMemo(() => {
-    const cats = new Set(ekstrakurikuler.map(item => item.kategori.toLowerCase()))
+    const cats = new Set(ekstrakurikuler.map(item => (item.kategori ?? '').toLowerCase()))
     return Array.from(cats).sort((a, b) => a === 'Lainnya' ? -1 : b === 'Lainnya' ? 1 : a.localeCompare(b))
   }, [ekstrakurikuler])
 
   // Filter ekstrakurikuler by category
   const filteredEkstrakurikuler = useMemo(() => {
     if (selectedCategory === "all") return ekstrakurikuler
-    return ekstrakurikuler.filter(item => item.kategori.toLowerCase() === selectedCategory)
+    return ekstrakurikuler.filter(item => (item.kategori ?? '').toLowerCase() === selectedCategory)
   }, [ekstrakurikuler, selectedCategory])
 
   return (

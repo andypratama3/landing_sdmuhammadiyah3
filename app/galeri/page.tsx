@@ -12,6 +12,7 @@ import { Gallery, GalleryKategori } from '@/types/gallery.types'
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import Image from "next/image"
+import PageAnimations from "@/components/PageAnimations"
 
 export default function GaleriPage() {
   const [activeFilter, setActiveFilter] = useState("semua")
@@ -113,33 +114,34 @@ export default function GaleriPage() {
   }
 
   return (
-    <div className="pt-24 pb-16 min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+    <div className="pt-24 pb-16 min-h-screen bg-(--color-paper-50) dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+      <PageAnimations />
       {/* Animated Background Blobs */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
-      <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
-      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+      <div className="absolute top-20 left-10 w-64 h-64 bg-(--color-forest-450)/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-40 right-20 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-(--color-teal-400)/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
       {/* Editorial Bento Grid Hero Section */}
-      <section className="w-full py-12 lg:py-20 bg-gray-900/50 dark:bg-black/50 mt-4 border-b border-gray-800 relative z-20">
+      <section className="w-full py-12 lg:py-20 bg-(--color-cloud-100)/50 dark:bg-black/50 mt-4 border-b border-gray-200 dark:border-gray-800 relative z-20">
         <div className="container px-4 mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            
+
             {/* Main Typographic Card (Spans 8 cols) */}
-            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+            <div className="lg:col-span-8 bg-(--color-forest-450) dark:bg-(--color-forest-900) rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
               <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative z-10">
-                <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+                <Badge className="page-hero-badge bg-white text-(--color-forest-600) hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-(--color-sun-500) animate-pulse"></span>
                   Visual Archive
                 </Badge>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
-                  Galeri <br /> <span className="text-[#ffd166]">Kebersamaan</span>
+                <h1 className="page-hero-title text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
+                  Galeri <br /> <span className="text-(--color-sun-200)">Kebersamaan</span>
                 </h1>
-                <p className="text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
+                <p className="page-hero-description text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
                   Menyimpan setiap momen berharga dalam perjalanan pendidikan kami. Dari kegiatan akademik hingga keceriaan ekstrakurikuler.
                 </p>
-                
+
                 <div className="relative w-full max-w-xl">
                   <div className="flex items-center bg-white/95 dark:bg-gray-900 border border-white/20 shadow-2xl rounded-2xl p-2 focus-within:ring-4 focus-within:ring-white/30 transition-all">
                     <div className="pl-4 pr-3 text-gray-400 dark:text-gray-500">
@@ -164,15 +166,15 @@ export default function GaleriPage() {
 
             {/* Side Highlights (Spans 4 cols) */}
             <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
-                 <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center mb-6 text-[#33b962] group-hover:scale-110 transition-transform">
+              <div className="page-card page-tilt-card bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-(--color-forest-450)">
+                 <div className="w-14 h-14 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 rounded-2xl flex items-center justify-center mb-6 text-(--color-forest-450) group-hover:scale-110 transition-transform">
                     <Camera className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Arsip Foto</h3>
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Ribuan Momen Tertangkap Kamera</p>
               </div>
-              
-              <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+
+              <div className="page-card bg-(--color-sun-500) dark:bg-(--color-sun-400) rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
                 <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
                     <Video className="w-8 h-8" />
                   </div>
@@ -207,15 +209,15 @@ export default function GaleriPage() {
       )}
 
       {/* Filter & View Toggle */}
-      <section className="py-12 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-white/5 relative z-20 transition-colors duration-500">
+      <section className="py-12 bg-(--color-paper-50) dark:bg-gray-950 border-b border-gray-200 dark:border-white/5 relative z-20 transition-colors duration-500">
         <div className="container px-4 mx-auto">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col items-center justify-between gap-8 mb-12 md:flex-row">
-              <div className="flex bg-gray-100 dark:bg-gray-900/50 p-2 rounded-[1.25rem] gap-1 backdrop-blur-xl border border-gray-200 dark:border-white/5">
+              <div className="flex bg-(--color-cloud-100) dark:bg-gray-900/50 p-2 rounded-[1.25rem] gap-1 backdrop-blur-xl border border-gray-200 dark:border-white/5">
                 <Button
                   variant={viewMode === "grid" ? "default" : "ghost"}
                   className={`rounded-xl px-5 py-2 h-11 transition-all duration-500 ${viewMode === "grid"
-                    ? "bg-white dark:bg-gray-800 shadow-xl text-[#33b962] scale-105"
+                    ? "bg-white dark:bg-gray-800 shadow-xl text-(--color-forest-450) scale-105"
                     : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
                     }`}
                   onClick={() => setViewMode("grid")}
@@ -227,7 +229,7 @@ export default function GaleriPage() {
                 <Button
                   variant={viewMode === "list" ? "default" : "ghost"}
                   className={`rounded-xl px-5 py-2 h-11 transition-all duration-500 ${viewMode === "list"
-                    ? "bg-white dark:bg-gray-800 shadow-xl text-[#33b962] scale-105"
+                    ? "bg-white dark:bg-gray-800 shadow-xl text-(--color-forest-450) scale-105"
                     : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
                     }`}
                   onClick={() => setViewMode("list")}
@@ -238,9 +240,9 @@ export default function GaleriPage() {
                 </Button>
               </div>
 
-              <div className="flex items-center gap-4 px-8 py-3 bg-[#33b962]/5 dark:bg-[#33b962]/10 rounded-full border border-emerald-500/10 backdrop-blur-md">
-                <div className="w-2 h-2 rounded-full bg-[#33b962] animate-pulse" />
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#33b962] whitespace-nowrap">
+              <div className="flex items-center gap-4 px-8 py-3 bg-(--color-forest-450)/5 dark:bg-(--color-forest-450)/10 rounded-full border border-(--color-forest-450)/10 backdrop-blur-md">
+                <div className="w-2 h-2 rounded-full bg-(--color-forest-450) animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-(--color-forest-450) whitespace-nowrap">
                   {galleriesLoading ? (
                     <Loader2 className="w-3 h-3 animate-spin" />
                   ) : (
@@ -263,8 +265,8 @@ export default function GaleriPage() {
                     key={category.value}
                     variant={activeFilter === category.value ? "default" : "outline"}
                     className={`rounded-full px-8 py-2 h-12 font-black uppercase tracking-widest text-[10px] transition-all duration-500 group ${activeFilter === category.value
-                      ? "bg-[#33b962] text-white shadow-2xl shadow-emerald-500/30 border-0 scale-105"
-                      : "bg-white dark:bg-gray-900/40 text-gray-500 dark:text-gray-400 border-2 border-gray-100 dark:border-white/5 hover:border-[#33b962] hover:text-[#33b962] dark:hover:bg-gray-800"
+                      ? "bg-(--color-forest-450) text-white shadow-2xl shadow-(--color-forest-450)/30 border-0 scale-105"
+                      : "bg-white dark:bg-gray-900/40 text-gray-500 dark:text-gray-400 border-2 border-gray-100 dark:border-white/5 hover:border-(--color-forest-450) hover:text-(--color-forest-450) dark:hover:bg-gray-800"
                       }`}
                     onClick={() => setActiveFilter(category.value)}
                   >
@@ -278,7 +280,7 @@ export default function GaleriPage() {
       </section>
 
       {/* Gallery */}
-      <section ref={contentRef} className="py-24 bg-gray-50 dark:bg-gray-950 transition-colors duration-500">
+      <section ref={contentRef} className="py-24 bg-(--color-cloud-100) dark:bg-gray-950 transition-colors duration-500">
         <div className="container px-4 mx-auto">
           {/* LOADING */}
           {galleriesLoading && (
@@ -290,8 +292,8 @@ export default function GaleriPage() {
                 <Skeleton
                   key={i}
                   className={viewMode === "grid"
-                    ? "bg-gray-200 h-96 rounded-3xl break-inside-avoid"
-                    : "bg-gray-200 h-64 rounded-3xl"
+                    ? "bg-gray-200 dark:bg-gray-800 h-96 rounded-3xl break-inside-avoid"
+                    : "bg-gray-200 dark:bg-gray-800 h-64 rounded-3xl"
                   }
                 />
               ))}
@@ -338,7 +340,7 @@ export default function GaleriPage() {
                             <Button
                               asChild
                               size="sm"
-                              className="w-full bg-[#33b962] hover:bg-[#2a9d52] rounded-xl font-black uppercase tracking-widest text-[10px] h-10 shadow-2xl"
+                              className="w-full bg-(--color-forest-450) hover:bg-(--color-forest-500) rounded-xl font-black uppercase tracking-widest text-[10px] h-10 shadow-2xl"
                             >
                               <Link href={`/galeri/${item.slug}`}>
                                 Lihat Selengkapnya
@@ -348,10 +350,10 @@ export default function GaleriPage() {
                         </div>
 
                         <div className="p-6">
-                          <h3 className="mb-3 text-lg font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-[#33b962] transition-colors leading-tight">
+                          <h3 className="mb-3 text-lg font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-(--color-forest-450) transition-colors leading-tight">
                             {item.name}
                           </h3>
-                          <div className="flex items-center gap-3 mb-4 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">                            <Calendar className="w-3.5 h-3.5 text-[#33b962] brightness-125" />
+                          <div className="flex items-center gap-3 mb-4 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">                            <Calendar className="w-3.5 h-3.5 text-(--color-forest-450)" />
                             {formatDate(item.created_at)}
                           </div>
 
@@ -361,7 +363,7 @@ export default function GaleriPage() {
                               {item.gallery_kategori.slice(0, 3).map((cat: any) => (
                                 <Badge
                                   key={cat.id}
-                                  className="bg-emerald-50 dark:bg-emerald-900/20 text-[#33b962] border-emerald-500/10 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md"
+                                  className="bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 text-(--color-forest-450) border-(--color-forest-450)/10 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md"
                                 >
                                   {cat.name}
                                 </Badge>
@@ -400,10 +402,10 @@ export default function GaleriPage() {
                           </div>
 
                           <div className="flex-1 flex flex-col justify-center text-center md:text-left">
-                            <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight leading-tight group-hover:text-[#33b962] transition-colors">
+                            <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight leading-tight group-hover:text-(--color-forest-450) transition-colors">
                               {item.name}
                             </h3>
-                            <div className="flex items-center justify-center md:justify-start gap-3 mb-6 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">                              <Calendar className="w-4 h-4 text-[#33b962]" />
+                            <div className="flex items-center justify-center md:justify-start gap-3 mb-6 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">                              <Calendar className="w-4 h-4 text-(--color-forest-450)" />
                               {formatDate(item.created_at)}
                             </div>
 
@@ -413,7 +415,7 @@ export default function GaleriPage() {
                                 {item.gallery_kategori.map((cat) => (
                                   <Badge
                                     key={cat.id}
-                                    className="bg-[#33b962]/10 text-[#33b962] border-emerald-500/10 px-4 py-1.5 font-black uppercase tracking-widest text-[9px] rounded-lg"
+                                    className="bg-(--color-forest-450)/10 text-(--color-forest-450) border-(--color-forest-450)/10 px-4 py-1.5 font-black uppercase tracking-widest text-[9px] rounded-lg"
                                   >
                                     {cat.name}
                                   </Badge>
@@ -424,7 +426,7 @@ export default function GaleriPage() {
                             <Button
                               asChild
                               size="lg"
-                              className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-2xl px-10 py-7 font-black uppercase tracking-widest text-[11px] shadow-xl hover:scale-105 transition-all w-fit mx-auto md:mx-0"
+                              className="bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white rounded-2xl px-10 py-7 font-black uppercase tracking-widest text-[11px] shadow-xl hover:scale-105 transition-all w-fit mx-auto md:mx-0"
                             >
                               <Link href={`/galeri/${item.slug}`}>
                                 LIHAT DETAIL MOMEN
@@ -441,7 +443,7 @@ export default function GaleriPage() {
               {/* Empty State */}
               {galleries.length === 0 && !galleriesLoading && (
                 <div className="py-20 text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 text-gray-300">
+                  <div className="w-16 h-16 mx-auto mb-4 text-gray-300 dark:text-gray-600">
                     <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>

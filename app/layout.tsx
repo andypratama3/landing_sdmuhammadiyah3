@@ -1,12 +1,12 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Quicksand, Outfit } from "next/font/google"
+import { Quicksand, Outfit, Baloo_2 } from "next/font/google"
 import { headers } from "next/headers"
 import "./globals.css"
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
-import ApiInitializer, { ApiInitializerStatus } from "@/components/api-initializer"
+import ApiInitializer from "@/components/api-initializer"
 import GoogleAnalytics, { GTMNoScript } from "@/components/google-analytics"
 import StructuredData from "@/components/structured-data"
 import InteractiveUI from "@/components/interactive-ui"
@@ -23,6 +23,13 @@ const quicksand = Quicksand({
   subsets: ["latin"], 
   variable: "--font-quicksand",
   display: 'swap',
+})
+
+const baloo2 = Baloo_2({
+  subsets: ["latin"],
+  variable: "--font-baloo2",
+  display: 'swap',
+  weight: ['400', '500', '600', '700', '800'],
 })
 
 export const metadata: Metadata = {
@@ -135,7 +142,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className={`${outfit.variable} ${quicksand.variable} font-quicksand antialiased`}>
+      <body className={`${outfit.variable} ${quicksand.variable} ${baloo2.variable} font-quicksand antialiased`}>
         {/* GTM NoScript - must be immediately after opening body tag */}
         <GTMNoScript />
 

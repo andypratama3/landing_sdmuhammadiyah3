@@ -21,7 +21,7 @@ const statsConfig = [
 
 export function StatsSection({ data }: StatsSectionProps) {
   return (
-    <section className="relative -mt-16 z-20 pb-16 bg-white dark:bg-gray-900">
+    <section className="relative -mt-16 z-20 pb-16 bg-(--color-paper-50) dark:bg-gray-900">
       <div className="container px-4 mx-auto">
         <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
           {statsConfig.map((stat, index) => {
@@ -31,7 +31,7 @@ export function StatsSection({ data }: StatsSectionProps) {
                 <div className="clay-icon w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-5 flex items-center justify-center">
                   <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-black text-[#33b962] mb-1 font-outfit">
+                <h3 className="text-2xl sm:text-3xl font-black text-(--color-forest-700) mb-1 font-outfit">
                   {formatCount(data?.[stat.valueKey])}
                 </h3>
                 <p className="text-[11px] font-bold text-gray-600 dark:text-gray-400 uppercase tracking-[0.15em] font-quicksand">

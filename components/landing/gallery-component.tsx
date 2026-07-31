@@ -45,10 +45,10 @@ export function GalleryCard({ gallery }: GalleryCardProps) {
         </div>
 
         <div className="p-6 flex-1 flex flex-col">
-          <h3 className="text-sm font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-[#33b962] transition-colors leading-tight mb-2">
+          <h3 className="text-sm font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-(--color-forest-700) transition-colors leading-tight mb-2">
             {gallery.name}
           </h3>
-          <div className="mt-auto pt-4 flex items-center text-[10px] font-black uppercase tracking-widest text-[#33b962] brightness-110">
+          <div className="mt-auto pt-4 flex items-center text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">
             Momen Kreatif
           </div>
         </div>

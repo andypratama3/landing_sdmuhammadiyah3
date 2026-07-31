@@ -13,6 +13,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { PrestasiSiswa } from "@/types"
 import { useDebounce } from "@/hooks/useDebounce"
+import PageAnimations from "@/components/PageAnimations"
 
 function timeAgo(dateString: string) {
   const date = new Date(dateString)
@@ -192,12 +193,12 @@ export default function PrestasiSiswaPage() {
   }
 
   const getAwardColor = (award: string | null | undefined) => {
-    if (!award) return "bg-[#33b962] text-white"
+    if (!award) return "bg-(--color-forest-450) text-white"
     const awardStr = String(award).toLowerCase()
-    if (awardStr.includes("1") || awardStr.includes("pertama")) return "bg-[#ffd700] text-gray-900"
-    if (awardStr.includes("2") || awardStr.includes("kedua")) return "bg-[#c0c0c0] text-gray-900"
-    if (awardStr.includes("3") || awardStr.includes("ketiga")) return "bg-[#cd7f32] text-white"
-    return "bg-[#33b962] text-white"
+    if (awardStr.includes("1") || awardStr.includes("pertama")) return "bg-(--color-sun-500) text-gray-900"
+    if (awardStr.includes("2") || awardStr.includes("kedua")) return "bg-gray-300 text-gray-900"
+    if (awardStr.includes("3") || awardStr.includes("ketiga")) return "bg-amber-600 text-white"
+    return "bg-(--color-forest-450) text-white"
   }
 
   const handlePageChange = (page: number) => {
@@ -237,31 +238,32 @@ export default function PrestasiSiswaPage() {
   const isSearching = isTyping || prestasiLoading
 
   return (
-    <div className="pt-24 pb-16 min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+    <div className="pt-24 pb-16 min-h-screen bg-(--color-paper-50) dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+      <PageAnimations />
       {/* Animated Background Blobs */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
-      <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
-      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+      <div className="absolute top-20 left-10 w-64 h-64 bg-(--color-forest-450)/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-40 right-20 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-(--color-teal-400)/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
       {/* Editorial Bento Grid Hero Section */}
-      <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
+      <section className="w-full py-12 lg:py-20 bg-(--color-cloud-100)/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
         <div className="container px-4 mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
             {/* Main Typographic Card (Spans 8 cols) */}
-            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+            <div className="lg:col-span-8 bg-(--color-forest-450) dark:bg-(--color-forest-900) rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
               <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative z-10">
-                <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+                <Badge className="page-hero-badge bg-white text-(--color-forest-600) hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-(--color-sun-500) animate-pulse"></span>
                   Hall of Fame
                 </Badge>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
-                  Prestasi <br /> <span className="text-[#ffd166]">Siswa & Siswi</span>
+                <h1 className="page-hero-title text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
+                  Prestasi <br /> <span className="text-(--color-sun-200)">Siswa & Siswi</span>
                 </h1>
-                <p className="text-white/95 text-lg font-medium max-w-xl mb-10 leading-relaxed drop-shadow-sm">
+                <p className="page-hero-description text-white/95 text-lg font-medium max-w-xl mb-10 leading-relaxed drop-shadow-sm">
                   Merayakan setiap langkah kecil menuju kesuksesan besar. Sebuah rekam jejak kebanggaan dan pencapaian luar biasa.
                 </p>
                 
@@ -269,7 +271,7 @@ export default function PrestasiSiswaPage() {
                 <div className="relative w-full max-w-xl">
                   <div className="flex items-center bg-white/95 dark:bg-gray-900 border border-white/20 shadow-2xl rounded-2xl p-2 focus-within:ring-4 focus-within:ring-white/30 transition-all">
                     <div className="pl-4 pr-3 text-gray-400">
-                      {isTyping ? <Loader2 className="w-6 h-6 animate-spin text-[#33b962]" /> : <Search className="w-6 h-6" />}
+                      {isTyping ? <Loader2 className="w-6 h-6 animate-spin text-(--color-forest-450)" /> : <Search className="w-6 h-6" />}
                     </div>
                     <Input
                       type="text"
@@ -283,7 +285,7 @@ export default function PrestasiSiswaPage() {
                         <X className="w-5 h-5" />
                       </button>
                     )}
-                    <Button className="bg-[#ffd166] hover:bg-[#ffb703] text-gray-900 rounded-xl px-6 sm:px-8 h-12 font-black uppercase tracking-widest text-sm shadow-md transition-transform hover:scale-105 hidden sm:flex">
+                    <Button className="page-button bg-(--color-sun-500) hover:bg-(--color-sun-400) text-gray-900 rounded-xl px-6 sm:px-8 h-12 font-black uppercase tracking-widest text-sm shadow-md transition-transform hover:scale-105 hidden sm:flex">
                       Cari
                     </Button>
                   </div>
@@ -293,15 +295,15 @@ export default function PrestasiSiswaPage() {
 
             {/* Side Highlights (Spans 4 cols) */}
             <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
-                 <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center mb-6 text-[#33b962] group-hover:scale-110 transition-transform">
+              <div className="page-card page-tilt-card bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-(--color-forest-450)">
+                 <div className="w-14 h-14 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/30 rounded-2xl flex items-center justify-center mb-6 text-(--color-forest-450) group-hover:scale-110 transition-transform">
                     <Trophy className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Emas & Juara</h3>
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Kebanggaan SD Muhammadiyah 3</p>
               </div>
               
-              <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+              <div className="page-card bg-(--color-sun-500) dark:bg-(--color-sun-400) rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
                 <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
                     <Medal className="w-8 h-8" />
                   </div>
@@ -336,21 +338,21 @@ export default function PrestasiSiswaPage() {
       )}
 
       {/* Filters */}
-      <section className="py-12 bg-white dark:bg-gray-950 border-b dark:border-gray-800 relative z-20">
+      <section className="py-12 bg-(--color-paper-50) dark:bg-gray-950 border-b dark:border-gray-800 relative z-20">
         <div className="container px-4 mx-auto">
           <div className="max-w-6xl mx-auto space-y-8">
             <div className="grid md:grid-cols-3 gap-8 items-end">
               {/* Year Filter */}
               <div className="space-y-4">
-                <label className="text-[10px] font-black uppercase tracking-widest text-[#33b962] mb-2 block">Tahun</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-450) mb-2 block">Tahun</label>
                 <div className="flex flex-wrap gap-2">
                   {years.map((year) => (
                     <Button
                       key={year.id}
                       variant={selectedYear === year.id ? "default" : "outline"}
                       className={`rounded-xl px-4 h-10 font-black uppercase tracking-widest text-[9px] transition-all duration-300 ${selectedYear === year.id
-                          ? "bg-[#33b962] text-white shadow-lg shadow-emerald-500/20 border-0"
-                          : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 hover:border-[#33b962] hover:text-[#33b962]"
+                          ? "bg-(--color-forest-450) text-white shadow-lg shadow-(--color-forest-450)/20 border-0"
+                          : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 hover:border-(--color-forest-450) hover:text-(--color-forest-450)"
                         }`}
                       onClick={() => setSelectedYear(year.id)}
                       disabled={tingkatLoading || categoryLoading}
@@ -363,15 +365,15 @@ export default function PrestasiSiswaPage() {
 
               {/* Level Filter */}
               <div className="space-y-4">
-                <label className="text-[10px] font-black uppercase tracking-widest text-[#33b962] mb-2 block">Tingkat Kompetisi</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-450) mb-2 block">Tingkat Kompetisi</label>
                 <div className="flex flex-wrap gap-2">
                   {levels.map((level) => (
                     <Button
                       key={level.id}
                       variant={selectedLevel === level.id ? "default" : "outline"}
                       className={`rounded-xl px-4 h-10 font-black uppercase tracking-widest text-[9px] transition-all duration-300 ${selectedLevel === level.id
-                          ? "bg-[#33b962] text-white shadow-lg shadow-emerald-500/20 border-0"
-                          : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 hover:border-[#33b962] hover:text-[#33b962]"
+                          ? "bg-(--color-forest-450) text-white shadow-lg shadow-(--color-forest-450)/20 border-0"
+                          : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 hover:border-(--color-forest-450) hover:text-(--color-forest-450)"
                         }`}
                       onClick={() => setSelectedLevel(level.id)}
                       disabled={tingkatLoading}
@@ -384,15 +386,15 @@ export default function PrestasiSiswaPage() {
 
               {/* Category Filter */}
               <div className="space-y-4">
-                <label className="text-[10px] font-black uppercase tracking-widest text-[#33b962] mb-2 block">Kategori Prestasi</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-450) mb-2 block">Kategori Prestasi</label>
                 <div className="flex flex-wrap gap-2">
                   {categories.map((category) => (
                     <Button
                       key={category.slug}
                       variant={selectedCategory === category.slug ? "default" : "outline"}
                       className={`rounded-xl px-4 h-10 font-black uppercase tracking-widest text-[9px] transition-all duration-300 ${selectedCategory === category.slug
-                          ? "bg-[#33b962] text-white shadow-lg shadow-emerald-500/20 border-0"
-                          : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 hover:border-[#33b962] hover:text-[#33b962]"
+                          ? "bg-(--color-forest-450) text-white shadow-lg shadow-(--color-forest-450)/20 border-0"
+                          : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 hover:border-(--color-forest-450) hover:text-(--color-forest-450)"
                         }`}
                       onClick={() => setSelectedCategory(category.slug)}
                       disabled={categoryLoading}
@@ -405,8 +407,8 @@ export default function PrestasiSiswaPage() {
             </div>
 
             {!isSearching && paginationMeta && (
-              <div className="flex items-center gap-3 px-6 py-2 bg-[#33b962]/5 rounded-full border border-emerald-500/10 w-fit transition-transform hover:scale-105">
-                <span className="text-[10px] font-black uppercase tracking-widest text-[#33b962]">
+              <div className="flex items-center gap-3 px-6 py-2 bg-(--color-forest-450)/5 rounded-full border border-(--color-forest-450)/10 w-fit transition-transform hover:scale-105">
+                <span className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-450)">
                   Ditemukan {paginationMeta.total} Prestasi Siswa Luar Biasa
                 </span>
               </div>
@@ -416,7 +418,7 @@ export default function PrestasiSiswaPage() {
       </section>
 
       {/* Main Content */}
-      <section ref={contentRef} className="py-16 bg-gray-50 dark:bg-gray-900">
+      <section ref={contentRef} className="py-16 bg-(--color-cloud-100) dark:bg-gray-900">
         <div className="container px-4 mx-auto">
           <div className="grid gap-8 lg:grid-cols-4">
             {/* Prestasi Grid */}
@@ -481,7 +483,7 @@ export default function PrestasiSiswaPage() {
                         variant={currentPage === page ? "default" : "outline"}
                         onClick={() => handlePageChange(page as number)}
                         disabled={currentPage === page}
-                        className={currentPage === page ? "bg-[#33b962] hover:bg-[#2a9d52]" : ""}
+                        className={currentPage === page ? "bg-(--color-forest-450) hover:bg-(--color-forest-500)" : ""}
                       >
                         {page}
                       </Button>
@@ -512,7 +514,7 @@ export default function PrestasiSiswaPage() {
               <Card className="dark:bg-gray-800 dark:border-gray-700">
                 <div className="p-6">
                   <h3 className="flex items-center gap-2 mb-4 text-lg font-bold dark:text-white">
-                    <Trophy className="w-5 h-5 text-[#33b962]" />
+                    <Trophy className="w-5 h-5 text-(--color-forest-450)" />
                     Prestasi Terbaru
                   </h3>
                   {popularLoading ? (
@@ -535,11 +537,11 @@ export default function PrestasiSiswaPage() {
                             href={`/prestasi-siswa/${item.slug}`}
                             className="flex items-start gap-3 transition-colors group hover:text-primary"
                           >
-                            <span className="flex items-center justify-center flex-shrink-0 w-8 h-8 text-sm font-semibold rounded-full bg-[#33b962]/10 text-[#33b962]">
+                            <span className="flex items-center justify-center flex-shrink-0 w-8 h-8 text-sm font-semibold rounded-full bg-(--color-forest-450)/10 text-(--color-forest-450)">
                               {index + 1}
                             </span>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium transition-colors line-clamp-2 group-hover:text-[#33b962]">
+                              <p className="text-sm font-medium transition-colors line-clamp-2 group-hover:text-(--color-forest-450)">
                                 {item.name}
                               </p>
                               <p className="mt-1 text-xs text-muted-foreground">
@@ -561,7 +563,7 @@ export default function PrestasiSiswaPage() {
               {/* Statistics */}
               <Card className="p-6 dark:bg-gray-800 dark:border-gray-700">
                 <h3 className="flex items-center gap-2 mb-4 text-lg font-bold dark:text-white">
-                  <Medal className="w-5 h-5 text-[#33b962]" />
+                  <Medal className="w-5 h-5 text-(--color-forest-450)" />
                   Statistik
                 </h3>
                 <div className="space-y-3">
@@ -616,13 +618,13 @@ function PrestasiCard({
             <div className="relative group/trophy">
               <div className="absolute -inset-4 bg-yellow-500/20 rounded-full blur-xl opacity-0 group-hover/trophy:opacity-100 transition-opacity duration-500" />
               <div className="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 shadow-2xl transform transition-transform duration-500 group-hover:rotate-12">
-                <Trophy className="w-8 h-8 text-[#ffd700] brightness-125 drop-shadow-[0_4px_10px_rgba(255,215,0,0.5)]" />
+                <Trophy className="w-8 h-8 text-(--color-sun-500) brightness-125 drop-shadow-[0_4px_10px_rgba(232,163,61,0.5)]" />
               </div>
             </div>
           </div>
 
           <div className="absolute bottom-4 left-6 right-6 z-20">
-            <Badge className="bg-[#33b962] text-white border-0 font-black uppercase tracking-widest text-[9px] px-3 py-1 mb-2">
+            <Badge className="bg-(--color-forest-450) text-white border-0 font-black uppercase tracking-widest text-[9px] px-3 py-1 mb-2">
               {achievement.tingkat}
             </Badge>
           </div>
@@ -630,8 +632,8 @@ function PrestasiCard({
 
         <div className="p-8 flex-1 flex flex-col">
           <div className="d-flex items-center gap-6 mb-6">
-            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#33b962]">
-              <Calendar className="w-3.5 h-3.5 brightness-110" />
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-(--color-forest-450)">
+              <Calendar className="w-3.5 h-3.5" />
               <span>{formatDate(achievement.tanggal)}</span>
             </div>
             {achievement.penyelenggara && (
@@ -641,20 +643,20 @@ function PrestasiCard({
             )}
           </div>
 
-          <h3 className="mb-3 text-lg font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-[#33b962] transition-colors leading-tight">
+          <h3 className="mb-3 text-lg font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-(--color-forest-450) transition-colors leading-tight">
             {achievement.name}
           </h3>
 
           <div className="mt-auto pt-6 border-t border-gray-100 dark:border-white/5 flex items-center justify-between">
             <div className="flex flex-wrap gap-1">
               {achievement.kategori && achievement.kategori.length > 0 && achievement.kategori.slice(0, 2).map((cat) => (
-                <Badge key={cat.slug} className="bg-emerald-50 dark:bg-emerald-900/20 text-[#33b962] border-emerald-500/10 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md">
+                <Badge key={cat.slug} className="bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 text-(--color-forest-450) border-(--color-forest-450)/10 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md">
                   {cat.name}
                 </Badge>
               ))}
             </div>
           </div>
-            <Button variant="default" className="text-[9px] font-black uppercase tracking-widest text-[#33b962] p-2 mt-4 hover:translate-x-1 text-white transition-transform">
+            <Button variant="default" className="text-[9px] font-black uppercase tracking-widest text-(--color-forest-450) p-2 mt-4 hover:translate-x-1 text-white transition-transform">
               Lihat 
             </Button>
         </div>

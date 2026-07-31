@@ -112,12 +112,12 @@ export default function PrestasiSiswaDetailPage() {
 
   // Get award color
   const getAwardColor = (award: string | null | undefined) => {
-    if (!award) return "bg-[#33b962] text-white"
+    if (!award) return "bg-(--color-forest-700) text-white"
     const awardStr = String(award).toLowerCase()
-    if (awardStr.includes("1") || awardStr.includes("pertama")) return "bg-[#ffd700] text-gray-900"
-    if (awardStr.includes("2") || awardStr.includes("kedua")) return "bg-[#c0c0c0] text-gray-900"
-    if (awardStr.includes("3") || awardStr.includes("ketiga")) return "bg-[#cd7f32] text-white"
-    return "bg-[#33b962] text-white"
+    if (awardStr.includes("1") || awardStr.includes("pertama")) return "bg-(--color-sun-500) text-gray-900"
+    if (awardStr.includes("2") || awardStr.includes("kedua")) return "bg-gray-300 text-gray-900"
+    if (awardStr.includes("3") || awardStr.includes("ketiga")) return "bg-amber-600 text-white"
+    return "bg-(--color-forest-700) text-white"
   }
 
   // Meta info
@@ -176,7 +176,7 @@ export default function PrestasiSiswaDetailPage() {
   if (prestasiLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <section className="relative py-12 text-white bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45]">
+        <section className="relative py-12 text-white bg-gradient-to-br from-(--color-forest-700) via-(--color-forest-500) to-(--color-forest-600)">
           <div className="container px-4 mx-auto">
             <Skeleton className="w-40 h-10 bg-white/20" />
           </div>
@@ -254,9 +254,9 @@ export default function PrestasiSiswaDetailPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
       {/* Animated Background Blobs */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
-      <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
-      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+      <div className="absolute top-20 left-10 w-64 h-64 bg-(--color-forest-700)/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-40 right-20 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-(--color-teal-400)/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
       <PageHeader
         title={prestasi?.name || "Prestasi Siswa"}
@@ -325,52 +325,52 @@ export default function PrestasiSiswaDetailPage() {
 
               {/* Achievement Info Card */}
               <Card className="mb-12 border-0 shadow-2xl rounded-[2.5rem] overflow-hidden bg-white dark:bg-gray-900/40 card-premium glass">
-                <div className="bg-[#33b962] p-8 text-white relative overflow-hidden">
+                <div className="bg-(--color-forest-700) p-8 text-white relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
                   <div className="flex items-center gap-4 relative z-10">
-                    <Trophy className="w-8 h-8 text-[#ffd700] brightness-125" />
+                    <Trophy className="w-8 h-8 text-(--color-sun-500) brightness-125" />
                     <h2 className="text-xl font-black uppercase tracking-tight">Rincian Pencapaian</h2>
                   </div>
                 </div>
                 <CardContent className="p-8">
                   <div className="grid gap-8 sm:grid-cols-2">
                     <div className="space-y-1">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-[#33b962]">Nama Siswa</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">Nama Siswa</p>
                       <p className="text-xl font-bold text-gray-900 dark:text-white">{prestasi.name}</p>
                     </div>
 
                     {prestasi.tingkat && (
                       <div className="space-y-1">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-[#33b962]">Tingkat Kompetisi</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">Tingkat Kompetisi</p>
                         <p className="text-xl font-bold text-gray-900 dark:text-white">{prestasi.tingkat}</p>
                       </div>
                     )}
 
                     {prestasi.juara && (
                       <div className="space-y-1">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-[#33b962]">Juara / Peringkat</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">Juara / Peringkat</p>
                         <p className="text-xl font-bold text-gray-900 dark:text-white uppercase tracking-tight">{prestasi.juara}</p>
                       </div>
                     )}
 
                     {prestasi.penyelenggara && (
                       <div className="space-y-1">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-[#33b962]">Penyelenggara</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">Penyelenggara</p>
                         <p className="text-xl font-bold text-gray-900 dark:text-white leading-tight">{prestasi.penyelenggara}</p>
                       </div>
                     )}
 
                     <div className="space-y-1">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-[#33b962]">Tanggal Pelaksanaan</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">Tanggal Pelaksanaan</p>
                       <p className="text-xl font-bold text-gray-900 dark:text-white">{formatDate(prestasi.tanggal)}</p>
                     </div>
 
                     {prestasi.kategori && prestasi.kategori.length > 0 && (
                       <div className="space-y-2">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-[#33b962]">Kategori</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">Kategori</p>
                         <div className="flex flex-wrap gap-2">
                           {prestasi.kategori.map((kat) => (
-                            <Badge key={kat.slug} className="bg-[#33b962]/10 text-[#33b962] border-emerald-500/10 px-4 py-1.5 font-black uppercase tracking-widest text-[9px] rounded-lg">
+                            <Badge key={kat.slug} className="bg-(--color-forest-700)/10 text-(--color-forest-700) border-(--color-forest-700)/10 px-4 py-1.5 font-black uppercase tracking-widest text-[9px] rounded-lg">
                               {kat.name}
                             </Badge>
                           ))}
@@ -386,7 +386,7 @@ export default function PrestasiSiswaDetailPage() {
                 <Card className="mb-8">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-2 mb-4">
-                      <Award className="w-5 h-5 text-[#33b962]" />
+                      <Award className="w-5 h-5 text-(--color-forest-700)" />
                       <h3 className="text-xl font-semibold">Deskripsi</h3>
                     </div>
                     <div
@@ -430,7 +430,7 @@ export default function PrestasiSiswaDetailPage() {
                   <Button
                     size="icon"
                     variant="outline"
-                    className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#33b962] hover:text-white hover:border-[#33b962] transition-all"
+                    className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-(--color-forest-700) hover:text-white hover:border-(--color-forest-700) transition-all"
                     onClick={() => handleShare('native')}
                   >
                     <Share2 className="w-4 h-4" />
@@ -444,11 +444,11 @@ export default function PrestasiSiswaDetailPage() {
           <div className="space-y-6">
             {/* Achievement Badge */}
             <Card className="overflow-hidden border-0 shadow-2xl rounded-[2.5rem] card-premium glass">
-              <div className="bg-linear-to-br from-[#33b962] to-[#2a9d52] p-10 text-white relative">
+              <div className="bg-linear-to-br from-(--color-forest-700) to-(--color-forest-500) p-10 text-white relative">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
                 <div className="flex flex-col items-center justify-center relative z-10">
                   <div className="w-24 h-24 bg-white/20 backdrop-blur-md rounded-[2rem] flex items-center justify-center mb-6 shadow-2xl border border-white/30 rotate-6 group-hover:rotate-12 transition-transform duration-500">
-                    <Trophy className="w-12 h-12 text-[#ffd700] brightness-125 drop-shadow-[0_4px_10px_rgba(255,215,0,0.5)]" />
+                    <Trophy className="w-12 h-12 text-(--color-sun-500) brightness-125 drop-shadow-[0_4px_10px_rgba(232,163,61,0.5)]" />
                   </div>
                   <h3 className="text-2xl font-black uppercase tracking-tight text-center leading-tight mb-2">{prestasi.juara || "Prestasi"}</h3>
                   <Badge className="bg-white/20 border-white/30 text-white font-black uppercase tracking-widest text-[10px] px-4 py-1.5">{prestasi.tingkat}</Badge>
@@ -524,7 +524,7 @@ export default function PrestasiSiswaDetailPage() {
                               {item.juara}
                             </Badge>
                           )}
-                          <h4 className="text-sm font-semibold transition-colors line-clamp-2 group-hover:text-[#33b962]">
+                          <h4 className="text-sm font-semibold transition-colors line-clamp-2 group-hover:text-(--color-forest-700)">
                             {item.name}
                           </h4>
                           <p className="mt-1 text-xs text-muted-foreground">

@@ -7,7 +7,13 @@ import { Calendar, Clock, Download, Printer, Loader, BookOpen, Users, Search } f
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { useApi } from "@/hooks/useApi"
+import PageAnimations from "@/components/PageAnimations"
 import { JadwalItem } from "@/types"
+
+interface Kelas {
+  id: string
+  name: string
+}
 
 // ========== COLOR MAPPING ==========
 const colorMap: Record<string, string> = {
@@ -321,10 +327,11 @@ export default function JadwalPage() {
 
   return (
     <div className="min-h-screen pt-24 pb-16 bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative font-outfit">
+      <PageAnimations />
       {/* Animated Background Blobs */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
-      <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
-      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+      <div className="absolute top-20 left-10 w-64 h-64 bg-(--color-forest-450)/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-40 right-20 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-(--color-teal-400)/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
       {/* Editorial Bento Grid Hero Section */}
       <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
@@ -332,17 +339,17 @@ export default function JadwalPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
             {/* Main Typographic Card (Spans 8 cols) */}
-            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+            <div className="lg:col-span-8 bg-(--color-forest-450) dark:bg-(--color-forest-900) rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
               <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative z-10">
-                <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                <Badge className="bg-white text-(--color-forest-600) hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
                   Academic Scheduling
                 </Badge>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
-                  Jadwal <br /> <span className="text-[#ffd166]">Pembelajaran</span>
+                  Jadwal <br /> <span className="text-(--color-sun-200)">Pembelajaran</span>
                 </h1>
                 <p className="text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
                   Kelola waktu belajar dengan efisien. Temukan jadwal pelajaran, kegiatan ekstrakurikuler, dan agenda penting sekolah semua dalam satu tempat.
@@ -365,7 +372,7 @@ export default function JadwalPage() {
                   </div>
                   <Button 
                     onClick={handleDownloadPDF}
-                    className="bg-white text-[#33b962] hover:bg-white/90 rounded-2xl px-8 h-[74px] font-black uppercase tracking-widest text-xs shadow-xl flex items-center gap-3"
+                    className="bg-white text-(--color-forest-450) hover:bg-white/90 rounded-2xl px-8 h-[74px] font-black uppercase tracking-widest text-xs shadow-xl flex items-center gap-3"
                   >
                     <Download className="w-5 h-5" />
                     Download PDF
@@ -376,15 +383,15 @@ export default function JadwalPage() {
 
             {/* Side Highlights (Spans 4 cols) */}
             <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
-                 <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center mb-6 text-[#33b962] group-hover:scale-110 transition-transform">
+              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-(--color-forest-450)">
+                 <div className="w-14 h-14 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/30 rounded-2xl flex items-center justify-center mb-6 text-(--color-forest-450) group-hover:scale-110 transition-transform">
                     <Calendar className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Terstruktur</h3>
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Waktu Belajar Efektif & Produktif</p>
               </div>
               
-              <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+              <div className="bg-(--color-sun-500) dark:bg-(--color-sun-600) rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
                 <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
                     <Clock className="w-8 h-8" />
                   </div>
@@ -401,9 +408,9 @@ export default function JadwalPage() {
       {isInitialLoading && (
         <section className="relative z-30 -mt-8">
           <div className="container px-4 mx-auto">
-            <div className="max-w-md mx-auto glass dark:bg-emerald-950/40 border-emerald-500/20 px-8 py-4 rounded-full shadow-2xl flex items-center justify-center gap-4 animate-bounce-slow">
-              <Loader className="w-6 h-6 animate-spin text-[#33b962]" />
-              <p className="text-sm font-black text-emerald-800 dark:text-emerald-300 uppercase tracking-widest">Sinkronisasi Data...</p>
+            <div className="max-w-md mx-auto glass dark:bg-(--color-forest-900)/40 border-(--color-forest-500)/20 px-8 py-4 rounded-full shadow-2xl flex items-center justify-center gap-4 animate-bounce-slow">
+              <Loader className="w-6 h-6 animate-spin text-(--color-forest-450)" />
+              <p className="text-sm font-black text-gray-800 dark:text-gray-300 uppercase tracking-widest">Sinkronisasi Data...</p>
             </div>
           </div>
         </section>
@@ -418,8 +425,8 @@ export default function JadwalPage() {
                 {/* Year Selection */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-3 px-1">
-                    <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-950/30 rounded-xl flex items-center justify-center">
-                      <Calendar className="w-5 h-5 text-[#33b962]" />
+                    <div className="w-10 h-10 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/30 rounded-xl flex items-center justify-center">
+                      <Calendar className="w-5 h-5 text-(--color-forest-450)" />
                     </div>
                     <label className="text-xs font-black text-gray-900 dark:text-white uppercase tracking-[0.2em]">Tahun Ajaran</label>
                   </div>
@@ -429,8 +436,8 @@ export default function JadwalPage() {
                         key={year}
                         variant={selectedYear === year ? "default" : "outline"}
                         className={`rounded-2xl px-5 h-12 font-bold transition-all ${selectedYear === year
-                          ? "bg-[#33b962] text-white shadow-lg shadow-emerald-500/30 scale-105"
-                          : "bg-white/50 dark:bg-black/20 border-white/20 dark:border-white/5 text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+                          ? "bg-(--color-forest-450) text-white shadow-lg shadow-(--color-forest-500)/30 scale-105"
+                          : "bg-white/50 dark:bg-black/20 border-white/20 dark:border-white/5 text-gray-700 dark:text-gray-300 hover:bg-(--color-forest-450)/10 dark:hover:bg-(--color-forest-450)/20"
                           }`}
                         onClick={() => setSelectedYear(year)}
                       >
@@ -471,8 +478,8 @@ export default function JadwalPage() {
                 {/* Class Selection */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-3 px-1">
-                    <div className="w-10 h-10 bg-amber-100 dark:bg-amber-950/30 rounded-xl flex items-center justify-center">
-                      <Users className="w-5 h-5 text-amber-500" />
+                    <div className="w-10 h-10 bg-(--color-sun-500)/10 dark:bg-(--color-sun-500)/30 rounded-xl flex items-center justify-center">
+                      <Users className="w-5 h-5 text-(--color-sun-600)" />
                     </div>
                     <label className="text-xs font-black text-gray-900 dark:text-white uppercase tracking-[0.2em]">Pilih Rombel</label>
                   </div>
@@ -487,8 +494,8 @@ export default function JadwalPage() {
                         key={cls}
                         variant={selectedClass === cls ? "default" : "outline"}
                         className={`rounded-2xl px-5 h-12 font-bold transition-all ${selectedClass === cls
-                          ? "bg-amber-500 text-white shadow-lg shadow-amber-500/30 scale-105"
-                          : "bg-white/50 dark:bg-black/20 border-white/20 dark:border-white/5 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-950/30"
+                          ? "bg-(--color-sun-500) text-gray-900 shadow-lg shadow-(--color-sun-500)/30 scale-105"
+                          : "bg-white/50 dark:bg-black/20 border-white/20 dark:border-white/5 text-gray-700 dark:text-gray-300 hover:bg-(--color-sun-500)/10 dark:hover:bg-(--color-sun-500)/20"
                           }`}
                         onClick={() => setSelectedClass(cls)}
                       >
@@ -514,7 +521,7 @@ export default function JadwalPage() {
                   <h2 className="text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight">
                     Jadwal {selectedGrade?.name} {selectedClass}
                   </h2>
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-100 dark:bg-emerald-900/30 text-[#33b962] rounded-full text-sm font-bold">
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/30 text-(--color-forest-450) dark:text-(--color-teal-400) rounded-full text-sm font-bold">
                     <Calendar className="w-4 h-4" />
                     Tahun Ajaran {selectedYear}
                   </div>
@@ -524,7 +531,7 @@ export default function JadwalPage() {
                 <div className="flex flex-wrap gap-4">
                   <Button
                     variant="outline"
-                    className="rounded-[1.25rem] px-8 h-14 font-black bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-[#33b962] transition-all shadow-sm"
+                    className="rounded-[1.25rem] px-8 h-14 font-black bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-(--color-forest-450) transition-all shadow-sm"
                     onClick={handlePrint}
                     disabled={isPrinting || !hasSchedule}
                   >
@@ -533,7 +540,7 @@ export default function JadwalPage() {
                   </Button>
 
                   <Button
-                    className="rounded-[1.25rem] px-8 h-14 font-black bg-linear-to-r from-[#33b962] to-[#2a9d52] text-white transition-all shadow-xl hover:shadow-emerald-500/30 hover:scale-105 active:scale-95"
+                    className="rounded-[1.25rem] px-8 h-14 font-black bg-linear-to-r from-(--color-forest-450) to-(--color-forest-500) text-white transition-all shadow-xl hover:shadow-(--color-forest-500)/30 hover:scale-105 active:scale-95"
                     onClick={handleDownloadPDF}
                     disabled={isPrinting || !hasSchedule}
                   >
@@ -548,8 +555,8 @@ export default function JadwalPage() {
                 <Card className="card-premium p-32 glass dark:bg-gray-900/40 border-0">
                   <div className="flex flex-col items-center justify-center gap-8">
                     <div className="relative">
-                      <div className="w-32 h-32 rounded-full border-4 border-emerald-500/20 animate-spin border-t-emerald-500" />
-                      <Clock className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 text-[#33b962]" />
+                      <div className="w-32 h-32 rounded-full border-4 border-(--color-forest-500)/20 animate-spin border-t-(--color-forest-500)" />
+                      <Clock className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 text-(--color-forest-450)" />
                     </div>
                     <div className="text-center space-y-2">
                       <p className="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-[0.2em]">Memuat Jadwal</p>
@@ -570,7 +577,7 @@ export default function JadwalPage() {
                     <div className="space-y-4">
                       <h3 className="text-3xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Jadwal Belum Dipublikasikan</h3>
                       <p className="text-lg font-medium text-gray-600 dark:text-gray-400 leading-relaxed">
-                        Maaf, jadwal pelajaran untuk <span className="text-[#33b962] font-black">{selectedGrade?.name} {selectedClass}</span> di periode <span className="font-bold">{selectedYear}</span> sedang dalam tahap finalisasi oleh tim kurikulum.
+                        Maaf, jadwal pelajaran untuk <span className="text-(--color-forest-450) font-black">{selectedGrade?.name} {selectedClass}</span> di periode <span className="font-bold">{selectedYear}</span> sedang dalam tahap finalisasi oleh tim kurikulum.
                       </p>
                     </div>
                     <div className="p-6 bg-white/50 dark:bg-black/20 border-2 border-dashed border-orange-500/20 rounded-3xl flex items-center gap-4">
@@ -592,7 +599,7 @@ export default function JadwalPage() {
                       <div className="overflow-x-auto">
                         <table className="w-full border-collapse">
                           <thead>
-                            <tr className="bg-linear-to-r from-[#33b962] via-[#2a9d52] to-[#238b45] text-white">
+                            <tr className="bg-linear-to-r from-(--color-forest-450) via-(--color-forest-500) to-(--color-forest-600) text-white">
                               <th className="py-8 px-10 text-xs font-black uppercase tracking-[0.2em] text-left">Waktu</th>
                               {days.map((day) => (
                                 <th key={day} className="py-8 px-6 text-xs font-black uppercase tracking-[0.2em] text-center border-l border-white/10">
@@ -605,12 +612,12 @@ export default function JadwalPage() {
                             {Array.from({
                               length: Math.max(...Object.values(schedule).map((day) => day.length)),
                             }).map((_, timeIndex) => (
-                              <tr key={timeIndex} className="group hover:bg-[#33b962]/5 dark:hover:bg-emerald-950/10 transition-colors">
+                              <tr key={timeIndex} className="group hover:bg-(--color-forest-450)/5 dark:hover:bg-(--color-forest-900)/10 transition-colors">
                                 <td className="py-8 px-10">
                                   {schedule[days[0]]?.[timeIndex] && (
                                     <div className="flex items-center gap-4 group-hover:scale-105 transition-transform duration-300">
-                                      <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/30 rounded-[1.25rem] flex items-center justify-center shrink-0 shadow-xl border border-emerald-100/50 dark:border-emerald-800/20 brightness-110 filter drop-shadow-[0_4px_6px_rgba(51,185,98,0.15)]">
-                                        <Clock className="w-6 h-6 text-[#33b962] brightness-125" />
+                                      <div className="w-12 h-12 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/30 rounded-[1.25rem] flex items-center justify-center shrink-0 shadow-xl border border-(--color-forest-450)/10 dark:border-(--color-forest-450)/20 brightness-110 filter drop-shadow-[0_4px_6px_rgba(26,77,46,0.15)]">
+                                        <Clock className="w-6 h-6 text-(--color-forest-450) brightness-125" />
                                       </div>
                                       <span className="text-lg font-black text-gray-900 dark:text-white tracking-tighter whitespace-nowrap">
                                         {schedule[days[0]][timeIndex].time}
@@ -648,7 +655,7 @@ export default function JadwalPage() {
                         key={day}
                         className="card-premium glass dark:bg-gray-900/40 border-0 shadow-xl overflow-hidden animate-fade-in-up"
                       >
-                        <div className="bg-linear-to-r from-[#33b962] via-[#2a9d52] to-[#238b45] text-white p-8 relative overflow-hidden">
+                        <div className="bg-linear-to-r from-(--color-forest-450) via-(--color-forest-500) to-(--color-forest-600) text-white p-8 relative overflow-hidden">
                           <div className="absolute top-0 right-0 p-4 opacity-10">
                             <Calendar className="w-24 h-24 rotate-12" />
                           </div>
@@ -658,18 +665,18 @@ export default function JadwalPage() {
                           {schedule[day as keyof typeof schedule].map((lesson, index) => (
                             <div
                               key={index}
-                              className={`${lesson.color} dark:bg-opacity-20 dark:border dark:border-white/10 rounded-[2.5rem] p-8 transition-all hover:scale-[1.02] shadow-sm border-l-[10px] border-[#33b962] relative group`}
+                              className={`${lesson.color} dark:bg-opacity-20 dark:border dark:border-white/10 rounded-[2.5rem] p-8 transition-all hover:scale-[1.02] shadow-sm border-l-[10px] border-(--color-forest-450) relative group`}
                             >
                               <div className="flex items-center gap-3 mb-4">
                                 <div className="p-2.5 bg-white/50 dark:bg-black/20 rounded-xl backdrop-blur-md">
-                                  <Clock className="w-5 h-5 text-[#33b962]" />
+                                  <Clock className="w-5 h-5 text-(--color-forest-450)" />
                                 </div>
                                 <span className="text-sm font-black text-gray-800 dark:text-gray-200 tracking-[0.1em] uppercase">{lesson.time}</span>
                               </div>
                               <h4 className="text-2xl font-black text-gray-900 dark:text-white leading-tight mb-3 uppercase tracking-tight">{lesson.subject}</h4>
                               {lesson.teacher !== "-" && (
                                 <div className="flex items-center gap-3 text-sm font-bold text-gray-600 dark:text-gray-400">
-                                  <div className="w-2.5 h-2.5 rounded-full bg-[#33b962]" />
+                                  <div className="w-2.5 h-2.5 rounded-full bg-(--color-forest-450)" />
                                   <span className="italic leading-relaxed">{lesson.teacher}</span>
                                 </div>
                               )}
@@ -713,7 +720,7 @@ export default function JadwalPage() {
                 </div>
                 <h3 className="mb-6 text-4xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Kesiapan Belajar</h3>
                 <p className="text-xl font-medium text-gray-600 dark:text-gray-400 leading-relaxed mb-10">
-                  Ayo mulai harimu dengan terencana! Pilih <span className="text-[#33b962] font-black">Kelas</span> dan <span className="text-[#33b962] font-black">Rombel</span> di atas untuk melihat agenda belajarmu.
+                  Ayo mulai harimu dengan terencana! Pilih <span className="text-(--color-forest-600) dark:text-(--color-forest-400) font-black">Kelas</span> dan <span className="text-(--color-forest-600) dark:text-(--color-forest-400) font-black">Rombel</span> di atas untuk melihat agenda belajarmu.
                 </p>
                 <div className="flex justify-center items-center gap-6">
                   {[1, 2, 3].map((v) => (

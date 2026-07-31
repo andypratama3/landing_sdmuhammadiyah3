@@ -282,7 +282,7 @@ export default function GaleriDetailPage() {
       <>
         <div className="min-h-screen bg-background">
           {/* Header */}
-          <section className="relative py-12 text-white bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45]">
+          <section className="relative py-12 text-white bg-linear-to-br from-(--color-forest-700) via-(--color-forest-500) to-(--color-forest-600)">
             <div className="container px-4 mx-auto">
               <Skeleton className="w-40 h-10 bg-white/20" />
             </div>
@@ -326,7 +326,7 @@ export default function GaleriDetailPage() {
     return (
       <>
         <div className="min-h-screen bg-background">
-          <section className="relative py-12 text-white bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#238b45]">
+          <section className="relative py-12 text-white bg-linear-to-br from-(--color-forest-700) via-(--color-forest-500) to-(--color-forest-600)">
             <div className="container px-4 mx-auto">
               <Link href="/galeri">
                 <Button variant="ghost" className="text-white hover:bg-white/20">
@@ -371,9 +371,9 @@ export default function GaleriDetailPage() {
     <>
       <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
         {/* Animated Background Blobs */}
-        <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
-        <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
-        <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+        <div className="absolute top-20 left-10 w-64 h-64 bg-(--color-forest-700)/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+        <div className="absolute top-40 right-20 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+        <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-(--color-teal-400)/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
         <PageHeader
           title={gallery.name}
@@ -440,14 +440,14 @@ export default function GaleriDetailPage() {
                         <>
                           <button
                             onClick={goToPrevious}
-                            className="absolute p-4 text-white transition-all -translate-y-1/2 rounded-full opacity-0 left-6 top-1/2 bg-black/40 backdrop-blur-md hover:bg-[#33b962] group-hover:opacity-100 shadow-xl"
+                            className="absolute p-4 text-white transition-all -translate-y-1/2 rounded-full opacity-0 left-6 top-1/2 bg-black/40 backdrop-blur-md hover:bg-(--color-forest-700) group-hover:opacity-100 shadow-xl"
                             aria-label="Previous image"
                           >
                             <ChevronLeft className="w-8 h-8" />
                           </button>
                           <button
                             onClick={goToNext}
-                            className="absolute p-4 text-white transition-all -translate-y-1/2 rounded-full opacity-0 right-6 top-1/2 bg-black/40 backdrop-blur-md hover:bg-[#33b962] group-hover:opacity-100 shadow-xl"
+                            className="absolute p-4 text-white transition-all -translate-y-1/2 rounded-full opacity-0 right-6 top-1/2 bg-black/40 backdrop-blur-md hover:bg-(--color-forest-700) group-hover:opacity-100 shadow-xl"
                             aria-label="Next image"
                           >
                             <ChevronRight className="w-8 h-8" />
@@ -576,7 +576,7 @@ export default function GaleriDetailPage() {
                       <Button
                         size="icon"
                         variant="outline"
-                        className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#33b962] hover:text-white hover:border-[#33b962] transition-all"
+                        className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-(--color-forest-700) hover:text-white hover:border-(--color-forest-700) transition-all"
                         onClick={() => handleShare('native')}
                       >
                         <Share2 className="w-4 h-4" />
@@ -590,7 +590,7 @@ export default function GaleriDetailPage() {
               <div className="space-y-6">
                 {/* Info Card */}
                 <Card className="border-0 shadow-2xl rounded-[2.5rem] bg-white dark:bg-gray-900/40 card-premium glass overflow-hidden">
-                  <div className="bg-[#33b962] p-8 text-white relative overflow-hidden">
+                  <div className="bg-(--color-forest-700) p-8 text-white relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
                     <h3 className="text-xl font-black uppercase tracking-tight relative z-10 transition-colors">
                       Informasi Detail
@@ -598,11 +598,11 @@ export default function GaleriDetailPage() {
                   </div>
                   <CardContent className="p-8 space-y-8">
                     <div className="flex items-center gap-4 group">
-                      <div className="w-12 h-12 rounded-2xl bg-[#33b962]/10 dark:bg-[#33b962]/20 flex items-center justify-center border border-emerald-500/10 transition-transform group-hover:rotate-12">
-                        <Calendar className="w-6 h-6 text-[#33b962]" />
+                      <div className="w-12 h-12 rounded-2xl bg-(--color-forest-700)/10 dark:bg-(--color-forest-700)/20 flex items-center justify-center border border-(--color-forest-700)/10 transition-transform group-hover:rotate-12">
+                        <Calendar className="w-6 h-6 text-(--color-forest-700)" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-[#33b962] mb-1">Tanggal</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-700) mb-1">Tanggal</p>
                         <p className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-tight">{formatDate(gallery.created_at)}</p>
                       </div>
                     </div>
@@ -610,11 +610,11 @@ export default function GaleriDetailPage() {
                     <Separator className="bg-gray-100 dark:bg-white/5" />
 
                     <div className="flex items-center gap-4 group">
-                      <div className="w-12 h-12 rounded-2xl bg-[#33b962]/10 dark:bg-[#33b962]/20 flex items-center justify-center border border-emerald-500/10 transition-transform group-hover:rotate-12">
-                        <ImageIcon className="w-6 h-6 text-[#33b962]" />
+                      <div className="w-12 h-12 rounded-2xl bg-(--color-forest-700)/10 dark:bg-(--color-forest-700)/20 flex items-center justify-center border border-(--color-forest-700)/10 transition-transform group-hover:rotate-12">
+                        <ImageIcon className="w-6 h-6 text-(--color-forest-700)" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-[#33b962] mb-1">Dokumentasi</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-700) mb-1">Dokumentasi</p>
                         <p className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-tight">{allImages.length} Foto</p>
                       </div>
                     </div>
@@ -623,11 +623,11 @@ export default function GaleriDetailPage() {
                       <>
                         <Separator className="bg-gray-100 dark:bg-white/5" />
                         <div className="flex items-center gap-4 group">
-                          <div className="w-12 h-12 rounded-2xl bg-[#33b962]/10 dark:bg-[#33b962]/20 flex items-center justify-center border border-emerald-500/10 transition-transform group-hover:rotate-12">
-                            <ExternalLink className="w-6 h-6 text-[#33b962]" />
+                          <div className="w-12 h-12 rounded-2xl bg-(--color-forest-700)/10 dark:bg-(--color-forest-700)/20 flex items-center justify-center border border-(--color-forest-700)/10 transition-transform group-hover:rotate-12">
+                            <ExternalLink className="w-6 h-6 text-(--color-forest-700)" />
                           </div>
                           <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-[#33b962] mb-1">Media</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-700) mb-1">Media</p>
                             <p className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-tight">Video Tersedia</p>
                           </div>
                         </div>
@@ -638,10 +638,10 @@ export default function GaleriDetailPage() {
                       <>
                         <Separator className="bg-gray-100 dark:bg-white/5" />
                         <div>
-                          <p className="mb-4 text-[10px] font-black uppercase tracking-widest text-[#33b962]">Kategori</p>
+                          <p className="mb-4 text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">Kategori</p>
                           <div className="flex flex-wrap gap-2">
                             {gallery.gallery_kategori.map((cat) => (
-                              <Badge key={cat.id} className="bg-[#33b962]/10 text-[#33b962] border-emerald-500/10 px-4 py-1.5 font-black uppercase tracking-widest text-[9px] rounded-lg">
+                              <Badge key={cat.id} className="bg-(--color-forest-700)/10 text-(--color-forest-700) border-(--color-forest-700)/10 px-4 py-1.5 font-black uppercase tracking-widest text-[9px] rounded-lg">
                                 {cat.name}
                               </Badge>
                             ))}

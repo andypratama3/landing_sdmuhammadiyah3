@@ -97,7 +97,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                         </div>
                       </div>
                       {guruDetail.lulusan && (
-                        <p className="text-[#33b962] text-sm sm:text-base font-bold mb-3">{guruDetail.lulusan}</p>
+                        <p className="text-(--color-forest-600) dark:text-(--color-forest-400) text-sm sm:text-base font-bold mb-3">{guruDetail.lulusan}</p>
                       )}
                       {guruDetail.description && (
                         <p className="text-xs sm:text-sm leading-relaxed text-gray-600 dark:text-gray-400 line-clamp-2">{guruDetail.description}</p>
@@ -111,7 +111,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                 <div className="grid grid-cols-1 gap-4 mb-8">
                   <div className="bg-linear-to-br from-[#33b962]/10 to-transparent dark:from-[#33b962]/20 rounded-xl p-4 border border-[#33b962]/20 dark:border-[#33b962]/30">
                     <p className="text-xs font-semibold tracking-wide text-gray-600 dark:text-gray-400 uppercase">Pelajaran</p>
-                    <p className="text-2xl sm:text-3xl font-black text-[#33b962]">{guruDetail.pelajarans.length} Mata Pelajaran</p>
+                    <p className="text-2xl sm:text-3xl font-black text-(--color-forest-600) dark:text-(--color-forest-400)">{guruDetail.pelajarans.length} Mata Pelajaran</p>
                   </div>
                 </div>
               )}
@@ -131,7 +131,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                         className="group flex items-center gap-4 p-4 bg-linear-to-r from-[#33b962]/8 to-transparent rounded-xl border-l-4 border-[#33b962] hover:shadow-lg hover:bg-linear-to-r hover:from-[#33b962]/12 transition-all"
                       >
                         <div className="shrink-0 w-3 h-3 rounded-full bg-[#33b962] group-hover:scale-150 transition-transform"></div>
-                        <span className="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-[#33b962] transition-colors">{p.name}</span>
+                        <span className="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-(--color-forest-600) dark:group-hover:text-(--color-forest-400) transition-colors">{p.name}</span>
                         <ChevronRight className="ml-auto w-4 h-4 text-gray-300 dark:text-gray-600 group-hover:text-[#33b962] transition-colors" />
                       </div>
                     ))}
@@ -155,7 +155,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-[10px] font-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">Email</p>
-                          <p className="text-gray-800 dark:text-gray-200 font-semibold truncate group-hover:text-[#33b962] transition-colors">{guruDetail.karyawan.email}</p>
+                          <p className="text-gray-800 dark:text-gray-200 font-semibold truncate group-hover:text-(--color-forest-600) dark:group-hover:text-(--color-forest-400) transition-colors">{guruDetail.karyawan.email}</p>
                         </div>
                         <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-[#33b962] transition-colors" />
                       </a>
@@ -167,7 +167,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-[10px] font-bold tracking-wider text-gray-500 dark:text-gray-400 uppercase">Telepon</p>
-                          <p className="text-gray-800 dark:text-gray-200 font-semibold group-hover:text-[#33b962] transition-colors">{guruDetail.karyawan.phone}</p>
+                          <p className="text-gray-800 dark:text-gray-200 font-semibold group-hover:text-(--color-forest-600) dark:group-hover:text-(--color-forest-400) transition-colors">{guruDetail.karyawan.phone}</p>
                         </div>
                         <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-[#33b962] transition-colors" />
                       </a>

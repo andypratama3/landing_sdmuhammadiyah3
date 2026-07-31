@@ -10,6 +10,7 @@ import { serverGetPublic } from '@/lib/server-api';
 import { GalleryCard } from "@/components/landing/gallery-component"
 import { Gallery } from '@/types/gallery.types'
 import { Dukungan } from '@/types/dukungan.types'
+import HomeAnimations from "@/components/HomeAnimations"
 import {
   Users,
   Award,
@@ -159,45 +160,59 @@ export default async function Home() {
 
   return (
     <div className="pt-20">
+      <HomeAnimations />
       {/* Hero Section */}
-      <section className="relative min-h-[95vh] flex items-center bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] py-20 overflow-hidden">
-        {/* Playful background elements */}
-        <div className="absolute top-20 left-[10%] w-64 h-64 bg-white/10 rounded-full blur-[100px] animate-blob pointer-events-none" />
-        <div className="absolute bottom-20 right-[10%] w-80 h-80 bg-[#ffd166]/10 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
-        
+      <section className="gsap-hero relative min-h-[95vh] flex items-center bg-gradient-to-br from-(--color-forest-900) via-(--color-forest-450) to-(--color-forest-800) py-20 overflow-hidden islamic-pattern blob-bg">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 left-10 w-96 h-96 bg-(--color-forest-500)/20 rounded-full blur-3xl animate-float-slow hero-blob-1" />
+          <div className="absolute bottom-20 right-10 w-80 h-80 bg-(--color-sun-500)/15 rounded-full blur-3xl animate-float hero-blob-2" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-(--color-teal-400)/10 rounded-full blur-3xl animate-pulse" />
+        </div>
+
         <div className="container relative z-10 px-4 mx-auto">
-          <div className="max-w-3xl mx-auto flex flex-col items-center text-center">
-            <div className="mb-12 inline-block relative text-center">
-              <div className="absolute inset-0 bg-white/40 blur-[80px] rounded-full scale-150 animate-pulse" />
-              <div className="relative w-28 h-28 sm:w-38 sm:h-38">
+          <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
+            <div className="mb-8 flex flex-wrap justify-center gap-3 animate-fade-in-up">
+              <div className="ribbon-badge ribbon-badge-gold shadow-2xl">
+                AKREDITASI A
+              </div>
+              <div className="ribbon-badge ribbon-badge-forest shadow-2xl">
+                SEKOLAH PENGGERAK
+              </div>
+            </div>
+
+            <div className="mb-12 inline-block relative text-center hero-logo animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              <div className="absolute inset-0 bg-white/30 blur-[100px] rounded-full scale-150 animate-pulse" />
+              <div className="relative w-32 h-32 sm:w-40 sm:h-40 animate-float">
+                <div className="absolute inset-0 bg-gradient-to-br from-(--color-sun-500)/30 to-(--color-forest-500)/30 rounded-full blur-2xl animate-pulse" />
                 <Image
                   src="/SD3_logo1.png"
                   alt="Logo SD Muhammadiyah 3 Samarinda"
-                  width={150}
-                  height={150}
+                  width={160}
+                  height={160}
                   priority
-                  className="object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.4)] filter brightness-110"
+                  className="relative object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)] filter brightness-110"
                 />
               </div>
             </div>
 
-            <Badge className="px-6 py-2 mb-8 text-white bg-white/20 border-white/30 backdrop-blur-md font-black uppercase tracking-widest text-[10px]">
+            <Badge className="hero-badge px-8 py-3 mb-8 text-white bg-white/15 border-white/40 backdrop-blur-xl font-black uppercase tracking-widest text-[11px] rounded-full shadow-xl animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               Eksplorasi Bakat & Kreativitas
             </Badge>
 
-            <h1 className="mb-8 font-black text-white text-fluid-h1 leading-[1.05] text-balance drop-shadow-2xl font-outfit">
+            <h1 className="hero-title mb-8 font-black text-white text-fluid-h1 leading-[1.05] text-balance drop-shadow-2xl font-outfit animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
               SD MUHAMMADIYAH 3 <br className="hidden sm:block" /> SAMARINDA
             </h1>
 
-            <p className="max-w-3xl mx-auto mb-12 text-lg sm:text-xl md:text-2xl lg:text-3xl leading-relaxed text-white/95 text-balance font-medium font-quicksand">
+            <p className="hero-description max-w-3xl mx-auto mb-12 text-lg sm:text-xl md:text-2xl lg:text-3xl leading-relaxed text-white/95 text-balance font-medium font-quicksand animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               Sekolah Kreatif yang membentuk karakter Islami, <br className="hidden sm:block" /> inovatif, dan berprestasi menuju masa depan gemilang.
             </p>
 
-            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-8">
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-8 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
               <Button
                 asChild
                 size="lg"
-                className="w-full sm:w-auto bg-[#ffd166] hover:bg-[#ffca3a] text-gray-900 rounded-2xl px-12 py-8 text-xl shadow-[0_20px_50px_rgba(255,209,102,0.3)] hover:scale-105 transition-all font-black group"
+                className="hero-button w-full sm:w-auto bg-(--color-sun-500) hover:bg-(--color-sun-400) text-gray-900 rounded-full px-12 py-8 text-xl shadow-[0_25px_60px_rgba(232,163,61,0.4)] hover:shadow-[0_30px_70px_rgba(232,163,61,0.5)] hover:scale-105 transition-all font-black group"
               >
                 <Link href="https://ppdb.sdmuh3smd.com" className="flex items-center justify-center gap-3">
                   DAFTAR SEKARANG
@@ -207,12 +222,12 @@ export default async function Home() {
               <Button
                 asChild
                 size="lg"
-                variant="outline-on-dark"
-                className="w-full sm:w-auto px-12 py-8 text-xl font-black border-2 rounded-2xl backdrop-blur-md transition-all shadow-xl uppercase tracking-widest"
+                variant="outline"
+                className="hero-button w-full sm:w-auto px-12 py-8 text-xl font-bold border-2 border-white/30 text-white hover:bg-white/15 rounded-full backdrop-blur-xl transition-all shadow-xl uppercase tracking-widest hover:scale-105"
               >
                 <Link href="/profil#video" className="flex items-center gap-4">
-                  <div className="flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg">
-                    <Play className="w-5 h-5 text-[#33b962] fill-[#33b962]" />
+                  <div className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-lg">
+                    <Play className="w-6 h-6 text-(--color-forest-450) fill-(--color-forest-450) ml-1" />
                   </div>
                   VIDEO PROFIL
                 </Link>
@@ -220,33 +235,35 @@ export default async function Home() {
             </div>
           </div>
         </div>
+
+        {/* Scroll Indicator
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
+            <div className="w-1.5 h-3 bg-white/60 rounded-full animate-pulse" />
+          </div>
+        </div> */}
       </section>
 
       {/* Quick Stats Section */}
-      <section className="relative py-24 -mt-12 bg-white dark:bg-gray-900 z-20">
+      <section className="gsap-stats relative py-24 -mt-12 bg-(--color-paper-50) dark:bg-gray-900 z-20 islamic-pattern">
         <div className="container px-4 mx-auto">
           <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
             {stats.map((stat, index) => (
-              <Card
-                key={index}
-                className="card-premium p-6 sm:p-10 text-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-xl"
-              >
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-[#33b962] to-[#2a9d52] rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl rotate-3 transition-all duration-300 brightness-110 filter drop-shadow-[0_10px_10px_rgba(51,185,98,0.3)]">
-                  <stat.icon className="w-8 h-8 sm:w-10 sm:h-10 text-white brightness-110" />
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-black text-[#33b962] mb-2 font-outfit">{stat.value}</h3>
-                <p className="text-xs sm:text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest font-quicksand">{stat.label}</p>
-              </Card>
+              <div key={index} className="stat-card medal-counter">
+                <stat.icon className="w-8 h-8 text-(--color-sun-500) mb-4" />
+                <span className="stat-number medal-counter-number">{stat.value}</span>
+                <span className="medal-counter-label">{stat.label}</span>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Program Unggulan Section */}
-      <section className="py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
+      <section className="gsap-programs py-24 bg-gradient-to-b from-(--color-cloud-100) to-white dark:from-gray-950 dark:to-gray-900">
         <div className="container px-4 mx-auto">
           <div className="mb-20 text-center">
-            <Badge className="mb-6 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] dark:text-[#4ade80] border-[#33b962]/20 px-6 py-3 text-sm font-bold rounded-full">
+            <Badge className="badge-primary mb-6">
               PROFIL LULUSAN & PROGRAM
             </Badge>
             <h2 className="mb-6 text-fluid-h2 font-black text-gray-900 dark:text-white text-balance leading-tight font-outfit">
@@ -256,40 +273,43 @@ export default async function Home() {
               Kurikulum yang dirancang khusus untuk membangun fondasi karakter, intelegensi, dan spiritualitas anak sejak dini.
             </p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {programs.map((program, index) => (
-              <Card
-                key={index}
-                className="p-8 card-premium group bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:border-[#33b962]/50"
-              >
-                <div className="w-16 h-16 bg-[#33b962]/10 dark:bg-[#33b962]/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-[#33b962] transition-all duration-300 shadow-emerald-500/10 hover:shadow-emerald-500/30">
-                  <program.icon className="w-8 h-8 text-[#33b962] group-hover:text-white brightness-110" />
-                </div>
-                <h3 className="font-black text-lg mb-4 text-gray-900 dark:text-white group-hover:text-[#33b962] transition-colors leading-tight font-outfit">
-                  {program.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400 font-quicksand">{program.description}</p>
-              </Card>
-            ))}
+          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 auto-rows-[minmax(200px,auto)]">
+            {programs.map((program, index) => {
+              const isFeatured = index < 3;
+              return (
+                <Card
+                  key={index}
+                  className="program-card p-8 card-bento group bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700"
+                >
+                  <div className={`w-16 h-16 bg-gradient-to-br from-(--color-forest-450)/10 to-(--color-teal-400)/10 dark:from-(--color-forest-450)/20 dark:to-(--color-teal-400)/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-(--color-forest-450) group-hover:to-(--color-forest-500) transition-all duration-300 ${isFeatured ? 'w-24 h-24' : ''}`}>
+                    <program.icon className={`text-(--color-forest-450) group-hover:text-white transition-colors ${isFeatured ? 'w-14 h-14' : 'w-8 h-8'}`} />
+                  </div>
+                  <h3 className={`font-black mb-4 text-gray-900 dark:text-white group-hover:text-gradient-forest transition-colors leading-tight font-outfit ${isFeatured ? 'text-2xl' : 'text-lg'}`}>
+                    {program.title}
+                  </h3>
+                  <p className={`leading-relaxed text-gray-600 dark:text-gray-400 font-quicksand ${isFeatured ? 'text-base' : 'text-sm'}`}>{program.description}</p>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Sekolah Penggerak & Akreditasi */}
-      <section className="py-24 bg-[#33b962] dark:bg-[#1a4d2e] relative overflow-hidden">
+      <section className="gsap-accreditation py-24 bg-(--color-forest-450) dark:bg-(--color-forest-900) relative overflow-hidden islamic-pattern">
         <div className="container relative z-10 px-4 mx-auto">
           <div className="grid gap-16 sm:grid-cols-2 lg:max-w-4xl mx-auto">
-            <div className="text-center group">
+            <div className="accreditation-card text-center group">
               <div className="relative flex items-center justify-center w-48 h-48 mx-auto mb-6 transition-all duration-700">
                 <div className="absolute inset-0 bg-white/20 blur-[50px] rounded-full scale-150 animate-pulse" />
                 <div className="relative z-10 w-32 h-32 animate-float">
-                  <Star className="w-full h-full text-[#ffd166] fill-[#ffd166] brightness-125 drop-shadow-[0_25px_50px_rgba(0,0,0,0.5)]" />
+                  <Star className="w-full h-full text-(--color-sun-500) fill-(--color-sun-500) brightness-125 drop-shadow-[0_25px_50px_rgba(0,0,0,0.5)]" />
                 </div>
               </div>
               <h3 className="mb-2 text-2xl sm:text-3xl font-black text-white font-outfit">Sekolah Penggerak</h3>
               <p className="text-white/80 text-base font-medium tracking-wide font-quicksand">Program Unggulan Kemendikbudristek</p>
             </div>
-            <div className="text-center group">
+            <div className="accreditation-card text-center group">
               <div className="relative flex items-center justify-center w-48 h-48 mx-auto mb-6 transition-all duration-700">
                 <div className="absolute inset-0 bg-white/20 blur-[50px] rounded-full scale-150 animate-pulse" />
                 <div className="relative z-10 w-32 h-32 animate-float">
@@ -304,14 +324,14 @@ export default async function Home() {
       </section>
 
       {/* Quick Links Section */}
-      <section className="py-32 bg-white dark:bg-gray-950 relative overflow-hidden">
+      <section className="py-32 bg-(--color-paper-50) dark:bg-gray-950 relative overflow-hidden">
         <div className="container px-4 mx-auto">
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
             {facilities.map((facility, index) => (
               <Link
                 key={index}
                 href={facility.link}
-                className="relative overflow-hidden shadow-2xl group rounded-[3rem] h-[400px] sm:h-[500px] lg:h-[600px] block card-premium border-0"
+                className="quick-link-card relative overflow-hidden shadow-2xl group rounded-[3rem] h-[400px] sm:h-[500px] lg:h-[600px] block card-premium border-0"
               >
                 <div className="relative overflow-hidden h-full w-full">
                   <Image
@@ -329,7 +349,7 @@ export default async function Home() {
                     <h3 className="mb-8 text-3xl sm:text-4xl font-black text-white leading-tight uppercase tracking-tight font-outfit">{facility.title}</h3>
                     <div className="flex items-center gap-4 text-white transition-all group-hover:gap-6">
                       <span className="text-lg font-black uppercase tracking-widest font-quicksand">LIHAT DETAIL</span>
-                      <div className="w-14 h-14 rounded-2xl bg-[#33b962] flex items-center justify-center shadow-2xl brightness-110 group-hover:scale-110 transition-transform">
+                      <div className="w-14 h-14 rounded-2xl bg-(--color-forest-450) flex items-center justify-center shadow-2xl brightness-110 group-hover:scale-110 transition-transform">
                         <ChevronRight className="w-8 h-8" />
                       </div>
                     </div>
@@ -342,10 +362,10 @@ export default async function Home() {
       </section>
 
       {/* Aktivitas Kami Section */}
-      <section className="py-24 bg-gray-50 dark:bg-gray-950">
+      <section className="gsap-gallery py-24 bg-(--color-paper-50) dark:bg-gray-950">
         <div className="container px-4 mx-auto">
           <div className="mb-16 text-center">
-            <Badge className="mb-6 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] dark:text-[#4ade80] border-[#33b962]/20 px-6 py-3 text-sm font-bold rounded-full">
+            <Badge className="mb-6 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 text-(--color-forest-450) dark:text-(--color-teal-400) border-(--color-forest-450)/20 px-6 py-3 text-sm font-bold rounded-full">
               GALERI AKTIVITAS
             </Badge>
             <h2 className="mb-6 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight font-outfit">
@@ -358,7 +378,7 @@ export default async function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {galleries?.map((gallery) => (
-              <div key={gallery.id} className="card-premium">
+              <div key={gallery.id} className="gallery-card card-premium">
                 <GalleryCard gallery={gallery} />
               </div>
             ))}
@@ -367,7 +387,7 @@ export default async function Home() {
           <div className="text-center">
             <Button
               asChild
-              className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-12 py-8 text-lg font-bold shadow-xl hover:scale-105 transition-all"
+              className="bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white rounded-full px-12 py-8 text-lg font-bold shadow-xl hover:scale-105 transition-all"
               size="lg"
             >
               <Link href="/galeri">Lihat Semua Aktivitas</Link>
@@ -377,19 +397,19 @@ export default async function Home() {
       </section>
 
       {/* Video Section */}
-      <section id="video" className="py-24 bg-white dark:bg-gray-900 overflow-hidden relative">
+      <section id="video" className="gsap-video py-24 bg-(--color-paper-50) dark:bg-gray-900 overflow-hidden relative">
         <div className="container relative z-10 px-4 mx-auto">
           <div className="max-w-4xl mx-auto mb-16 text-center">
             <h2 className="text-fluid-h2 font-black leading-tight text-gray-900 dark:text-white text-balance px-4 font-outfit">
               Pendidikan Modern <br className="hidden sm:block" /> Berbasis Teknologi & Karakter
             </h2>
           </div>
-          <div className="max-w-5xl mx-auto">
+          <div className="video-container max-w-5xl mx-auto">
             <div className="relative overflow-hidden bg-gray-900 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[3rem] aspect-video group">
               <div className="absolute inset-0 z-20 flex items-center justify-center group-hover:bg-black/20 transition-colors">
                 <Button
                   size="lg"
-                  className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full w-24 h-24 p-0 shadow-2xl hover:scale-110 transition-all border-8 border-white/20"
+                  className="bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white rounded-full w-24 h-24 p-0 shadow-2xl hover:scale-110 transition-all border-8 border-white/20"
                 >
                   <Play className="w-10 h-10 ml-1 fill-white" />
                 </Button>
@@ -407,7 +427,7 @@ export default async function Home() {
       </section>
 
       {/* Tentang Preview Section */}
-      <section className="py-24 bg-white dark:bg-gray-900 relative overflow-hidden">
+      <section className="gsap-about py-24 bg-(--color-paper-50) dark:bg-gray-900 relative overflow-hidden">
         <div className="container px-4 mx-auto relative z-10">
           <div className="grid items-center gap-16 lg:grid-cols-2">
             <div className="relative group">
@@ -422,7 +442,7 @@ export default async function Home() {
               </div>
               <div className="absolute -bottom-8 -right-8 p-8 glass rounded-[2.5rem] shadow-2xl hidden sm:block">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-[#33b962] rounded-2xl flex items-center justify-center shadow-lg">
+                  <div className="w-14 h-14 bg-(--color-forest-450) rounded-2xl flex items-center justify-center shadow-lg">
                     <Smile className="w-8 h-8 text-white" />
                   </div>
                   <div>
@@ -432,8 +452,8 @@ export default async function Home() {
                 </div>
               </div>
             </div>
-            <div>
-              <Badge className="mb-6 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] dark:text-[#4ade80] border-[#33b962]/20 px-6 py-3 text-sm font-bold rounded-full">
+            <div className="about-content">
+              <Badge className="mb-6 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 text-(--color-forest-450) dark:text-(--color-teal-400) border-(--color-forest-450)/20 px-6 py-3 text-sm font-bold rounded-full">
                 TENTANG KAMI
               </Badge>
               <h2 className="mb-6 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight font-outfit">Mendidik dengan Hati, <br />Melayani dengan Kreativitas</h2>
@@ -442,7 +462,7 @@ export default async function Home() {
               </p>
               <Button
                 asChild
-                className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-12 py-8 text-lg font-bold shadow-xl hover:scale-105 transition-all"
+                className="bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white rounded-full px-12 py-8 text-lg font-bold shadow-xl hover:scale-105 transition-all"
                 size="lg"
               >
                 <Link href="/profil" className="flex items-center gap-2">
@@ -456,47 +476,54 @@ export default async function Home() {
       </section>
 
       {/* Prestasi Terakhir Section */}
-      <section className="relative py-24 overflow-hidden bg-white dark:bg-gray-900">
+      <section className="gsap-achievements relative py-24 overflow-hidden bg-(--color-paper-50) dark:bg-gray-900">
         <div className="container relative z-10 px-4 mx-auto">
           <div className="mb-20 text-center">
-            <Badge className="mb-6 bg-[#ffd166] text-gray-900 px-6 py-3 text-sm font-bold rounded-full">SANG JUARA</Badge>
+            <Badge className="mb-6 bg-(--color-sun-500) text-gray-900 px-6 py-3 text-sm font-bold rounded-full">SANG JUARA</Badge>
             <h2 className="mb-6 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight font-outfit">Prestasi Terbaru</h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 font-medium font-quicksand">Perwujudan dedikasi dan kerja keras seluruh civitas akademika</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            {achievements?.map((achievement, index) => (
-              <Card key={index} className="card-premium h-[350px] sm:h-[400px] lg:h-[450px] group bg-white dark:bg-gray-800 border-0 shadow-2xl rounded-[2.5rem] overflow-hidden">
-                <div className="relative h-full w-full overflow-hidden">
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${achievement.foto}`}
-                    alt={achievement.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500" />
-                  <div className="absolute bottom-0 left-0 right-0 p-10 transform group-hover:-translate-y-4 transition-transform duration-700">
-                    <div className="w-14 h-14 bg-[#ffd166] rounded-[1.25rem] flex items-center justify-center mb-6 shadow-2xl rotate-12 group-hover:rotate-0 transition-transform duration-500 brightness-110">
-                      <Trophy className="w-8 h-8 text-gray-900" />
+            {achievements?.map((achievement, index) => {
+              const getBadgeClass = (juara: string) => {
+                if (juara.toLowerCase().includes('juara 1')) return 'ribbon-badge-gold';
+                if (juara.toLowerCase().includes('juara 2')) return 'ribbon-badge-silver';
+                if (juara.toLowerCase().includes('juara 3')) return 'ribbon-badge-bronze';
+                return 'ribbon-badge-teal';
+              };
+              return (
+                <Card key={index} className="achievement-card card-premium h-[350px] sm:h-[400px] lg:h-[450px] group bg-white dark:bg-gray-800 border-0 shadow-2xl rounded-[2.5rem] overflow-hidden">
+                  <div className="relative h-full w-full overflow-hidden">
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${achievement.foto}`}
+                      alt={achievement.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500" />
+                    <div className="absolute bottom-0 left-0 right-0 p-10 transform group-hover:-translate-y-4 transition-transform duration-700">
+                      <div className="mb-4">
+                        <div className={`ribbon-badge ${getBadgeClass(achievement.juara)} text-[10px]`}>
+                          {achievement.juara}
+                        </div>
+                      </div>
+                      <h3 className="mb-2 text-xl font-black text-white leading-tight line-clamp-2 uppercase tracking-tight group-hover:text-(--color-sun-500) transition-colors font-outfit">
+                        {truncateWords(achievement.name, 10)}
+                      </h3>
                     </div>
-                    <Badge className="bg-[#ffd166]/20 backdrop-blur-md text-[#ffd166] border-[#ffd166]/30 font-black uppercase tracking-widest text-[9px] mb-4 px-3 py-1">
-                      {achievement.juara}
-                    </Badge>
-                    <h3 className="mb-2 text-xl font-black text-white leading-tight line-clamp-2 uppercase tracking-tight group-hover:text-[#ffd166] transition-colors font-outfit">
-                      {truncateWords(achievement.name, 10)}
-                    </h3>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              );
+            })}
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <Button asChild variant="outline-brand" className="rounded-full px-12 py-8 text-lg font-bold shadow-xl" size="lg">
               <Link href="/prestasi-sekolah">Prestasi Sekolah</Link>
             </Button>
-            <Button asChild className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-12 py-8 text-lg font-bold shadow-xl hover:scale-105 transition-all" size="lg">
+            <Button asChild className="bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white rounded-full px-12 py-8 text-lg font-bold shadow-xl hover:scale-105 transition-all" size="lg">
               <Link href="/prestasi-siswa">Prestasi Siswa</Link>
             </Button>
           </div>
@@ -504,50 +531,79 @@ export default async function Home() {
       </section>
 
       {/* Dukungan Section */}
-      <section className="relative py-24 overflow-hidden bg-gray-50 border-t border-gray-100 dark:bg-gray-950 dark:border-gray-800">
+      <section className="gsap-partners relative py-24 overflow-hidden bg-(--color-cloud-100) border-t border-gray-100 dark:bg-gray-950 dark:border-gray-800">
         <div className="container relative z-10 px-4 mx-auto text-center">
-          <Badge className="mb-6 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] border-[#33b962]/20 px-6 py-3 text-sm font-bold rounded-full">PARTNER KAMI</Badge>
+          <Badge className="badge-primary mb-6">
+            PARTNER KAMI
+          </Badge>
           <h2 className="mb-16 text-3xl font-black text-gray-900 dark:text-white uppercase tracking-[0.2em] font-outfit">Dukungan & Kerja Sama</h2>
 
-          <div className="flex flex-wrap items-center justify-center gap-12 lg:gap-20">
-            {dukungan?.map((partner, index) => (
-              <div key={index} className="group relative flex flex-col items-center">
-                <div className="w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center lg:grayscale lg:opacity-60 lg:group-hover:grayscale-0 lg:group-hover:opacity-100 transition-all duration-500">
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/cooperation/${partner.foto}`}
-                    alt={partner.name}
-                    width={160}
-                    height={160}
-                    className="object-contain"
-                  />
+          <div className="marquee-container">
+            <div className="marquee-content">
+              {dukungan?.map((partner, index) => (
+                <div key={index} className="partner-logo group relative flex flex-col items-center mx-8 lg:mx-12">
+                  <div className="w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/cooperation/${partner.foto}`}
+                      alt={partner.name}
+                      width={160}
+                      height={160}
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <p className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest font-quicksand">{partner.name}</p>
+                  </div>
                 </div>
-                <div className="mt-4 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest font-quicksand">{partner.name}</p>
+              ))}
+              {/* Duplicate for seamless loop */}
+              {dukungan?.map((partner, index) => (
+                <div key={`dup-${index}`} className="partner-logo group relative flex flex-col items-center mx-8 lg:mx-12">
+                  <div className="w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/cooperation/${partner.foto}`}
+                      alt={partner.name}
+                      width={160}
+                      height={160}
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <p className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest font-quicksand">{partner.name}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Penghargaan Section */}
-      <section className="relative py-24 overflow-hidden bg-white dark:bg-gray-900">
+      <section className="gsap-awards relative py-24 overflow-hidden bg-(--color-paper-50) dark:bg-gray-900 blob-bg">
         <div className="container relative z-10 px-4 mx-auto text-center">
-          <Badge className="mb-6 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] border-[#33b962]/20 px-6 py-3 text-sm font-bold rounded-full">PENGHARGAAN</Badge>
+          <Badge className="badge-gold mb-6">
+            PENGHARGAAN
+          </Badge>
           <h2 className="mb-8 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight font-outfit">Penghargaan Nasional</h2>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-16 lg:gap-32">
             <div className="group flex flex-col items-center">
-              <div className="relative w-40 h-40 flex items-center justify-center mb-6">
-                <div className="absolute inset-0 bg-[#33b962]/20 blur-[40px] rounded-full scale-125" />
-                <CheckCircle className="relative z-10 w-24 h-24 text-[#33b962]" />
+              <div className="relative w-48 h-48 flex items-center justify-center mb-6">
+                <div className="absolute inset-0 bg-gradient-to-br from-(--color-forest-450)/30 to-(--color-teal-400)/20 blur-[50px] rounded-full scale-125 animate-pulse" />
+                <div className="relative z-10 w-32 h-32 bg-gradient-to-br from-(--color-forest-450) to-(--color-forest-500) rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                  <CheckCircle className="w-16 h-16 text-white" />
+                </div>
               </div>
+              <div className="ribbon-badge ribbon-badge-forest mb-4 shadow-xl">SRA</div>
               <p className="font-black text-xl text-gray-900 dark:text-white uppercase tracking-tight font-outfit">Sekolah Ramah Anak</p>
             </div>
             <div className="group flex flex-col items-center">
-              <div className="relative w-40 h-40 flex items-center justify-center mb-6">
-                <div className="absolute inset-0 bg-[#ffd166]/20 blur-[40px] rounded-full scale-125" />
-                <Sparkles className="relative z-10 w-24 h-24 text-[#ffd166]" />
+              <div className="relative w-48 h-48 flex items-center justify-center mb-6">
+                <div className="absolute inset-0 bg-gradient-to-br from-(--color-sun-500)/30 to-(--color-sun-300)/20 blur-[50px] rounded-full scale-125 animate-pulse" />
+                <div className="relative z-10 w-32 h-32 bg-gradient-to-br from-(--color-sun-500) to-(--color-sun-400) rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                  <Sparkles className="w-16 h-16 text-white" />
+                </div>
               </div>
+              <div className="ribbon-badge ribbon-badge-gold mb-4 shadow-xl">ADIWIYATA</div>
               <p className="font-black text-xl text-gray-900 dark:text-white uppercase tracking-tight font-outfit">Sekolah Adiwiyata</p>
             </div>
           </div>
@@ -555,17 +611,25 @@ export default async function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#1a4d2e] text-white relative overflow-hidden">
-        <div className="container relative z-10 px-4 mx-auto text-center">
-          <h2 className="mb-8 text-3xl sm:text-5xl lg:text-7xl font-black tracking-tighter text-balance leading-tight font-outfit">Mulai Perjalanan <br />Kreatif Anak Anda!</h2>
-          <p className="max-w-2xl mx-auto mb-16 text-lg sm:text-xl md:text-2xl leading-relaxed text-white/90 font-medium font-quicksand">
+      <section className="gsap-cta py-32 bg-gradient-to-br from-(--color-forest-900) via-(--color-forest-450) to-(--color-forest-800) text-white relative overflow-hidden islamic-pattern blob-bg">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-(--color-sun-500)/20 rounded-full blur-3xl animate-float-slow" />
+          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-(--color-teal-400)/15 rounded-full blur-3xl animate-float" />
+        </div>
+
+        <div className="cta-content container relative z-10 px-4 mx-auto text-center">
+          <h2 className="mb-8 text-3xl sm:text-5xl lg:text-7xl font-black tracking-tighter text-balance leading-tight font-outfit animate-fade-in-up">
+            Mulai Perjalanan <br />Kreatif Anak Anda!
+          </h2>
+          <p className="max-w-2xl mx-auto mb-16 text-lg sm:text-xl md:text-2xl leading-relaxed text-white/90 font-medium font-quicksand animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             Pendaftaran peserta didik baru telah dibuka. Kuota terbatas, amankan kursi putra-putri Anda segera.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-8">
-            <Button asChild size="lg" className="bg-white text-[#33b962] hover:bg-gray-100 rounded-full px-16 py-10 text-2xl shadow-xl hover:scale-105 transition-all font-black">
+          <div className="flex flex-col sm:flex-row justify-center gap-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <Button asChild size="lg" className="bg-(--color-sun-500) hover:bg-(--color-sun-400) text-gray-900 rounded-full px-16 py-10 text-2xl shadow-[0_30px_70px_rgba(232,163,61,0.5)] hover:shadow-[0_35px_80px_rgba(232,163,61,0.6)] hover:scale-105 transition-all font-black">
               <Link href="https://ppdb.sdmuh3smd.com">Daftar Online <ChevronRight className="w-8 h-8 ml-2 inline" /></Link>
             </Button>
-            <Button asChild size="lg" variant="outline-on-dark" className="px-16 py-10 text-2xl font-bold border-4 rounded-full backdrop-blur-md transition-all">
+            <Button asChild size="lg" variant="outline" className="px-16 py-10 text-2xl font-bold border-4 border-white/30 text-white hover:bg-white/15 rounded-full backdrop-blur-xl transition-all hover:scale-105">
               <Link href="/kontak">Hubungi Kami</Link>
             </Button>
           </div>

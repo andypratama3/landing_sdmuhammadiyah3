@@ -6,7 +6,7 @@ import { ChevronRight, Play } from "lucide-react"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[100dvh] flex items-center bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45] overflow-hidden">
+    <section className="relative min-h-[100dvh] flex items-center bg-gradient-to-br from-(--color-forest-900) via-(--color-forest-700) to-(--color-forest-800) overflow-hidden islamic-pattern blob-bg">
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />
 
       <div className="container relative z-10 px-4 mx-auto pt-24 lg:pt-28">
@@ -41,7 +41,7 @@ export function HeroSection() {
             <Button
               asChild
               size="lg"
-              className="w-full sm:w-auto bg-[#ffd166] hover:bg-[#ffca3a] text-gray-900 rounded-2xl px-10 py-7 text-lg shadow-[0_20px_50px_rgba(255,209,102,0.3)] hover:scale-[1.03] transition-all font-black group"
+              className="w-full sm:w-auto bg-(--color-sun-500) hover:bg-(--color-sun-400) text-gray-900 rounded-2xl px-10 py-7 text-lg shadow-[0_20px_50px_rgba(232,163,61,0.3)] hover:scale-[1.03] transition-all font-black group"
             >
               <Link href="https://ppdb.sdmuh3smd.com" className="flex items-center justify-center gap-3">
                 DAFTAR SEKARANG
@@ -56,7 +56,7 @@ export function HeroSection() {
             >
               <Link href="/profil#video" className="flex items-center gap-3">
                 <div className="flex items-center justify-center w-9 h-9 bg-white rounded-full shadow-lg">
-                  <Play className="w-4 h-4 text-[#33b962] fill-[#33b962]" />
+                  <Play className="w-4 h-4 text-(--color-forest-700) fill-(--color-forest-700)" />
                 </div>
                 VIDEO PROFIL
               </Link>

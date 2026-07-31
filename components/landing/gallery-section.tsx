@@ -9,7 +9,7 @@ interface GallerySectionProps {
 
 export function GallerySection({ galleries }: GallerySectionProps) {
   return (
-    <section className="py-24 bg-gray-50/80 dark:bg-gray-950/50">
+    <section className="py-24 bg-(--color-cloud-100)/80 dark:bg-gray-950/50">
       <div className="container px-4 mx-auto">
         <div className="mb-14 text-center">
           <h2 className="text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight font-outfit">
@@ -31,7 +31,7 @@ export function GallerySection({ galleries }: GallerySectionProps) {
         <div className="text-center">
           <Button
             asChild
-            className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-10 py-7 text-base font-bold shadow-lg hover:scale-[1.03] transition-all"
+            className="bg-(--color-forest-700) hover:bg-(--color-forest-500) text-white rounded-full px-10 py-7 text-base font-bold shadow-lg hover:scale-[1.03] transition-all"
             size="lg"
           >
             <Link href="/galeri">Lihat Semua Aktivitas</Link>

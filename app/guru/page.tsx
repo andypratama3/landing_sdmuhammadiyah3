@@ -9,6 +9,7 @@ import { getSystemAuthToken } from "@/lib/server-api";
 import { GuruFilterClient } from "@/components/guru/GuruFilterClient";
 import { GuruGridClient } from "@/components/guru/GuruGridClient";
 import type { Guru, Pelajaran } from "@/types";
+import PageAnimations from "@/components/PageAnimations";
 
 // In App Router v15+, searchParams is definitively evaluated as a Promise
 export default async function GuruPage({
@@ -78,37 +79,38 @@ export default async function GuruPage({
   }
 
   return (
-    <div className="pt-24 pb-16 min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
-      <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] pointer-events-none" />
+    <div className="pt-24 pb-16 min-h-screen bg-(--color-paper-50) dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+      <PageAnimations />
+      <div className="absolute top-20 left-10 w-64 h-64 bg-(--color-forest-450)/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-40 right-20 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Static Server Rendered Block */}
-      <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
+      <section className="w-full py-12 lg:py-20 bg-(--color-cloud-100)/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
         <div className="container px-4 mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[380px] shadow-xl">
+            <div className="lg:col-span-8 bg-(--color-forest-450) dark:bg-(--color-forest-900) rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[380px] shadow-xl">
               <div className="relative z-10 max-w-2xl">
-                <Badge className="bg-white text-[#33b962] border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                <Badge className="page-hero-badge bg-white text-(--color-forest-600) border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-(--color-sun-500) animate-pulse"></span>
                   Eksplorasi Tenaga Pendidik
                 </Badge>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.05] mb-6 tracking-tight drop-shadow-sm">
+                <h1 className="page-hero-title text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.05] mb-6 tracking-tight drop-shadow-sm">
                   Guru Kreatif <br /> SD Muhammadiyah 3
                 </h1>
-                <p className="text-white/95 text-lg font-medium max-w-xl leading-relaxed drop-shadow-sm">
+                <p className="page-hero-description text-white/95 text-lg font-medium max-w-xl leading-relaxed drop-shadow-sm">
                   Tim pengajar profesional spesialis yang berdedikasi tinggi dalam mendidik dan membentuk generasi cerdas, inovatif, dan berakhlak mulia.
                 </p>
               </div>
             </div>
 
             <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
-                <GraduationCap className="w-10 h-10 text-[#33b962] mb-4 group-hover:scale-110 transition-transform" />
+              <div className="page-card page-tilt-card bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-(--color-forest-450)">
+                <GraduationCap className="w-10 h-10 text-(--color-forest-450) mb-4 group-hover:scale-110 transition-transform" />
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Tenaga Ahli</h3>
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Berpengalaman di bidangnya</p>
               </div>
-              
-              <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group">
+
+              <div className="page-card bg-(--color-sun-500) dark:bg-(--color-sun-400) rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group">
                 <BookOpen className="w-10 h-10 text-gray-900 mb-4 group-hover:scale-110 transition-transform" />
                 <h3 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight">Kreatif</h3>
                 <p className="text-sm font-medium text-gray-800 mt-2">Metode belajar menyenangkan</p>
@@ -133,7 +135,7 @@ export default async function GuruPage({
       )}
 
       {/* Passed statically evaluated data downward blindly into Client View Wrapper */}
-      <section className="py-20 bg-gray-50/50 dark:bg-gray-950">
+      <section className="py-20 bg-(--color-cloud-100)/50 dark:bg-gray-950">
         <div className="container px-4 mx-auto max-w-7xl">
            <GuruGridClient gurus={gurus} />
         </div>

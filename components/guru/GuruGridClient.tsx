@@ -60,11 +60,11 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
 
                 <div className="flex flex-col flex-1 p-8">
                   <div className="mb-4">
-                    <h3 className="mb-2 text-2xl font-black leading-tight text-gray-900 dark:text-white group-hover:text-[#33b962] transition-colors uppercase tracking-tight">{guru.name}</h3>
+                    <h3 className="mb-2 text-2xl font-black leading-tight text-gray-900 dark:text-white group-hover:text-(--color-forest-600) dark:group-hover:text-(--color-forest-400) transition-colors uppercase tracking-tight">{guru.name}</h3>
                     {guru.lulusan && (
                       <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg">
                         <GraduationCap className="w-3.5 h-3.5 text-[#33b962] brightness-125" />
-                        <p className="text-[#33b962] text-[11px] font-black uppercase tracking-wider">{guru.lulusan}</p>
+                        <p className="text-(--color-forest-600) dark:text-(--color-forest-400) text-[11px] font-black uppercase tracking-wider">{guru.lulusan}</p>
                       </div>
                     )}
                   </div>
@@ -86,7 +86,7 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
                         )}
                       </div>
                       <div className="transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-[#33b962]">Profil Detail</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-600) dark:text-(--color-forest-400)">Profil Detail</span>
                       </div>
                     </div>
                   </div>

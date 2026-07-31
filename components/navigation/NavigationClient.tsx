@@ -77,18 +77,32 @@ export default function NavigationClient({
                     onMouseEnter={() => setOpenDropdown(link.label)}
                     onMouseLeave={() => setOpenDropdown(null)}
                   >
-                    <button className="px-3 py-2 text-[10px] font-black uppercase tracking-wider rounded-full transition-all flex items-center gap-1 text-gray-700 dark:text-gray-200 hover:text-[#33b962] hover:bg-[#33b962]/10 hover:scale-110 hover:brightness-125 active:scale-95 whitespace-nowrap">
+                    <button className="px-4 py-2.5 text-[10px] font-black uppercase tracking-wider rounded-full transition-all flex items-center gap-1.5 text-gray-700 dark:text-gray-200 hover:text-(--color-forest-700) hover:bg-(--color-forest-700)/10 hover:scale-110 active:scale-95 whitespace-nowrap relative group">
                       {link.label}
                       <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${openDropdown === link.label ? "rotate-180" : ""}`} />
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-transparent via-(--color-forest-700) to-transparent transition-all duration-300 group-hover:w-full"></span>
                     </button>
-                    <div className={`absolute left-0 py-3 mt-1 bg-white dark:bg-gray-900 shadow-2xl rounded-2xl min-w-[240px] border border-gray-100 dark:border-gray-800 transition-all duration-200 origin-top-left z-[70] ${openDropdown === link.label ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"}`}>
-                      {link.dropdown.map((item) => (
+                    <div className={`absolute left-0 py-4 mt-1 bg-white dark:bg-gray-900 shadow-2xl rounded-2xl min-w-[280px] border border-gray-100 dark:border-gray-800 transition-all duration-200 origin-top-left z-[70] ${openDropdown === link.label ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"}`}>
+                      {link.dropdown.map((item, idx) => (
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="block px-6 py-2.5 text-[11px] font-black text-gray-600 dark:text-gray-400 hover:text-[#33b962] dark:hover:text-[#4ade80] hover:bg-[#33b962]/10 dark:hover:bg-[#33b962]/20 transition-all uppercase tracking-widest hover:pl-8 hover:brightness-125"
+                          className="block px-6 py-3 group/item"
                         >
-                          {item.label}
+                          <div className="text-[11px] font-black text-gray-600 dark:text-gray-400 group-hover/item:text-(--color-forest-700) dark:group-hover/item:text-(--color-teal-400) transition-all uppercase tracking-widest group-hover/item:pl-2">
+                            {item.label}
+                          </div>
+                          <div className="text-[9px] text-gray-400 dark:text-gray-500 mt-0.5 font-medium">
+                            {idx === 0 ? "Tentang sekolah kami" : 
+                             idx === 1 ? "Profil lengkap" :
+                             idx === 2 ? "Tim pengajar kami" :
+                             idx === 3 ? "Staf pendidik" :
+                             idx === 4 ? "Dokumentasi aktivitas" :
+                             idx === 5 ? "Sarana belajar" :
+                             idx === 6 ? "Kegiatan ekstrakurikuler" :
+                             idx === 7 ? "Prestasi siswa" :
+                             "Penghargaan sekolah"}
+                          </div>
                         </Link>
                       ))}
                     </div>
@@ -96,9 +110,10 @@ export default function NavigationClient({
                 ) : (
                   <Link
                     href={link.href!}
-                    className="px-3 py-2 text-[10px] font-black uppercase tracking-wider rounded-full transition-all block text-gray-700 dark:text-gray-200 hover:text-[#33b962] hover:bg-[#33b962]/10 hover:scale-110 hover:brightness-125 active:scale-95 whitespace-nowrap"
+                    className="px-4 py-2.5 text-[10px] font-black uppercase tracking-wider rounded-full transition-all block text-gray-700 dark:text-gray-200 hover:text-(--color-forest-700) hover:bg-(--color-forest-700)/10 hover:scale-110 active:scale-95 whitespace-nowrap relative group"
                   >
                     {link.label}
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-transparent via-(--color-forest-700) to-transparent transition-all duration-300 group-hover:w-full"></span>
                   </Link>
                 )}
               </div>
@@ -131,7 +146,7 @@ export default function NavigationClient({
             <div className="p-6 border-b border-gray-100 dark:border-gray-900 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Image src="/SD3_logo1.png" alt="Logo" width={40} height={40} />
-                <span className="font-black text-[#33b962]">MENU</span>
+                <span className="font-black text-(--color-forest-700)">MENU</span>
               </div>
               <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
                 <X className="w-6 h-6" />
@@ -149,7 +164,7 @@ export default function NavigationClient({
                           onClick={() => setOpenDropdown(openDropdown === link.label ? null : link.label)}
                         >
                           {link.label}
-                          <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${openDropdown === link.label ? "rotate-180 text-[#33b962]" : ""}`} />
+                          <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${openDropdown === link.label ? "rotate-180 text-(--color-forest-700)" : ""}`} />
                         </button>
                         <div className={`mt-3 grid transition-all duration-300 ${openDropdown === link.label ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
                           <div className="overflow-hidden space-y-3 pl-4">
@@ -157,7 +172,7 @@ export default function NavigationClient({
                               <Link
                                 key={item.href}
                                 href={item.href}
-                                className="block text-base font-bold text-gray-500 dark:text-gray-400 hover:text-[#33b962]"
+                                className="block text-base font-bold text-gray-500 dark:text-gray-400 hover:text-(--color-forest-700)"
                                 onClick={() => setIsOpen(false)}
                               >
                                 {item.label}
@@ -183,7 +198,7 @@ export default function NavigationClient({
             <div className="p-6 mt-auto">
               <Button
                 asChild
-                className="w-full bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-2xl py-6 text-lg font-black shadow-xl"
+                className="w-full bg-(--color-forest-700) hover:bg-(--color-forest-500) text-white rounded-2xl py-6 text-lg font-black shadow-xl"
                 onClick={() => setIsOpen(false)}
               >
                 <Link href="/spmb">SPMB {new Date().getFullYear()}</Link>

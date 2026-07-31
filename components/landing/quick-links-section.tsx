@@ -11,14 +11,14 @@ const facilities = [
 
 export function QuickLinksSection() {
   return (
-    <section className="py-28 bg-white dark:bg-gray-950 relative overflow-hidden">
+    <section className="py-28 bg-(--color-paper-50) dark:bg-gray-950 relative overflow-hidden">
       <div className="container px-4 mx-auto">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {facilities.map((facility, index) => (
               <Link
                   key={index}
                   href={facility.link}
-                  className="relative overflow-hidden shadow-xl group rounded-[2.5rem] h-[400px] sm:h-[480px] block border-0 focus-visible:outline-4 focus-visible:outline-[#33b962] focus-visible:outline-offset-4"
+                  className="relative overflow-hidden shadow-xl group rounded-[2.5rem] h-[400px] sm:h-[480px] block border-0 focus-visible:outline-4 focus-visible:outline-(--color-forest-700) focus-visible:outline-offset-4"
             >
               <div className="relative h-full w-full">
                 <Image
@@ -38,7 +38,7 @@ export function QuickLinksSection() {
                   </h3>
                   <div className="flex items-center gap-3 text-white/80 group-hover:text-white transition-all group-hover:gap-5">
                     <span className="text-sm font-black uppercase tracking-[0.15em] font-quicksand">LIHAT DETAIL</span>
-                    <div className="w-11 h-11 rounded-xl bg-[#33b962] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <div className="w-11 h-11 rounded-xl bg-(--color-forest-700) flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                       <ChevronRight className="w-6 h-6" />
                     </div>
                   </div>

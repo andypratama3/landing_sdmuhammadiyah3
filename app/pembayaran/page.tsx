@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Breadcrumb from "@/components/breadcrumb"
 import { Skeleton } from "@/components/ui/skeleton"
+import PageAnimations from "@/components/PageAnimations"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import {
   Search, CreditCard, CheckCircle, XCircle, Printer, Wallet,
@@ -144,10 +145,11 @@ export default function PembayaranPage() {
 
   return (
     <div className="min-h-screen pt-24 pb-16 bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+      <PageAnimations />
       {/* Animated Background Blobs */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
-      <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
-      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+      <div className="absolute top-20 left-10 w-64 h-64 bg-(--color-forest-450)/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-40 right-20 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-(--color-teal-400)/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
       {/* Editorial Bento Grid Hero Section */}
       <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
@@ -155,17 +157,17 @@ export default function PembayaranPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
             {/* Main Typographic Card (Spans 8 cols) */}
-            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+            <div className="lg:col-span-8 bg-(--color-forest-450) dark:bg-(--color-forest-900) rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
               <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative z-10">
-                <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                <Badge className="bg-white text-(--color-forest-600) hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                   Payment Portal
                 </Badge>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
-                  Portal <br /> <span className="text-[#ffd166]">Administrasi</span>
+                  Portal <br /> <span className="text-(--color-sun-200)">Administrasi</span>
                 </h1>
                 <p className="text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
                   Sistem administrasi digital untuk kemudahan cek riwayat dan pembayaran biaya pendidikan putra-putri Anda secara transparan dan akuntabel.
@@ -175,7 +177,7 @@ export default function PembayaranPage() {
                   <div className="relative w-full max-w-xl">
                     <div className="flex items-center bg-white/95 dark:bg-gray-900 border border-white/20 shadow-2xl rounded-2xl p-2 focus-within:ring-4 focus-within:ring-white/30 transition-all">
                       <div className="pl-4 pr-3 text-gray-400">
-                        {isTyping ? <Loader2 className="w-6 h-6 animate-spin text-[#33b962]" /> : <Search className="w-6 h-6" />}
+                        {isTyping ? <Loader2 className="w-6 h-6 animate-spin text-(--color-forest-450)" /> : <Search className="w-6 h-6" />}
                       </div>
                       <Input
                         type="text"
@@ -189,7 +191,7 @@ export default function PembayaranPage() {
                       <Button 
                         onClick={handleSearch}
                         disabled={nisnInput.length !== 10}
-                        className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-xl px-6 h-14 font-black uppercase tracking-widest text-xs shadow-lg ml-2 shrink-0 transition-all active:scale-95"
+                        className="bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white rounded-xl px-6 h-14 font-black uppercase tracking-widest text-xs shadow-lg ml-2 shrink-0 transition-all active:scale-95"
                       >
                         Cek Tagihan
                       </Button>
@@ -200,7 +202,7 @@ export default function PembayaranPage() {
                 {selectedNisn && (
                    <Button 
                    onClick={handleReset}
-                   className="bg-white text-[#33b962] hover:bg-white/90 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl flex items-center gap-3"
+                   className="bg-white text-(--color-forest-450) hover:bg-white/90 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl flex items-center gap-3"
                  >
                    <RefreshCw className="w-4 h-4" />
                    Ganti NISN
@@ -211,15 +213,15 @@ export default function PembayaranPage() {
 
             {/* Side Highlights (Spans 4 cols) */}
             <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
-                 <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center mb-6 text-[#33b962] group-hover:scale-110 transition-transform">
+              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-(--color-forest-450)">
+                 <div className="w-14 h-14 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/30 rounded-2xl flex items-center justify-center mb-6 text-(--color-forest-450) group-hover:scale-110 transition-transform">
                     <Shield className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Aman</h3>
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Enkripsi Data & Transaksi Terjamin</p>
               </div>
               
-              <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+              <div className="bg-(--color-sun-500) dark:bg-(--color-sun-600) rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
                 <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
                     <CreditCard className="w-8 h-8" />
                   </div>
@@ -239,8 +241,8 @@ export default function PembayaranPage() {
           <div className="container px-4 mx-auto">
             <Card className="max-w-2xl p-12 mx-auto bg-white border-0 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] rounded-[3rem] dark:bg-gray-900 dark:shadow-none dark:border dark:border-gray-800 animate-fade-in-up">
               <div className="mb-10 text-center">
-                <div className="w-24 h-24 bg-[#33b962]/10 dark:bg-[#33b962]/20 rounded-3xl flex items-center justify-center mx-auto mb-6 rotate-6 shadow-xl">
-                  <CreditCard className="w-12 h-12 text-[#33b962]" />
+                <div className="w-24 h-24 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 rounded-3xl flex items-center justify-center mx-auto mb-6 rotate-6 shadow-xl">
+                  <CreditCard className="w-12 h-12 text-(--color-forest-450)" />
                 </div>
                 <h2 className="mb-3 text-3xl font-black text-gray-900 dark:text-white leading-tight">Cek Tagihan</h2>
                 <p className="text-lg text-gray-500 dark:text-gray-400 font-medium tracking-tight">Cukup masukkan NISN untuk mengakses riwayat pembayaran</p>
@@ -249,15 +251,15 @@ export default function PembayaranPage() {
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
                     {isTyping ? (
-                      <Loader2 className="w-6 h-6 text-[#33b962] animate-spin" />
+                      <Loader2 className="w-6 h-6 text-(--color-forest-450) animate-spin" />
                     ) : (
-                      <Search className="w-6 h-6 text-gray-400 dark:text-gray-500 group-focus-within:text-[#33b962] transition-colors" />
+                      <Search className="w-6 h-6 text-gray-400 dark:text-gray-500 group-focus-within:text-(--color-forest-450) transition-colors" />
                     )}
                   </div>
                   <Input
                     type="text"
                     placeholder="Contoh: 1234567890"
-                    className="pl-14 pr-6 text-xl bg-gray-50 border-2 border-gray-100 rounded-full h-16 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder-gray-500 focus:border-[#33b962] dark:focus:border-[#33b962] transition-all font-bold tracking-widest"
+                    className="pl-14 pr-6 text-xl bg-gray-50 border-2 border-gray-100 rounded-full h-16 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder-gray-500 focus:border-(--color-forest-450) dark:focus:border-(--color-forest-450) transition-all font-bold tracking-widest"
                     value={nisnInput}
                     onChange={(e) => setNisnInput(e.target.value)}
                     maxLength={10}
@@ -268,14 +270,14 @@ export default function PembayaranPage() {
                   </div>
                 </div>
                 <Button
-                  className="w-full h-16 bg-[#33b962] hover:bg-[#2a9d52] dark:bg-[#2a7a4a] dark:hover:bg-[#33b962] text-white rounded-full text-lg font-black shadow-xl hover:scale-[1.02] transition-all duration-300"
+                  className="w-full h-16 bg-(--color-forest-450) hover:bg-(--color-forest-500) dark:bg-(--color-forest-800) dark:hover:bg-(--color-forest-450) text-white rounded-full text-lg font-black shadow-xl hover:scale-[1.02] transition-all duration-300"
                   onClick={handleSearch}
                   disabled={nisnInput.length !== 10}
                 >
                   AKSES DATA PEMBAYARAN
                 </Button>
                 <div className="flex items-center justify-center gap-2 pt-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#ffd166]" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-(--color-sun-500)" />
                   <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Aman & Terjamin via Digital Portal</p>
                 </div>
               </div>
@@ -289,7 +291,7 @@ export default function PembayaranPage() {
             // Loading State
             <section className="py-12 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
               <div className="container px-4 mx-auto">
-                <Card className="max-w-6xl mx-auto p-6 rounded-3xl border-2 border-[#33b962]/20 bg-white dark:bg-gray-800 ">
+                <Card className="max-w-6xl mx-auto p-6 rounded-3xl border-2 border-(--color-forest-450)/20 bg-white dark:bg-gray-800 ">
                   <div className="flex flex-col items-center gap-6 md:flex-row">
                     <Skeleton className="w-24 h-24 rounded-full" />
                     <div className="flex-1 w-full space-y-3">
@@ -326,8 +328,8 @@ export default function PembayaranPage() {
                 </Alert>
                 <div className="mt-12 text-center">
                   <div className="max-w-2xl mx-auto">
-                    <div className="w-20 h-20 bg-[#33b962]/10 dark:bg-[#33b962]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Search className="w-10 h-10 text-[#33b962]" />
+                    <div className="w-20 h-20 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Search className="w-10 h-10 text-(--color-forest-450)" />
                     </div>
                     <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">Silahkan Cari Data Lainnya</h3>
                     <p className="mb-6 text-gray-600 dark:text-gray-400">Masukkan NISN yang berbeda untuk melihat data pembayaran</p>
@@ -350,7 +352,7 @@ export default function PembayaranPage() {
                         />
                       </div>
                       <Button
-                        className="w-full h-14 bg-[#33b962] hover:bg-[#2a9d52] dark:bg-[#2a7a4a] dark:hover:bg-[#33b962] text-white rounded-full text-lg font-semibold transition-all"
+                        className="w-full h-14 bg-(--color-forest-450) hover:bg-(--color-forest-500) dark:bg-(--color-forest-800) dark:hover:bg-(--color-forest-450) text-white rounded-full text-lg font-semibold transition-all"
                         onClick={handleSearch}
                         disabled={nisnInput.length !== 10}
                       >
@@ -387,13 +389,13 @@ export default function PembayaranPage() {
                       </div>
                       <div className="flex-1 p-10 sm:p-14 flex flex-col justify-center">
                         <div className="mb-8">
-                          <Badge className="mb-4 bg-[#33b962] text-white border-0 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">Data Terverifikasi</Badge>
+                          <Badge className="mb-4 bg-(--color-forest-450) text-white border-0 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">Data Terverifikasi</Badge>
                           <h2 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white tracking-tighter leading-none mb-3">{siswa.name}</h2>
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-[#ffd166]/20 flex items-center justify-center">
-                              <GraduationCap className="w-5 h-5 text-[#ffd166]" />
+                            <div className="w-8 h-8 rounded-lg bg-(--color-sun-500)/20 flex items-center justify-center">
+                              <GraduationCap className="w-5 h-5 text-(--color-sun-500)" />
                             </div>
-                            <p className="text-xl font-bold text-[#33b962] dark:text-[#4ade80] tracking-tight">{siswa.kelas_tahun || '-'}</p>
+                            <p className="text-xl font-bold text-(--color-forest-450) dark:text-(--color-teal-400) tracking-tight">{siswa.kelas_tahun || '-'}</p>
                           </div>
                         </div>
 
@@ -406,7 +408,7 @@ export default function PembayaranPage() {
                             <div className="space-y-1">
                               <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">KONTAK TERDAFTAR</p>
                               <div className="flex items-center gap-2">
-                                <Wallet className="w-4 h-4 text-[#33b962]" />
+                                <Wallet className="w-4 h-4 text-(--color-forest-450)" />
                                 <p className="text-xl font-bold text-gray-900 dark:text-white">{siswa.no_hp}</p>
                               </div>
                             </div>
@@ -416,7 +418,7 @@ export default function PembayaranPage() {
                         <div className="flex flex-wrap gap-4">
                           <Button
                             variant="outline"
-                            className="rounded-full border-2 border-gray-100 dark:border-gray-800 text-gray-700 hover:bg-gray-100 hover:text-[#33b962] hover:border-[#33b962] dark:text-white dark:hover:bg-gray-800 dark:hover:text-white h-12 px-8 font-black uppercase tracking-widest text-xs transition-all"
+                            className="rounded-full border-2 border-gray-100 dark:border-gray-800 text-gray-700 hover:bg-gray-100 hover:text-(--color-forest-450) hover:border-(--color-forest-450) dark:text-white dark:hover:bg-gray-800 dark:hover:text-white h-12 px-8 font-black uppercase tracking-widest text-xs transition-all"
                             onClick={handleReset}
                           >
                             <RefreshCw className="w-4 h-4 mr-2" />
@@ -445,7 +447,7 @@ export default function PembayaranPage() {
                         {/* Year Header */}
                         <button
                           onClick={() => toggleYear(year)}
-                          className="w-full p-6 bg-gradient-to-r from-[#33b962] to-[#2a9d52] dark:from-[#1a4d2e] dark:to-[#2a7a4a] text-white flex items-center justify-between hover:from-[#2a9d52] hover:to-[#238b45] dark:hover:from-[#2a7a4a] dark:hover:to-[#33b962] transition-all rounded-3xl"
+                          className="w-full p-6 bg-gradient-to-r from-(--color-forest-450) to-(--color-forest-500) dark:from-(--color-forest-900) dark:to-(--color-forest-450) text-white flex items-center justify-between hover:from-(--color-forest-500) hover:to-(--color-forest-400) dark:hover:from-(--color-forest-450) dark:hover:to-(--color-forest-600) transition-all rounded-3xl"
                         >
                           <div className="flex items-center gap-4">
                             {expandedYears.includes(year) ? (
@@ -477,9 +479,9 @@ export default function PembayaranPage() {
                                   >
                                     <div className="flex items-center flex-1 gap-4">
                                       {expandedCategories.includes(categoryKey) ? (
-                                        <ChevronDown className="w-5 h-5 text-[#33b962]" />
+                                        <ChevronDown className="w-5 h-5 text-(--color-forest-450)" />
                                       ) : (
-                                        <ChevronRight className="w-5 h-5 text-[#33b962]" />
+                                        <ChevronRight className="w-5 h-5 text-(--color-forest-450)" />
                                       )}
                                       <div className="text-left">
                                         <h3 className="mb-1 text-xl font-bold text-gray-900 dark:text-white">{category}</h3>
@@ -503,7 +505,7 @@ export default function PembayaranPage() {
                                         <Card key={payment.id} className="p-4 transition-shadow bg-white border-0 hover:shadow-md dark:bg-gray-700">
                                           <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                                             <div className="flex items-center flex-1 min-w-0 gap-4">
-                                              <div className="w-12 h-12 rounded-full bg-[#33b962]/10 dark:bg-[#33b962]/20 flex items-center justify-center shrink-0 font-bold text-[#33b962]">
+                                              <div className="w-12 h-12 rounded-full bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 flex items-center justify-center shrink-0 font-bold text-(--color-forest-450)">
                                                 {idx + 1}
                                               </div>
                                               <div className="flex flex-col flex-1 min-w-0 sm:flex-row">
@@ -542,7 +544,7 @@ export default function PembayaranPage() {
                                                     <XCircle className="w-3 h-3 mr-1" />
                                                     Belum
                                                   </Badge>
-                                                  <Button size="sm" className="bg-[#33b962] hover:bg-[#2a9d52] dark:bg-[#2a7a4a] dark:hover:bg-[#33b962] text-white rounded-full whitespace-nowrap">
+                                                  <Button size="sm" className="bg-(--color-forest-450) hover:bg-(--color-forest-500) dark:bg-(--color-forest-800) dark:hover:bg-(--color-forest-450) text-white rounded-full whitespace-nowrap">
                                                     <Wallet className="w-3 h-3 mr-1" />
                                                     Bayar
                                                   </Button>

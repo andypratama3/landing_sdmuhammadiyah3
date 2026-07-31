@@ -22,6 +22,7 @@ import {
   BookOpen,
 } from "lucide-react"
 import { TikTok } from "@/components/icons/tiktok-icon"
+import PageAnimations from "@/components/PageAnimations"
 
 const contactInfo = [
   {
@@ -112,35 +113,36 @@ const socialMedia = [
 
 export default function KontakClient() {
   return (
-    <div className="min-h-screen pt-16 bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+    <div className="min-h-screen pt-16 bg-(--color-paper-50) dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+      <PageAnimations />
       {/* Animated Background Blobs */}
-      <div className="absolute top-24 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
-      <div className="absolute top-48 right-16 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
-      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+      <div className="absolute top-24 left-10 w-64 h-64 bg-(--color-forest-450)/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-48 right-16 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-(--color-teal-400)/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
       {/* Editorial Bento Grid Hero Section */}
-      <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
+      <section className="w-full py-12 lg:py-20 bg-(--color-cloud-100)/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
         <div className="container px-4 mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
             {/* Main Typographic Card (Spans 8 cols) */}
-            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+            <div className="lg:col-span-8 bg-(--color-forest-450) dark:bg-(--color-forest-900) rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
               <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative z-10">
-                <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                <Badge className="page-hero-badge bg-white text-(--color-forest-600) hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-(--color-sun-500) animate-pulse"></span>
                   Contact Information
                 </Badge>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
-                  Kontak SD Muhammadiyah 3 <br /> <span className="text-[#ffd166]">Jl. Dato Iba Samarinda</span>
+                <h1 className="page-hero-title text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
+                  Kontak SD Muhammadiyah 3 <br /> <span className="text-(--color-sun-200)">Jl. Dato Iba Samarinda</span>
                 </h1>
-                <p className="text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
+                <p className="page-hero-description text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
                   Tim kami siap membantu informasi pendaftaran SPMB, jadwal, dan biaya sekolah. Lokasi strategis di Samarinda Seberang.
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <Button asChild className="bg-white text-[#33b962] hover:bg-white/90 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl">
+                  <Button asChild className="page-button bg-white text-(--color-forest-450) hover:bg-white/90 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl">
                     <a href={`https://wa.me/${SCHOOL.whatsapp}?text=${encodeURIComponent(SCHOOL.whatsappMessage)}`} target="_blank" rel="noopener noreferrer">Chat via WhatsApp</a>
                   </Button>
                 </div>
@@ -149,15 +151,15 @@ export default function KontakClient() {
 
             {/* Side Highlights (Spans 4 cols) */}
             <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
-                 <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center mb-6 text-[#33b962] group-hover:scale-110 transition-transform">
+              <div className="page-card page-tilt-card bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-(--color-forest-450)">
+                 <div className="w-14 h-14 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/30 rounded-2xl flex items-center justify-center mb-6 text-(--color-forest-450) group-hover:scale-110 transition-transform">
                     <MessageCircle className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Hubungi</h3>
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Respon Cepat & Ramah</p>
               </div>
               
-              <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+              <div className="page-card bg-(--color-sun-500) dark:bg-(--color-sun-400) rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
                 <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
                     <MapPin className="w-8 h-8" />
                   </div>
@@ -171,16 +173,16 @@ export default function KontakClient() {
       </section>
 
       {/* Contact Information Cards */}
-      <section className="relative py-24 bg-white/50 dark:bg-gray-950/50 backdrop-blur-md transition-colors duration-500">
+      <section className="relative py-24 bg-(--color-paper-50)/50 dark:bg-gray-950/50 backdrop-blur-md transition-colors duration-500">
         <div className="container relative z-10 px-4 mx-auto">
-          <div className="grid max-w-6xl grid-cols-1 gap-8 mx-auto md:grid-cols-2 lg:grid-cols-4">
+          <div className="page-cards-container grid max-w-6xl grid-cols-1 gap-8 mx-auto md:grid-cols-2 lg:grid-cols-4">
             {contactInfo.map((info, index) => {
               const Icon = info.icon
               return (
-                <Card key={index} className="card-premium p-8 text-center glass dark:bg-gray-900/40 border-0 group transition-all hover:scale-[1.05]">
+                <Card key={index} className="page-card page-tilt-card card-premium p-8 text-center glass dark:bg-gray-900/40 border-0 group transition-all hover:scale-[1.05]">
                   <div className="flex flex-col h-full">
-                    <div className="flex items-center justify-center w-20 h-20 mx-auto mb-8 rounded-3xl bg-white/50 dark:bg-emerald-900/20 group-hover:bg-[#33b962] transition-all duration-500 shadow-xl brightness-110 filter drop-shadow-[0_10px_15px_rgba(51,185,98,0.2)]">
-                      <Icon className="w-10 h-10 text-[#33b962] group-hover:text-white transition-colors brightness-125" />
+                    <div className="flex items-center justify-center w-20 h-20 mx-auto mb-8 rounded-3xl bg-white/50 dark:bg-(--color-forest-450)/20 group-hover:bg-(--color-forest-450) transition-all duration-500 shadow-xl">
+                      <Icon className="w-10 h-10 text-(--color-forest-450) group-hover:text-white transition-colors" />
                     </div>
                     <h3 className="mb-4 text-xl font-black text-gray-900 dark:text-white uppercase tracking-tight">{info.title}</h3>
                     <p className="mb-8 text-sm font-medium text-gray-600 dark:text-gray-400 leading-relaxed flex-grow">{info.content}</p>
@@ -210,11 +212,11 @@ export default function KontakClient() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 rounded-lg bg-emerald-50 dark:bg-gray-800">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-(--color-forest-450)/10 dark:bg-gray-800">
                   <span className="font-medium text-gray-900 dark:text-white">Senin - Jumat</span>
                   <span className="font-semibold text-gray-700 dark:text-white">07:00 - 15:00 WIB</span>
                 </div>
-                <div className="flex items-center justify-between p-3 rounded-lg bg-emerald-50 dark:bg-gray-800">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-(--color-forest-450)/10 dark:bg-gray-800">
                   <span className="font-medium text-gray-900 dark:text-white">Sabtu</span>
                   <span className="font-semibold text-gray-700 dark:text-white">07:00 - 12:00 WIB</span>
                 </div>
@@ -245,7 +247,6 @@ export default function KontakClient() {
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen
-                loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
@@ -371,8 +372,8 @@ export default function KontakClient() {
               {departments.map((dept, index) => (
                 <Card key={index} className="card-premium p-6 transition-all hover:scale-[1.02] dark:bg-gray-900/60 border-0 glass">
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center mb-6 brightness-110 shadow-inner">
-                      <Phone className="w-8 h-8 text-[#33b962] brightness-125" />
+                    <div className="w-16 h-16 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/30 rounded-2xl flex items-center justify-center mb-6 shadow-inner">
+                      <Phone className="w-8 h-8 text-(--color-forest-450)" />
                     </div>
                     <h3 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-tight mb-2">{dept.name}</h3>
                     <p className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-6 uppercase tracking-widest text-[10px]">PIC: {dept.pic}</p>
@@ -384,7 +385,7 @@ export default function KontakClient() {
                     >
                       <Button
                         size="lg"
-                        className="w-full rounded-2xl font-black bg-[#33b962] hover:bg-[#2a9d52] text-white shadow-xl hover:scale-[1.05] transition-all uppercase tracking-widest text-xs h-12"
+                        className="w-full rounded-2xl font-black bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white shadow-xl hover:scale-[1.05] transition-all uppercase tracking-widest text-xs h-12"
                       >
                         {dept.phone}
                       </Button>

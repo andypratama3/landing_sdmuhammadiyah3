@@ -52,7 +52,7 @@ export default function Navigation() {
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-black tracking-tighter text-base sm:text-lg leading-none text-[#33b962]">SEKOLAH KREATIF</span>
+            <span className="font-black tracking-tighter text-base sm:text-lg leading-none text-(--color-forest-700)">SEKOLAH KREATIF</span>
             <span className="text-[9px] sm:text-[11px] font-black tracking-widest leading-none text-gray-500 dark:text-gray-400 mt-1 uppercase">SD Muh 3 Samarinda</span>
           </div>
         </Link>
@@ -65,7 +65,7 @@ export default function Navigation() {
           <Button
             asChild
             size="sm"
-            className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-4 shadow-xl hover:scale-105 transition-all font-black uppercase tracking-widest text-[10px] h-8 whitespace-nowrap cursor-pointer"
+            className="bg-(--color-forest-700) hover:bg-(--color-forest-500) text-white rounded-full px-4 shadow-xl hover:scale-105 transition-all font-black uppercase tracking-widest text-[10px] h-8 whitespace-nowrap cursor-pointer"
           >
             <Link href="/spmb">SPMB {new Date().getFullYear()}</Link>
           </Button>

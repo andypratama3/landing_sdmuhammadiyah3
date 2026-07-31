@@ -60,7 +60,7 @@ export function GuruFilterClient({
               <Input
                 type="text"
                 placeholder="Cari nama guru..."
-                className="pl-10 pr-4 border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-full focus:border-[#33b962] focus:ring-2 focus:ring-[#33b962]/20 transition-all dark:text-white"
+                className="pl-10 pr-4 border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-full focus:border-(--color-forest-600) focus:ring-2 focus:ring-(--color-forest-600)/20 transition-all dark:text-white"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
               />
@@ -71,7 +71,7 @@ export function GuruFilterClient({
               )}
             </div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#33b962]/10">
-               <span className="font-semibold text-[#33b962]">{totalGurus}</span>
+               <span className="font-semibold text-(--color-forest-600) dark:text-(--color-forest-400)">{totalGurus}</span>
                <span className="text-sm text-gray-600">Guru</span>
             </div>
           </div>
@@ -83,8 +83,8 @@ export function GuruFilterClient({
                 variant={currentFilter === filter.slug ? "default" : "outline"}
                 className={`rounded-full px-6 py-2 h-10 font-black uppercase tracking-widest text-[10px] transition-all duration-300 ${
                   currentFilter === filter.slug
-                  ? "bg-[#33b962] text-white shadow-xl shadow-emerald-500/20 hover:bg-[#2a9d52] border-0"
-                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 hover:border-[#33b962] hover:text-[#33b962] dark:hover:border-[#33b962]"
+                  ? "bg-(--color-forest-700)! text-white shadow-xl shadow-emerald-500/20 hover:bg-(--color-forest-600)! border-0"
+                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 hover:border-(--color-forest-600) hover:text-(--color-forest-600) dark:hover:border-(--color-forest-400) dark:hover:text-(--color-forest-400)"
                 }`}
                 onClick={() => handleFilterChange(filter.slug)}
               >

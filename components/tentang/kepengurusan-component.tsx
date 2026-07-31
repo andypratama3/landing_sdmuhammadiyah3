@@ -407,7 +407,7 @@ export default function StrukturKepengurusan({
       <div className="container px-4 mx-auto">
         {/* Header */}
         <div className="mb-16 text-center">
-          <div className="mb-4 inline-block px-4 py-2 bg-[#33b962]/10 text-[#33b962] border border-[#33b962]/20 rounded-full text-sm font-medium">
+          <div className="mb-4 inline-block px-4 py-2 bg-(--color-forest-600)/10 text-(--color-forest-600) dark:text-(--color-forest-400) border border-(--color-forest-600)/20 rounded-full text-sm font-medium">
             Organisasi
           </div>
           <h2 className="mb-3 text-4xl font-bold text-gray-900 md:text-5xl">

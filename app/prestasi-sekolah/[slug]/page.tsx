@@ -160,7 +160,7 @@ export default function PrestasiSekolahDetailPage() {
   if (prestasiLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <section className="relative py-12 text-white bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#238b45]">
+        <section className="relative py-12 text-white bg-gradient-to-br from-(--color-forest-700) via-(--color-forest-500) to-(--color-forest-600)">
           <div className="container px-4 mx-auto">
             <Skeleton className="w-40 h-10 bg-white/20" />
           </div>
@@ -261,7 +261,7 @@ export default function PrestasiSekolahDetailPage() {
                 <div className="mb-8">
                   <div className="flex flex-wrap gap-2 mb-4">
                     {prestasi.kategori && prestasi.kategori.length > 0 && prestasi.kategori.map((kat) => (
-                      <Badge key={kat.id} className="bg-[#33b962]/10 text-[#33b962] border-[#33b962]/20">
+                      <Badge key={kat.id} className="bg-(--color-forest-700)/10 text-(--color-forest-700) border-(--color-forest-700)/20">
                         {kat.name}
                       </Badge>
                     ))}
@@ -293,7 +293,7 @@ export default function PrestasiSekolahDetailPage() {
                       className="object-cover"
                       priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#33b962]/60 to-transparent flex items-end p-6">
+                    <div className="absolute inset-0 bg-gradient-to-t from-(--color-forest-700)/60 to-transparent flex items-end p-6">
                       <IconComponent className="w-16 h-16 text-white" />
                     </div>
                   </div>
@@ -303,7 +303,7 @@ export default function PrestasiSekolahDetailPage() {
                 <Card className="mb-8">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-2 mb-4">
-                      <Award className="w-6 h-6 text-[#33b962]" />
+                      <Award className="w-6 h-6 text-(--color-forest-700)" />
                       <h2 className="text-2xl font-bold">Informasi Prestasi</h2>
                     </div>
                     
@@ -337,7 +337,7 @@ export default function PrestasiSekolahDetailPage() {
                   <Card className="mb-8">
                     <CardContent className="p-6">
                       <div className="flex items-center gap-2 mb-4">
-                        <Star className="w-5 h-5 text-[#33b962]" />
+                        <Star className="w-5 h-5 text-(--color-forest-700)" />
                         <h3 className="text-xl font-semibold">Deskripsi</h3>
                       </div>
                       <div 
@@ -381,7 +381,7 @@ export default function PrestasiSekolahDetailPage() {
                     <Button 
                       size="icon" 
                       variant="outline"
-                      className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#33b962] hover:text-white hover:border-[#33b962] transition-all"
+                      className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-(--color-forest-700) hover:text-white hover:border-(--color-forest-700) transition-all"
                       onClick={() => handleShare('native')}
                     >
                       <Share2 className="w-4 h-4" />
@@ -395,7 +395,7 @@ export default function PrestasiSekolahDetailPage() {
             <div className="space-y-6">
               {/* Achievement Badge */}
               <Card className="overflow-hidden">
-                <div className="bg-gradient-to-br from-[#33b962] to-[#2a9d52] p-6 text-white">
+                <div className="bg-gradient-to-br from-(--color-forest-700) to-(--color-forest-500) p-6 text-white">
                   <div className="flex items-center justify-center mb-4">
                     <IconComponent className="w-16 h-16 text-white" />
                   </div>
@@ -461,7 +461,7 @@ export default function PrestasiSekolahDetailPage() {
                           className="block group"
                         >
                           <div className="flex gap-4">
-                            <div className="relative flex-shrink-0 w-24 h-24 overflow-hidden rounded-lg bg-gradient-to-br from-[#33b962] to-[#2a9d52]">
+                            <div className="relative flex-shrink-0 w-24 h-24 overflow-hidden rounded-lg bg-gradient-to-br from-(--color-forest-700) to-(--color-forest-500)">
                               {item.foto ? (
                                 <Image
                                   src={item.foto}
@@ -477,11 +477,11 @@ export default function PrestasiSekolahDetailPage() {
                             </div>
                             <div className="flex-1 min-w-0">
                               {item.kategori && item.kategori.length > 0 && (
-                                <Badge className="mb-2 text-xs bg-[#33b962]/10 text-[#33b962]">
+                                <Badge className="mb-2 text-xs bg-(--color-forest-700)/10 text-(--color-forest-700)">
                                   {item.kategori[0].name}
                                 </Badge>
                               )}
-                              <h4 className="text-sm font-semibold transition-colors line-clamp-2 group-hover:text-[#33b962]">
+                              <h4 className="text-sm font-semibold transition-colors line-clamp-2 group-hover:text-(--color-forest-700)">
                                 {item.name}
                               </h4>
                               <p className="mt-1 text-xs text-muted-foreground">

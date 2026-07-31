@@ -7,7 +7,7 @@ interface PartnersSectionProps {
 
 export function PartnersSection({ partners }: PartnersSectionProps) {
   return (
-    <section className="relative py-20 overflow-hidden bg-gray-50/80 border-t border-gray-100 dark:bg-gray-950/50 dark:border-gray-800">
+    <section className="relative py-20 overflow-hidden bg-(--color-cloud-100)/80 border-t border-gray-100 dark:bg-gray-950/50 dark:border-gray-800">
       <div className="container relative z-10 px-4 mx-auto text-center">
         <p className="mb-12 text-sm font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.22em] font-outfit">
           Dukungan & Kerja Sama

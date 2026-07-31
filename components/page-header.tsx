@@ -31,7 +31,7 @@ export function PageHeader({ title, description, breadcrumbs }: PageHeaderProps)
                   <div key={index} className="flex items-center">
                     <BreadcrumbItem>
                       {isLast ? (
-                        <BreadcrumbPage className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] text-[#33b962] dark:text-[#4ade80] bg-[#33b962]/5 dark:bg-[#33b962]/10 px-4 py-1.5 rounded-full">
+                        <BreadcrumbPage className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] text-(--color-forest-600) dark:text-(--color-forest-400) bg-(--color-forest-600)/5 dark:bg-(--color-forest-400)/10 px-4 py-1.5 rounded-full">
                           {item.label}
                         </BreadcrumbPage>
                       ) : (
@@ -39,7 +39,7 @@ export function PageHeader({ title, description, breadcrumbs }: PageHeaderProps)
                           {item.href ? (
                             <Link
                               href={item.href}
-                              className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] transition-all text-gray-400 hover:text-[#33b962] dark:hover:text-[#4ade80]"
+                              className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] transition-all text-gray-400 hover:text-(--color-forest-600) dark:hover:text-(--color-forest-400)"
                             >
                               {item.label}
                             </Link>

@@ -9,6 +9,7 @@ import { Target, Eye, Heart, Users, Building2, Award, BookOpen, Shield, CheckCir
 import { Fotosekolah } from '@/types/fotosekolah.types';
 import { useApi } from "@/hooks/useApi"
 import { FotoSekolahCard } from '@/components/tentang/fotoSekolahCard'
+import PageAnimations from "@/components/PageAnimations"
 
 export default function TentangPage() {
   const timeline = [
@@ -88,10 +89,11 @@ export default function TentangPage() {
 
   return (
     <div className="pt-24 pb-16 min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+      <PageAnimations />
       {/* Animated Background Blobs */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
-      <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
-      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+      <div className="absolute top-20 left-10 w-64 h-64 bg-(--color-forest-450)/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-40 right-20 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-(--color-teal-400)/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
       {/* Editorial Bento Grid Hero Section */}
       <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800">
@@ -99,26 +101,26 @@ export default function TentangPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
             {/* Main Typographic Card (Spans 8 cols) */}
-            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+            <div className="lg:col-span-8 bg-(--color-forest-450) dark:bg-(--color-forest-900) rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
               <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative z-10">
-                <Badge className="bg-white text-[#33b962] hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                <Badge className="page-hero-badge bg-white text-(--color-forest-600) hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
                   Eksplorasi Tentang Kami
                 </Badge>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
-                  Sekolah Kreatif <br /> <span className="text-[#ffd166]">Muhammadiyah 3</span>
+                <h1 className="page-hero-title text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
+                  Sekolah Kreatif <br /> <span className="text-(--color-sun-200)">Muhammadiyah 3</span>
                 </h1>
-                <p className="text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
+                <p className="page-hero-description text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
                   Mewujudkan generasi kreatif, inovatif, dan berakhlak mulia melalui sistem pendidikan yang menyenangkan dan berorientasi masa depan.
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <Button asChild className="bg-[#ffd166] text-gray-900 hover:bg-[#ffb703] rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl">
+                  <Button asChild className="page-button bg-(--color-sun-500) text-gray-900 hover:bg-(--color-sun-400) rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl">
                     <Link href="#visi-misi">Visi & Misi</Link>
                   </Button>
-                  <Button asChild variant="outline-on-dark" className="rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs">
+                  <Button asChild variant="outline-on-dark" className="page-button rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs">
                     <Link href="#sejarah">Sejarah Sekolah</Link>
                   </Button>
                 </div>
@@ -127,15 +129,15 @@ export default function TentangPage() {
 
             {/* Side Highlights (Spans 4 cols) */}
             <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962]">
-                 <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl flex items-center justify-center mb-6 text-[#33b962] group-hover:scale-110 transition-transform">
+              <div className="page-card page-tilt-card bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-(--color-forest-450)">
+                 <div className="w-14 h-14 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/30 rounded-2xl flex items-center justify-center mb-6 text-(--color-forest-450) group-hover:scale-110 transition-transform">
                     <Eye className="w-8 h-8" />
                   </div>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Visi</h3>
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Menjadi Sekolah Dasar Islam Terdepan</p>
               </div>
               
-              <div className="bg-[#ffd166] dark:bg-[#e0b445] rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+              <div className="page-card bg-(--color-sun-500) dark:bg-(--color-sun-600) rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
                 <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
                     <Target className="w-8 h-8" />
                   </div>
@@ -152,13 +154,13 @@ export default function TentangPage() {
       <section className="relative py-24 bg-white/50 dark:bg-gray-950/50 backdrop-blur-md transition-colors duration-500">
         <div className="container relative z-10 px-4 mx-auto">
           <div className="mb-16 text-center">
-            <Badge className="mb-4 bg-emerald-100 text-[#33b962] dark:bg-emerald-950/30 dark:text-emerald-400 px-6 py-2 rounded-full font-black uppercase tracking-widest text-[10px]">Filosofi Pendidikan</Badge>
+            <Badge className="mb-4 bg-(--color-forest-450)/10 text-(--color-forest-450) dark:bg-(--color-forest-450)/30 dark:text-(--color-teal-400) px-6 py-2 rounded-full font-black uppercase tracking-widest text-[10px]">Filosofi Pendidikan</Badge>
             <h2 className="mb-4 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight">Visi & Misi</h2>
             <p className="max-w-2xl mx-auto text-lg font-medium text-gray-600 dark:text-gray-400">Arah dan tujuan utama perjuangan pendidikan kami</p>
           </div>
           <div className="grid max-w-7xl gap-8 mx-auto lg:grid-cols-2">
             <Card className="card-premium p-12 glass dark:bg-gray-900/40 border-0 group transition-all hover:scale-[1.02]">
-              <div className="w-24 h-24 bg-linear-to-br from-[#33b962] to-[#2a9d52] rounded-[2rem] flex items-center justify-center mb-8 shadow-xl group-hover:rotate-6 transition-all duration-500 brightness-110 filter drop-shadow-[0_15px_20px_rgba(51,185,98,0.3)]">
+              <div className="w-24 h-24 bg-linear-to-br from-(--color-forest-450) to-(--color-forest-500) rounded-[2rem] flex items-center justify-center mb-8 shadow-xl group-hover:rotate-6 transition-all duration-500 brightness-110 filter drop-shadow-[0_15px_20px_rgba(26,77,46,0.3)]">
                 <Eye className="w-12 h-12 text-white brightness-110" />
               </div>
               <h2 className="mb-6 text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Visi Kami</h2>
@@ -169,7 +171,7 @@ export default function TentangPage() {
             </Card>
 
             <Card className="card-premium p-12 glass dark:bg-gray-900/40 border-0 group transition-all hover:scale-[1.02]">
-              <div className="w-24 h-24 bg-linear-to-br from-[#06d6a0] to-[#05b88c] rounded-[2rem] flex items-center justify-center mb-8 shadow-xl group-hover:rotate-6 transition-all duration-500 brightness-110 filter drop-shadow-[0_15px_20px_rgba(6,214,160,0.3)]">
+              <div className="w-24 h-24 bg-linear-to-br from-(--color-teal-400) to-(--color-teal-300) rounded-[2rem] flex items-center justify-center mb-8 shadow-xl group-hover:rotate-6 transition-all duration-500 brightness-110 filter drop-shadow-[0_15px_20px_rgba(6,214,160,0.3)]">
                 <Target className="w-12 h-12 text-white brightness-110" />
               </div>
               <h2 className="mb-6 text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Misi Strategis</h2>
@@ -182,8 +184,8 @@ export default function TentangPage() {
                   "Menjalin kemitraan dengan orang tua dan masyarakat"
                 ].map((misi, i) => (
                   <li key={i} className="flex items-start gap-4 text-lg font-medium text-gray-700 dark:text-gray-300">
-                    <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0 mt-0.5">
-                      <CheckCircle className="w-5 h-5 text-[#33b962]" />
+                    <div className="w-8 h-8 rounded-full bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/30 flex items-center justify-center shrink-0 mt-0.5">
+                      <CheckCircle className="w-5 h-5 text-(--color-forest-450)" />
                     </div>
                     <span>{misi}</span>
                   </li>
@@ -199,7 +201,7 @@ export default function TentangPage() {
       <section className="relative py-24 bg-gray-50/50 dark:bg-gray-900/50 backdrop-blur-md transition-colors duration-500">
         <div className="container relative z-10 px-4 mx-auto">
           <div className="mb-16 text-center">
-            <Badge className="mb-4 bg-emerald-100 text-[#33b962] dark:bg-emerald-950/30 dark:text-emerald-400 px-6 py-2 rounded-full font-black uppercase tracking-widest text-[10px]">Sejarah</Badge>
+            <Badge className="mb-4 bg-(--color-forest-450)/10 text-(--color-forest-450) dark:bg-(--color-forest-450)/30 dark:text-(--color-teal-400) px-6 py-2 rounded-full font-black uppercase tracking-widest text-[10px]">Sejarah</Badge>
             <h2 className="mb-4 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight">Jarak Langkah Kami</h2>
             <p className="max-w-2xl mx-auto text-lg font-medium text-gray-600 dark:text-gray-400">
               Sejarah panjang pengabdian dalam menciptakan pendidikan berkualitas
@@ -209,10 +211,10 @@ export default function TentangPage() {
             {timeline.map((item, index) => (
               <div key={index} className="relative flex gap-8 mb-12 group">
                 <div className="flex flex-col items-center">
-                  <div className="w-20 h-20 bg-linear-to-br from-[#33b962] to-[#2a9d52] rounded-[1.5rem] flex items-center justify-center text-white font-black text-xl shrink-0 shadow-xl group-hover:scale-110 transition-all duration-500 brightness-110 filter drop-shadow-[0_10px_15px_rgba(51,185,98,0.2)]">
+                  <div className="w-20 h-20 bg-linear-to-br from-(--color-forest-450) to-(--color-forest-500) rounded-[1.5rem] flex items-center justify-center text-white font-black text-xl shrink-0 shadow-xl group-hover:scale-110 transition-all duration-500 brightness-110 filter drop-shadow-[0_10px_15px_rgba(26,77,46,0.2)]">
                     {item.year}
                   </div>
-                  {index < timeline.length - 1 && <div className="w-1 h-full bg-linear-to-b from-[#33b962]/40 to-[#33b962]/5 mt-4" />}
+                  {index < timeline.length - 1 && <div className="w-1 h-full bg-linear-to-b from-(--color-forest-450)/40 to-(--color-forest-450)/5 mt-4" />}
                 </div>
                 <div className="flex-1 pb-12">
                   <Card className="card-premium p-8 glass dark:bg-gray-900/40 border-0 shadow-lg hover:shadow-2xl transition-all">
@@ -229,7 +231,7 @@ export default function TentangPage() {
       <section className="relative py-24 bg-white/50 dark:bg-gray-950/50 backdrop-blur-md transition-colors duration-500">
         <div className="container relative z-10 px-4 mx-auto">
           <div className="mb-16 text-center">
-            <Badge className="mb-4 bg-[#ffd166] text-gray-900 px-6 py-2 rounded-full font-black uppercase tracking-widest text-[10px] shadow-lg shadow-yellow-500/10">Keunggulan</Badge>
+            <Badge className="mb-4 bg-(--color-sun-500) text-gray-900 px-6 py-2 rounded-full font-black uppercase tracking-widest text-[10px] shadow-lg shadow-(--color-sun-500)/10">Keunggulan</Badge>
             <h2 className="mb-4 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight">Mengapa Memilih Kami?</h2>
             <p className="max-w-2xl mx-auto text-lg font-medium text-gray-600 dark:text-gray-400">
               Alasan utama mempercayakan pendidikan masa depan cerah putra-putri Anda kepada kami
@@ -241,8 +243,8 @@ export default function TentangPage() {
                 key={index}
                 className="card-premium p-10 glass dark:bg-gray-900/40 border-0 group transition-all hover:scale-105"
               >
-                <div className="w-20 h-20 bg-emerald-50 dark:bg-emerald-900/30 rounded-[1.5rem] flex items-center justify-center mb-8 group-hover:bg-[#33b962] transition-all duration-500 shadow-inner">
-                  <reason.icon className="w-10 h-10 text-[#33b962] group-hover:text-white transition-colors brightness-110" />
+                <div className="w-20 h-20 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/30 rounded-[1.5rem] flex items-center justify-center mb-8 group-hover:bg-(--color-forest-450) transition-all duration-500 shadow-inner">
+                  <reason.icon className="w-10 h-10 text-(--color-forest-450) group-hover:text-white transition-colors brightness-110" />
                 </div>
                 <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight leading-tight">{reason.title}</h3>
                 <p className="text-sm font-medium leading-relaxed text-gray-600 dark:text-gray-400">{reason.description}</p>
@@ -256,7 +258,7 @@ export default function TentangPage() {
       <section className="relative py-24 bg-gray-50/50 dark:bg-gray-900/50 transition-colors duration-500">
         <div className="container relative z-10 px-4 mx-auto">
           <div className="mb-16 text-center">
-            <Badge className="mb-4 bg-emerald-100 text-[#33b962] dark:bg-emerald-950/30 dark:text-emerald-400 px-6 py-2 rounded-full font-black uppercase tracking-widest text-[10px]">Visualisasi</Badge>
+            <Badge className="mb-4 bg-(--color-forest-450)/10 text-(--color-forest-450) dark:bg-(--color-forest-450)/30 dark:text-(--color-teal-400) px-6 py-2 rounded-full font-black uppercase tracking-widest text-[10px]">Visualisasi</Badge>
             <h2 className="mb-4 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight">Dokumentasi Sekolah</h2>
             <p className="text-lg font-medium text-gray-600 dark:text-gray-400">Suasana belajar dan fasilitas unggulan SD Muhammadiyah 3 Samarinda</p>
           </div>

@@ -69,7 +69,7 @@ export function VisitorStatsClient() {
     { id: 'day', label: 'Hari Ini', value: data?.visitor_by_day, icon: Activity, color: 'text-blue-400', bgColor: 'bg-blue-400/20' },
     { id: 'month', label: 'Bulan Ini', value: data?.visitor_by_month, icon: Users, color: 'text-purple-400', bgColor: 'bg-purple-400/20' },
     { id: 'year', label: 'Tahun Ini', value: data?.visitor_by_year, icon: TrendingUp, color: 'text-pink-400', bgColor: 'bg-pink-400/20' },
-    { id: 'total', label: 'Total', value: data?.visitor_all_year, icon: BarChart3, color: 'text-[#33b962]', bgColor: 'bg-[#33b962]/20', highlight: true },
+    { id: 'total', label: 'Total', value: data?.visitor_all_year, icon: BarChart3, color: 'text-(--color-forest-600)', bgColor: 'bg-(--color-forest-600)/20', highlight: true },
   ];
 
   return (

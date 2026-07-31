@@ -6,7 +6,7 @@ import { ChevronRight, Smile } from "lucide-react"
 
 export function AboutPreviewSection() {
   return (
-    <section className="py-24 bg-white dark:bg-gray-900 relative overflow-hidden">
+    <section className="py-24 bg-(--color-paper-50) dark:bg-gray-900 relative overflow-hidden">
       <div className="container px-4 mx-auto">
         <div className="grid items-center gap-12 lg:gap-16 lg:grid-cols-2">
           <div className="relative group">
@@ -32,7 +32,7 @@ export function AboutPreviewSection() {
             </div>
           </div>
           <div>
-            <Badge className="mb-5 bg-[#33b962]/10 dark:bg-[#33b962]/20 text-[#33b962] dark:text-[#4ade80] border-[#33b962]/20 px-5 py-2 text-sm font-bold rounded-full">
+            <Badge className="mb-5 bg-(--color-forest-700)/10 dark:bg-(--color-forest-700)/20 text-(--color-forest-700) dark:text-(--color-teal-400) border-(--color-forest-700)/20 px-5 py-2 text-sm font-bold rounded-full">
               TENTANG KAMI
             </Badge>
             <h2 className="mb-5 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight font-outfit">
@@ -43,7 +43,7 @@ export function AboutPreviewSection() {
             </p>
             <Button
               asChild
-              className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-10 py-7 text-base font-bold shadow-lg hover:scale-[1.03] transition-all"
+              className="bg-(--color-forest-700) hover:bg-(--color-forest-500) text-white rounded-full px-10 py-7 text-base font-bold shadow-lg hover:scale-[1.03] transition-all"
               size="lg"
             >
               <Link href="/profil" className="flex items-center gap-2">

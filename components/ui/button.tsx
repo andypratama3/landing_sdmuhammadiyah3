@@ -17,7 +17,7 @@ const buttonVariants = cva(
         'outline-on-dark':
           'border border-white/30 bg-transparent text-white shadow-none hover:bg-white/15 hover:text-white hover:border-white/50 focus-visible:ring-white/30',
         'outline-brand':
-          'border-2 border-[#33b962]/35 bg-transparent text-[#33b962] shadow-none hover:bg-[#33b962] hover:text-white hover:border-[#33b962] dark:border-[#4ade80]/40 dark:text-[#4ade80] dark:hover:bg-[#33b962] dark:hover:text-white dark:hover:border-[#33b962]',
+          'border-2 border-(--color-forest-500)/40 bg-transparent text-(--color-forest-500) shadow-none hover:bg-(--color-forest-500) hover:text-white hover:border-(--color-forest-500) dark:border-(--color-forest-400)/40 dark:text-(--color-forest-400) dark:hover:bg-(--color-forest-400) dark:hover:text-(--color-forest-950) dark:hover:border-(--color-forest-400)',
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost:

@@ -123,7 +123,7 @@ export class ApiClient {
       return true
 
     } catch (error) {
-      this.error('❌ Token generation failed:', error)
+      this.warn('❌ Token generation failed:', error)
       return false
     }
   }

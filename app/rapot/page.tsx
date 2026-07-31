@@ -12,6 +12,7 @@ import { EmptyState } from '@/components/rapot/EmptyState';
 import { ErrorAlert } from '@/components/rapot/ErrorAlert';
 import { RapotHeader } from '@/components/rapot/RapotHeader';
 import { InfoFooter } from '@/components/rapot/InfoFooter';
+import PageAnimations from '@/components/PageAnimations';
 
 export const RapotHierarchySystem = () => {
   const [selectedYear, setSelectedYear] = useState('');
@@ -217,6 +218,7 @@ export const RapotHierarchySystem = () => {
       <ToastContainer toasts={toasts} removeToast={removeToast} />
 
       <div className="min-h-screen px-4 py-8 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-300 relative overflow-hidden">
+        <PageAnimations />
         {/* Playful background elements */}
         <div className="absolute top-20 left-10 w-64 h-64 bg-emerald-400/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
         <div className="absolute bottom-20 right-10 w-80 h-80 bg-teal-400/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />

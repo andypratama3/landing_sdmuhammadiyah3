@@ -37,27 +37,27 @@ function enrichParagraph(text: string) {
   return text
     .replace(
       /halaman SPMB/gi,
-      '<a href="/spmb" class="text-[#33b962] font-semibold hover:underline">halaman SPMB</a>'
+      '<a href="/spmb" class="text-(--color-forest-600) dark:text-(--color-forest-400) font-semibold hover:underline">halaman SPMB</a>'
     )
     .replace(
       /halaman prestasi siswa/gi,
-      '<a href="/prestasi-siswa" class="text-[#33b962] font-semibold hover:underline">halaman prestasi siswa</a>'
+      '<a href="/prestasi-siswa" class="text-(--color-forest-600) dark:text-(--color-forest-400) font-semibold hover:underline">halaman prestasi siswa</a>'
     )
     .replace(
       /halaman kontak/gi,
-      '<a href="/kontak" class="text-[#33b962] font-semibold hover:underline">halaman kontak</a>'
+      '<a href="/kontak" class="text-(--color-forest-600) dark:text-(--color-forest-400) font-semibold hover:underline">halaman kontak</a>'
     )
     .replace(
       /halaman tenaga pendidik/gi,
-      '<a href="/guru" class="text-[#33b962] font-semibold hover:underline">halaman tenaga pendidik</a>'
+      '<a href="/guru" class="text-(--color-forest-600) dark:text-(--color-forest-400) font-semibold hover:underline">halaman tenaga pendidik</a>'
     )
     .replace(
       /profil lengkap sekolah/gi,
-      '<a href="/profil" class="text-[#33b962] font-semibold hover:underline">profil lengkap sekolah</a>'
+      '<a href="/profil" class="text-(--color-forest-600) dark:text-(--color-forest-400) font-semibold hover:underline">profil lengkap sekolah</a>'
     )
     .replace(
       /SPMB 2025\/2026/g,
-      '<a href="/spmb" class="text-[#33b962] font-semibold hover:underline">SPMB 2025/2026</a>'
+      '<a href="/spmb" class="text-(--color-forest-600) dark:text-(--color-forest-400) font-semibold hover:underline">SPMB 2025/2026</a>'
     )
 }
 
@@ -150,7 +150,7 @@ export function SeoArticlePage({ article }: { article: SeoArticle }) {
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2">
               <article>
-                <Badge className="mb-4 bg-[#33b962]/10 text-[#33b962] border-emerald-500/20 px-4 py-1.5 font-black uppercase tracking-widest text-[10px]">
+                <Badge className="mb-4 bg-(--color-forest-600)/10 text-(--color-forest-600) dark:text-(--color-forest-400) border-emerald-500/20 px-4 py-1.5 font-black uppercase tracking-widest text-[10px]">
                   {article.category}
                 </Badge>
                 <h1 className="mb-6 text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight tracking-tight">
@@ -230,7 +230,7 @@ export function SeoArticlePage({ article }: { article: SeoArticle }) {
                         className="block group"
                       >
                         <Badge className="mb-2 text-xs">{item.category}</Badge>
-                        <h4 className="text-sm font-semibold line-clamp-2 group-hover:text-[#33b962] transition-colors">
+                        <h4 className="text-sm font-semibold line-clamp-2 group-hover:text-(--color-forest-600) dark:group-hover:text-(--color-forest-400) transition-colors">
                           {item.title}
                         </h4>
                       </Link>

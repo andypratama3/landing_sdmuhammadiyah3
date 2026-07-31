@@ -15,6 +15,7 @@ import Image from "next/image"
 import { useState, useMemo } from "react"
 import { useApi } from "@/hooks/useApi"
 import { Ekstrakurikuler } from "@/types/ekstrakurikuler.types"
+import PageAnimations from "@/components/PageAnimations"
 
 // Extended type with parsed foto array
 interface EkstrakurikulerWithPhotos extends Ekstrakurikuler {
@@ -113,31 +114,32 @@ export default function EkstrakurikulerPage() {
   }, [ekstrakurikuler, selectedCategory])
 
   return (
-    <div className="pt-24 pb-16 min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+    <div className="pt-24 pb-16 min-h-screen bg-(--color-paper-50) dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+      <PageAnimations />
       {/* Animated Background Blobs */}
-      <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
-      <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
-      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+      <div className="absolute top-20 left-10 w-64 h-64 bg-(--color-forest-450)/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-40 right-20 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-(--color-teal-400)/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
       {/* Dynamic Activity Bento Hero Section */}
-      <section className="w-full py-12 lg:py-20 bg-gray-50/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800 z-10 relative pointer-events-auto">
+      <section className="w-full py-12 lg:py-20 bg-(--color-cloud-100)/50 dark:bg-gray-950/50 mt-4 border-b border-gray-200 dark:border-gray-800 z-10 relative pointer-events-auto">
         <div className="container px-4 mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            
+
             {/* Energetic Text Banner (Spans 8 cols) */}
-            <div className="lg:col-span-8 bg-[#33b962] dark:bg-[#1a5a32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl hover:shadow-2xl transition-all">
+            <div className="lg:col-span-8 bg-(--color-forest-450) dark:bg-(--color-forest-900) rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl hover:shadow-2xl transition-all">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
               <div className="absolute -top-32 -right-32 w-80 h-80 bg-white/20 rounded-full blur-[80px] pointer-events-none" />
 
               <div className="relative z-10 max-w-2xl">
-                <Badge className="bg-white text-[#33b962] border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#ffd166] animate-pulse"></span>
+                <Badge className="page-hero-badge bg-white text-(--color-forest-600) border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-(--color-sun-500) animate-pulse"></span>
                   Eksplorasi Bakat & Minat
                 </Badge>
-                <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[1.05] mb-6 tracking-tight drop-shadow-sm uppercase">
-                  Kegiatan <br /> <span className="text-[#ffd166]">Kreatif</span>
+                <h1 className="page-hero-title text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[1.05] mb-6 tracking-tight drop-shadow-sm uppercase">
+                  Kegiatan <br /> <span className="text-(--color-sun-200)">Kreatif</span>
                 </h1>
-                <p className="text-white/95 text-lg font-medium max-w-xl leading-relaxed drop-shadow-sm">
+                <p className="page-hero-description text-white/95 text-lg font-medium max-w-xl leading-relaxed drop-shadow-sm">
                   Kembangkan potensi dirimu tanpa batas. Temukan keseruan melalui berbagai pilihan ekstrakurikuler yang inspiratif, kompetitif, dan menyenangkan di Sekolah Kreatif!
                 </p>
               </div>
@@ -145,33 +147,33 @@ export default function EkstrakurikulerPage() {
 
             {/* Quick Icons/Visual Hooks (Spans 4 cols) */}
             <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="bg-[#ffd166] dark:bg-[#d6a33c] border-0 rounded-[2.5rem] p-8 shadow-sm flex flex-row items-center justify-between flex-1 transition-colors relative overflow-hidden group hover:shadow-xl">
+              <div className="bg-(--color-sun-500) dark:bg-(--color-sun-400) border-0 rounded-[2.5rem] p-8 shadow-sm flex flex-row items-center justify-between flex-1 transition-colors relative overflow-hidden group hover:shadow-xl">
                 <div className="absolute top-[-50%] right-[-20%] w-48 h-48 bg-white/20 rounded-full blur-[40px] pointer-events-none" />
                 <div className="z-10">
                   <h3 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight mb-2">Trophy & <br/> Prestasi</h3>
                 </div>
                 <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all z-10">
-                  <Trophy className="w-8 h-8 text-[#ffd166]" />
+                  <Trophy className="w-8 h-8 text-(--color-sun-500)" />
                 </div>
               </div>
-              
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-row items-center justify-between flex-1 transition-colors relative overflow-hidden group hover:border-[#33b962] hover:shadow-xl">
-                <div className="absolute bottom-[-50%] right-[-20%] w-48 h-48 bg-[#33b962]/10 rounded-full blur-[40px] pointer-events-none" />
+
+              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-row items-center justify-between flex-1 transition-colors relative overflow-hidden group hover:border-(--color-forest-450) hover:shadow-xl">
+                <div className="absolute bottom-[-50%] right-[-20%] w-48 h-48 bg-(--color-forest-450)/10 rounded-full blur-[40px] pointer-events-none" />
                 <div className="z-10">
                   <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight mb-2">Pilih <br/> Bakatmu</h3>
                 </div>
-                <div className="w-16 h-16 bg-[#33b962] text-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 -rotate-6 transition-all z-10">
+                <div className="w-16 h-16 bg-(--color-forest-450) text-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 -rotate-6 transition-all z-10">
                   <Target className="w-8 h-8" />
                 </div>
               </div>
             </div>
-            
+
           </div>
         </div>
       </section>
 
-      <section className="relative py-24 sm:py-32 bg-gray-50 dark:bg-gray-950 overflow-hidden transition-colors duration-500">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-400/5 rounded-full blur-[120px] animate-blob pointer-events-none" />
+      <section className="relative py-24 sm:py-32 bg-(--color-cloud-100) dark:bg-gray-950 overflow-hidden transition-colors duration-500">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-(--color-teal-400)/5 rounded-full blur-[120px] animate-blob pointer-events-none" />
         <div className="container relative z-10 px-4 mx-auto">
           <div className="mb-16 text-center">
             <h2 className="mb-4 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight">
@@ -182,15 +184,15 @@ export default function EkstrakurikulerPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="page-cards-container grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {benefits.map((benefit, index) => {
               const Icon = benefit.icon
               return (
-                <Card key={index} className="card-premium p-10 text-center glass dark:bg-gray-900/40 border-0 group transition-all hover:scale-105">
-                  <div className="flex items-center justify-center w-20 h-20 mx-auto mb-8 rounded-3xl bg-white/50 dark:bg-emerald-900/20 group-hover:bg-[#33b962] transition-all duration-500 shadow-xl brightness-110 filter drop-shadow-[0_10px_15px_rgba(51,185,98,0.2)]">
-                    <Icon className="w-10 h-10 text-[#33b962] group-hover:text-white transition-colors brightness-125" />
+                <Card key={index} className="page-card page-tilt-card card-premium p-10 text-center glass dark:bg-gray-900/40 border-0 group transition-all hover:scale-105">
+                  <div className="flex items-center justify-center w-20 h-20 mx-auto mb-8 rounded-3xl bg-white/50 dark:bg-(--color-forest-450)/20 group-hover:bg-(--color-forest-450) transition-all duration-500 shadow-xl filter drop-shadow-[0_10px_15px_rgba(var(--color-forest-450-rgb),0.2)]">
+                    <Icon className="w-10 h-10 text-(--color-forest-450) group-hover:text-white transition-colors" />
                   </div>
-                  <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white group-hover:text-[#33b962] transition-colors uppercase tracking-tight leading-tight">{benefit.title}</h3>
+                  <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white group-hover:text-(--color-forest-450) transition-colors uppercase tracking-tight leading-tight">{benefit.title}</h3>
                   <p className="text-sm font-medium leading-relaxed text-gray-600 dark:text-gray-400">{benefit.description}</p>
                 </Card>
               )
@@ -199,8 +201,8 @@ export default function EkstrakurikulerPage() {
         </div>
       </section>
 
-      <section className="relative py-24 bg-white dark:bg-gray-900 overflow-hidden transition-colors duration-500">
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-teal-400/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <section className="relative py-24 bg-(--color-paper-50) dark:bg-gray-900 overflow-hidden transition-colors duration-500">
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-(--color-teal-400)/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
         <div className="container relative z-10 px-4 mx-auto">
           <div className="mb-16 text-center">
             <h2 className="mb-4 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight">
@@ -277,7 +279,7 @@ export default function EkstrakurikulerPage() {
               </TabsList>
 
               <TabsContent value={selectedCategory} className="mt-6">
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
+                <div className="page-cards-container grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
                   {filteredEkstrakurikuler.map((activity) => (
                     <ActivityCard
                       key={activity.id}
@@ -311,7 +313,7 @@ export default function EkstrakurikulerPage() {
                   {requirements.map((requirement, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <div className="w-6 h-6 rounded-full bg-[#33b962]/10 dark:bg-[#33b962]/20 flex items-center justify-center shrink-0 mt-0.5">
-                        <span className="text-sm font-semibold text-[#33b962]">{index + 1}</span>
+                        <span className="text-sm font-semibold text-(--color-forest-600) dark:text-(--color-forest-400)">{index + 1}</span>
                       </div>
                       <p className="text-sm text-gray-900 dark:text-gray-200 sm:text-base">{requirement}</p>
                     </li>
@@ -323,7 +325,7 @@ export default function EkstrakurikulerPage() {
                     <strong>Catatan:</strong> Pendaftaran dapat dilakukan di kantor tata usaha atau melalui wali kelas.
                     Kegiatan dimulai setelah pembayaran lunas.
                   </p>
-                  <Button size="lg" className="w-full sm:w-auto bg-[#33b962] hover:bg-[#2a9d52] dark:bg-[#2a7a4a] dark:hover:bg-[#33b962]">
+                  <Button size="lg" className="w-full sm:w-auto bg-(--color-forest-450) hover:bg-(--color-forest-500) dark:bg-(--color-forest-600) dark:hover:bg-(--color-forest-400)">
                     Daftar Sekarang
                   </Button>
                 </div>
@@ -341,7 +343,7 @@ export default function EkstrakurikulerPage() {
               {selectedActivity?.name}
             </DialogTitle>
             <DialogDescription>
-              <Badge className="mt-2 bg-[#33b962] text-white border-0">
+              <Badge className="mt-2 bg-(--color-forest-450) text-white border-0">
                 {selectedActivity?.kategori && (categoryMap[selectedActivity.kategori.toLowerCase()] || selectedActivity.kategori)}
               </Badge>
             </DialogDescription>
@@ -399,7 +401,7 @@ export default function EkstrakurikulerPage() {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {selectedActivity.kelas && (
                   <div className="flex items-start gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-700">
-                    <Users className="w-5 h-5 text-[#33b962] shrink-0 mt-0.5" />
+                    <Users className="w-5 h-5 text-(--color-forest-450) shrink-0 mt-0.5" />
                     <div>
                       <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Kelas</p>
                       <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedActivity.kelas}</p>
@@ -409,7 +411,7 @@ export default function EkstrakurikulerPage() {
 
                 {selectedActivity.jam && (
                   <div className="flex items-start gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-700">
-                    <Clock className="w-5 h-5 text-[#33b962] shrink-0 mt-0.5" />
+                    <Clock className="w-5 h-5 text-(--color-forest-450) shrink-0 mt-0.5" />
                     <div>
                       <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Jadwal</p>
                       <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedActivity.jam} - Selesai</p>
@@ -419,7 +421,7 @@ export default function EkstrakurikulerPage() {
 
                 {selectedActivity.guru && (
                   <div className="flex items-start gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 sm:col-span-2">
-                    <UserCircle className="w-5 h-5 text-[#33b962] shrink-0 mt-0.5" />
+                    <UserCircle className="w-5 h-5 text-(--color-forest-450) shrink-0 mt-0.5" />
                     <div>
                       <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Pembimbing</p>
                       <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedActivity.guru}</p>
@@ -472,7 +474,7 @@ function ActivityCard({
         )}
       </div>
       <div className="flex flex-col flex-1 p-8">
-        <h3 className="text-2xl font-black text-gray-900 sm:text-2xl dark:text-white line-clamp-1 group-hover:text-[#33b962] transition-colors uppercase tracking-tight mb-3">
+        <h3 className="text-2xl font-black text-gray-900 sm:text-2xl dark:text-white line-clamp-1 group-hover:text-(--color-forest-450) transition-colors uppercase tracking-tight mb-3">
           {activity.name}
         </h3>
         <p className="text-sm font-medium text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed mb-6">
@@ -482,21 +484,21 @@ function ActivityCard({
         <div className="mt-auto space-y-4 pt-6 border-t border-gray-100 dark:border-white/5">
           {activity.jam && (
             <div className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
-              <div className="w-8 h-8 bg-[#33b962]/10 rounded-xl flex items-center justify-center brightness-110 shadow-inner">
-                <Clock className="w-4 h-4 text-[#33b962] brightness-125" />
+              <div className="w-8 h-8 bg-(--color-forest-450)/10 rounded-xl flex items-center justify-center shadow-inner">
+                <Clock className="w-4 h-4 text-(--color-forest-450)" />
               </div>
               <span className="truncate">{activity.jam} - Selesai </span>
             </div>
           )}
           {activity.guru && (
             <div className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
-              <div className="w-8 h-8 bg-blue-500/10 rounded-xl flex items-center justify-center brightness-110 shadow-inner">
-                <UserCircle className="w-4 h-4 text-blue-500 brightness-125" />
+              <div className="w-8 h-8 bg-blue-500/10 rounded-xl flex items-center justify-center shadow-inner">
+                <UserCircle className="w-4 h-4 text-blue-500" />
               </div>
               <span className="truncate">{activity.guru}</span>
             </div>
           )}
-          <Button className="w-full mt-4 bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-2xl font-black uppercase tracking-widest text-[11px] h-12 shadow-xl hover:scale-[1.05] transition-all">
+          <Button className="w-full mt-4 bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white rounded-2xl font-black uppercase tracking-widest text-[11px] h-12 shadow-xl hover:scale-[1.05] transition-all">
             LIHAT DETAIL AKTIVITAS
           </Button>
         </div>

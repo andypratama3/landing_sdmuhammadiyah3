@@ -2,7 +2,7 @@ export default function HomeLoading() {
   return (
     <div className="pt-18">
       {/* Hero Skeleton */}
-      <section className="relative min-h-[100dvh] flex items-center bg-gradient-to-br from-[#33b962]/80 via-[#2a9d52]/80 to-[#238b45]/80 overflow-hidden">
+      <section className="relative min-h-[100dvh] flex items-center bg-gradient-to-br from-(--color-forest-700)/80 via-(--color-forest-500)/80 to-(--color-forest-600)/80 overflow-hidden">
         <div className="container relative z-10 px-4 mx-auto pt-24 lg:pt-28">
           <div className="max-w-3xl mx-auto flex flex-col items-center text-center">
             <div className="mb-8 w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-white/20 animate-pulse" />
@@ -52,7 +52,7 @@ export default function HomeLoading() {
       </section>
 
       {/* Accreditation Skeleton */}
-      <section className="py-24 bg-[#33b962]/80 dark:bg-[#1a4d2e]/80 relative overflow-hidden">
+      <section className="py-24 bg-(--color-forest-700)/80 dark:bg-(--color-forest-900)/80 relative overflow-hidden">
         <div className="container px-4 mx-auto">
           <div className="grid gap-12 sm:grid-cols-2 lg:max-w-3xl mx-auto">
             {[1, 2].map((i) => (
@@ -170,7 +170,7 @@ export default function HomeLoading() {
       </section>
 
       {/* CTA Skeleton */}
-      <section className="py-28 bg-gradient-to-br from-[#33b962]/80 via-[#2a9d52]/80 to-[#1a4d2e]/80">
+      <section className="py-28 bg-gradient-to-br from-(--color-forest-700)/80 via-(--color-forest-500)/80 to-(--color-forest-600)/80">
         <div className="container px-4 mx-auto text-center">
           <div className="w-96 max-w-full h-12 mx-auto mb-6 rounded-lg bg-white/15 animate-pulse" />
           <div className="w-[400px] max-w-full h-6 mx-auto mb-12 rounded-md bg-white/10 animate-pulse" />

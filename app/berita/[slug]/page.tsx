@@ -117,9 +117,9 @@ export default async function BeritaDetailPage({ params }: Props) {
   return (
     <div className="min-h-screen pt-24 pb-16 bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
       <JsonLd data={generateArticleJsonLd(berita)} />
-      <div className="absolute top-20 left-10 w-64 h-64 bg-[#33b962]/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
-      <div className="absolute top-40 right-20 w-80 h-80 bg-[#ffd166]/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
-      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-emerald-400/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
+      <div className="absolute top-20 left-10 w-64 h-64 bg-(--color-forest-700)/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-40 right-20 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-(--color-teal-400)/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
       <section className="py-12">
         <PageHeader
@@ -138,7 +138,7 @@ export default async function BeritaDetailPage({ params }: Props) {
             <div className="lg:col-span-2">
               <article>
                 <div className="mb-10">
-                  <Badge className="mb-6 bg-[#33b962]/10 text-[#33b962] border-emerald-500/20 px-4 py-1.5 font-black uppercase tracking-widest text-[10px] rounded-full">
+                  <Badge className="mb-6 bg-(--color-forest-700)/10 text-(--color-forest-700) border-(--color-forest-700)/20 px-4 py-1.5 font-black uppercase tracking-widest text-[10px] rounded-full">
                     {berita.category}
                   </Badge>
                   <h1 className="mb-6 text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight tracking-tight">
@@ -146,15 +146,15 @@ export default async function BeritaDetailPage({ params }: Props) {
                   </h1>
                   <div className="flex flex-wrap items-center gap-6 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
                     <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-[#33b962]" />
+                      <Calendar className="w-4 h-4 text-(--color-forest-700)" />
                       <span>{formatDate(berita.created_at)}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-[#33b962]" />
+                      <Clock className="w-4 h-4 text-(--color-forest-700)" />
                       <span>{readingTime} MENIT BACA</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <User className="w-4 h-4 text-[#33b962]" />
+                      <User className="w-4 h-4 text-(--color-forest-700)" />
                       <span>ADMIN SDMUH3</span>
                     </div>
                   </div>

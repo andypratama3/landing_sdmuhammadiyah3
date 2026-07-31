@@ -31,7 +31,7 @@ export default function Error({
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
             onClick={reset}
-            className="bg-[#33b962] hover:bg-[#2a9d52] text-white rounded-full px-8 py-6 font-bold shadow-xl"
+            className="bg-(--color-forest-700) hover:bg-(--color-forest-500) text-white rounded-full px-8 py-6 font-bold shadow-xl"
           >
             <RefreshCw className="w-5 h-5 mr-2" />
             Coba Lagi

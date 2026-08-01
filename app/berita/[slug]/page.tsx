@@ -110,7 +110,7 @@ export default async function BeritaDetailPage({ params }: Props) {
   
   // Safely intercept Laravel WYSIWYG Editor outputs overriding wrong frontend domains with the correct Storage bucket URL
   const processedDesc = berita.desc
-    ? berita.desc.replace(/https?:\/\/sdmuhammadiyah3smd\.com\/storage\//g, process.env.NEXT_PUBLIC_STORAGE_URL || 'https://dashboard.sdmuhammadiyah3smd.com/storage/')
+    ? berita.desc.replace(/https?:\/\/sdmuhammadiyah3smd\.com\/storage/g, process.env.NEXT_PUBLIC_STORAGE_URL || 'https://dashboard.sdmuhammadiyah3smd.com/storage')
     : "";
   
   const pageDescription = processedDesc ? processedDesc.replace(/<[^>]*>/g, "").slice(0, 160) : "";

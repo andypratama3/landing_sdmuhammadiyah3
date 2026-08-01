@@ -22,7 +22,7 @@ export function HtmlContent({ content, className = '' }: HtmlContentProps) {
 
   return (
     <div
-      className={`prose prose-lg max-w-none ${className}`}
+      className={`prose prose-lg max-w-none ${className} [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-xl [&_img]:shadow-lg [&_p]:my-4`}
       dangerouslySetInnerHTML={{ __html: htmlContent }}
       suppressHydrationWarning
     />

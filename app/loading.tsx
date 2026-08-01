@@ -132,7 +132,7 @@ export default function HomeLoading() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="rounded-[2rem] h-[340px] sm:h-[380px] lg:h-[420px] bg-gray-100 dark:bg-gray-800 animate-pulse" />
+              <div key={i} className="rounded-[1.25rem] h-[340px] sm:h-[380px] lg:h-[420px] bg-gray-100 dark:bg-gray-800 animate-pulse" />
             ))}
           </div>
           <div className="flex flex-col sm:flex-row justify-center gap-5">

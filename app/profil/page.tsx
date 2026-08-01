@@ -169,7 +169,7 @@ export default function ProfilPage() {
             <div className="grid items-center gap-12 lg:grid-cols-5">
               <div className="lg:col-span-2 flex flex-col items-center">
                 <div className="relative group">
-                  <div className="absolute -inset-4 bg-linear-to-r from-(--color-forest-450) to-(--color-sun-500) rounded-[3rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                  <div className="absolute -inset-4 bg-linear-to-r from-(--color-forest-450) to-(--color-sun-500) rounded-[1.75rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
                   <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-[2.5rem] overflow-hidden border-8 border-white dark:border-gray-800 shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
                     <Image
                       src="/kepala-sekolah.jpeg"
@@ -252,7 +252,7 @@ export default function ProfilPage() {
               </div>
 
               <Link href="/tenaga-pendidikan">
-                <Card className="p-8 text-center rounded-[2rem] glass dark:bg-gray-900/40 border-2 border-dashed border-(--color-forest-450)/20 hover:border-(--color-forest-450) group transition-all">
+                <Card className="p-8 text-center rounded-[1.25rem] glass dark:bg-gray-900/40 border-2 border-dashed border-(--color-forest-450)/20 hover:border-(--color-forest-450) group transition-all">
                   <div className="flex flex-col items-center gap-4">
                     <div className="w-12 h-12 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                       <ArrowRight className="w-6 h-6 text-(--color-forest-450)" />
@@ -282,7 +282,7 @@ export default function ProfilPage() {
                 key={index}
                 className="card-premium p-10 text-center glass-dark dark:bg-gray-900/40 border-0 group transition-all hover:scale-105"
               >
-                <div className="w-24 h-24 bg-linear-to-br from-(--color-forest-450) to-(--color-forest-500) rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-xl group-hover:rotate-6 transition-all duration-500 filter drop-shadow-[0_15px_20px_rgba(var(--color-forest-450-rgb),0.3)]">
+                <div className="w-24 h-24 bg-linear-to-br from-(--color-forest-450) to-(--color-forest-500) rounded-[1.25rem] flex items-center justify-center mx-auto mb-8 shadow-xl group-hover:rotate-6 transition-all duration-500 filter drop-shadow-[0_15px_20px_rgba(var(--color-forest-450-rgb),0.3)]">
                   <value.icon className="w-12 h-12 text-white" />
                 </div>
                 <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight leading-tight">{value.title}</h3>
@@ -327,7 +327,7 @@ export default function ProfilPage() {
       {/* Facilities Overview */}
       <section className="relative py-32 bg-(--color-cloud-100)/50 dark:bg-gray-900/50 backdrop-blur-md transition-colors duration-500">
         <div className="container relative z-10 px-4 mx-auto">
-          <div className="max-w-4xl mx-auto glass dark:bg-gray-950/40 p-16 rounded-[3rem] shadow-2xl border border-white/20 dark:border-white/10 text-center">
+          <div className="max-w-4xl mx-auto glass dark:bg-gray-950/40 p-16 rounded-[1.75rem] shadow-2xl border border-white/20 dark:border-white/10 text-center">
             <Badge className="mb-6 bg-(--color-forest-450)/10 text-(--color-forest-450) dark:bg-(--color-forest-450)/20 dark:text-(--color-forest-450) border-(--color-forest-450)/20 px-6 py-2 font-bold uppercase tracking-widest text-[10px]">Sarana & Prasarana</Badge>
             <h2 className="mb-6 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight">Lingkungan Belajar Ideal</h2>
             <p className="mb-10 text-lg font-medium text-gray-600 dark:text-gray-400">Jelajahi berbagai fasilitas unggulan yang kami sediakan untuk menunjang kreativitas dan prestasi siswa.</p>

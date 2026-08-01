@@ -160,7 +160,7 @@ export default function TentangPage() {
           </div>
           <div className="grid max-w-7xl gap-8 mx-auto lg:grid-cols-2">
             <Card className="card-premium p-12 glass dark:bg-gray-900/40 border-0 group transition-all hover:scale-[1.02]">
-              <div className="w-24 h-24 bg-linear-to-br from-(--color-forest-450) to-(--color-forest-500) rounded-[2rem] flex items-center justify-center mb-8 shadow-xl group-hover:rotate-6 transition-all duration-500 brightness-110 filter drop-shadow-[0_15px_20px_rgba(26,77,46,0.3)]">
+              <div className="w-24 h-24 bg-linear-to-br from-(--color-forest-450) to-(--color-forest-500) rounded-[1.25rem] flex items-center justify-center mb-8 shadow-xl group-hover:rotate-6 transition-all duration-500 brightness-110 filter drop-shadow-[0_15px_20px_rgba(26,77,46,0.3)]">
                 <Eye className="w-12 h-12 text-white brightness-110" />
               </div>
               <h2 className="mb-6 text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Visi Kami</h2>
@@ -171,7 +171,7 @@ export default function TentangPage() {
             </Card>
 
             <Card className="card-premium p-12 glass dark:bg-gray-900/40 border-0 group transition-all hover:scale-[1.02]">
-              <div className="w-24 h-24 bg-linear-to-br from-(--color-teal-400) to-(--color-teal-300) rounded-[2rem] flex items-center justify-center mb-8 shadow-xl group-hover:rotate-6 transition-all duration-500 brightness-110 filter drop-shadow-[0_15px_20px_rgba(6,214,160,0.3)]">
+              <div className="w-24 h-24 bg-linear-to-br from-(--color-teal-400) to-(--color-teal-300) rounded-[1.25rem] flex items-center justify-center mb-8 shadow-xl group-hover:rotate-6 transition-all duration-500 brightness-110 filter drop-shadow-[0_15px_20px_rgba(6,214,160,0.3)]">
                 <Target className="w-12 h-12 text-white brightness-110" />
               </div>
               <h2 className="mb-6 text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Misi Strategis</h2>

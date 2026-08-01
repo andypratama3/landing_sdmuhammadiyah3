@@ -656,7 +656,7 @@ function NewsCard({
 }) {
   return (
     <Link href={`/berita/${news.slug}`} className="block">
-      <Card className="overflow-hidden transition-all duration-500 cursor-pointer hover:shadow-2xl hover:-translate-y-2 group dark:bg-gray-900/40 border-0 shadow-lg rounded-[2rem] card-premium glass">
+      <Card className="overflow-hidden transition-all duration-500 cursor-pointer hover:shadow-2xl hover:-translate-y-2 group dark:bg-gray-900/40 border-0 shadow-lg rounded-[1.25rem] card-premium glass">
         <div className="grid gap-0 md:grid-cols-3">
           <div className="relative h-64 md:h-auto overflow-hidden p-0">
             <Image

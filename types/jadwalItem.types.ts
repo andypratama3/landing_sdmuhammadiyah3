@@ -1,3 +1,4 @@
+import { JadwalDetail } from './jadwalDetail.types'
 
 export interface JadwalItem {
   id: string

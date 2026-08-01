@@ -127,7 +127,7 @@ export default function GaleriPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
 
             {/* Main Typographic Card (Spans 8 cols) */}
-            <div className="lg:col-span-8 bg-(--color-forest-450) dark:bg-(--color-forest-900) rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+            <div className="lg:col-span-8 bg-(--color-forest-450) dark:bg-(--color-forest-900) rounded-[1.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
               <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
 
@@ -167,7 +167,7 @@ export default function GaleriPage() {
 
             {/* Side Highlights (Spans 4 cols) */}
             <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="page-card page-tilt-card bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[2.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-(--color-forest-450)">
+              <div className="page-card page-tilt-card bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[1.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-(--color-forest-450)">
                  <div className="w-14 h-14 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 rounded-2xl flex items-center justify-center mb-6 text-(--color-forest-450) group-hover:scale-110 transition-transform">
                     <Camera className="w-8 h-8" />
                   </div>
@@ -175,7 +175,7 @@ export default function GaleriPage() {
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Ribuan Momen Tertangkap Kamera</p>
               </div>
 
-              <div className="page-card bg-(--color-sun-500) dark:bg-(--color-sun-400) rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+              <div className="page-card bg-(--color-sun-500) dark:bg-(--color-sun-400) rounded-[1.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
                 <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
                     <Video className="w-8 h-8" />
                   </div>
@@ -323,9 +323,10 @@ export default function GaleriPage() {
                     return (
                       <Card
                         key={item.id}
-                        className="py-0 overflow-hidden transition-all duration-500 border-0 shadow-xl break-inside-avoid rounded-[2rem] hover:shadow-2xl hover:-translate-y-2 group glass dark:bg-gray-900/40"
+                        className="py-0 overflow-hidden transition-all duration-500 border-0 shadow-xl break-inside-avoid rounded-[1.25rem] hover:shadow-2xl hover:-translate-y-2 group glass dark:bg-gray-900/40 card-premium"
                       >
                         <div className="relative w-full h-[300px] overflow-hidden">
+                          <div className="absolute inset-0 bg-gradient-to-br from-(--color-forest-700)/10 to-(--color-sun-500)/10 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                           <Image
                             src={mainImage}
                             alt={item.name}
@@ -336,25 +337,34 @@ export default function GaleriPage() {
                               target.src = "/placeholder.svg"
                             }}
                           />
-                          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                          <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                          <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20" />
+                          <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-30">
                             <Button
                               asChild
                               size="sm"
-                              className="w-full bg-(--color-forest-450) hover:bg-(--color-forest-500) rounded-xl font-black uppercase tracking-widest text-[10px] h-10 shadow-2xl"
+                              className="w-full bg-white text-(--color-forest-700) hover:bg-white/90 rounded-xl font-black uppercase tracking-widest text-[10px] h-10 shadow-2xl"
                             >
                               <Link href={`/galeri/${item.slug}`}>
-                                Lihat Selengkapnya
+                                Lihat Galeri
                               </Link>
                             </Button>
                           </div>
+                          <div className="absolute top-4 right-4 z-20">
+                            <div className="px-3 py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-full shadow-lg">
+                              <div className="flex items-center gap-1.5">
+                                <Camera className="w-3 h-3 text-(--color-forest-700)" />
+                                <span className="text-[9px] font-black uppercase tracking-widest text-(--color-forest-700)">{item.foto?.split(',').length || 1}</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
 
-                        <div className="p-6">
+                        <div className="p-6 bg-white dark:bg-gray-900/60">
                           <h3 className="mb-3 text-lg font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-(--color-forest-450) transition-colors leading-tight">
                             {item.name}
                           </h3>
-                          <div className="flex items-center gap-3 mb-4 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">                            <Calendar className="w-3.5 h-3.5 text-(--color-forest-450)" />
+                          <div className="flex items-center gap-3 mb-4 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                            <Calendar className="w-3.5 h-3.5 text-(--color-forest-450)" />
                             {formatDate(item.created_at)}
                           </div>
 
@@ -385,10 +395,11 @@ export default function GaleriPage() {
                     return (
                       <Card
                         key={item.id}
-                        className="overflow-hidden transition-all duration-500 border-0 shadow-xl rounded-[2.5rem] hover:shadow-2xl hover:-translate-y-2 dark:bg-gray-900/40 card-premium glass"
+                        className="overflow-hidden transition-all duration-500 border-0 shadow-xl rounded-[1.5rem] hover:shadow-2xl hover:-translate-y-2 dark:bg-gray-900/40 card-premium glass"
                       >
                         <div className="flex flex-col gap-8 p-8 md:flex-row items-center">
-                          <div className="flex-shrink-0 w-full h-72 overflow-hidden md:w-80 md:h-80 rounded-[2rem] group/img relative shadow-2xl">
+                          <div className="flex-shrink-0 w-full h-72 overflow-hidden md:w-80 md:h-80 rounded-[1.25rem] group/img relative shadow-2xl">
+                            <div className="absolute inset-0 bg-gradient-to-br from-(--color-forest-700)/10 to-(--color-sun-500)/10 z-10 pointer-events-none"></div>
                             <Image
                               src={mainImage}
                               alt={item.name}
@@ -399,14 +410,23 @@ export default function GaleriPage() {
                                 target.src = "/placeholder.svg"
                               }}
                             />
-                            <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
+                            <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity z-20" />
+                            <div className="absolute top-4 right-4 z-30">
+                              <div className="px-3 py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-full shadow-lg">
+                                <div className="flex items-center gap-1.5">
+                                  <Camera className="w-3 h-3 text-(--color-forest-700)" />
+                                  <span className="text-[9px] font-black uppercase tracking-widest text-(--color-forest-700)">{item.foto?.split(',').length || 1}</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
 
                           <div className="flex-1 flex flex-col justify-center text-center md:text-left">
                             <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight leading-tight group-hover:text-(--color-forest-450) transition-colors">
                               {item.name}
                             </h3>
-                            <div className="flex items-center justify-center md:justify-start gap-3 mb-6 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">                              <Calendar className="w-4 h-4 text-(--color-forest-450)" />
+                            <div className="flex items-center justify-center md:justify-start gap-3 mb-6 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                              <Calendar className="w-4 h-4 text-(--color-forest-450)" />
                               {formatDate(item.created_at)}
                             </div>
 

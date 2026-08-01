@@ -387,26 +387,25 @@ export default function GaleriDetailPage() {
             <div className="grid gap-8 lg:grid-cols-3">
               {/* Gallery Content */}
               <div className="lg:col-span-2">
-                <article>
+                <article className="bg-white dark:bg-gray-900/40 rounded-[1.5rem] p-8 md:p-12 shadow-2xl border border-gray-100 dark:border-white/5 card-premium glass">
                   {/* Gallery Header */}
                   <div className="mb-8">
                     {gallery.gallery_kategori && gallery.gallery_kategori.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-4">
                         {gallery.gallery_kategori.map((cat) => (
-                          <Badge key={cat.id} className="capitalize">
+                          <Badge key={cat.id} className="bg-(--color-forest-700)/10 text-(--color-forest-700) border-(--color-forest-700)/10 px-4 py-1.5 font-black uppercase tracking-widest text-[10px] rounded-full">
                             {cat.name}
                           </Badge>
                         ))}
                       </div>
                     )}
-                    {/* <h1 className="mb-4 text-4xl font-bold">{gallery.name}</h1> */}
-                    <div className="flex flex-wrap gap-4 mb-6 text-sm text-end text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
+                    <div className="flex flex-wrap items-center gap-4 mb-6 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 pb-6 border-b border-gray-100 dark:border-white/5">
+                      <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+                        <Calendar className="w-4 h-4 text-(--color-forest-700)" />
                         <span>{formatDate(gallery.created_at)}</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <ImageIcon className="w-4 h-4" />
+                      <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+                        <ImageIcon className="w-4 h-4 text-(--color-forest-700)" />
                         <span>{allImages.length} Foto</span>
                       </div>
                     </div>
@@ -414,7 +413,8 @@ export default function GaleriDetailPage() {
 
                   {/* Main Image */}
                   {allImages.length > 0 ? (
-                    <div className="relative w-full mb-12 overflow-hidden bg-gray-100 dark:bg-gray-900 shadow-2xl rounded-[2.5rem] group h-[400px] sm:h-[500px] lg:h-[600px] border border-gray-100 dark:border-white/5">
+                    <div className="relative w-full mb-12 overflow-hidden bg-gray-100 dark:bg-gray-900 shadow-2xl rounded-[1.5rem] group h-[400px] sm:h-[500px] lg:h-[600px] border border-gray-100 dark:border-white/5">
+                      <div className="absolute inset-0 bg-gradient-to-br from-(--color-forest-700)/5 to-(--color-sun-500)/5 z-10 pointer-events-none"></div>
                       {/* Image Container */}
                       <div
                         className="relative w-full h-full cursor-grab active:cursor-grabbing"
@@ -440,14 +440,14 @@ export default function GaleriDetailPage() {
                         <>
                           <button
                             onClick={goToPrevious}
-                            className="absolute p-4 text-white transition-all -translate-y-1/2 rounded-full opacity-0 left-6 top-1/2 bg-black/40 backdrop-blur-md hover:bg-(--color-forest-700) group-hover:opacity-100 shadow-xl"
+                            className="absolute p-4 text-white transition-all -translate-y-1/2 rounded-full opacity-0 left-6 top-1/2 bg-black/40 backdrop-blur-md hover:bg-(--color-forest-700) group-hover:opacity-100 shadow-xl z-20"
                             aria-label="Previous image"
                           >
                             <ChevronLeft className="w-8 h-8" />
                           </button>
                           <button
                             onClick={goToNext}
-                            className="absolute p-4 text-white transition-all -translate-y-1/2 rounded-full opacity-0 right-6 top-1/2 bg-black/40 backdrop-blur-md hover:bg-(--color-forest-700) group-hover:opacity-100 shadow-xl"
+                            className="absolute p-4 text-white transition-all -translate-y-1/2 rounded-full opacity-0 right-6 top-1/2 bg-black/40 backdrop-blur-md hover:bg-(--color-forest-700) group-hover:opacity-100 shadow-xl z-20"
                             aria-label="Next image"
                           >
                             <ChevronRight className="w-8 h-8" />
@@ -457,13 +457,13 @@ export default function GaleriDetailPage() {
 
                       {/* Image Counter */}
                       {allImages.length > 1 && (
-                        <div className="absolute px-6 py-2 text-xs font-black uppercase tracking-widest text-white rounded-full bg-black/40 backdrop-blur-md top-6 right-6 border border-white/10">
+                        <div className="absolute px-6 py-2 text-xs font-black uppercase tracking-widest text-white rounded-full bg-black/40 backdrop-blur-md top-6 right-6 border border-white/10 z-20">
                           {selectedImage + 1} / {allImages.length}
                         </div>
                       )}
                     </div>
                   ) : (
-                    <div className="flex items-center justify-center w-full mb-12 bg-gray-100 dark:bg-gray-900 rounded-[2.5rem] aspect-video border border-dashed border-gray-300 dark:border-white/10">
+                    <div className="flex items-center justify-center w-full mb-12 bg-gray-100 dark:bg-gray-900 rounded-[1.5rem] aspect-video border border-dashed border-gray-300 dark:border-white/10">
                       <ImageIcon className="w-20 h-20 text-gray-300 dark:text-gray-700" />
                     </div>
                   )}
@@ -471,15 +471,15 @@ export default function GaleriDetailPage() {
                   {/* Thumbnails */}
                   {allImages.length > 1 && (
                     <div className="mb-8">
-                      <h3 className="mb-4 text-lg font-semibold">Foto Lainnya</h3>
+                      <h3 className="mb-4 text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white">Foto Lainnya</h3>
                       <div className="grid gap-3 sm:grid-cols-4 md:grid-cols-5">
                         {allImages.map((img, index) => (
                           <button
                             key={index}
                             onClick={() => setSelectedImage(index)}
-                            className={`relative overflow-hidden rounded-lg aspect-square group ${selectedImage === index
-                                ? 'ring-2 ring-primary ring-offset-2'
-                                : ''
+                            className={`relative overflow-hidden rounded-xl aspect-square group transition-all duration-300 ${selectedImage === index
+                                ? 'ring-2 ring-(--color-forest-700) ring-offset-2 ring-offset-white dark:ring-offset-gray-900 scale-105 shadow-xl'
+                                : 'hover:scale-105'
                               }`}
                           >
                             <Image
@@ -493,7 +493,7 @@ export default function GaleriDetailPage() {
                               }}
                             />
                             {selectedImage === index && (
-                              <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                              <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-xl">
                                 <Eye className="w-6 h-6 text-white" />
                               </div>
                             )}
@@ -506,8 +506,8 @@ export default function GaleriDetailPage() {
                   {/* Embedded Video */}
                   {videoEmbed && videoEmbed.embedUrl && (
                     <div className="mb-8">
-                      <h3 className="mb-4 text-lg font-semibold">Video Kegiatan</h3>
-                      <div className="overflow-hidden bg-black rounded-lg aspect-video">
+                      <h3 className="mb-4 text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white">Video Kegiatan</h3>
+                      <div className="overflow-hidden bg-black rounded-2xl aspect-video shadow-2xl">
                         {videoEmbed.type === 'tiktok' ? (
                           <div className="flex items-center justify-center w-full h-full bg-black">
                             <iframe
@@ -546,8 +546,8 @@ export default function GaleriDetailPage() {
                   <Separator className="my-8" />
 
                   {/* Share Buttons */}
-                  <div className="flex items-center gap-4">
-                    <span className="text-sm font-medium">Bagikan:</span>
+                  <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-6">
+                    <p className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-widest">Bagikan Galeri</p>
                     <div className="flex gap-2">
                       <Button
                         size="icon"
@@ -589,7 +589,7 @@ export default function GaleriDetailPage() {
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Info Card */}
-                <Card className="border-0 shadow-2xl rounded-[2.5rem] bg-white dark:bg-gray-900/40 card-premium glass overflow-hidden">
+                <Card className="border-0 shadow-2xl rounded-[1.5rem] bg-white dark:bg-gray-900/40 card-premium glass overflow-hidden">
                   <div className="bg-(--color-forest-700) p-8 text-white relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
                     <h3 className="text-xl font-black uppercase tracking-tight relative z-10 transition-colors">
@@ -651,6 +651,52 @@ export default function GaleriDetailPage() {
                     )}
                   </CardContent>
                 </Card>
+
+                {/* Related Galleries */}
+                {relatedResponse && relatedResponse.length > 0 && (
+                  <Card className="border-0 shadow-2xl rounded-[1.5rem] bg-white dark:bg-gray-900/40 card-premium glass overflow-hidden">
+                    <div className="bg-(--color-sun-500) p-8 text-gray-900 relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
+                      <h3 className="text-xl font-black uppercase tracking-tight relative z-10">Galeri Terkait</h3>
+                    </div>
+                    <CardContent className="p-8 space-y-4">
+                      {relatedResponse.slice(0, 3).map((item: Gallery) => {
+                        const relatedMainImage = item.cover 
+                          ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/cover/${item.cover}`
+                          : item.foto?.split(',')[0]?.trim()
+                            ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${item.foto.split(',')[0].trim()}`
+                            : "/placeholder.svg"
+
+                        return (
+                          <Link key={item.id} href={`/galeri/${item.slug}`} className="block group">
+                            <div className="flex gap-4 p-4 rounded-2xl bg-gray-50 dark:bg-gray-800/50 hover:bg-(--color-forest-700)/5 dark:hover:bg-(--color-forest-700)/10 transition-all duration-300">
+                              <div className="relative flex-shrink-0 w-20 h-20 overflow-hidden rounded-xl shadow-lg">
+                                <Image
+                                  src={relatedMainImage}
+                                  alt={item.name}
+                                  fill
+                                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement
+                                    target.src = "/placeholder.svg"
+                                  }}
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0 flex flex-col justify-center">
+                                <h4 className="text-sm font-black text-gray-900 dark:text-white transition-colors line-clamp-2 group-hover:text-(--color-forest-700) leading-tight">
+                                  {item.name}
+                                </h4>
+                                <p className="mt-2 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                                  {formatDate(item.created_at)}
+                                </p>
+                              </div>
+                            </div>
+                          </Link>
+                        )
+                      })}
+                    </CardContent>
+                  </Card>
+                )}
               </div>
             </div>
           </div>

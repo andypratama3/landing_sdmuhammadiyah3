@@ -239,7 +239,7 @@ export default function PembayaranPage() {
         // NISN Input Form
         <section className="py-24 bg-gray-50 dark:bg-gray-950">
           <div className="container px-4 mx-auto">
-            <Card className="max-w-2xl p-12 mx-auto bg-white border-0 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] rounded-[3rem] dark:bg-gray-900 dark:shadow-none dark:border dark:border-gray-800 animate-fade-in-up">
+            <Card className="max-w-2xl p-12 mx-auto bg-white border-0 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] rounded-[1.75rem] dark:bg-gray-900 dark:shadow-none dark:border dark:border-gray-800 animate-fade-in-up">
               <div className="mb-10 text-center">
                 <div className="w-24 h-24 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 rounded-3xl flex items-center justify-center mx-auto mb-6 rotate-6 shadow-xl">
                   <CreditCard className="w-12 h-12 text-(--color-forest-450)" />
@@ -369,7 +369,7 @@ export default function PembayaranPage() {
               {/* Student Info Card */}
               <section className="py-12 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-900 transition-colors">
                 <div className="container px-4 mx-auto font-sans antialiased">
-                  <Card className="max-w-6xl mx-auto overflow-hidden border-0 shadow-2xl rounded-[3rem] bg-white dark:bg-gray-900 transition-all">
+                  <Card className="max-w-6xl mx-auto overflow-hidden border-0 shadow-2xl rounded-[1.75rem] bg-white dark:bg-gray-900 transition-all">
                     <div className="flex flex-col md:flex-row">
                       <div className="w-full md:w-1/3 relative h-80 md:h-auto overflow-hidden group">
                         {siswa.foto ? (

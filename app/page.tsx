@@ -331,7 +331,7 @@ export default async function Home() {
               <Link
                 key={index}
                 href={facility.link}
-                className="quick-link-card relative overflow-hidden shadow-2xl group rounded-[3rem] h-[400px] sm:h-[500px] lg:h-[600px] block card-premium border-0"
+                className="quick-link-card relative overflow-hidden shadow-2xl group rounded-[1.75rem] h-[400px] sm:h-[500px] lg:h-[600px] block card-premium border-0"
               >
                 <div className="relative overflow-hidden h-full w-full">
                   <Image
@@ -405,7 +405,7 @@ export default async function Home() {
             </h2>
           </div>
           <div className="video-container max-w-5xl mx-auto">
-            <div className="relative overflow-hidden bg-gray-900 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[3rem] aspect-video group">
+            <div className="relative overflow-hidden bg-gray-900 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[1.75rem] aspect-video group">
               <div className="absolute inset-0 z-20 flex items-center justify-center group-hover:bg-black/20 transition-colors">
                 <Button
                   size="lg"
@@ -431,7 +431,7 @@ export default async function Home() {
         <div className="container px-4 mx-auto relative z-10">
           <div className="grid items-center gap-16 lg:grid-cols-2">
             <div className="relative group">
-              <div className="relative overflow-hidden shadow-[0_50px_100px_-30px_rgba(0,0,0,0.3)] rounded-[3rem] h-[300px] sm:h-[400px] lg:h-[500px]">
+              <div className="relative overflow-hidden shadow-[0_50px_100px_-30px_rgba(0,0,0,0.3)] rounded-[1.75rem] h-[300px] sm:h-[400px] lg:h-[500px]">
                 <Image
                   src="/foto_sekolah.jpeg"
                   alt="Suasana Sekolah Kreatif"

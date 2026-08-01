@@ -167,7 +167,7 @@ export function SeoArticlePage({ article }: { article: SeoArticle }) {
                   </div>
                 </div>
 
-                <div className="relative w-full mb-10 overflow-hidden rounded-[2rem] shadow-xl">
+                <div className="relative w-full mb-10 overflow-hidden rounded-[1.25rem] shadow-xl">
                   <Image
                     src="/SD3_logo1.png"
                     alt={article.title}

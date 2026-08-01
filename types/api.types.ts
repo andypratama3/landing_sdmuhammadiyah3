@@ -32,8 +32,8 @@ export interface Pagination {
 /**
  * Request options
  */
-export interface RequestOptions extends RequestInit {
-  cache?: boolean;
+export interface RequestOptions extends Omit<RequestInit, 'cache'> {
+  cache?: boolean | RequestCache;
   cacheTTL?: number;
   useCache?: boolean;
 }

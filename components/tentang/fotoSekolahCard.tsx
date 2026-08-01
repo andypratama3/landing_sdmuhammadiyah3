@@ -27,7 +27,7 @@ export const FotoSekolahCard: React.FC<FotoSekolahCardProps> = ({
         galleryData.map((gallery) => (
           <div
             key={`gallery-${gallery.id}`}
-            className="relative overflow-hidden transition-all duration-500 shadow-xl cursor-pointer group rounded-[2rem] hover:shadow-2xl hover:-translate-y-2 dark:bg-gray-900/40 border border-white/10 glass"
+            className="relative overflow-hidden transition-all duration-500 shadow-xl cursor-pointer group rounded-[1.25rem] hover:shadow-2xl hover:-translate-y-2 dark:bg-gray-900/40 border border-white/10 glass"
           >
             <div className="relative overflow-hidden aspect-square">
               <Image

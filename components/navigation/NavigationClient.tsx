@@ -145,7 +145,7 @@ export default function NavigationClient({
           <div className={`absolute top-0 right-0 w-[85%] max-w-sm h-full bg-white dark:bg-gray-950 shadow-2xl transition-transform duration-300 ease-out flex flex-col ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
             <div className="p-6 border-b border-gray-100 dark:border-gray-900 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Image src="/SD3_logo1.png" alt="Logo" width={40} height={40} />
+                <Image src="/SD3_logo1.png" alt="Logo" width={40} height={40} className="w-10 h-10" />
                 <span className="font-black text-(--color-forest-700)">MENU</span>
               </div>
               <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>

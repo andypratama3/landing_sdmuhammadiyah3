@@ -127,7 +127,7 @@ export default function FasilitasPage() {
                     {/* Images */}
                     <div className="space-y-6">
                       {facility.foto ? (
-                        <div className="relative overflow-hidden h-72 sm:h-80 lg:h-96 rounded-[3rem] shadow-2xl group/img">
+                        <div className="relative overflow-hidden h-72 sm:h-80 lg:h-96 rounded-[1.75rem] shadow-2xl group/img">
                           <Image
                             src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/fasilitas/${facility.foto}`}
                             alt={facility.nama_fasilitas}
@@ -137,7 +137,7 @@ export default function FasilitasPage() {
                           <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity duration-500" />
                         </div>
                       ) : (
-                        <div className="relative flex items-center justify-center overflow-hidden bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 h-72 sm:h-80 lg:h-96 rounded-[2rem]">
+                        <div className="relative flex items-center justify-center overflow-hidden bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 h-72 sm:h-80 lg:h-96 rounded-[1.25rem]">
                           <Building className="w-20 h-20 text-(--color-forest-450)/30 dark:text-(--color-forest-450)/70" />
                         </div>
                       )}

@@ -420,7 +420,7 @@ export default function JadwalPage() {
       <section className="relative -mt-12 pb-24 z-20 transition-colors duration-500">
         <div className="container px-4 mx-auto font-plus-jakarta">
           <div className="max-w-6xl mx-auto">
-            <div className="p-8 sm:p-12 glass dark:bg-gray-900/40 rounded-[3rem] shadow-2xl border border-white/20 dark:border-white/10">
+            <div className="p-8 sm:p-12 glass dark:bg-gray-900/40 rounded-[1.75rem] shadow-2xl border border-white/20 dark:border-white/10">
               <div className="grid gap-12 lg:grid-cols-3">
                 {/* Year Selection */}
                 <div className="space-y-6">
@@ -570,7 +570,7 @@ export default function JadwalPage() {
                   <div className="flex flex-col items-center justify-center gap-8 text-center max-w-2xl mx-auto">
                     <div className="relative group">
                       <div className="absolute -inset-4 bg-orange-500/10 rounded-full blur-2xl group-hover:scale-110 transition-transform" />
-                      <div className="relative flex items-center justify-center w-24 h-24 bg-linear-to-br from-orange-400 to-red-500 rounded-[2rem] shadow-xl text-white">
+                      <div className="relative flex items-center justify-center w-24 h-24 bg-linear-to-br from-orange-400 to-red-500 rounded-[1.25rem] shadow-xl text-white">
                         <Calendar className="w-12 h-12" />
                       </div>
                     </div>
@@ -630,7 +630,7 @@ export default function JadwalPage() {
                                   if (!lesson) return <td key={day} className="p-3 border-l border-gray-100/50 dark:border-white/5"></td>
                                   return (
                                     <td key={day} className="p-3 border-l border-gray-100/50 dark:border-white/5">
-                                      <div className={`${lesson.color} dark:bg-opacity-20 dark:border dark:border-white/10 rounded-[2rem] p-6 text-center transition-all duration-300 hover:scale-[1.05] hover:shadow-xl h-full flex flex-col justify-center min-h-[120px] shadow-sm relative overflow-hidden group/item`}>
+                                      <div className={`${lesson.color} dark:bg-opacity-20 dark:border dark:border-white/10 rounded-[1.25rem] p-6 text-center transition-all duration-300 hover:scale-[1.05] hover:shadow-xl h-full flex flex-col justify-center min-h-[120px] shadow-sm relative overflow-hidden group/item`}>
                                         <div className="absolute inset-0 bg-white/10 opacity-0 group-hover/item:opacity-100 transition-opacity" />
                                         <p className="text-base font-black text-gray-900 dark:text-white leading-tight mb-2 tracking-tight uppercase">{lesson.subject}</p>
                                         {lesson.teacher !== "-" && (

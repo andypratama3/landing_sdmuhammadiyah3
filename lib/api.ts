@@ -2,6 +2,7 @@
 import { CacheManager } from './cache'
 import { JWTManager } from './jwt'
 import type { ApiResponse, RequestOptions } from '@/types'
+import { getDummyData, logDummyDataUsage, shouldUseDummyData } from './dummy-data'
 
 /**
  * Token Ready State Manager
@@ -186,6 +187,15 @@ export class ApiClient {
 
     const cacheKey = this.generateCacheKey(endpoint, fetchOptions)
     const isGetRequest = !fetchOptions.method || fetchOptions.method === 'GET'
+
+    // 🎭 Check for dummy data in development only
+    if (shouldUseDummyData() && isGetRequest) {
+      const dummyData = getDummyData<ApiResponse<T>>(endpoint)
+      if (dummyData) {
+        logDummyDataUsage(endpoint)
+        return dummyData
+      }
+    }
 
     // 📦 Check cache untuk GET requests
     if (useCache && isGetRequest) {

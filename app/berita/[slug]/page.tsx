@@ -136,31 +136,38 @@ export default async function BeritaDetailPage({ params }: Props) {
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Core Server Managed Article Content */}
             <div className="lg:col-span-2">
-              <article>
+              <article className="bg-white dark:bg-gray-900/40 rounded-[1.5rem] p-8 md:p-12 shadow-2xl border border-gray-100 dark:border-white/5 card-premium glass">
                 <div className="mb-10">
-                  <Badge className="mb-6 bg-(--color-forest-700)/10 text-(--color-forest-700) border-(--color-forest-700)/20 px-4 py-1.5 font-black uppercase tracking-widest text-[10px] rounded-full">
-                    {berita.category}
-                  </Badge>
+                  <div className="flex items-center gap-3 mb-6">
+                    <Badge className="bg-(--color-forest-700)/10 text-(--color-forest-700) border-(--color-forest-700)/20 px-4 py-1.5 font-black uppercase tracking-widest text-[10px] rounded-full shadow-sm">
+                      {berita.category}
+                    </Badge>
+                    <div className="flex items-center gap-2 px-4 py-1.5 bg-(--color-sun-500)/10 rounded-full">
+                      <span className="w-2 h-2 rounded-full bg-(--color-sun-500) animate-pulse"></span>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-(--color-sun-600)">Terbaru</span>
+                    </div>
+                  </div>
                   <h1 className="mb-6 text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight tracking-tight">
                     {berita.judul}
                   </h1>
-                  <div className="flex flex-wrap items-center gap-6 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
-                    <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-6 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-8 pb-8 border-b border-gray-100 dark:border-white/5">
+                    <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
                       <Calendar className="w-4 h-4 text-(--color-forest-700)" />
                       <span>{formatDate(berita.created_at)}</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
                       <Clock className="w-4 h-4 text-(--color-forest-700)" />
                       <span>{readingTime} MENIT BACA</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
                       <User className="w-4 h-4 text-(--color-forest-700)" />
                       <span>ADMIN SDMUH3</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="relative w-full mb-12 overflow-hidden rounded-[2.5rem] shadow-2xl border-0 group">
+                <div className="relative w-full mb-12 overflow-hidden rounded-[1.5rem] shadow-2xl border-0 group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-(--color-forest-700)/20 to-(--color-sun-500)/20 z-10 pointer-events-none"></div>
                   <Image
                     src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${berita.foto}`}
                     alt={berita.judul}
@@ -169,62 +176,77 @@ export default async function BeritaDetailPage({ params }: Props) {
                     className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-20" />
+                  <div className="absolute bottom-6 left-6 right-6 z-30 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                    <div className="px-6 py-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl">
+                      <p className="text-xs font-black uppercase tracking-widest text-(--color-forest-700)">Klik untuk zoom</p>
+                    </div>
+                  </div>
                 </div>
 
                 {processedDesc && (
                   <div className="mb-8">
-                    <HtmlContent
-                      content={processedDesc}
-                      className="prose prose-sm sm:prose-base md:prose-lg max-w-none dark:prose-invert"
-                    />
+                    <div className="prose prose-sm sm:prose-base md:prose-lg max-w-none dark:prose-invert prose-headings:font-black prose-headings:tracking-tight prose-headings:text-gray-900 dark:prose-headings:text-white prose-a:text-(--color-forest-700) dark:prose-a:text-(--color-forest-400) prose-strong:text-gray-900 dark:prose-strong:text-white">
+                      <HtmlContent
+                        content={processedDesc}
+                        className=""
+                      />
+                    </div>
                   </div>
                 )}
 
                 <Separator className="my-8" />
-                <BeritaShareClient judul={berita.judul} deskripsi={pageDescription} />
+                <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-6">
+                  <p className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-widest">Bagikan Artikel</p>
+                  <BeritaShareClient judul={berita.judul} deskripsi={pageDescription} />
+                </div>
               </article>
             </div>
 
             {/* Reusable Sidebar Server Layer */}
             <div className="space-y-6">
-              <Card>
-                <CardHeader>
+              <Card className="border-0 shadow-2xl rounded-[1.5rem] bg-white dark:bg-gray-900/40 card-premium glass overflow-hidden">
+                <div className="bg-(--color-forest-700) p-8 text-white relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
+                  <h3 className="text-xl font-black uppercase tracking-tight relative z-10">Penulis</h3>
+                </div>
+                <CardContent className="p-8">
                   <div className="flex items-center gap-4">
-                    <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10">
-                      <Image src="/SD3_logo1.png" className="rounded-full" alt="Logo Sekolah" width={40} height={40} />
+                    <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-(--color-forest-700)/10 dark:bg-(--color-forest-700)/20 border border-(--color-forest-700)/10">
+                      <Image src="/SD3_logo1.png" className="rounded-xl w-10 h-10" alt="Logo Sekolah" width={40} height={40} />
                     </div>
                     <div>
-                      <h3 className="font-semibold">Admin</h3>
-                      <p className="text-sm text-muted-foreground">Penulis</p>
+                      <h3 className="font-black text-gray-900 dark:text-white">Admin SD Muhammadiyah 3</h3>
+                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Tim Redaksi Sekolah</p>
                     </div>
                   </div>
-                </CardHeader>
+                </CardContent>
               </Card>
 
               {relatedBerita.length > 0 && (
-                <Card>
-                  <CardHeader>
-                    <h3 className="text-xl font-bold">Berita Terkait</h3>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
+                <Card className="border-0 shadow-2xl rounded-[1.5rem] bg-white dark:bg-gray-900/40 card-premium glass overflow-hidden">
+                  <div className="bg-(--color-sun-500) p-8 text-gray-900 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
+                    <h3 className="text-xl font-black uppercase tracking-tight relative z-10">Berita Terkait</h3>
+                  </div>
+                  <CardContent className="p-8 space-y-6">
                     {relatedBerita.map((item) => (
                       <Link key={item.id} href={`/berita/${item.slug}`} className="block group">
-                        <div className="flex gap-4">
-                          <div className="relative flex-shrink-0 w-24 h-24 overflow-hidden rounded-lg">
+                        <div className="flex gap-4 p-4 rounded-2xl bg-gray-50 dark:bg-gray-800/50 hover:bg-(--color-forest-700)/5 dark:hover:bg-(--color-forest-700)/10 transition-all duration-300">
+                          <div className="relative flex-shrink-0 w-24 h-24 overflow-hidden rounded-xl shadow-lg">
                             <Image
                               src={item.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${item.foto}` : "/placeholder.svg"}
                               alt={item.judul}
                               fill
-                              className="object-cover transition-transform group-hover:scale-110"
+                              className="object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <Badge className="mb-2 text-xs capitalize">{item.category}</Badge>
-                            <h4 className="text-sm font-semibold transition-colors line-clamp-2 group-hover:text-primary">
+                          <div className="flex-1 min-w-0 flex flex-col justify-center">
+                            <Badge className="mb-2 text-[9px] font-black uppercase tracking-widest w-fit bg-(--color-forest-700)/10 text-(--color-forest-700) border-(--color-forest-700)/10">{item.category}</Badge>
+                            <h4 className="text-sm font-black text-gray-900 dark:text-white transition-colors line-clamp-2 group-hover:text-(--color-forest-700) leading-tight">
                               {item.judul}
                             </h4>
-                            <p className="mt-1 text-xs text-muted-foreground">
+                            <p className="mt-2 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
                               {formatDate(item.created_at)}
                             </p>
                           </div>

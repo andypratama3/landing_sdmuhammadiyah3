@@ -191,7 +191,7 @@ function DetailRow({
 function VerifyingLoader({ code }: { code: string }) {
   return (
     <div className="max-w-2xl mx-auto px-6 animate-fade-in-up">
-      <div className="relative overflow-hidden rounded-[2rem] p-[1px] shadow-2xl shadow-primary/10">
+      <div className="relative overflow-hidden rounded-[1.25rem] p-[1px] shadow-2xl shadow-primary/10">
         <div className="glass bg-white/95 dark:bg-black/60 rounded-[calc(2rem-1px)] p-10 flex flex-col items-center text-center gap-6">
           <div className="relative w-20 h-20">
             <div className="absolute inset-0 rounded-full border-4 border-primary/10" />
@@ -332,7 +332,7 @@ export default function VerifyResultPage({
 
             {/* STATUS BANNER: VALID */}
             {isValid && (
-              <div className="group relative overflow-hidden rounded-[2rem] p-[1px] shadow-2xl shadow-primary/10">
+              <div className="group relative overflow-hidden rounded-[1.25rem] p-[1px] shadow-2xl shadow-primary/10">
                 <div className="relative glass bg-white/95 dark:bg-black/60 rounded-[calc(2rem-1px)] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 text-center sm:text-left overflow-hidden">
                   <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full -mr-20 -mt-20 blur-3xl pointer-events-none" />
                   <div className="relative shrink-0 group-hover:scale-105 transition-transform duration-500">
@@ -417,7 +417,7 @@ export default function VerifyResultPage({
             {isValid && hasFile && (
               <>
                 {showPreview ? (
-                  <div className="relative overflow-hidden rounded-[2rem] p-[1px] shadow-2xl">
+                  <div className="relative overflow-hidden rounded-[1.25rem] p-[1px] shadow-2xl">
                     <div className="glass bg-white/95 dark:bg-black/60 rounded-[calc(2rem-1px)] overflow-hidden">
                       <div className="px-6 sm:px-8 py-4 border-b border-border/40 bg-muted/20 flex items-center justify-between">
                         <div className="flex items-center gap-3">
@@ -470,7 +470,7 @@ export default function VerifyResultPage({
 
             {/* DOCUMENT DETAIL */}
             {data && (
-              <div className="glass bg-white/70 dark:bg-black/40 border border-border/50 shadow-2xl rounded-[2rem] overflow-hidden">
+              <div className="glass bg-white/70 dark:bg-black/40 border border-border/50 shadow-2xl rounded-[1.25rem] overflow-hidden">
                 <div className="px-6 sm:px-8 py-5 border-b border-border/40 bg-muted/20 flex items-center justify-between gap-3 flex-wrap">
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary">

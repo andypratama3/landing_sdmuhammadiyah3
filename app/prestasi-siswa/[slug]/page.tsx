@@ -447,7 +447,7 @@ export default function PrestasiSiswaDetailPage() {
               <div className="bg-linear-to-br from-(--color-forest-700) to-(--color-forest-500) p-10 text-white relative">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
                 <div className="flex flex-col items-center justify-center relative z-10">
-                  <div className="w-24 h-24 bg-white/20 backdrop-blur-md rounded-[2rem] flex items-center justify-center mb-6 shadow-2xl border border-white/30 rotate-6 group-hover:rotate-12 transition-transform duration-500">
+                  <div className="w-24 h-24 bg-white/20 backdrop-blur-md rounded-[1.25rem] flex items-center justify-center mb-6 shadow-2xl border border-white/30 rotate-6 group-hover:rotate-12 transition-transform duration-500">
                     <Trophy className="w-12 h-12 text-(--color-sun-500) brightness-125 drop-shadow-[0_4px_10px_rgba(232,163,61,0.5)]" />
                   </div>
                   <h3 className="text-2xl font-black uppercase tracking-tight text-center leading-tight mb-2">{prestasi.juara || "Prestasi"}</h3>

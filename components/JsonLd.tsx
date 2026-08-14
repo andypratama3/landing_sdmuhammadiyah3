@@ -34,6 +34,7 @@ export function JsonLd({ data, nonce }: JsonLdProps) {
           key={index}
           type="application/ld+json"
           nonce={nonce}
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}

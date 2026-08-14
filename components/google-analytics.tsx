@@ -19,6 +19,7 @@ export default function GoogleAnalytics({ nonce }: GoogleAnalyticsProps) {
             id="gtm-script"
             strategy="afterInteractive"
             nonce={nonce}
+            suppressHydrationWarning
             dangerouslySetInnerHTML={{
               __html: `
                 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -38,12 +39,14 @@ export default function GoogleAnalytics({ nonce }: GoogleAnalyticsProps) {
           <Script
             strategy="afterInteractive"
             nonce={nonce}
+            suppressHydrationWarning
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           />
           <Script
             id="ga-script"
             strategy="afterInteractive"
             nonce={nonce}
+            suppressHydrationWarning
             dangerouslySetInnerHTML={{
               __html: `
                 window.dataLayer = window.dataLayer || [];

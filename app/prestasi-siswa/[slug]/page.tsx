@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useParams } from "next/navigation"
+import { cleanRichText } from "@/lib/html-sanitizer"
 import { PageHeader } from "@/components/page-header"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -391,7 +392,7 @@ export default function PrestasiSiswaDetailPage() {
                     </div>
                     <div
                       className="prose prose-lg max-w-none"
-                      dangerouslySetInnerHTML={{ __html: prestasi.description }}
+                      dangerouslySetInnerHTML={{ __html: cleanRichText(prestasi.description) }}
                     />
                   </CardContent>
                 </Card>

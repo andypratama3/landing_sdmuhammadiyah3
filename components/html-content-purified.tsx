@@ -2,6 +2,7 @@
 
 import React from 'react'
 import DOMPurify from 'dompurify'
+import { cleanRichText } from '@/lib/html-sanitizer'
 
 interface HtmlContentPurifiedProps {
   content: string | null | undefined
@@ -20,7 +21,7 @@ export function HtmlContentPurified({ content, className = '' }: HtmlContentPuri
   }
 
   // Sanitize HTML dengan DOMPurify
-  const cleanHtml = DOMPurify.sanitize(htmlContent, {
+  const cleanHtml = DOMPurify.sanitize(cleanRichText(htmlContent), {
     ALLOWED_TAGS: [
       'p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
       'ul', 'ol', 'li', 'a', 'img', 'blockquote', 'code', 'pre', 'hr',

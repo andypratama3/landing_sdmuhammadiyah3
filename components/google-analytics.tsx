@@ -6,6 +6,11 @@ interface GoogleAnalyticsProps {
   nonce?: string;
 }
 
+// Valid GTM container ID format: GTM- diikuti tepat 7 karakter alfanumerik
+// (mis. GTM-ABC1234). ID yang tidak valid (mis. GTM-T28Z28V9) akan gagal
+// dimuat dan memicu error net::ERR_CONNECTION_REFUSED di console browser.
+const isValidGtmId = (id?: string) => !!id && /^GTM-[A-Z0-9]{7}$/.test(id);
+
 export default function GoogleAnalytics({ nonce }: GoogleAnalyticsProps) {
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
@@ -13,7 +18,7 @@ export default function GoogleAnalytics({ nonce }: GoogleAnalyticsProps) {
   return (
     <>
       {/* Google Tag Manager */}
-      {GTM_ID && (
+      {isValidGtmId(GTM_ID) && (
         <>
           <Script
             id="gtm-script"
@@ -68,7 +73,7 @@ export default function GoogleAnalytics({ nonce }: GoogleAnalyticsProps) {
 export function GTMNoScript() {
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
   
-  if (!GTM_ID) return null;
+  if (!isValidGtmId(GTM_ID)) return null;
   
   return (
     <noscript>

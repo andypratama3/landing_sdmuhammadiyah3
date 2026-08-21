@@ -136,8 +136,6 @@ export default function Preloader() {
                                 </svg>
                             </motion.div>
 
-                            <div className="absolute inset-0 flex items-center justify-center">
-                            {/* Outer Pulsing Aura */}
                             <motion.div
                                 className="absolute inset-0 rounded-full bg-[#33b962]/10 dark:bg-emerald-400/10 blur-xl"
                                 animate={{

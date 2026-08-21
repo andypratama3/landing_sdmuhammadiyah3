@@ -377,6 +377,7 @@ export default function PembayaranPage() {
                             src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/siswa/${siswa.foto}`}
                             alt={siswa.name}
                             fill
+                            sizes="(max-width: 768px) 100vw, 33vw"
                             className="object-cover transition-transform duration-700 group-hover:scale-110"
                           />
                         ) : (

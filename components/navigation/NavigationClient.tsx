@@ -131,6 +131,8 @@ export default function NavigationClient({
             <Button
               variant="ghost"
               size="icon"
+              aria-label={isOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
+              aria-expanded={isOpen}
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-900 dark:text-white"
             >
@@ -148,7 +150,7 @@ export default function NavigationClient({
                 <Image src="/SD3_logo1.png" alt="Logo" width={40} height={40} className="w-10 h-10" />
                 <span className="font-black text-(--color-forest-700)">MENU</span>
               </div>
-              <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
+              <Button variant="ghost" size="icon" aria-label="Tutup menu" onClick={() => setIsOpen(false)}>
                 <X className="w-6 h-6" />
               </Button>
             </div>

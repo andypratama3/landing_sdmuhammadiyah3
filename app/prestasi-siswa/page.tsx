@@ -281,7 +281,11 @@ export default function PrestasiSiswaPage() {
                       onChange={(e) => setSearchInput(e.target.value)}
                     />
                     {searchInput && (
-                      <button onClick={() => setSearchInput("")} className="px-3 text-gray-400 hover:text-gray-600">
+                      <button
+                        onClick={() => setSearchInput("")}
+                        aria-label="Hapus pencarian"
+                        className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
+                      >
                         <X className="w-5 h-5" />
                       </button>
                     )}

@@ -137,60 +137,38 @@ export default function Preloader() {
                             </motion.div>
 
                             <div className="absolute inset-0 flex items-center justify-center">
-                                {[
-                                    { icon: <Book className="w-5 h-5 md:w-6 md:h-6" />, delay: 2.0, angle: 0 },
-                                    { icon: <PenTool className="w-5 h-5 md:w-6 md:h-6" />, delay: 2.2, angle: 60 },
-                                    { icon: <Star className="w-5 h-5 md:w-6 md:h-6" />, delay: 2.4, angle: 120 },
-                                    { icon: <School className="w-5 h-5 md:w-6 md:h-6" />, delay: 2.6, angle: 180 },
-                                    { icon: <GraduationCap className="w-5 h-5 md:w-6 md:h-6" />, delay: 2.8, angle: 240 },
-                                    { icon: <Globe className="w-5 h-5 md:w-6 md:h-6" />, delay: 3.0, angle: 300 },
-                                ].map((item, i) => (
-                                    <motion.div
-                                        key={i}
-                                        className="absolute bg-card p-2.5 md:p-3.5 rounded-2xl shadow-lg border border-border text-[#33b962] dark:text-emerald-400"
-                                        initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
-                                        animate={{
-                                            opacity: 1,
-                                            scale: [0, 1.2, 1],
-                                            x: Math.cos((item.angle * Math.PI) / 180) * radius,
-                                            y: Math.sin((item.angle * Math.PI) / 180) * radius,
-                                        }}
-                                        transition={{
-                                            delay: item.delay,
-                                            duration: 0.8,
-                                            ease: "backOut"
-                                        }}
-                                    >
-                                        {item.icon}
-                                    </motion.div>
-                                ))}
-                            </div>
-
+                            {/* Outer Pulsing Aura */}
                             <motion.div
-                                className="absolute inset-[30%] bg-gradient-to-br from-[#33b962] to-[#4ade80] dark:from-emerald-400 dark:to-teal-500 rounded-full blur-3xl"
+                                className="absolute inset-0 rounded-full bg-[#33b962]/10 dark:bg-emerald-400/10 blur-xl"
                                 animate={{
                                     scale: [1, 1.2, 1],
-                                    opacity: [0.2, 0.4, 0.2]
+                                    opacity: [0.5, 0.8, 0.5]
                                 }}
-                                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                                transition={{
+                                    duration: 1.8,
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
                             />
+
+                            {/* Center Main Icon */}
                             <motion.div
-                                initial={{ scale: 0, rotate: -45 }}
+                                initial={{ scale: 0, rotate: -180 }}
                                 animate={{ scale: 1, rotate: 0 }}
-                                transition={{ delay: 1.2, duration: 1, type: "spring" }}
+                                transition={{ delay: 0.2, duration: 0.6, type: "spring" }}
                                 className="relative z-10 p-5 bg-card rounded-full shadow-2xl border-4 border-[#33b962]/10 dark:border-emerald-400/10"
                             >
                                 <Sparkles className="w-10 h-10 md:w-14 md:h-14 text-[#33b962] dark:text-emerald-400" />
                             </motion.div>
                         </motion.div>
 
-                        <div className="mt-16 md:mt-24 space-y-6 text-center">
+                        <div className="mt-8 md:mt-12 space-y-4 text-center">
                             <div className="overflow-hidden">
                                 <motion.h1
-                                    initial={{ y: 80, opacity: 0 }}
+                                    initial={{ y: 40, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
-                                    transition={{ delay: 3.2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                                    className="text-4xl md:text-5xl lg:text-7xl font-bold text-[#33b962] dark:text-emerald-400 tracking-tight"
+                                    transition={{ delay: 0.4, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                                    className="text-3xl md:text-5xl font-black text-[#33b962] dark:text-emerald-400 tracking-tight font-outfit"
                                 >
                                     SD MUHAMMADIYAH 3
                                 </motion.h1>
@@ -199,37 +177,22 @@ export default function Preloader() {
                             <motion.div
                                 initial={{ scaleX: 0 }}
                                 animate={{ scaleX: 1 }}
-                                transition={{ delay: 3.8, duration: 1.2, ease: "circOut" }}
-                                className="h-[3px] w-48 bg-gradient-to-r from-transparent via-[#ffd166] to-transparent mx-auto"
+                                transition={{ delay: 0.6, duration: 0.6, ease: "circOut" }}
+                                className="h-[3px] w-40 bg-gradient-to-r from-transparent via-[#ffd166] to-transparent mx-auto"
                             />
 
                             <div className="overflow-hidden">
                                 <motion.p
-                                    initial={{ y: 40, opacity: 0 }}
+                                    initial={{ y: 20, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
-                                    transition={{ delay: 4.2, duration: 0.8, ease: "easeOut" }}
-                                    className="text-muted-foreground font-medium text-lg md:text-xl lg:text-2xl"
+                                    transition={{ delay: 0.7, duration: 0.5, ease: "easeOut" }}
+                                    className="text-muted-foreground font-medium text-base md:text-lg font-quicksand"
                                 >
                                     Mencetak Generasi Islami dan Berprestasi
                                 </motion.p>
                             </div>
                         </div>
                     </div>
-
-                    {/* 6. Camera Entering Effect */}
-                    <motion.div
-                        className="absolute inset-0 z-[100] pointer-events-none bg-background rounded-full"
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{
-                            scale: [0, 0, 150],
-                            opacity: [0, 0, 1]
-                        }}
-                        transition={{
-                            times: [0, 0.85, 1],
-                            duration: 1.8,
-                            ease: "easeIn"
-                        }}
-                    />
                 </motion.div>
             )}
         </AnimatePresence>

@@ -145,7 +145,7 @@ export const StudentRapotDetail = ({
                       <button
                         onClick={() => handleViewFile(fileUrl)}
                         disabled={isDownloading}
-                        className="flex items-center gap-2 px-4 py-2 font-medium text-white transition-all bg-blue-500 rounded-lg shadow-sm hover:bg-blue-600 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] font-medium text-white transition-all bg-blue-500 rounded-lg shadow-sm hover:bg-blue-600 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                         title="Lihat file"
                       >
                         <Eye className="w-4 h-4" />
@@ -155,7 +155,7 @@ export const StudentRapotDetail = ({
                       <button
                         onClick={() => handleDownloadClick(rapot.id, rapot.semester, rapot.siswa_id)}
                         disabled={isDownloading}
-                        className="flex items-center gap-2 px-4 py-2 font-medium text-white transition-all rounded-lg shadow-sm bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] font-medium text-white transition-all rounded-lg shadow-sm bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                         title="Download file"
                       >
                         {isDownloading ? (
@@ -175,7 +175,7 @@ export const StudentRapotDetail = ({
                   {!hasFile && (
                     <button
                       disabled
-                      className="flex items-center gap-2 px-4 py-2 font-medium text-gray-500 dark:text-gray-400 bg-gray-200 dark:bg-gray-800 rounded-lg cursor-not-allowed"
+                      className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] font-medium text-gray-500 dark:text-gray-400 bg-gray-200 dark:bg-gray-800 rounded-lg cursor-not-allowed"
                       title={rapot.file === null ? 'Rapot sedang diproses' : 'File tidak tersedia'}
                     >
                       <Download className="w-4 h-4" />

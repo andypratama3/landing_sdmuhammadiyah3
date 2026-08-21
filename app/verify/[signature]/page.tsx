@@ -324,7 +324,7 @@ export default function VerifyResultPage({
             {/* Back button */}
             <button
               onClick={() => router.push("/verify")}
-              className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors group"
+              className="inline-flex items-center gap-2 py-2 min-h-[44px] text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors group"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Cek Kode Lain
@@ -433,7 +433,8 @@ export default function VerifyResultPage({
                           </div>
                           <button
                             onClick={() => setShowPreview(false)}
-                            className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                            aria-label="Tutup pratinjau"
+                            className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
                             title="Tutup pratinjau"
                           >
                             <EyeOff className="w-4 h-4" />

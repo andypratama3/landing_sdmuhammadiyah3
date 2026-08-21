@@ -68,6 +68,7 @@ export default function FasilitasPage() {
                 src="/GedungSekolah.jpeg"
                 alt="Gedung Harapan SD Muhammadiyah 3"
                 fill
+                sizes="(max-width: 1024px) 100vw, 66vw"
                 className="object-cover opacity-20 z-[-1] transition-transform duration-1000 group-hover:scale-105"
               />
 
@@ -132,6 +133,7 @@ export default function FasilitasPage() {
                             src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/fasilitas/${facility.foto}`}
                             alt={facility.nama_fasilitas}
                             fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
                             className="object-cover transition-transform duration-1000 group-hover/img:scale-110"
                           />
                           <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity duration-500" />

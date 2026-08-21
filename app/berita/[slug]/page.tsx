@@ -238,6 +238,7 @@ export default async function BeritaDetailPage({ params }: Props) {
                               src={item.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${item.foto}` : "/placeholder.svg"}
                               alt={item.judul}
                               fill
+                              sizes="96px"
                               className="object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                           </div>

@@ -60,7 +60,7 @@ export default function Footer() {
             <div className="space-y-6">
               <Link href="/" className="inline-flex items-center gap-3 group">
                 <div className="relative w-14 h-14">
-                  <Image src="/SD3_logo1.png" fill alt="Logo Sekolah" className="object-contain" />
+                  <Image src="/SD3_logo1.png" fill sizes="56px" alt="Logo Sekolah" className="object-contain" />
                 </div>
                 <div>
                   <h3 className="font-black text-xl tracking-tighter leading-none uppercase transition-colors dark:text-white text-gray-900 font-outfit">

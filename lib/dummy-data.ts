@@ -231,7 +231,6 @@ export function getDummyData<T>(endpoint: string): T | null {
         success: true,
         message: 'Dummy data (development only)',
         data: dummyBerita,
-        data: dummyBerita,
         meta: {
           current_page: 1,
           last_page: 1,

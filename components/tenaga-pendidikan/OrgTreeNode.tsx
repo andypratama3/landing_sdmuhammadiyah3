@@ -59,8 +59,9 @@ export function OrgTreeNode({ node, level = 0, isRoot = false }: OrgTreeNodeProp
         {hasChildren && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className={`mt-2 p-2 rounded-full transition-colors ${colors.icon} hover:bg-accent hover:text-accent-foreground`}
+            className={`mt-2 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full transition-colors ${colors.icon} hover:bg-accent hover:text-accent-foreground`}
             aria-expanded={isExpanded}
+            aria-label={isExpanded ? "Tutup cabang organisasi" : "Buka cabang organisasi"}
           >
             {isExpanded ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
           </button>

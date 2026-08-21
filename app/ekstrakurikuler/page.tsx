@@ -360,19 +360,21 @@ export default function EkstrakurikulerPage() {
                       src={selectedActivity.fotoArray[0]}
                       alt={selectedActivity.name}
                       fill
+                      sizes="(max-width: 640px) 100vw, 600px"
                       className="object-cover w-full h-full"
                     />
                   </div>
 
                   {/* Thumbnail Gallery - Only show if more than 1 image */}
                   {selectedActivity.fotoArray.length > 1 && (
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                       {selectedActivity.fotoArray.slice(1, 5).map((foto, index) => (
                         <div key={index} className="relative w-full h-full overflow-hidden rounded-lg">
                           <Image
                             src={foto}
                             alt={`${selectedActivity.name} ${index + 2}`}
                             fill
+                            sizes="(max-width: 640px) 25vw, 150px"
                             className="object-cover"
                           />
                         </div>
@@ -452,6 +454,7 @@ function ActivityCard({
             src={activity.fotoFirst}
             alt={activity.name}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-contain p-6 transition-transform duration-700 group-hover:scale-110"
           />
         ) : (

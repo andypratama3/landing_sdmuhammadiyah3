@@ -300,7 +300,7 @@ export default function GaleriDetailPage() {
                     <Skeleton className="w-24 h-4" />
                   </div>
                   <Skeleton className="w-full h-[400px] mb-8 rounded-lg" />
-                  <div className="grid grid-cols-4 gap-3">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                     {Array.from({ length: 4 }).map((_, i) => (
                       <Skeleton key={i} className="w-full aspect-square" />
                     ))}
@@ -426,6 +426,7 @@ export default function GaleriDetailPage() {
                           src={getImagePath(allImages[selectedImage])}
                           alt={gallery.name}
                           fill
+                          sizes="(max-width: 1024px) 100vw, 800px"
                           className="object-contain p-4 sm:p-8 transition-transform duration-700"
                           priority
                           onError={(e) => {
@@ -486,6 +487,7 @@ export default function GaleriDetailPage() {
                               src={getImagePath(img)}
                               alt={`${gallery.name} - ${index + 1}`}
                               fill
+                              sizes="(max-width: 640px) 33vw, 150px"
                               className="object-cover transition-transform duration-300 group-hover:scale-110"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement
@@ -675,6 +677,7 @@ export default function GaleriDetailPage() {
                                   src={relatedMainImage}
                                   alt={item.name}
                                   fill
+                                  sizes="80px"
                                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                                   onError={(e) => {
                                     const target = e.target as HTMLImageElement

@@ -156,7 +156,11 @@ export default function GaleriPage() {
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     {searchTerm && (
-                      <button onClick={() => setSearchTerm("")} className="px-3 text-gray-400 dark:text-gray-500 hover:text-gray-600">
+                      <button
+                        onClick={() => setSearchTerm("")}
+                        aria-label="Hapus pencarian"
+                        className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-gray-600 transition-colors"
+                      >
                         <X className="w-5 h-5" />
                       </button>
                     )}
@@ -331,6 +335,7 @@ export default function GaleriPage() {
                             src={mainImage}
                             alt={item.name}
                             fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                             className="object-cover transition-transform duration-1000 group-hover:scale-110"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement
@@ -404,6 +409,7 @@ export default function GaleriPage() {
                               src={mainImage}
                               alt={item.name}
                               fill
+                              sizes="(max-width: 768px) 100vw, 320px"
                               className="object-cover transition-transform duration-1000 group-hover/img:scale-110"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement

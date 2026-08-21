@@ -7,8 +7,8 @@ export default function HomeLoading() {
           <div className="max-w-3xl mx-auto flex flex-col items-center text-center">
             <div className="mb-8 w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-white/20 animate-pulse" />
             <div className="mb-6 w-48 h-6 rounded-full bg-white/15 animate-pulse" />
-            <div className="mb-8 w-[500px] max-w-full h-16 sm:h-20 rounded-xl bg-white/15 animate-pulse" />
-            <div className="mb-10 w-[400px] max-w-full h-8 rounded-lg bg-white/10 animate-pulse" />
+            <div className="mb-8 w-full max-w-[500px] h-16 sm:h-20 rounded-xl bg-white/15 animate-pulse" />
+            <div className="mb-10 w-full max-w-[400px] h-8 rounded-lg bg-white/10 animate-pulse" />
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
               <div className="w-52 h-16 rounded-2xl bg-white/20 animate-pulse" />
               <div className="w-52 h-16 rounded-2xl bg-white/10 animate-pulse" />
@@ -173,7 +173,7 @@ export default function HomeLoading() {
       <section className="py-28 bg-gradient-to-br from-(--color-forest-700)/80 via-(--color-forest-500)/80 to-(--color-forest-600)/80">
         <div className="container px-4 mx-auto text-center">
           <div className="w-96 max-w-full h-12 mx-auto mb-6 rounded-lg bg-white/15 animate-pulse" />
-          <div className="w-[400px] max-w-full h-6 mx-auto mb-12 rounded-md bg-white/10 animate-pulse" />
+          <div className="w-full max-w-[400px] h-6 mx-auto mb-12 rounded-md bg-white/10 animate-pulse" />
           <div className="flex flex-col sm:flex-row justify-center gap-5">
             <div className="w-44 h-16 rounded-full bg-white/20 animate-pulse" />
             <div className="w-44 h-16 rounded-full bg-white/10 animate-pulse" />

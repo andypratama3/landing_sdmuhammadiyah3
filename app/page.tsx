@@ -162,7 +162,7 @@ export default async function Home() {
     <div className="pt-20">
       <HomeAnimations />
       {/* Hero Section */}
-      <section className="gsap-hero relative min-h-[95vh] flex items-center bg-gradient-to-br from-(--color-forest-900) via-(--color-forest-450) to-(--color-forest-800) py-20 overflow-hidden islamic-pattern blob-bg">
+      <section className="gsap-hero relative min-h-[100dvh] sm:min-h-[95vh] flex items-center bg-gradient-to-br from-(--color-forest-900) via-(--color-forest-450) to-(--color-forest-800) py-20 overflow-hidden islamic-pattern blob-bg">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-96 h-96 bg-(--color-forest-500)/20 rounded-full blur-3xl animate-float-slow hero-blob-1" />

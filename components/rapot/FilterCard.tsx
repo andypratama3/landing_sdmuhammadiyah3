@@ -55,14 +55,14 @@ export const FilterCard = ({
             Tahun Ajaran
           </label>
           {tahunLoading ? (
-            <div className="flex items-center justify-center h-10 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <div className="flex items-center justify-center h-11 sm:h-10 bg-gray-100 dark:bg-gray-800 rounded-lg">
               <Loader className="w-4 h-4 text-gray-500 dark:text-gray-400 animate-spin" />
             </div>
           ) : (
             <select
               value={selectedYear}
               onChange={(e) => onYearChange(e.target.value)}
-              className="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
+              className="w-full px-4 py-3 sm:py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition text-base md:text-sm"
             >
               <option value="">Semua Tahun Ajaran</option>
               {tahunList?.map(item => (
@@ -84,7 +84,7 @@ export const FilterCard = ({
             value={selectedClass}
             onChange={(e) => onClassChange(e.target.value)}
             disabled={!selectedYear}
-            className="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition disabled:bg-gray-100 dark:disabled:bg-gray-800/50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 sm:py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition disabled:bg-gray-100 dark:disabled:bg-gray-800/50 disabled:cursor-not-allowed text-base md:text-sm"
           >
             <option value="">Semua Kelas ({classList.length})</option>
             {classList.map(kelas => {
@@ -111,7 +111,7 @@ export const FilterCard = ({
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder="Cari nama atau NIS..."
               disabled={!selectedYear}
-              className="w-full pl-10 pr-10 py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition disabled:bg-gray-100 dark:disabled:bg-gray-800/50 disabled:cursor-not-allowed placeholder:text-gray-400 dark:placeholder:text-gray-500"
+              className="w-full pl-10 pr-10 py-3 sm:py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition disabled:bg-gray-100 dark:disabled:bg-gray-800/50 disabled:cursor-not-allowed placeholder:text-gray-400 dark:placeholder:text-gray-500 text-base md:text-sm"
             />
             {isTyping && (
               <div className="absolute transform -translate-y-1/2 right-3 top-1/2">

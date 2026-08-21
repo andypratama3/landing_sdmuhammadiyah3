@@ -290,6 +290,7 @@ export default function PrestasiSekolahDetailPage() {
                       src={prestasi.foto || "/placeholder.svg"}
                       alt={prestasi.name}
                       fill                      
+                      sizes="(max-width: 1024px) 100vw, 800px"
                       className="object-cover"
                       priority
                     />
@@ -457,7 +458,7 @@ export default function PrestasiSekolahDetailPage() {
                       return (
                         <Link
                           key={item.id}
-                          href={`/prestasi/sekolah/${item.slug}`}
+                          href={`/prestasi-sekolah/${item.slug}`}
                           className="block group"
                         >
                           <div className="flex gap-4">
@@ -467,6 +468,7 @@ export default function PrestasiSekolahDetailPage() {
                                   src={item.foto}
                                   alt={item.name}
                                   fill
+                                  sizes="96px"
                                   className="object-cover transition-transform group-hover:scale-110"
                                 />
                               ) : (

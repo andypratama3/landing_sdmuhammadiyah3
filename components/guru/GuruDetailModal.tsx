@@ -78,6 +78,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                     }
                     alt={guruDetail.name}
                     fill
+                    sizes="(max-width: 640px) 288px, 320px"
                     className="object-cover w-full h-full"
                     priority
                   />

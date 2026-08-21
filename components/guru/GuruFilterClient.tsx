@@ -65,7 +65,11 @@ export function GuruFilterClient({
                 onChange={(e) => setSearchInput(e.target.value)}
               />
               {searchInput && (
-                <button onClick={() => setSearchInput("")} className="absolute p-1 transition-colors -translate-y-1/2 rounded-full right-2 top-1/2 hover:bg-gray-200">
+                <button
+                  onClick={() => setSearchInput("")}
+                  aria-label="Hapus pencarian"
+                  className="absolute min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors -translate-y-1/2 rounded-full right-1 top-1/2 hover:bg-gray-200"
+                >
                   <X className="w-5 h-5 text-gray-400 dark:text-gray-500" />
                 </button>
               )}

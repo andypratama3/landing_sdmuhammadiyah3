@@ -283,7 +283,11 @@ export default function BeritaPage() {
                       onChange={(e) => setSearchInput(e.target.value)}
                     />
                     {searchInput && (
-                      <button onClick={() => setSearchInput("")} className="px-3 text-gray-400 dark:text-gray-500 hover:text-gray-600">
+                      <button
+                        onClick={() => setSearchInput("")}
+                        aria-label="Hapus pencarian"
+                        className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-gray-600 transition-colors"
+                      >
                         <X className="w-5 h-5" />
                       </button>
                     )}
@@ -395,6 +399,7 @@ export default function BeritaPage() {
                       src={featuredNews.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${featuredNews.foto}` : "/placeholder.svg"}
                       alt={featuredNews.judul}
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
@@ -622,7 +627,7 @@ export default function BeritaPage() {
                                 setSelectedCategory(category.value);
 
                               }}
-                              className={`flex items-center justify-between p-2 transition-colors rounded-lg hover:bg-(--color-cloud-100) dark:hover:bg-gray-800 group w-full text-left ${selectedCategory === category.value ? 'bg-(--color-cloud-100) dark:bg-gray-800' : ''
+                              className={`flex items-center justify-between px-3 py-2.5 min-h-[44px] transition-colors rounded-lg hover:bg-(--color-cloud-100) dark:hover:bg-gray-800 group w-full text-left ${selectedCategory === category.value ? 'bg-(--color-cloud-100) dark:bg-gray-800' : ''
                                 }`}
                             >
                               <span className="text-sm font-medium transition-colors group-hover:text-(--color-forest-450)">
@@ -667,6 +672,7 @@ function NewsCard({
               }
               alt={news.judul}
               fill
+              sizes="(max-width: 768px) 100vw, 33vw"
               className="object-cover transition-transform duration-700 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />

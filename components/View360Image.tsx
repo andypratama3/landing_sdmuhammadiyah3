@@ -6,7 +6,7 @@ import React from "react";
 
 const PanoViewerComponent: React.FC<{ imageSrc: string }> = ({ imageSrc }) => {
   return (
-    <div className="w-full h-[500px]">
+    <div className="w-full h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]">
       <PanoViewer
         tag="div"
         image={imageSrc}

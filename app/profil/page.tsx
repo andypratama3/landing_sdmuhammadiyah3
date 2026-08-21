@@ -175,6 +175,7 @@ export default function ProfilPage() {
                       src="/kepala-sekolah.jpeg"
                       alt="Ansar HS. S.Pd.,M.M. Gr."
                       fill
+                      sizes="(max-width: 640px) 256px, 320px"
                       className="object-contain transition-transform duration-700 group-hover:scale-110 bg-white"
                     />
                   </div>

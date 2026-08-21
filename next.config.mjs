@@ -62,21 +62,7 @@ const nextConfig = {
 
   async headers() {
     return [
-      // Cache Next.js static assets forever in production (content-hashed
-      // filenames change when code changes). In development, never cache so
-      // browser sessions pick up recompiled chunks immediately.
-      {
-        source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value:
-              process.env.NODE_ENV === 'production'
-                ? 'public, max-age=31536000, immutable'
-                : 'no-cache, no-store, must-revalidate',
-          }
-        ]
-      },
+
       // Cache images and fonts
       {
         source: '/(.*)\.(jpg|jpeg|png|gif|ico|svg|webp|avif|woff|woff2)$',

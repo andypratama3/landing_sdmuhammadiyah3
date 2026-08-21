@@ -391,7 +391,7 @@ export default function PrestasiSiswaDetailPage() {
                       <h3 className="text-xl font-semibold">Deskripsi</h3>
                     </div>
                     <div
-                      className="prose prose-lg max-w-none"
+                      className="prose prose-lg max-w-none [&_img]:max-w-full [&_img]:h-auto [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto [&_iframe]:max-w-full"
                       dangerouslySetInnerHTML={{ __html: cleanRichText(prestasi.description) }}
                     />
                   </CardContent>

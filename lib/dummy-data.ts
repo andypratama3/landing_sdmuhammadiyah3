@@ -89,7 +89,7 @@ export const dummyBerita: Berita[] = [
     </ul>
     
     <p>Kegiatan ini bertujuan untuk menanamkan nilai-nilai keislaman dan kepedulian sosial kepada siswa sejak dini.</p>`,
-    foto: 'https://images.unsplash.com/photo-1609234656382-47afdf8be6c8?w=800&h=600&fit=crop',
+    foto: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=800&h=600&fit=crop',
     slug: 'kegiatan-maulid-nabi-muhammad-saw-1445-h',
     category: 'Kegiatan',
     views: 890,
@@ -112,7 +112,7 @@ export const dummyGallery: Gallery[] = [
   {
     id: '1',
     name: 'Kegiatan Belajar Mengajar Semester Ganjil',
-    foto: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop,https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&h=600&fit=crop,https://images.unsplash.com/photo-1544717305-2782549bcc5f?w=800&h=600&fit=crop',
+    foto: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop,https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&h=600&fit=crop,https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop',
     cover: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop',
     slug: 'kegiatan-belajar-mengajar-semester-ganjil',
     link: null,
@@ -145,8 +145,8 @@ export const dummyGallery: Gallery[] = [
   {
     id: '4',
     name: 'Peringatan Hari Kemerdekaan Indonesia',
-    foto: 'https://images.unsplash.com/photo-1508921917468-9f8bce684e03?w=800&h=600&fit=crop,https://images.unsplash.com/photo-1517245386807-464d9d967669?w=800&h=600&fit=crop,https://images.unsplash.com/photo-1577493343360-38e98c156b7f?w=800&h=600&fit=crop,https://images.unsplash.com/photo-1524712245354-2c4c09013ca1?w=800&h=600&fit=crop',
-    cover: 'https://images.unsplash.com/photo-1508921917468-9f8bce684e03?w=800&h=600&fit=crop',
+    foto: 'https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=800&h=600&fit=crop,https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=800&h=600&fit=crop,https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&h=600&fit=crop,https://images.unsplash.com/photo-1519817650390-64a93db51149?w=800&h=600&fit=crop',
+    cover: 'https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=800&h=600&fit=crop',
     slug: 'peringatan-hari-kemerdekaan-indonesia',
     link: null,
     created_at: '2024-08-17T07:00:00Z',
@@ -163,7 +163,7 @@ export const dummyFasilitas: Fasilitas[] = [
     id: '1',
     nama_fasilitas: 'Ruang Kelas Modern',
     desc: 'Ruang kelas yang dilengkapi dengan AC, proyektor, dan papan tulis interaktif untuk mendukung pembelajaran yang efektif dan nyaman.',
-    foto: 'https://images.unsplash.com/photo-1594608661626-2f5e1a3b7d8c?w=800&h=600&fit=crop',
+    foto: 'https://images.unsplash.com/photo-1503428593586-e225b39bddfe?w=800&h=600&fit=crop',
     slug: 'ruang-kelas-modern',
     ukuran: '8m x 6m',
     kapasitas: 30,
@@ -197,7 +197,7 @@ export const dummyFasilitas: Fasilitas[] = [
     id: '3',
     nama_fasilitas: 'Perpustakaan Digital',
     desc: 'Perpustakaan dengan koleksi buku fisik dan digital, dilengkapi dengan area baca yang nyaman dan akses internet untuk penelitian.',
-    foto: 'https://images.unsplash.com/photo-1568667256579-9940d3e05e5f?w=800&h=600&fit=crop',
+    foto: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop',
     slug: 'perpustakaan-digital',
     ukuran: '12m x 10m',
     kapasitas: 50,

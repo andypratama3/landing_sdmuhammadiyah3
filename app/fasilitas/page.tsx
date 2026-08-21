@@ -11,6 +11,7 @@ import { Fasilitas, KelengkapanFasilitas } from "@/types"
 import Image from "next/image"
 import Link from "next/link"
 import PageAnimations from "@/components/PageAnimations"
+import { resolveImageUrl } from "@/lib/image-url"
 
 export default function FasilitasPage() {
   const { data: facilities, loading, error } = useApi<Fasilitas[]>('/fasilitas')
@@ -130,7 +131,7 @@ export default function FasilitasPage() {
                       {facility.foto ? (
                         <div className="relative overflow-hidden h-72 sm:h-80 lg:h-96 rounded-[1.75rem] shadow-2xl group/img">
                           <Image
-                            src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/fasilitas/${facility.foto}`}
+                            src={resolveImageUrl(facility.foto, "img/fasilitas")}
                             alt={facility.nama_fasilitas}
                             fill
                             sizes="(max-width: 768px) 100vw, 50vw"

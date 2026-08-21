@@ -539,12 +539,12 @@ export default function VerifyResultPage({
                 <div className="p-1.5 rounded-lg bg-primary/5 text-primary">
                   <Hash className="w-4 h-4" />
                 </div>
-                <p className="text-[10px] font-white tracking-[0.2em] uppercase text-muted-foreground">Digital Signature Fingerprint</p>
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Digital Signature Fingerprint</p>
               </div>
-              <div className="p-4 rounded-xl bg-white/50 dark:bg-background/50 border border-border/40 font-mono text-[11px] text-white break-all leading-relaxed shadow-inner select-all">
+              <div className="p-4 rounded-xl bg-white/50 dark:bg-background/50 border border-border/40 font-mono text-[11px] text-foreground break-all leading-relaxed shadow-inner select-all">
                 {code}
               </div>
-              <p className="mt-3 text-[10px] text-white text-center font-bold tracking-wider uppercase">
+              <p className="mt-3 text-[10px] text-muted-foreground text-center font-bold tracking-wider uppercase">
                 © {new Date().getFullYear()} SD Muhammadiyah 3 Samarinda · Blockchain Protected
               </p>
             </div>

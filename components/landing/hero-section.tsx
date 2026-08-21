@@ -20,7 +20,7 @@ export function HeroSection() {
                 width={130}
                 height={130}
                 priority
-                className="object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.4)]"
+                className="object-contain w-full h-full drop-shadow-[0_25px_50px_rgba(0,0,0,0.4)]"
               />
             </div>
           </div>

@@ -16,7 +16,7 @@ export function GridStaffCard({ person }: GridStaffCardProps) {
           alt={person.name}
           width={480}
           height={600}
-          className="object-contain"
+          className="object-contain w-full h-full"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
         />
       </div>

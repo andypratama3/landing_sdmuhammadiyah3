@@ -605,6 +605,7 @@ function PrestasiCard({
               ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${achievement.foto}`
               : "/placeholder.svg"}
             alt={achievement.name}
+            fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
@@ -635,7 +636,7 @@ function PrestasiCard({
         </div>
 
         <div className="p-8 flex-1 flex flex-col">
-          <div className="d-flex items-center gap-6 mb-6">
+          <div className="flex flex-wrap items-center gap-6 mb-6">
             <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-(--color-forest-450)">
               <Calendar className="w-3.5 h-3.5" />
               <span>{formatDate(achievement.tanggal)}</span>
@@ -660,7 +661,7 @@ function PrestasiCard({
               ))}
             </div>
           </div>
-            <Button variant="default" className="text-[9px] font-black uppercase tracking-widest text-(--color-forest-450) p-2 mt-4 hover:translate-x-1 text-white transition-transform">
+            <Button variant="default" className="text-[9px] font-black uppercase tracking-widest bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white p-2 mt-4 hover:translate-x-1 transition-transform">
               Lihat 
             </Button>
         </div>

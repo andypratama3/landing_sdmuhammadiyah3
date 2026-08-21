@@ -218,7 +218,7 @@ export function SpmbPage() {
       </CardHeader>
       <CardContent className="space-y-6">
         {showSuccess && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
             <Card className="w-full max-w-md">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-green-600">
@@ -303,7 +303,7 @@ export function SpmbPage() {
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="tempat_lahir">Suku *</Label>
+              <Label htmlFor="suku">Suku *</Label>
               <Input
                 id="suku"
                 placeholder="Suku"
@@ -312,41 +312,6 @@ export function SpmbPage() {
                 className={errors.suku ? 'border-red-500' : ''}
               />
               {errors.suku && <p className="text-xs text-red-500">{errors.suku}</p>}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="tanggal_lahir">Tanggal Lahir *</Label>
-              <Input
-                id="tanggal_lahir"
-                type="date"
-                value={formData.tanggal_lahir}
-                onChange={handleInputChange}
-                className={errors.tanggal_lahir ? 'border-red-500' : ''}
-              />
-              {errors.tanggal_lahir && <p className="text-xs text-red-500">{errors.tanggal_lahir}</p>}
-            </div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="tempat_lahir">Tempat Lahir *</Label>
-              <Input
-                id="tempat_lahir"
-                placeholder="Kota kelahiran"
-                value={formData.tempat_lahir}
-                onChange={handleInputChange}
-                className={errors.tempat_lahir ? 'border-red-500' : ''}
-              />
-              {errors.tempat_lahir && <p className="text-xs text-red-500">{errors.tempat_lahir}</p>}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="tanggal_lahir">Tanggal Lahir *</Label>
-              <Input
-                id="tanggal_lahir"
-                type="date"
-                value={formData.tanggal_lahir}
-                onChange={handleInputChange}
-                className={errors.tanggal_lahir ? 'border-red-500' : ''}
-              />
-              {errors.tanggal_lahir && <p className="text-xs text-red-500">{errors.tanggal_lahir}</p>}
             </div>
           </div>
 

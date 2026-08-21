@@ -12,7 +12,7 @@ interface BreadcrumbProps {
 
 export default function Breadcrumb({ items }: BreadcrumbProps) {
   return (
-    <nav className="flex items-center gap-2 mb-6 text-xs sm:text-sm font-medium tracking-wide">
+    <nav className="flex flex-wrap items-center gap-2 mb-6 text-xs sm:text-sm font-medium tracking-wide">
       <Link
         href="/"
         className="flex items-center gap-1.5 text-gray-600 dark:text-gray-400 hover:text-(--color-forest-700) dark:hover:text-(--color-teal-400) transition-colors duration-200"

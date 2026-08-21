@@ -26,6 +26,10 @@ const nextConfig = {
         port: '8000',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
     unoptimized: process.env.NODE_ENV === 'development',
   },

@@ -355,7 +355,7 @@ export default function EkstrakurikulerPage() {
               {selectedActivity.fotoArray && selectedActivity.fotoArray.length > 0 && (
                 <div className="space-y-3">
                   {/* Main Image */}
-                  <div className="relative h-full overflow-hidden rounded-lg sm:h-80">
+                  <div className="relative h-56 overflow-hidden rounded-lg sm:h-80">
                     <Image
                       src={selectedActivity.fotoArray[0]}
                       alt={selectedActivity.name}
@@ -369,7 +369,7 @@ export default function EkstrakurikulerPage() {
                   {selectedActivity.fotoArray.length > 1 && (
                     <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                       {selectedActivity.fotoArray.slice(1, 5).map((foto, index) => (
-                        <div key={index} className="relative w-full h-full overflow-hidden rounded-lg">
+                        <div key={index} className="relative aspect-square overflow-hidden rounded-lg">
                           <Image
                             src={foto}
                             alt={`${selectedActivity.name} ${index + 2}`}

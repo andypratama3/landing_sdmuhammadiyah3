@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import Image from "next/image"
 import PageAnimations from "@/components/PageAnimations"
+import { resolveImageUrl } from "@/lib/image-url"
 
 export default function GaleriPage() {
   const [activeFilter, setActiveFilter] = useState("semua")
@@ -106,9 +107,9 @@ export default function GaleriPage() {
     const firstFoto = gallery.foto?.split(",")?.[0]?.trim() || null
 
     if (gallery.cover) {
-      return `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/cover/${gallery.cover}`
+      return resolveImageUrl(gallery.cover, "img/gallery/cover")
     } else if (firstFoto) {
-      return `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${firstFoto}`
+      return resolveImageUrl(firstFoto, "img/gallery")
     } else {
       return "/placeholder.svg"
     }

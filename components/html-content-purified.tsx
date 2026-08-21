@@ -35,7 +35,7 @@ export function HtmlContentPurified({ content, className = '' }: HtmlContentPuri
 
   return (
     <div
-      className={`prose prose-lg max-w-none ${className}`}
+      className={`prose prose-lg max-w-none ${className} [&_img]:max-w-full [&_img]:h-auto [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto [&_code]:break-words [&_iframe]:max-w-full [&_video]:max-w-full`}
       dangerouslySetInnerHTML={{ __html: cleanHtml }}
       suppressHydrationWarning
     />

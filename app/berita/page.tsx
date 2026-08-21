@@ -20,6 +20,7 @@ import {
 } from "@/types";
 
 import { useDebounce } from "@/hooks/useDebounce"
+import { resolveImageUrl } from "@/lib/image-url"
 
 function timeAgo(dateString: string) {
   const date = new Date(dateString)
@@ -396,7 +397,7 @@ export default function BeritaPage() {
                 <div className="grid gap-0 md:grid-cols-2">
                   <div className="relative h-64 md:h-auto overflow-hidden">
                     <Image
-                      src={featuredNews.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${featuredNews.foto}` : "/placeholder.svg"}
+                      src={resolveImageUrl(featuredNews.foto, "img/berita")}
                       alt={featuredNews.judul}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
@@ -665,11 +666,7 @@ function NewsCard({
         <div className="grid gap-0 md:grid-cols-3">
           <div className="relative h-64 md:h-auto overflow-hidden p-0">
             <Image
-              src={
-                news.foto
-                  ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${news.foto}`
-                  : "/placeholder.svg"
-              }
+              src={resolveImageUrl(news.foto, "img/berita")}
               alt={news.judul}
               fill
               sizes="(max-width: 768px) 100vw, 33vw"

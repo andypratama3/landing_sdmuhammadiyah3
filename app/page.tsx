@@ -191,7 +191,7 @@ export default async function Home() {
                   width={160}
                   height={160}
                   priority
-                  className="relative object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)] filter brightness-110"
+                  className="relative object-contain w-full h-full drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)] filter brightness-110"
                 />
               </div>
             </div>
@@ -545,7 +545,7 @@ export default async function Home() {
                       alt={partner.name}
                       width={160}
                       height={160}
-                      className="object-contain"
+                      className="object-contain w-full h-full"
                     />
                   </div>
                   <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -562,7 +562,7 @@ export default async function Home() {
                       alt={partner.name}
                       width={160}
                       height={160}
-                      className="object-contain"
+                      className="object-contain w-full h-full"
                     />
                   </div>
                   <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

@@ -30,6 +30,7 @@ import {
 import { useApi } from "@/hooks/useApi"
 import { Gallery } from "@/types/gallery.types"
 import { PageHeader } from "@/components/page-header"
+import { resolveImageUrl } from "@/lib/image-url"
 
 export default function GaleriDetailPage() {
   const params = useParams()
@@ -85,9 +86,9 @@ export default function GaleriDetailPage() {
   // Helper untuk mendapatkan path image yang benar
   const getImagePath = (img: { src: string; isCover: boolean }) => {
     if (img.isCover) {
-      return `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/cover/${img.src}`
+      return resolveImageUrl(img.src, "img/gallery/cover")
     } else {
-      return `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${img.src}`
+      return resolveImageUrl(img.src, "img/gallery")
     }
   }
 
@@ -663,10 +664,10 @@ export default function GaleriDetailPage() {
                     </div>
                     <CardContent className="p-8 space-y-4">
                       {relatedResponse.slice(0, 3).map((item: Gallery) => {
-                        const relatedMainImage = item.cover 
-                          ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/cover/${item.cover}`
+                        const relatedMainImage = item.cover
+                          ? resolveImageUrl(item.cover, "img/gallery/cover")
                           : item.foto?.split(',')[0]?.trim()
-                            ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${item.foto.split(',')[0].trim()}`
+                            ? resolveImageUrl(item.foto.split(',')[0].trim(), "img/gallery")
                             : "/placeholder.svg"
 
                         return (

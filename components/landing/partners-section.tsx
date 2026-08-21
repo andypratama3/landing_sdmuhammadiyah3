@@ -22,7 +22,7 @@ export function PartnersSection({ partners }: PartnersSectionProps) {
                   alt={partner.name}
                   width={140}
                   height={140}
-                  className="object-contain"
+                  className="object-contain w-full h-full"
                 />
               </div>
               <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

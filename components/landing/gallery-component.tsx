@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card"
 import Link from "next/link"
 import { Gallery } from "@/types/gallery.types"
 import Image from "next/image"
+import { resolveImageUrl } from "@/lib/image-url"
 
 interface GalleryCardProps {
   gallery: Gallery
@@ -17,9 +18,9 @@ export function GalleryCard({ gallery }: GalleryCardProps) {
 
   // tentukan foto utama
   const mainFoto = gallery.cover
-    ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/cover/${gallery.cover}`
+    ? resolveImageUrl(gallery.cover, "img/gallery/cover")
     : firstFoto
-      ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/gallery/${firstFoto}`
+      ? resolveImageUrl(firstFoto, "img/gallery")
       : "/placeholder.svg"
 
   return (

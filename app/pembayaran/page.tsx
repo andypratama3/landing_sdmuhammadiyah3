@@ -511,7 +511,7 @@ export default function PembayaranPage() {
                                               </div>
                                               <div className="flex flex-col flex-1 min-w-0 sm:flex-row">
                                                 <div className="flex-1 min-w-0">
-                                                  <h4 className="font-semibold text-gray-900 break-words truncate dark:text-white whitespace-nowrap sm:whitespace-normal">
+                                                  <h4 className="font-semibold text-gray-900 break-words dark:text-white">
                                                     {payment.description}
                                                   </h4>
                                                   <p className="text-sm text-gray-600 dark:text-gray-400">{payment.month}</p>

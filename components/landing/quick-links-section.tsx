@@ -1,48 +1,56 @@
 import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
-import { ChevronRight } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
-const facilities = [
-  { title: "Fasilitas", image: "/fasilitas.png", link: "/fasilitas", badge: "Jelajahi" },
-  { title: "Prestasi Siswa", image: "/prestasi-siswa.png", link: "/prestasi-siswa", badge: "Lihat Karya" },
-  { title: "Prestasi Sekolah", image: "/prestasi-sekolah.png", link: "/prestasi-sekolah", badge: "Lihat Capaian" },
+const tiles = [
+  {
+    title: "Fasilitas",
+    image: "/fasilitas.png",
+    href: "/fasilitas",
+    span: "lg:col-span-7 lg:row-span-2 aspect-[4/3] lg:aspect-auto lg:min-h-[28rem]",
+  },
+  {
+    title: "Prestasi siswa",
+    image: "/prestasi-siswa.png",
+    href: "/prestasi-siswa",
+    span: "lg:col-span-5 aspect-[4/3] lg:aspect-auto lg:min-h-[13.5rem]",
+  },
+  {
+    title: "Prestasi sekolah",
+    image: "/prestasi-sekolah.png",
+    href: "/prestasi-sekolah",
+    span: "lg:col-span-5 aspect-[4/3] lg:aspect-auto lg:min-h-[13.5rem]",
+  },
 ]
 
 export function QuickLinksSection() {
   return (
-    <section className="py-28 bg-(--color-paper-50) dark:bg-gray-950 relative overflow-hidden">
-      <div className="container px-4 mx-auto">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {facilities.map((facility, index) => (
-              <Link
-                  key={index}
-                  href={facility.link}
-                  className="relative overflow-hidden shadow-xl group rounded-[2.5rem] h-[400px] sm:h-[480px] block border-0 focus-visible:outline-4 focus-visible:outline-(--color-forest-700) focus-visible:outline-offset-4"
+    <section className="py-20 sm:py-24 bg-(--color-paper-50) dark:bg-(--color-forest-950)">
+      <div className="container mx-auto px-4">
+        <h2 className="max-w-lg text-balance font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) sm:text-4xl dark:text-white">
+          Lihat ruang, karya, dan capaian
+        </h2>
+        <div className="mt-10 grid gap-4 lg:grid-cols-12">
+          {tiles.map((tile) => (
+            <Link
+              key={tile.href}
+              href={tile.href}
+              className={`quick-link-card group relative overflow-hidden rounded-[1.75rem] ${tile.span} focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--color-forest-700)`}
             >
-              <div className="relative h-full w-full">
-                <Image
-                  src={facility.image || "/placeholder.svg"}
-                  alt={facility.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-70 group-hover:opacity-85 transition-opacity duration-500" />
-                <div className="absolute bottom-0 left-0 right-0 p-10 transform group-hover:-translate-y-2 transition-transform duration-500">
-                  <Badge className="bg-white/15 backdrop-blur-md text-white border-white/20 font-black uppercase tracking-[0.18em] text-[10px] mb-5 px-3.5 py-1 h-auto">
-                    {facility.badge}
-                  </Badge>
-                  <h3 className="mb-6 text-2xl sm:text-3xl font-black text-white leading-tight uppercase tracking-tight font-outfit">
-                    {facility.title}
-                  </h3>
-                  <div className="flex items-center gap-3 text-white/80 group-hover:text-white transition-all group-hover:gap-5">
-                    <span className="text-sm font-black uppercase tracking-[0.15em] font-quicksand">LIHAT DETAIL</span>
-                    <div className="w-11 h-11 rounded-xl bg-(--color-forest-700) flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                      <ChevronRight className="w-6 h-6" />
-                    </div>
-                  </div>
-                </div>
+              <Image
+                src={tile.image}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 100vw, 60vw"
+                quality={75}
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-(--color-forest-950)/80 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
+                <h3 className="font-outfit text-2xl font-bold text-white">{tile.title}</h3>
+                <span className="flex size-10 items-center justify-center rounded-full bg-white/15 text-white">
+                  <ArrowUpRight className="size-5" aria-hidden />
+                </span>
               </div>
             </Link>
           ))}

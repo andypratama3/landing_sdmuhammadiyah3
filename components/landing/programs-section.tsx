@@ -1,105 +1,139 @@
+import Image from "next/image"
 import {
-  BookOpen, Heart, Smile, Sparkles, Pencil, Brain,
-  Gamepad2, Target, GraduationCap
+  BookOpen,
+  Brain,
+  Gamepad2,
+  GraduationCap,
+  Heart,
+  Pencil,
+  Smile,
+  Sparkles,
+  Target,
 } from "lucide-react"
 
 const programs = [
   {
     icon: BookOpen,
-    title: "Tahfidz Al-Qur'an 2 Juz (29-30)",
-    description: "Program menghafal Al-Qur'an dengan metode yang mudah dan menyenangkan",
-    size: "full" as const,
+    title: "Tahfidz 2 juz",
+    description: "Hafalan juz 29-30 dengan ritme yang ramah anak.",
   },
   {
     icon: Heart,
-    title: "Pembiasaan Akhlak Islami Sejak Dini",
-    description: "Pembentukan karakter islami melalui pembiasaan sehari-hari",
-    size: "half" as const,
+    title: "Akhlak sehari-hari",
+    description: "Adab Islam dilatih di kelas, di masjid, dan di halaman.",
   },
   {
     icon: Smile,
-    title: "Pembiasaan Sholat Wajib dan Sunnah",
-    description: "Melatih kedisiplinan ibadah sejak dini",
-    size: "half" as const,
+    title: "Shalat berjamaah",
+    description: "Wajib dan sunnah jadi kebiasaan, bukan beban.",
   },
   {
     icon: Sparkles,
-    title: "Pembiasaan Ngaji Morning Metode Tilawati",
-    description: "Mengaji dengan metode tilawati setiap pagi",
-    size: "half" as const,
+    title: "Ngaji Tilawati",
+    description: "Pagi dimulai dengan tartil yang tertib dan ceria.",
   },
   {
     icon: Pencil,
-    title: "Pembiasaan Menulis Al-Qur'an Dengan Metode IMLA",
-    description: "Melatih menulis ayat Al-Qur'an dengan metode IMLA",
-    size: "half" as const,
+    title: "Imla Al-Qur'an",
+    description: "Menulis ayat untuk menajamkan ketelitian.",
   },
   {
     icon: Brain,
-    title: "Pembinaan Psikologi Untuk Mengetahui Minat & Bakat Anak",
-    description: "Identifikasi potensi anak melalui tes psikologi",
-    size: "half" as const,
+    title: "Minat dan bakat",
+    description: "Pemetaan psikologi agar pendampingan lebih tepat.",
   },
   {
     icon: Gamepad2,
-    title: "Pembelajaran Berbasis Edutainment",
-    description: "Belajar sambil bermain dengan metode yang menyenangkan",
-    size: "half" as const,
+    title: "Edutainment",
+    description: "Belajar lewat bermain, proyek, dan gerak.",
   },
   {
     icon: Target,
-    title: "Menyeimbangkan Otak Kanan Dan Kiri",
-    description: "Pembelajaran holistik untuk perkembangan optimal",
-    size: "half" as const,
+    title: "Otak kiri dan kanan",
+    description: "Sains, seni, dan ibadah berjalan beriringan.",
   },
   {
     icon: GraduationCap,
-    title: "Lulus Dengan 3 Ijazah",
-    description: "Siswa lulus dengan ijazah sekolah, Muhammadiyah, dan Tilawati",
-    size: "full" as const,
+    title: "Tiga ijazah",
+    description: "Ijazah sekolah, Muhammadiyah, dan Tilawati.",
   },
 ]
 
-function ProgramCard({ program, index }: { program: typeof programs[number]; index: number }) {
-  const Icon = program.icon
-  return (
-    <div className={`clay group ${
-        program.size === "full" ? "p-8 sm:p-10" : "p-6 sm:p-10"
-      }`}
-    >
-      <div className="clay-icon w-12 h-12 mb-5 flex items-center justify-center">
-        <Icon className="w-6 h-6 text-(--color-forest-700)" />
-      </div>
-      <h3 className={`font-black text-gray-900 dark:text-white group-hover:text-(--color-forest-700) transition-colors leading-tight font-outfit ${
-        program.size === "full" ? "text-lg mb-4" : "text-base mb-3"
-      }`}>
-        {program.title}
-      </h3>
-      <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400 font-quicksand">{program.description}</p>
-    </div>
-  )
-}
-
 export function ProgramsSection() {
+  const [featured, ...rest] = programs
+  const FeaturedIcon = featured.icon
+
   return (
-    <section className="py-24 bg-gradient-to-b from-(--color-cloud-100)/80 to-white dark:from-gray-950/80 dark:to-gray-900">
-      <div className="container px-4 mx-auto">
-        <div className="mb-16 text-center">
-          <h2 className="text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight font-outfit">
-            Program Unggulan Kami
+    <section className="gsap-programs gsap-programs py-24 sm:py-28 bg-(--color-paper-50) dark:bg-(--color-forest-950)">
+      <div className="container mx-auto px-4">
+        <div className="max-w-xl">
+          <h2 className="text-balance font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) sm:text-4xl dark:text-white">
+            Program yang membentuk kebiasaan
           </h2>
-          <p className="max-w-2xl mx-auto mt-5 text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-400 text-balance font-quicksand">
-            Kurikulum yang dirancang khusus untuk membangun fondasi karakter, intelegensi, dan spiritualitas anak sejak dini.
+          <p className="mt-4 max-w-[52ch] text-pretty text-base leading-relaxed text-(--color-ink-700) dark:text-(--color-cloud-200) font-quicksand">
+            Bukan daftar fitur. Ini ritme harian yang membuat anak hafal, sopan, dan senang datang ke sekolah.
           </p>
         </div>
 
-        <div className="grid gap-6 sm:gap-8 sm:grid-cols-4 lg:grid-cols-3">
-          {programs.map((program, index) => (
-            <div key={index} className={program.size === "full" ? "lg:col-span-2" : ""}>
-              <ProgramCard program={program} index={index} />
+        <div className="mt-12 grid gap-4 lg:grid-cols-12 lg:grid-rows-2">
+          <article className="program-card relative overflow-hidden rounded-[1.75rem] lg:col-span-7 lg:row-span-2 min-h-[22rem]">
+            <Image
+              src="/foto_sekolah.jpeg"
+              alt="Suasana pembelajaran di kampus sekolah"
+              fill
+              sizes="(max-width: 1024px) 100vw, 58vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-(--color-forest-950)/85 via-(--color-forest-950)/25 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
+              <FeaturedIcon className="mb-3 size-7 text-(--color-sun-400)" aria-hidden />
+              <h3 className="font-outfit text-2xl font-bold text-white">{featured.title}</h3>
+              <p className="mt-2 max-w-[36ch] text-pretty text-sm leading-relaxed text-white/85 font-quicksand">
+                {featured.description}
+              </p>
             </div>
-          ))}
+          </article>
+
+          {rest.slice(0, 4).map((program) => {
+            const Icon = program.icon
+            return (
+              <article
+                key={program.title}
+                className="program-card rounded-[1.5rem] border border-(--color-forest-700)/10 bg-white p-5 dark:border-white/10 dark:bg-(--color-forest-900) lg:col-span-5"
+              >
+                <Icon className="size-5 text-(--color-forest-600) dark:text-(--color-sun-400)" aria-hidden />
+                <h3 className="mt-3 font-outfit text-lg font-bold text-(--color-forest-900) dark:text-white">
+                  {program.title}
+                </h3>
+                <p className="mt-1 text-pretty text-sm leading-relaxed text-(--color-ink-700) dark:text-white/90 font-quicksand">
+                  {program.description}
+                </p>
+              </article>
+            )
+          })}
         </div>
+
+        <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {rest.slice(4).map((program) => {
+            const Icon = program.icon
+            return (
+              <li
+                key={program.title}
+                className="program-card flex gap-3 rounded-2xl px-1 py-2"
+              >
+                <Icon className="mt-0.5 size-4 shrink-0 text-(--color-forest-600) dark:text-(--color-sun-400)" aria-hidden />
+                <div>
+                  <p className="font-outfit text-sm font-bold text-(--color-forest-900) dark:text-white">
+                    {program.title}
+                  </p>
+                  <p className="text-pretty text-sm text-(--color-ink-700) dark:text-white/90 font-quicksand">
+                    {program.description}
+                  </p>
+                </div>
+              </li>
+            )
+          })}
+        </ul>
       </div>
     </section>
   )

@@ -32,6 +32,7 @@ export function GalleryCard({ gallery }: GalleryCardProps) {
             alt={gallery.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            quality={75}
             className="object-cover transition-transform duration-1000 group-hover:scale-110"
             onError={(e) => {
               const target = e.target as HTMLImageElement
@@ -47,10 +48,10 @@ export function GalleryCard({ gallery }: GalleryCardProps) {
         </div>
 
         <div className="p-6 flex-1 flex flex-col">
-          <h3 className="text-sm font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-(--color-forest-700) transition-colors leading-tight mb-2">
+          <h3 className="text-sm font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-(--color-forest-700) dark:group-hover:text-(--color-sun-400) transition-colors leading-tight mb-2">
             {gallery.name}
           </h3>
-          <div className="mt-auto pt-4 flex items-center text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">
+          <div className="mt-auto pt-4 flex items-center text-[10px] font-black uppercase tracking-widest text-(--color-forest-700) dark:text-(--color-sun-400)">
             Momen Kreatif
           </div>
         </div>

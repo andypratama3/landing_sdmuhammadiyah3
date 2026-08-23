@@ -8,33 +8,34 @@ interface GallerySectionProps {
 }
 
 export function GallerySection({ galleries }: GallerySectionProps) {
+  if (!galleries?.length) return null
+
   return (
-    <section className="py-24 bg-(--color-cloud-100)/80 dark:bg-gray-950/50">
-      <div className="container px-4 mx-auto">
-        <div className="mb-14 text-center">
-          <h2 className="text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight font-outfit">
-            Aktivitas Kami
+    <section className="gsap-gallery py-24 bg-(--color-cloud-100) dark:bg-(--color-forest-950)">
+      <div className="container mx-auto px-4">
+        <div className="max-w-xl">
+          <h2 className="text-balance font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) sm:text-4xl dark:text-white">
+            Aktivitas di kampus
           </h2>
-          <p className="max-w-xl mx-auto mt-4 text-base text-gray-600 dark:text-gray-400 font-quicksand">
-            Kegiatan seru dan edukatif yang dilakukan siswa di sekolah
+          <p className="mt-3 max-w-[48ch] text-pretty text-base text-(--color-ink-700) dark:text-(--color-cloud-200) font-quicksand">
+            Cuplikan belajar, ibadah, dan karya siswa. Bukan katalog stok.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-14">
-          {galleries?.map((gallery) => (
-            <div key={gallery.id}>
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {galleries.map((gallery) => (
+            <div key={gallery.id ?? gallery.slug} className="gallery-card">
               <GalleryCard gallery={gallery} />
             </div>
           ))}
         </div>
 
-        <div className="text-center">
+        <div className="mt-10">
           <Button
             asChild
-            className="bg-(--color-forest-700) hover:bg-(--color-forest-500) text-white rounded-full px-10 py-7 text-base font-bold shadow-lg hover:scale-[1.03] transition-all"
-            size="lg"
+            className="h-12 rounded-full bg-(--color-forest-700) px-7 font-semibold text-white hover:bg-(--color-forest-600) dark:bg-(--color-sun-500) dark:text-(--color-ink-950) dark:hover:bg-(--color-sun-400)"
           >
-            <Link href="/galeri">Lihat Semua Aktivitas</Link>
+            <Link href="/galeri">Lihat galeri lengkap</Link>
           </Button>
         </div>
       </div>

@@ -1,40 +1,54 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ChevronRight } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
+
+const PPDB_URL = "https://ppdb.sdmuh3smd.com"
 
 export function CTASection() {
   return (
-    <section className="py-28 bg-gradient-to-br from-(--color-forest-900) via-(--color-forest-700) to-(--color-forest-800) text-white relative overflow-hidden islamic-pattern blob-bg">
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[100px] pointer-events-none" />
-
-      <div className="container relative z-10 px-4 mx-auto text-center">
-        <h2 className="mb-6 text-3xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-balance leading-tight font-outfit">
-          Mulai Perjalanan Kreatif Anak Anda!
-        </h2>
-        <p className="max-w-xl mx-auto mb-12 text-base sm:text-lg leading-relaxed text-white/80 font-medium font-quicksand">
-          Pendaftaran peserta didik baru telah dibuka. Kuota terbatas, amankan kursi putra-putri Anda segera.
-        </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-5">
-          <Button
-            asChild
-            size="lg"
-            className="bg-white text-(--color-forest-700) hover:bg-gray-100 rounded-full px-12 py-7 text-xl shadow-xl hover:scale-[1.03] transition-all font-black"
-          >
-            <Link href="https://ppdb.sdmuh3smd.com">
-              Daftar Online
-              <ChevronRight className="w-6 h-6 ml-1.5" />
-            </Link>
-          </Button>
-          <Button
-            asChild
-            size="lg"
-            variant="outline-on-dark"
-            className="px-12 py-7 text-xl font-bold rounded-full backdrop-blur-md transition-all"
-          >
-            <Link href="/kontak">Hubungi Kami</Link>
-          </Button>
+    <section className="gsap-cta px-4 py-16 sm:py-24">
+      <div className="container mx-auto overflow-hidden rounded-[2rem] bg-(--color-forest-900) text-(--color-paper-50)">
+        <div className="cta-content grid items-center lg:grid-cols-2">
+          <div className="px-6 py-12 sm:px-10 sm:py-16 lg:px-14">
+            <h2 className="text-balance font-outfit text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
+              Amankan kursi tahun ajaran baru
+            </h2>
+            <p className="mt-4 max-w-[40ch] text-pretty text-base leading-relaxed text-white/80 font-quicksand">
+              Kuota SPMB terbatas. Daftar daring, atau tanya langsung ke tata usaha sekolah.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button
+                asChild
+                size="lg"
+                className="h-12 rounded-full bg-(--color-paper-50) px-7 font-bold text-(--color-forest-900) hover:bg-white"
+              >
+                <Link href={PPDB_URL} className="inline-flex items-center gap-2">
+                  Daftar online
+                  <span className="flex size-8 items-center justify-center rounded-full bg-(--color-forest-900)/10">
+                    <ArrowUpRight className="size-4" aria-hidden />
+                  </span>
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline-on-dark"
+                className="h-12 rounded-full px-7 font-semibold"
+              >
+                <Link href="/kontak">Hubungi kami</Link>
+              </Button>
+            </div>
+          </div>
+          <div className="relative min-h-[16rem] lg:min-h-[22rem]">
+            <Image
+              src="/foto_sekolah.jpeg"
+              alt="Halaman sekolah saat sore"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
         </div>
       </div>
     </section>

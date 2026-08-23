@@ -1,0 +1,21 @@
+{
+  "name": "nextjs",
+  "displayName": "Frontend Standards: nextjs",
+  "version": "1.0.0",
+  "description": "Frontend standards for Next.js (App Router) projects.",
+  "author": {
+    "name": "Abayomi John Olatunji",
+    "email": "abayomi.olatunjio@gmail.com",
+    "url": "https://github.com/abayomijohn273"
+  },
+  "homepage": "https://github.com/abayomijohn273/frontend_standard_skills",
+  "repository": "https://github.com/abayomijohn273/frontend_standard_skills",
+  "license": "MIT",
+  "keywords": [
+    "frontend",
+    "accessibility",
+    "performance",
+    "core-web-vitals",
+    "nextjs"
+  ]
+}

@@ -1,31 +1,28 @@
-import { Star, Award } from "lucide-react"
-
 export function AccreditationSection() {
   return (
-    <section className="py-24 bg-(--color-forest-700) dark:bg-(--color-forest-900) relative overflow-hidden islamic-pattern">
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />
-      <div className="container relative z-10 px-4 mx-auto">
-        <div className="grid gap-12 sm:grid-cols-2 lg:max-w-3xl mx-auto">
-          <div className="text-center group">
-            <div className="relative flex items-center justify-center w-36 h-36 mx-auto mb-6">
-              <div className="absolute inset-0 bg-white/15 blur-[50px] rounded-full scale-150" />
-              <div className="relative z-10 w-28 h-28 animate-gentle-float">
-                <Star className="w-full h-full text-(--color-sun-500) fill-(--color-sun-500) drop-shadow-[0_15px_30px_rgba(0,0,0,0.3)]" />
-              </div>
-            </div>
-            <h3 className="mb-2 text-2xl sm:text-3xl font-black text-white font-outfit tracking-tight">Sekolah Penggerak</h3>
-            <p className="text-white/70 text-sm font-medium tracking-wide font-quicksand">Program Unggulan Kemendikbudristek</p>
-          </div>
-          <div className="text-center group">
-            <div className="relative flex items-center justify-center w-36 h-36 mx-auto mb-6">
-              <div className="absolute inset-0 bg-white/15 blur-[50px] rounded-full scale-150" />
-              <div className="relative z-10 w-28 h-28 animate-gentle-float animation-delay-2000">
-                <Award className="w-full h-full text-white drop-shadow-[0_15px_30px_rgba(0,0,0,0.3)]" />
-              </div>
-            </div>
-            <h3 className="mb-2 text-2xl sm:text-3xl font-black text-white font-outfit tracking-tight">Akreditasi A</h3>
-            <p className="text-white/70 text-sm font-medium tracking-wide font-quicksand">Predikat Unggul (BAN-S/M)</p>
-          </div>
+    <section className="gsap-accreditation py-20 sm:py-24 bg-(--color-cloud-100) dark:bg-(--color-forest-900)">
+      <div className="container mx-auto grid gap-10 px-4 sm:grid-cols-2 sm:gap-16">
+        <div className="accreditation-card max-w-md">
+          <p className="font-outfit text-5xl font-extrabold tabular-nums text-(--color-forest-700) dark:text-(--color-sun-400)">
+            A
+          </p>
+          <h3 className="mt-3 font-outfit text-2xl font-bold text-(--color-forest-900) dark:text-white">
+            Akreditasi unggul
+          </h3>
+          <p className="mt-2 max-w-[42ch] text-pretty text-sm leading-relaxed text-(--color-ink-700) dark:text-(--color-cloud-200) font-quicksand">
+            Predikat A dari BAN-S/M. Standar mutu yang orang tua bisa cek, bukan slogan.
+          </p>
+        </div>
+        <div className="accreditation-card max-w-md sm:pt-10">
+          <p className="font-outfit text-5xl font-extrabold text-(--color-forest-700) dark:text-(--color-sun-400)">
+            Penggerak
+          </p>
+          <h3 className="mt-3 font-outfit text-2xl font-bold text-(--color-forest-900) dark:text-white">
+            Sekolah Penggerak
+          </h3>
+          <p className="mt-2 max-w-[42ch] text-pretty text-sm leading-relaxed text-(--color-ink-700) dark:text-(--color-cloud-200) font-quicksand">
+            Program Kemendikbudristek untuk pembelajaran yang berpihak pada murid.
+          </p>
         </div>
       </div>
     </section>

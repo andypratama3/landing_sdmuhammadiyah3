@@ -1,64 +1,68 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
-import { ChevronRight, Play } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { ArrowUpRight, Play } from "lucide-react"
+import { HeroCampusVideo } from "@/components/landing/HeroCampusVideo"
+
+const PPDB_URL = "https://ppdb.sdmuh3smd.com"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[100dvh] flex items-center bg-gradient-to-br from-(--color-forest-900) via-(--color-forest-700) to-(--color-forest-800) overflow-hidden islamic-pattern blob-bg">
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />
-
-      <div className="container relative z-10 px-4 mx-auto pt-24 lg:pt-28">
-        <div className="max-w-3xl mx-auto flex flex-col items-center text-center">
-          <div className="mb-8 inline-block relative text-center">
-            <div className="absolute inset-0 bg-white/40 blur-[80px] rounded-full scale-150" />
-            <div className="relative w-24 h-24 sm:w-32 sm:h-32">
-              <Image
-                src="/SD3_logo1.png"
-                alt="Logo SD Muhammadiyah 3 Samarinda"
-                width={130}
-                height={130}
-                priority
-                className="object-contain w-full h-full drop-shadow-[0_25px_50px_rgba(0,0,0,0.4)]"
-              />
-            </div>
+    <section className="gsap-hero relative min-h-[100dvh] overflow-hidden bg-(--color-paper-50) dark:bg-(--color-forest-950)">
+      <div className="absolute inset-0 z-0">
+        <HeroCampusVideo
+          src="/video/SEKOTIF_BND.mp4"
+          poster="/foto_sekolah.jpeg"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-(--color-paper-50)/95 via-(--color-paper-50)/80 to-transparent dark:from-black/95 dark:via-black/85" />
+      </div>
+      <div className="container relative z-10 mx-auto grid min-h-[100dvh] items-center gap-10 px-4 py-24 lg:grid-cols-1 lg:gap-16 lg:py-28">
+        <div className="max-w-2xl">
+          <div className="hero-logo hero-logo mb-8 size-16 sm:size-[4.5rem]">
+            <Image
+              src="/SD3_logo1.png"
+              alt="Logo SD Muhammadiyah 3 Samarinda"
+              width={72}
+              height={72}
+              priority
+              className="size-full object-contain"
+            />
           </div>
 
-          <Badge className="px-5 py-2 mb-6 text-white bg-white/15 border-white/25 backdrop-blur-md font-black uppercase tracking-[0.18em] text-[10.5px]">
-            Eksplorasi Bakat & Kreativitas
-          </Badge>
-
-          <h1 className="font-black text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] text-balance font-outfit tracking-tighter">
-            SD MUHAMMADIYAH 3 SAMARINDA
-          </h1>
-
-          <p className="max-w-2xl mx-auto mt-6 mb-10 text-base sm:text-lg md:text-xl leading-relaxed text-white/90 text-balance font-quicksand">
-            Sekolah Kreatif yang membentuk karakter Islami, inovatif, dan berprestasi menuju masa depan gemilang.
+          <p className="hero-badge hero-badge mb-4 text-sm font-semibold text-(--color-forest-600) dark:text-white drop-shadow-lg font-quicksand">
+            SD Islam kreatif di Samarinda Seberang
           </p>
 
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
+          <h1 className="hero-title hero-title text-balance font-outfit text-4xl font-extrabold leading-[1.08] tracking-tight text-(--color-forest-900) dark:text-white drop-shadow-lg sm:text-5xl lg:text-6xl">
+            Mendidik dengan hati, sejak kelas satu.
+          </h1>
+
+          <p className="hero-description hero-description mt-5 max-w-[38ch] text-pretty text-base leading-relaxed text-(--color-ink-800) dark:text-white drop-shadow-md sm:text-lg font-quicksand">
+            Akreditasi A, tahfidz, dan tiga ijazah. Rumah belajar yang menanam akhlak Islami tanpa menekan rasa ingin tahu anak.
+          </p>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Button
               asChild
               size="lg"
-              className="w-full sm:w-auto bg-(--color-sun-500) hover:bg-(--color-sun-400) text-gray-900 rounded-2xl px-10 py-7 text-lg shadow-[0_20px_50px_rgba(232,163,61,0.3)] hover:scale-[1.03] transition-all font-black group"
+              className="hero-button hero-button h-12 rounded-full bg-(--color-sun-500) px-7 text-base font-bold text-(--color-ink-950) shadow-[0_16px_40px_-18px_rgba(232,163,61,0.7)] hover:bg-(--color-sun-400) dark:text-white dark:shadow-[0_16px_40px_-18px_rgba(232,163,61,0.5)]"
             >
-              <Link href="https://ppdb.sdmuh3smd.com" className="flex items-center justify-center gap-3">
-                DAFTAR SEKARANG
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <Link href={PPDB_URL} className="inline-flex items-center gap-2">
+                Daftar SPMB
+                <span className="flex size-8 items-center justify-center rounded-full bg-(--color-ink-950)/10 dark:bg-white/20">
+                  <ArrowUpRight className="size-4" aria-hidden />
+                </span>
               </Link>
             </Button>
             <Button
               asChild
               size="lg"
-              variant="outline-on-dark"
-              className="w-full sm:w-auto px-10 py-7 text-lg font-black border-2 rounded-2xl backdrop-blur-md transition-all uppercase tracking-widest"
+              variant="outline-brand"
+              className="hero-button hero-button h-12 rounded-full px-7 text-base font-semibold text-(--color-forest-900) dark:text-white dark:border-white/30 dark:hover:bg-white/10"
             >
-              <Link href="/profil#video" className="flex items-center gap-3">
-                <div className="flex items-center justify-center w-9 h-9 bg-white rounded-full shadow-lg">
-                  <Play className="w-4 h-4 text-(--color-forest-700) fill-(--color-forest-700)" />
-                </div>
-                VIDEO PROFIL
+              <Link href="/profil#video" className="inline-flex items-center gap-2">
+                <Play className="size-4 fill-current" aria-hidden />
+                Lihat profil
               </Link>
             </Button>
           </div>

@@ -1,26 +1,19 @@
 export function VideoSection() {
   return (
-    <section className="py-24 bg-(--color-paper-50) dark:bg-gray-900 overflow-hidden relative">
-      <div className="container relative z-10 px-4 mx-auto">
-        <div className="max-w-3xl mx-auto mb-14 text-center">
-          <h2 className="text-fluid-h2 font-black leading-tight text-gray-900 dark:text-white text-balance font-outfit tracking-tighter">
-            Pendidikan Modern Berbasis Teknologi & Karakter
-          </h2>
-        </div>
-        <div className="max-w-4xl mx-auto">
-          <div className="relative overflow-hidden bg-gray-900 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.4)] rounded-[2.5rem] aspect-video">
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/lb14Dy0uwI4?si=a0KsgpTUgzBOxyD_"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              className="w-full h-full"
-            />
-          </div>
+    <section className="gsap-video py-24 bg-(--color-paper-50) dark:bg-(--color-forest-950)">
+      <div className="container mx-auto px-4">
+        <h2 className="max-w-xl text-balance font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) sm:text-4xl dark:text-white">
+          Sekolah yang bisa dilihat, bukan hanya dijanjikan
+        </h2>
+        <div className="video-container relative mx-auto mt-10 aspect-video max-w-4xl overflow-hidden rounded-[1.75rem] bg-(--color-forest-900)">
+          <iframe
+            src="https://www.youtube.com/embed/lb14Dy0uwI4"
+            title="Profil SD Muhammadiyah 3 Samarinda"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            className="size-full"
+          />
         </div>
       </div>
     </section>

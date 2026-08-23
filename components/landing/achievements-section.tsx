@@ -1,16 +1,14 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card } from "@/components/ui/card"
 import Image from "next/image"
-import { Trophy } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { resolveImageUrl } from "@/lib/image-url"
 import type { PrestasiSiswa } from "@/types/prestasi.types"
 
 function truncateWords(text: string, limit: number) {
   if (!text) return ""
   const words = text.split(" ")
   if (words.length <= limit) return text
-  return words.slice(0, limit).join(" ") + "..."
+  return `${words.slice(0, limit).join(" ")}...`
 }
 
 interface AchievementsSectionProps {
@@ -18,67 +16,58 @@ interface AchievementsSectionProps {
 }
 
 export function AchievementsSection({ achievements }: AchievementsSectionProps) {
+  if (!achievements?.length) return null
+
   return (
-    <section className="relative py-24 overflow-hidden bg-(--color-paper-50) dark:bg-gray-900">
-      <div className="container relative z-10 px-4 mx-auto">
-        <div className="mb-16 text-center">
-          <Badge className="mb-5 bg-(--color-sun-500) text-gray-900 px-5 py-2 text-sm font-bold rounded-full">
-            SANG JUARA
-          </Badge>
-          <h2 className="mb-4 text-fluid-h2 font-black text-gray-900 dark:text-white leading-tight font-outfit">
-            Prestasi Terbaru
+    <section className="gsap-achievements py-24 bg-(--color-paper-50) dark:bg-(--color-forest-950)">
+      <div className="container mx-auto px-4">
+        <div className="max-w-xl">
+          <h2 className="text-balance font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) sm:text-4xl dark:text-white">
+            Prestasi terbaru
           </h2>
-          <p className="text-base text-gray-600 dark:text-gray-400 font-medium font-quicksand">
-            Perwujudan dedikasi dan kerja keras seluruh civitas akademika
+          <p className="mt-3 max-w-[48ch] text-pretty text-base text-(--color-ink-700) dark:text-(--color-cloud-200) font-quicksand">
+            Jejak lomba yang baru diraih siswa. Nama dan juara dari data sekolah.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {achievements?.map((achievement, index) => (
-            <Card
-              key={index}
-              className="card-premium h-[340px] sm:h-[380px] lg:h-[420px] group"
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {achievements.map((achievement) => (
+            <article
+              key={achievement.slug}
+              className="achievement-card group relative h-80 overflow-hidden rounded-[1.5rem]"
             >
-              <div className="relative h-full w-full overflow-hidden">
-                <Image
-                  src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${achievement.foto}`}
-                  alt={achievement.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
-                <div className="absolute bottom-0 left-0 right-0 p-8 transform group-hover:-translate-y-2 transition-transform duration-500">
-                  <div className="w-11 h-11 bg-(--color-sun-500) rounded-[1rem] flex items-center justify-center mb-4 rotate-6 group-hover:rotate-0 transition-transform duration-500">
-                    <Trophy className="w-6 h-6 text-gray-900" />
-                  </div>
-                  <Badge className="bg-(--color-sun-500)/15 backdrop-blur-md text-(--color-sun-500) border-(--color-sun-500)/20 font-black uppercase tracking-[0.18em] text-[9px] mb-3 px-3 py-1">
-                    {achievement.juara}
-                  </Badge>
-                  <h3 className="text-lg font-black text-white leading-tight line-clamp-2 uppercase tracking-tight group-hover:text-(--color-sun-500) transition-colors font-outfit">
-                    {truncateWords(achievement.name, 8)}
-                  </h3>
-                </div>
+              <Image
+                src={resolveImageUrl(achievement.foto, "img/prestasi")}
+                alt={achievement.name}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                quality={75}
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-5">
+                <p className="text-sm font-semibold text-(--color-sun-400)">{achievement.juara}</p>
+                <h3 className="mt-1 font-outfit text-lg font-bold leading-snug text-white">
+                  {truncateWords(achievement.name, 10)}
+                </h3>
               </div>
-            </Card>
+            </article>
           ))}
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-5">
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Button
             asChild
             variant="outline-brand"
-            className="rounded-full px-10 py-7 text-base font-bold shadow-md"
-            size="lg"
+            className="h-12 rounded-full px-7 font-semibold text-(--color-forest-900) dark:text-white dark:border-white/30 dark:hover:bg-white/10"
           >
-            <Link href="/prestasi-sekolah">Prestasi Sekolah</Link>
+            <Link href="/prestasi-sekolah">Prestasi sekolah</Link>
           </Button>
           <Button
             asChild
-            className="bg-(--color-forest-700) hover:bg-(--color-forest-500) text-white rounded-full px-10 py-7 text-base font-bold shadow-lg hover:scale-[1.03] transition-all"
-            size="lg"
+            className="h-12 rounded-full bg-(--color-forest-700) px-7 font-semibold text-white hover:bg-(--color-forest-600) dark:bg-(--color-sun-500) dark:text-(--color-ink-950) dark:hover:bg-(--color-sun-400)"
           >
-            <Link href="/prestasi-siswa">Prestasi Siswa</Link>
+            <Link href="/prestasi-siswa">Prestasi siswa</Link>
           </Button>
         </div>
       </div>

@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import Image from 'next/image';
 import { GalleryCardSkeleton } from '../gallery/skeletons/GalleryCardSkeleton';
@@ -27,9 +25,9 @@ export const FotoSekolahCard: React.FC<FotoSekolahCardProps> = ({
         galleryData.map((gallery) => (
           <div
             key={`gallery-${gallery.id}`}
-            className="relative overflow-hidden transition-all duration-500 shadow-xl cursor-pointer group rounded-[1.25rem] hover:shadow-2xl hover:-translate-y-2 dark:bg-gray-900/40 border border-white/10 glass"
+            className="relative overflow-hidden transition-all duration-500 shadow-xl cursor-pointer group rounded-[1rem] sm:rounded-[1.25rem] hover:shadow-2xl hover:-translate-y-2 dark:bg-gray-900/40 border border-white/10 glass"
           >
-            <div className="relative overflow-hidden aspect-square">
+            <div className="relative overflow-hidden aspect-[4/3] sm:aspect-square">
               <Image
                 src={gallery.foto
                   ? (gallery.foto.startsWith("http")
@@ -46,13 +44,13 @@ export const FotoSekolahCard: React.FC<FotoSekolahCardProps> = ({
             </div>
 
             {/* Overlay dengan Caption Premium */}
-            <div className="absolute inset-0 flex items-end transition-all duration-500 opacity-0 bg-linear-to-t from-black/80 via-black/20 to-transparent group-hover:opacity-100 p-8 translate-y-4 group-hover:translate-y-0">
-              <div className="space-y-2">
-                <div className="w-12 h-1 bg-[#33b962] rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 origin-left" />
-                <p className="font-black text-white text-lg uppercase tracking-tight leading-tight">
+            <div className="absolute inset-0 flex items-end transition-all duration-500 opacity-0 bg-linear-to-t from-black/80 via-black/20 to-transparent group-hover:opacity-100 p-4 sm:p-6 md:p-8 translate-y-4 group-hover:translate-y-0">
+              <div className="space-y-1.5 sm:space-y-2">
+                <div className="w-8 h-1 sm:w-12 sm:h-1 bg-[#33b962] rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 origin-left" />
+                <p className="font-black text-white text-sm sm:text-base md:text-lg uppercase tracking-tight leading-tight">
                   {gallery.name}
                 </p>
-                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-400">
+                <div className="flex items-center gap-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-emerald-400">
                   <span>SDMUH3 MOMEN</span>
                 </div>
               </div>
@@ -61,8 +59,8 @@ export const FotoSekolahCard: React.FC<FotoSekolahCardProps> = ({
         ))
       ) : (
         // Empty State
-        <div className="py-12 text-center text-gray-500 dark:text-gray-400 col-span-full">
-          <p className="text-lg">Tidak ada galeri tersedia</p>
+        <div className="py-8 sm:py-12 text-center text-gray-500 dark:text-gray-400 col-span-full">
+          <p className="text-base sm:text-lg">Tidak ada galeri tersedia</p>
         </div>
       )}
     </>

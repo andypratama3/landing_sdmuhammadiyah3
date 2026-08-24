@@ -36,9 +36,9 @@ export default function PrestasiSekolahDetailPage() {
   const slug = (params?.slug as string) || ''
 
   // Fetch prestasi detail
-  const { 
+  const {
     data: prestasiResponse,
-    loading: prestasiLoading, 
+    loading: prestasiLoading,
     error: prestasiError,
     refetch: refetchPrestasi
   } = useApi<{ data: PrestasiSekolah }>(`/prestasi/sekolah/${slug}`, {
@@ -63,9 +63,9 @@ export default function PrestasiSekolahDetailPage() {
   }, [prestasi])
 
   // Fetch related prestasi
-  const { 
+  const {
     data: relatedResponse,
-    loading: relatedLoading 
+    loading: relatedLoading
   } = useApi<PrestasiSekolah[]>(
     `/prestasi/sekolah?${relatedQueryString}`,
     {
@@ -78,14 +78,14 @@ export default function PrestasiSekolahDetailPage() {
   // Filter related prestasi (exclude current)
   const relatedPrestasi = useMemo(() => {
     if (!relatedResponse || !prestasi) return []
-    
+
     let dataArray: PrestasiSekolah[] = []
     if (Array.isArray(relatedResponse)) {
       dataArray = relatedResponse
     } else if ((relatedResponse as any).data && Array.isArray((relatedResponse as any).data)) {
       dataArray = (relatedResponse as any).data
     }
-    
+
     const filtered = dataArray.filter((item) => item.id !== prestasi.id)
     return filtered.slice(0, 3)
   }, [relatedResponse, prestasi])
@@ -114,10 +114,10 @@ export default function PrestasiSekolahDetailPage() {
   }
 
   // Meta info
-  const pageTitle = prestasi 
+  const pageTitle = prestasi
     ? `${prestasi.name} - Prestasi Sekolah - SD Muhammadiyah 3 Samarinda`
     : "Prestasi Sekolah - SD Muhammadiyah 3 Samarinda"
-  
+
   const pageDescription = useMemo(() => {
     if (!prestasi?.description) return prestasi?.name || ""
     try {
@@ -146,7 +146,7 @@ export default function PrestasiSekolahDetailPage() {
           title: prestasi?.name || '',
           text: pageDescription,
           url: window.location.href,
-        }).catch(() => {})
+        }).catch(() => { })
       } else {
         navigator.clipboard.writeText(window.location.href)
           .then(() => alert('Link berhasil disalin!'))
@@ -202,26 +202,26 @@ export default function PrestasiSekolahDetailPage() {
   if (prestasiError || !prestasi) {
     return (
       <div className="min-h-screen bg-background">
-        
+
         <section className="py-12">
-           <PageHeader
-              title={prestasi?.name || "Prestasi Sekolah"}
-              description="Prestasi Sekolah - SD Muhammadiyah 3 Samarinda"
-              breadcrumbs={[{ label: "Beranda", href: "/" }, { label: "Prestasi", href: "/prestasi-sekolah" }, { label: prestasi?.name} ]}
-            />
-    
+          <PageHeader
+            title={prestasi?.name || "Prestasi Sekolah"}
+            description="Prestasi Sekolah - SD Muhammadiyah 3 Samarinda"
+            breadcrumbs={[{ label: "Beranda", href: "/" }, { label: "Prestasi", href: "/prestasi-sekolah" }, { label: prestasi?.name }]}
+          />
+
           <div className="container px-4 mx-auto">
             <Alert variant="destructive" className="max-w-2xl mx-auto">
               <AlertCircle className="w-4 h-4" />
               <AlertDescription className="flex items-center justify-between">
                 <span>
-                  {prestasiError 
-                    ? "Terjadi kesalahan saat memuat prestasi." 
+                  {prestasiError
+                    ? "Terjadi kesalahan saat memuat prestasi."
                     : "Prestasi tidak ditemukan."}
                 </span>
                 {prestasiError && (
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     onClick={() => refetchPrestasi()}
                     className="ml-4"
@@ -238,21 +238,21 @@ export default function PrestasiSekolahDetailPage() {
     )
   }
 
-  const IconComponent = prestasi.kategori && prestasi.kategori.length > 0 
+  const IconComponent = prestasi.kategori && prestasi.kategori.length > 0
     ? getCategoryIcon(prestasi.kategori[0].name)
     : Award
 
   return (
     <div className="min-h-screen bg-background">
-    
+
       {/* Main Content */}
       <section className="py-12">
-         <PageHeader
-              title={prestasi?.name || "Prestasi Sekolah"}
-              description="Galeri SD Muhammadiyah 3 Samarinda"
-              breadcrumbs={[{ label: "Beranda", href: "/" }, { label: "Galeri", href: "/galeri" }, { label: prestasi?.name }]}
-            />
-    
+        <PageHeader
+          title={prestasi?.name || "Prestasi Sekolah"}
+          description="Galeri SD Muhammadiyah 3 Samarinda"
+          breadcrumbs={[{ label: "Beranda", href: "/" }, { label: "Galeri", href: "/galeri" }, { label: prestasi?.name }]}
+        />
+
         <div className="container px-4 mx-auto">
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Article Content */}
@@ -267,9 +267,9 @@ export default function PrestasiSekolahDetailPage() {
                       </Badge>
                     ))}
                   </div>
-                  
+
                   {/* <h1 className="mb-4 text-4xl font-bold">{prestasi.name}</h1> */}
-                  
+
                   <div className="flex flex-wrap items-center gap-4 mb-6 text-sm text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
@@ -286,11 +286,11 @@ export default function PrestasiSekolahDetailPage() {
 
                 {/* Featured Image */}
                 {prestasi.foto && (
-                  <div className="relative w-full mb-8 overflow-hidden rounded-lg h-96">
+                  <div className="relative w-full mb-8 overflow-hidden rounded-lg aspect-video">
                     <Image
                       src={prestasi.foto || "/placeholder.svg"}
                       alt={prestasi.name}
-                      fill                      
+                      fill
                       sizes="(max-width: 1024px) 100vw, 800px"
                       className="object-cover"
                       priority
@@ -302,24 +302,24 @@ export default function PrestasiSekolahDetailPage() {
                 )}
 
                 {/* Achievement Info Card */}
-                <Card className="mb-8">
+                <Card className="mb-8 w-full max-w-3xl mx-auto">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-2 mb-4">
                       <Award className="w-6 h-6 text-(--color-forest-700)" />
                       <h2 className="text-2xl font-bold">Informasi Prestasi</h2>
                     </div>
-                    
+
                     <div className="grid gap-4 md:grid-cols-2">
                       <div>
                         <p className="text-sm font-medium text-muted-foreground">Nama Prestasi</p>
                         <p className="text-base font-semibold">{prestasi.name}</p>
                       </div>
-                      
+
                       <div>
                         <p className="text-sm font-medium text-muted-foreground">Tanggal Prestasi</p>
                         <p className="text-base font-semibold">{formatDate(prestasi.tanggal)}</p>
                       </div>
-                      
+
                       {prestasi.kategori && prestasi.kategori.length > 0 && (
                         <div className="md:col-span-2">
                           <p className="text-sm font-medium text-muted-foreground">Kategori</p>
@@ -336,13 +336,13 @@ export default function PrestasiSekolahDetailPage() {
 
                 {/* Description */}
                 {prestasi.description && (
-                  <Card className="mb-8">
+                  <Card className="mb-8 w-full">
                     <CardContent className="p-6">
                       <div className="flex items-center gap-2 mb-4">
                         <Star className="w-5 h-5 text-(--color-forest-700)" />
                         <h3 className="text-xl font-semibold">Deskripsi</h3>
                       </div>
-                      <div 
+                      <div
                         className="prose prose-lg max-w-none [&_img]:max-w-full [&_img]:h-auto [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto [&_iframe]:max-w-full"
                         dangerouslySetInnerHTML={{ __html: cleanRichText(prestasi.description) }}
                       />
@@ -356,32 +356,32 @@ export default function PrestasiSekolahDetailPage() {
                 <div className="flex items-center gap-4">
                   <span className="text-sm font-medium">Bagikan:</span>
                   <div className="flex gap-2">
-                    <Button 
-                      size="icon" 
+                    <Button
+                      size="icon"
                       variant="outline"
                       className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all"
                       onClick={() => handleShare('facebook')}
                     >
                       <Facebook className="w-4 h-4" />
                     </Button>
-                    <Button 
-                      size="icon" 
+                    <Button
+                      size="icon"
                       variant="outline"
                       className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-all"
                       onClick={() => handleShare('twitter')}
                     >
                       <Twitter className="w-4 h-4" />
                     </Button>
-                    <Button 
-                      size="icon" 
+                    <Button
+                      size="icon"
                       variant="outline"
                       className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all"
                       onClick={() => handleShare('linkedin')}
                     >
                       <Linkedin className="w-4 h-4" />
                     </Button>
-                    <Button 
-                      size="icon" 
+                    <Button
+                      size="icon"
                       variant="outline"
                       className="rounded-xl border-gray-200 dark:border-gray-800 hover:bg-(--color-forest-700) hover:text-white hover:border-(--color-forest-700) transition-all"
                       onClick={() => handleShare('native')}
@@ -452,7 +452,7 @@ export default function PrestasiSekolahDetailPage() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {relatedPrestasi.map((item) => {
-                      const RelatedIcon = item.kategori && item.kategori.length > 0 
+                      const RelatedIcon = item.kategori && item.kategori.length > 0
                         ? getCategoryIcon(item.kategori[0].name)
                         : Award
 

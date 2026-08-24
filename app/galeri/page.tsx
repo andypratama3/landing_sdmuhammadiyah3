@@ -128,31 +128,31 @@ export default function GaleriPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
 
             {/* Main Typographic Card (Spans 8 cols) */}
-            <div className="lg:col-span-8 bg-(--color-forest-450) dark:bg-(--color-forest-900) rounded-[1.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[400px] shadow-xl">
+            <div className="lg:col-span-8 bg-(--color-forest-450) dark:bg-(--color-forest-900) rounded-[1.5rem] sm:rounded-[1.5rem] p-6 sm:p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[350px] md:min-h-[400px] shadow-xl">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
-              <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-24 -right-24 w-64 h-64 sm:w-96 sm:h-96 bg-white/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative z-10">
-                <Badge className="page-hero-badge bg-white text-(--color-forest-600) hover:bg-white border-0 px-4 py-1.5 mb-8 text-xs sm:text-sm font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
+                <Badge className="page-hero-badge bg-white text-(--color-forest-600) hover:bg-white border-0 px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 text-[10px] sm:text-xs font-black uppercase tracking-widest shadow-md inline-flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-(--color-sun-500) animate-pulse"></span>
                   Visual Archive
                 </Badge>
-                <h1 className="page-hero-title text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-sm uppercase">
+                <h1 className="page-hero-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-4 sm:mb-6 tracking-tight drop-shadow-sm uppercase">
                   Galeri <br /> <span className="text-(--color-sun-200)">Kebersamaan</span>
                 </h1>
-                <p className="page-hero-description text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
+                <p className="page-hero-description text-white/95 text-base sm:text-lg md:text-xl font-medium max-w-2xl mb-6 sm:mb-8 md:mb-10 leading-relaxed drop-shadow-sm">
                   Menyimpan setiap momen berharga dalam perjalanan pendidikan kami. Dari kegiatan akademik hingga keceriaan ekstrakurikuler.
                 </p>
 
                 <div className="relative w-full max-w-xl">
-                  <div className="flex items-center bg-white/95 dark:bg-gray-900 border border-white/20 shadow-2xl rounded-2xl p-2 focus-within:ring-4 focus-within:ring-white/30 transition-all">
-                    <div className="pl-4 pr-3 text-gray-400 dark:text-gray-500">
-                      <Search className="w-6 h-6" />
+                  <div className="flex items-center bg-white/95 dark:bg-gray-900 border border-white/20 shadow-2xl rounded-xl sm:rounded-2xl p-2 focus-within:ring-4 focus-within:ring-white/30 transition-all">
+                    <div className="pl-3 sm:pl-4 pr-2 sm:pr-3 text-gray-400 dark:text-gray-500">
+                      <Search className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
                     <Input
                       type="text"
                       placeholder="Telusuri momen atau kegiatan..."
-                      className="flex-1 bg-transparent border-none shadow-none text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus-visible:ring-0 px-2 h-14 outline-none"
+                      className="flex-1 bg-transparent border-none shadow-none text-base sm:text-lg font-bold text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus-visible:ring-0 px-2 h-12 sm:h-14 outline-none"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -160,9 +160,9 @@ export default function GaleriPage() {
                       <button
                         onClick={() => setSearchTerm("")}
                         aria-label="Hapus pencarian"
-                        className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-gray-600 transition-colors"
+                        className="min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-gray-600 transition-colors"
                       >
-                        <X className="w-5 h-5" />
+                        <X className="w-4 h-4 sm:w-5 sm:h-5" />
                       </button>
                     )}
                   </div>
@@ -171,21 +171,21 @@ export default function GaleriPage() {
             </div>
 
             {/* Side Highlights (Spans 4 cols) */}
-            <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="page-card page-tilt-card bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[1.5rem] p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-(--color-forest-450)">
-                 <div className="w-14 h-14 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 rounded-2xl flex items-center justify-center mb-6 text-(--color-forest-450) group-hover:scale-110 transition-transform">
-                    <Camera className="w-8 h-8" />
+            <div className="lg:col-span-4 flex flex-col gap-4 sm:gap-6">
+              <div className="page-card page-tilt-card bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[1.25rem] sm:rounded-[1.5rem] p-6 sm:p-8 shadow-sm flex flex-col justify-center flex-1 transition-colors relative overflow-hidden group hover:border-(--color-forest-450)">
+                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 text-(--color-forest-450) group-hover:scale-110 transition-transform">
+                    <Camera className="w-6 h-6 sm:w-8 sm:h-8" />
                   </div>
-                <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Arsip Foto</h3>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Ribuan Momen Tertangkap Kamera</p>
+                <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">Arsip Foto</h3>
+                <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Ribuan Momen Tertangkap Kamera</p>
               </div>
 
-              <div className="page-card bg-(--color-sun-500) dark:bg-(--color-sun-400) rounded-[1.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
-                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
-                    <Video className="w-8 h-8" />
+              <div className="page-card bg-(--color-sun-500) dark:bg-(--color-sun-400) rounded-[1.25rem] sm:rounded-[1.5rem] p-6 sm:p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
+                    <Video className="w-6 h-6 sm:w-8 sm:h-8" />
                   </div>
-                <h3 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight">Digital Content</h3>
-                <p className="text-sm font-medium text-gray-800 mt-2">Dokumentasi Video & Podcast</p>
+                <h3 className="text-xl sm:text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight">Digital Content</h3>
+                <p className="text-xs sm:text-sm font-medium text-gray-800 mt-2">Dokumentasi Video & Podcast</p>
               </div>
             </div>
 
@@ -219,38 +219,38 @@ export default function GaleriPage() {
         <div className="container px-4 mx-auto">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col items-center justify-between gap-8 mb-12 md:flex-row">
-              <div className="flex bg-(--color-cloud-100) dark:bg-gray-900/50 p-2 rounded-[1.25rem] gap-1 backdrop-blur-xl border border-gray-200 dark:border-white/5">
+              <div className="flex bg-(--color-cloud-100) dark:bg-gray-900/50 p-1.5 sm:p-2 rounded-[1rem] sm:rounded-[1.25rem] gap-1 backdrop-blur-xl border border-gray-200 dark:border-white/5">
                 <Button
                   variant={viewMode === "grid" ? "default" : "ghost"}
-                  className={`rounded-xl px-5 py-2 h-11 transition-all duration-500 ${viewMode === "grid"
+                  className={`rounded-lg sm:rounded-xl px-3 sm:px-5 py-1.5 sm:py-2 h-9 sm:h-11 transition-all duration-500 ${viewMode === "grid"
                     ? "bg-white dark:bg-gray-800 shadow-xl text-(--color-forest-450) scale-105"
                     : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
                     }`}
                   onClick={() => setViewMode("grid")}
                   size="sm"
                 >
-                  <Grid className="w-5 h-5 mr-2" />
-                  <span className="font-black text-[10px] uppercase tracking-widest">Grid</span>
+                  <Grid className="w-4 h-4 sm:w-5 sm:h-5 mr-1.5 sm:mr-2" />
+                  <span className="font-black text-[9px] sm:text-[10px] uppercase tracking-widest">Grid</span>
                 </Button>
                 <Button
                   variant={viewMode === "list" ? "default" : "ghost"}
-                  className={`rounded-xl px-5 py-2 h-11 transition-all duration-500 ${viewMode === "list"
+                  className={`rounded-lg sm:rounded-xl px-3 sm:px-5 py-1.5 sm:py-2 h-9 sm:h-11 transition-all duration-500 ${viewMode === "list"
                     ? "bg-white dark:bg-gray-800 shadow-xl text-(--color-forest-450) scale-105"
                     : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
                     }`}
                   onClick={() => setViewMode("list")}
                   size="sm"
                 >
-                  <List className="w-5 h-5 mr-2" />
-                  <span className="font-black text-[10px] uppercase tracking-widest">List</span>
+                  <List className="w-4 h-4 sm:w-5 sm:h-5 mr-1.5 sm:mr-2" />
+                  <span className="font-black text-[9px] sm:text-[10px] uppercase tracking-widest">List</span>
                 </Button>
               </div>
 
-              <div className="flex items-center gap-4 px-8 py-3 bg-(--color-forest-450)/5 dark:bg-(--color-forest-450)/10 rounded-full border border-(--color-forest-450)/10 backdrop-blur-md">
-                <div className="w-2 h-2 rounded-full bg-(--color-forest-450) animate-pulse" />
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-(--color-forest-450) whitespace-nowrap">
+              <div className="flex items-center gap-3 sm:gap-4 px-6 sm:px-8 py-2.5 sm:py-3 bg-(--color-forest-450)/5 dark:bg-(--color-forest-450)/10 rounded-full border border-(--color-forest-450)/10 backdrop-blur-md">
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-(--color-forest-450) animate-pulse" />
+                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-(--color-forest-450) whitespace-nowrap">
                   {galleriesLoading ? (
-                    <Loader2 className="w-3 h-3 animate-spin" />
+                    <Loader2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 animate-spin" />
                   ) : (
                     `${galleries.length} MOMEN TEREKAM`
                   )}
@@ -270,7 +270,7 @@ export default function GaleriPage() {
                   <Button
                     key={category.value}
                     variant={activeFilter === category.value ? "default" : "outline"}
-                    className={`rounded-full px-8 py-2 h-12 font-black uppercase tracking-widest text-[10px] transition-all duration-500 group ${activeFilter === category.value
+                    className={`rounded-full px-5 sm:px-6 md:px-8 py-1.5 sm:py-2 h-9 sm:h-10 md:h-12 font-black uppercase tracking-widest text-[9px] sm:text-[10px] transition-all duration-500 group ${activeFilter === category.value
                       ? "bg-(--color-forest-450) text-white shadow-2xl shadow-(--color-forest-450)/30 border-0 scale-105"
                       : "bg-white dark:bg-gray-900/40 text-gray-500 dark:text-gray-400 border-2 border-gray-100 dark:border-white/5 hover:border-(--color-forest-450) hover:text-(--color-forest-450) dark:hover:bg-gray-800"
                       }`}
@@ -328,9 +328,9 @@ export default function GaleriPage() {
                     return (
                       <Card
                         key={item.id}
-                        className="py-0 overflow-hidden transition-all duration-500 border-0 shadow-xl break-inside-avoid rounded-[1.25rem] hover:shadow-2xl hover:-translate-y-2 group glass dark:bg-gray-900/40 card-premium"
+                        className="py-0 overflow-hidden transition-all duration-500 border-0 shadow-xl break-inside-avoid rounded-[1rem] sm:rounded-[1.25rem] hover:shadow-2xl hover:-translate-y-2 group glass dark:bg-gray-900/40 card-premium"
                       >
-                        <div className="relative w-full h-[300px] overflow-hidden">
+                        <div className="relative w-full h-[250px] sm:h-[300px] overflow-hidden">
                           <div className="absolute inset-0 bg-gradient-to-br from-(--color-forest-700)/10 to-(--color-sun-500)/10 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                           <Image
                             src={mainImage}
@@ -344,43 +344,43 @@ export default function GaleriPage() {
                             }}
                           />
                           <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20" />
-                          <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-30">
+                          <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-30">
                             <Button
                               asChild
                               size="sm"
-                              className="w-full bg-white text-(--color-forest-700) hover:bg-white/90 rounded-xl font-black uppercase tracking-widest text-[10px] h-10 shadow-2xl"
+                              className="w-full bg-white text-(--color-forest-700) hover:bg-white/90 rounded-lg sm:rounded-xl font-black uppercase tracking-widest text-[9px] sm:text-[10px] h-9 sm:h-10 shadow-2xl"
                             >
                               <Link href={`/galeri/${item.slug}`}>
                                 Lihat Galeri
                               </Link>
                             </Button>
                           </div>
-                          <div className="absolute top-4 right-4 z-20">
-                            <div className="px-3 py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-full shadow-lg">
-                              <div className="flex items-center gap-1.5">
-                                <Camera className="w-3 h-3 text-(--color-forest-700)" />
-                                <span className="text-[9px] font-black uppercase tracking-widest text-(--color-forest-700)">{item.foto?.split(',').length || 1}</span>
+                          <div className="absolute top-3 sm:top-4 right-3 sm:right-4 z-20">
+                            <div className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-full shadow-lg">
+                              <div className="flex items-center gap-1 sm:gap-1.5">
+                                <Camera className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-(--color-forest-700)" />
+                                <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-(--color-forest-700)">{item.foto?.split(',').length || 1}</span>
                               </div>
                             </div>
                           </div>
                         </div>
 
-                        <div className="p-6 bg-white dark:bg-gray-900/60">
-                          <h3 className="mb-3 text-lg font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-(--color-forest-450) transition-colors leading-tight">
+                        <div className="p-4 sm:p-6 bg-white dark:bg-gray-900/60">
+                          <h3 className="mb-2 sm:mb-3 text-sm sm:text-lg font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-(--color-forest-450) transition-colors leading-tight">
                             {item.name}
                           </h3>
-                          <div className="flex items-center gap-3 mb-4 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
-                            <Calendar className="w-3.5 h-3.5 text-(--color-forest-450)" />
+                          <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                            <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-(--color-forest-450)" />
                             {formatDate(item.created_at)}
                           </div>
 
                           {/* Categories badges */}
                           {item.gallery_kategori && item.gallery_kategori.length > 0 && (
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-1.5 sm:gap-2">
                               {item.gallery_kategori.slice(0, 3).map((cat: any) => (
                                 <Badge
                                   key={cat.id}
-                                  className="bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 text-(--color-forest-450) border-(--color-forest-450)/10 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md"
+                                  className="bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 text-(--color-forest-450) border-(--color-forest-450)/10 text-[8px] sm:text-[9px] font-black uppercase tracking-widest px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md"
                                 >
                                   {cat.name}
                                 </Badge>
@@ -401,16 +401,16 @@ export default function GaleriPage() {
                     return (
                       <Card
                         key={item.id}
-                        className="overflow-hidden transition-all duration-500 border-0 shadow-xl rounded-[1.5rem] hover:shadow-2xl hover:-translate-y-2 dark:bg-gray-900/40 card-premium glass"
+                        className="overflow-hidden transition-all duration-500 border-0 shadow-xl rounded-[1.25rem] sm:rounded-[1.5rem] hover:shadow-2xl hover:-translate-y-2 dark:bg-gray-900/40 card-premium glass"
                       >
-                        <div className="flex flex-col gap-8 p-8 md:flex-row items-center">
-                          <div className="flex-shrink-0 w-full h-72 overflow-hidden md:w-80 md:h-80 rounded-[1.25rem] group/img relative shadow-2xl">
+                        <div className="flex flex-col gap-6 sm:gap-8 p-6 sm:p-8 md:flex-row items-center">
+                          <div className="flex-shrink-0 w-full h-56 sm:h-64 md:h-72 overflow-hidden md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-[1rem] sm:rounded-[1.25rem] group/img relative shadow-2xl">
                             <div className="absolute inset-0 bg-gradient-to-br from-(--color-forest-700)/10 to-(--color-sun-500)/10 z-10 pointer-events-none"></div>
                             <Image
                               src={mainImage}
                               alt={item.name}
                               fill
-                              sizes="(max-width: 768px) 100vw, 320px"
+                              sizes="(max-width: 640px) 100vw, (max-width: 768px) 288px, 320px"
                               className="object-cover transition-transform duration-1000 group-hover/img:scale-110"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement
@@ -418,32 +418,32 @@ export default function GaleriPage() {
                               }}
                             />
                             <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity z-20" />
-                            <div className="absolute top-4 right-4 z-30">
-                              <div className="px-3 py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-full shadow-lg">
-                                <div className="flex items-center gap-1.5">
-                                  <Camera className="w-3 h-3 text-(--color-forest-700)" />
-                                  <span className="text-[9px] font-black uppercase tracking-widest text-(--color-forest-700)">{item.foto?.split(',').length || 1}</span>
+                            <div className="absolute top-3 sm:top-4 right-3 sm:right-4 z-30">
+                              <div className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-full shadow-lg">
+                                <div className="flex items-center gap-1 sm:gap-1.5">
+                                  <Camera className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-(--color-forest-700)" />
+                                  <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-(--color-forest-700)">{item.foto?.split(',').length || 1}</span>
                                 </div>
                               </div>
                             </div>
                           </div>
 
                           <div className="flex-1 flex flex-col justify-center text-center md:text-left">
-                            <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight leading-tight group-hover:text-(--color-forest-450) transition-colors">
+                            <h3 className="mb-3 sm:mb-4 text-xl sm:text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight leading-tight group-hover:text-(--color-forest-450) transition-colors">
                               {item.name}
                             </h3>
-                            <div className="flex items-center justify-center md:justify-start gap-3 mb-6 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
-                              <Calendar className="w-4 h-4 text-(--color-forest-450)" />
+                            <div className="flex items-center justify-center md:justify-start gap-2 sm:gap-3 mb-4 sm:mb-6 text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                              <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-(--color-forest-450)" />
                               {formatDate(item.created_at)}
                             </div>
 
                             {/* Categories badges */}
                             {item.gallery_kategori && item.gallery_kategori.length > 0 && (
-                              <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-8">
+                              <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center md:justify-start mb-6 sm:mb-8">
                                 {item.gallery_kategori.map((cat) => (
                                   <Badge
                                     key={cat.id}
-                                    className="bg-(--color-forest-450)/10 text-(--color-forest-450) border-(--color-forest-450)/10 px-4 py-1.5 font-black uppercase tracking-widest text-[9px] rounded-lg"
+                                    className="bg-(--color-forest-450)/10 text-(--color-forest-450) border-(--color-forest-450)/10 px-3 sm:px-4 py-1 sm:py-1.5 font-black uppercase tracking-widest text-[8px] sm:text-[9px] rounded-lg"
                                   >
                                     {cat.name}
                                   </Badge>
@@ -454,7 +454,7 @@ export default function GaleriPage() {
                             <Button
                               asChild
                               size="lg"
-                              className="bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white rounded-2xl px-10 py-7 font-black uppercase tracking-widest text-[11px] shadow-xl hover:scale-105 transition-all w-fit mx-auto md:mx-0"
+                              className="bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white rounded-xl sm:rounded-2xl px-6 sm:px-8 md:px-10 py-5 sm:py-6 md:py-7 font-black uppercase tracking-widest text-[10px] sm:text-[11px] shadow-xl hover:scale-105 transition-all w-fit mx-auto md:mx-0"
                             >
                               <Link href={`/galeri/${item.slug}`}>
                                 LIHAT DETAIL MOMEN

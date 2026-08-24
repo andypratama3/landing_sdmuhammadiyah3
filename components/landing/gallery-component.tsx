@@ -26,7 +26,7 @@ export function GalleryCard({ gallery }: GalleryCardProps) {
   return (
     <Link href={`/galeri/${gallery.slug}`} className="block h-full group">
       <Card className="overflow-hidden transition-all duration-700 bg-white dark:bg-gray-900 border-0 shadow-xl hover:shadow-2xl rounded-[2.5rem] card-premium flex flex-col h-full glass">
-        <div className="relative aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800">
+        <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800 w-full">
           <Image
             src={mainFoto}
             alt={gallery.name}
@@ -47,11 +47,11 @@ export function GalleryCard({ gallery }: GalleryCardProps) {
           </div>
         </div>
 
-        <div className="p-6 flex-1 flex flex-col">
-          <h3 className="text-sm font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-(--color-forest-700) dark:group-hover:text-(--color-sun-400) transition-colors leading-tight mb-2">
+        <div className="p-4 sm:p-6 flex-1 flex flex-col">
+          <h3 className="text-xs sm:text-sm font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-(--color-forest-700) dark:group-hover:text-(--color-sun-400) transition-colors leading-tight mb-2">
             {gallery.name}
           </h3>
-          <div className="mt-auto pt-4 flex items-center text-[10px] font-black uppercase tracking-widest text-(--color-forest-700) dark:text-(--color-sun-400)">
+          <div className="mt-auto pt-3 sm:pt-4 flex items-center text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-(--color-forest-700) dark:text-(--color-sun-400)">
             Momen Kreatif
           </div>
         </div>

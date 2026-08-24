@@ -30,15 +30,15 @@ export function HeroSection() {
           </div>
 
           <p className="hero-badge hero-badge mb-4 text-sm font-semibold text-(--color-forest-600) dark:text-white drop-shadow-lg font-quicksand">
-            SD Islam kreatif di Samarinda Seberang
+            SD Islam terbaik di Samarinda Seberang
           </p>
 
           <h1 className="hero-title hero-title text-balance font-outfit text-4xl font-extrabold leading-[1.08] tracking-tight text-(--color-forest-900) dark:text-white drop-shadow-lg sm:text-5xl lg:text-6xl">
-            Mendidik dengan hati, sejak kelas satu.
+            SD Terbaik di Samarinda untuk Pendidikan Islam Berkualitas
           </h1>
 
           <p className="hero-description hero-description mt-5 max-w-[38ch] text-pretty text-base leading-relaxed text-(--color-ink-800) dark:text-white drop-shadow-md sm:text-lg font-quicksand">
-            Akreditasi A, tahfidz, dan tiga ijazah. Rumah belajar yang menanam akhlak Islami tanpa menekan rasa ingin tahu anak.
+            SD Muhammadiyah 3 Samarinda - sekolah kreatif Islam dengan akreditasi A, program tahfidz, dan prestasi siswa. Mendidik dengan hati di Jl. Dato Iba, Samarinda Seberang.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">

@@ -28,7 +28,7 @@ export default function ProfilPage() {
     { label: "Kota", value: "Samarinda" },
     { label: "Provinsi", value: "Kalimantan Timur" },
     { label: "Kode Pos", value: "75242" },
-    { label: "Telepon", value: "(054) 1260066" },
+    { label: "Telepon", value: "(0541) 260066" },
     { label: "Email", value: "sekolahkreatifmuh3@gmail.com" },
     { label: "Website", value: "www.sdmuhammadiyah3smd.com" },
   ]

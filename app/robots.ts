@@ -15,6 +15,8 @@ export default function robots(): MetadataRoute.Robots {
           '/dashboard/',
           '/private/',
           '/_next/',
+          '/pengisian-formulir/', // Block thin content pages
+          '/whatsapp/',
         ],
       },
       {
@@ -26,6 +28,8 @@ export default function robots(): MetadataRoute.Robots {
           '/dashboard/',
           '/private/',
           '/_next/',
+          '/pengisian-formulir/', // Block thin content pages
+          '/whatsapp/',
         ],
       },
       {
@@ -37,6 +41,8 @@ export default function robots(): MetadataRoute.Robots {
           '/dashboard/',
           '/private/',
           '/_next/',
+          '/pengisian-formulir/', // Block thin content pages
+          '/whatsapp/',
         ],
       },
     ],

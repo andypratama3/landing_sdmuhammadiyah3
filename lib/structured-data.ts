@@ -63,6 +63,7 @@ export function organizationSchema() {
       SCHOOL.social.facebook,
       SCHOOL.social.instagram,
       SCHOOL.social.youtube,
+      SCHOOL.social.tiktok,
     ],
     aggregateRating: {
       '@type': 'AggregateRating',
@@ -71,6 +72,18 @@ export function organizationSchema() {
       bestRating: '5',
       worstRating: '1',
     },
+    additionalProperty: [
+      {
+        '@type': 'PropertyValue',
+        name: 'NPSN',
+        value: SCHOOL.npsn,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Akreditasi',
+        value: SCHOOL.accreditation,
+      },
+    ],
   }
 }
 

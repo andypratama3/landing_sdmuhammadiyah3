@@ -8,6 +8,7 @@ import {
   achievementSchema,
   type BreadcrumbItem,
 } from '@/lib/structured-data'
+import { BASE_URL } from '@/lib/school-info'
 
 type JsonLdData =
   | ReturnType<typeof organizationSchema>
@@ -51,7 +52,7 @@ export function GlobalStructuredData({ nonce }: { nonce?: string }) {
         websiteSchema(),
         faqSchema(),
         spmbEventSchema(),
-        breadcrumbSchema([{ name: 'Beranda', url: 'https://sdmuhammadiyah3smd.com' }]),
+        breadcrumbSchema([{ name: 'Beranda', url: BASE_URL }]),
       ]}
     />
   )

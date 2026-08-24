@@ -247,6 +247,8 @@ export default function KontakClient() {
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen
+                title="Lokasi SD Muhammadiyah 3 Samarinda di Google Maps"
+                aria-label="Peta lokasi SD Muhammadiyah 3 Samarinda"
                 referrerPolicy="no-referrer-when-downgrade"
               />
             </div>

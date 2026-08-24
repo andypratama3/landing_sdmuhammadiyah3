@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    'SD Muhammadiyah 3 Samarinda — SD terbaik di Samarinda Seberang. Sekolah kreatif Islam berakreditasi A, program tahfidz, prestasi siswa juara. Daftar SPMB 2025/2026.',
+    'SD Muhammadiyah 3 Samarinda — SD Islam terbaik di Samarinda Seberang. Sekolah kreatif Islam berakreditasi A, program tahfidz, prestasi siswa juara. SD terbaik di Samarinda untuk pendidikan berkualitas. Daftar SPMB 2025/2026.',
 
   keywords: [...SEO_KEYWORDS],
 

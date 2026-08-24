@@ -21,11 +21,11 @@ import type { PrestasiSiswa } from "@/types/prestasi.types"
 import { pageMetadata } from "@/lib/metadata-helpers"
 
 export const metadata: Metadata = pageMetadata({
-  title: "SD Muhammadiyah 3 Samarinda | Sekolah Kreatif Islam Terbaik di Samarinda",
+  title: "SD Terbaik di Samarinda | SD Muhammadiyah 3 Samarinda - Sekolah Kreatif Islam",
   description:
-    "SD Muhammadiyah 3 Samarinda di Jl. Dato Iba. Sekolah kreatif Islam, akreditasi A, 400+ siswa. Daftar SPMB 2025/2026.",
+    "SD Muhammadiyah 3 Samarinda - SD Islam terbaik di Samarinda Seberang dengan akreditasi A, program tahfidz, dan prestasi siswa. Sekolah kreatif berbasis nilai Islami di Jl. Dato Iba. Daftar SPMB 2025/2026.",
   path: "/",
-  keywords: ["beranda", "sekolah penggerak", "tahfidz samarinda"],
+  keywords: ["sd terbaik di samarinda", "sd islam terbaik di samarinda", "sd samarinda", "sd di samarinda", "sd swasta samarinda", "sekolah penggerak", "tahfidz samarinda"],
 })
 
 interface CountData {

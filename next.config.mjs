@@ -41,6 +41,12 @@ const nextConfig = {
 
   async redirects() {
     return [
+       // Matikan /spmb dan seluruh turunannya
+      {
+        source: '/spmb',
+        destination: '/',
+        permanent: true,
+      },
       {
         source: '/profil-sekolah',
         destination: '/profil',

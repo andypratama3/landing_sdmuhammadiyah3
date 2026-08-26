@@ -79,7 +79,7 @@ export function ProgramsSection() {
           <article className="program-card relative overflow-hidden rounded-[1.75rem] lg:col-span-7 lg:row-span-2 min-h-[22rem]">
             <Image
               src="/foto_sekolah.jpeg"
-              alt="Suasana pembelajaran di kampus sekolah"
+              alt="Suasana pembelajaran di sekolah"
               fill
               sizes="(max-width: 1024px) 100vw, 58vw"
               className="object-cover"

@@ -2,7 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowUpRight, Play } from "lucide-react"
-import { HeroCampusVideo } from "@/components/landing/HeroCampusVideo"
+import { HeroSekolahVideo } from "@/components/landing/HeroSekolahVideo"
 
 const PPDB_URL = "https://ppdb.sdmuh3smd.com"
 
@@ -10,7 +10,7 @@ export function HeroSection() {
   return (
     <section className="gsap-hero relative min-h-[100dvh] overflow-hidden bg-(--color-paper-50) dark:bg-(--color-forest-950)">
       <div className="absolute inset-0 z-0">
-        <HeroCampusVideo
+        <HeroSekolahVideo
           src="/video/SEKOTIF_BND.mp4"
           poster="/foto_sekolah.jpeg"
         />

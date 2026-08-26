@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 
-interface HeroCampusVideoProps {
+interface HeroSekolahVideoProps {
   src: string
   poster: string
 }
 
-export function HeroCampusVideo({ src, poster }: HeroCampusVideoProps) {
+export function HeroSekolahVideo({ src, poster }: HeroSekolahVideoProps) {
   const [reduceMotion, setReduceMotion] = useState(false)
   const [canPlay, setCanPlay] = useState(false)
 
@@ -45,7 +45,7 @@ export function HeroCampusVideo({ src, poster }: HeroCampusVideoProps) {
           preload="metadata"
           poster={poster}
           aria-hidden={canPlay ? undefined : true}
-          aria-label="Video sinematik halaman kampus SD Muhammadiyah 3 Samarinda"
+          aria-label="Video sinematik halaman sekolah SD Muhammadiyah 3 Samarinda"
           onCanPlay={() => setCanPlay(true)}
           onError={() => setCanPlay(false)}
         >

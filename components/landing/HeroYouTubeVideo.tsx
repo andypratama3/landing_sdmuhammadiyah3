@@ -45,7 +45,7 @@ export function HeroYouTubeVideo({ videoId, poster }: HeroYouTubeVideoProps) {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             onLoad={() => setIsLoaded(true)}
-            aria-label="Video sinematik halaman kampus SD Muhammadiyah 3 Samarinda"
+            aria-label="Video sinematik halaman sekolah SD Muhammadiyah 3 Samarinda"
           />
           <div className="absolute inset-0 pointer-events-none" />
           <div className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none bg-gradient-to-t from-(--color-paper-50)/30 to-transparent dark:from-(--color-forest-950)/30" />

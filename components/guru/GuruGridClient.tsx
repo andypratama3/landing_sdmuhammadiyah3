@@ -45,8 +45,8 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
                   />
                   <div className="absolute inset-0 transition-opacity duration-500 opacity-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:opacity-100"></div>
                   
-                  <div className="absolute z-10 top-6 right-6">
-                    <Badge className="bg-[#33b962] backdrop-blur-md text-white border-white/30 shadow-2xl font-black px-4 py-2 text-[10px] uppercase tracking-widest rounded-full">
+                  <div className="absolute z-10 top-6 right-6 left-6">
+                    <Badge className="max-w-full truncate bg-[#33b962] backdrop-blur-md text-white border-white/30 shadow-2xl font-black px-4 py-2 text-[10px] uppercase tracking-widest rounded-full">
                       {guru.pelajarans && guru.pelajarans.length > 0 ? guru.pelajarans[0].name : "Guru"}
                     </Badge>
                   </div>
@@ -60,11 +60,11 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
 
                 <div className="flex flex-col flex-1 p-8">
                   <div className="mb-4">
-                    <h3 className="mb-2 text-2xl font-black leading-tight text-gray-900 dark:text-white group-hover:text-(--color-forest-600) dark:group-hover:text-(--color-forest-400) transition-colors uppercase tracking-tight">{guru.name}</h3>
+                    <h3 className="mb-2 break-words text-2xl font-black leading-tight text-gray-900 dark:text-white group-hover:text-(--color-forest-600) dark:group-hover:text-(--color-forest-400) transition-colors uppercase tracking-tight">{guru.name}</h3>
                     {guru.lulusan && (
                       <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg">
-                        <GraduationCap className="w-3.5 h-3.5 text-[#33b962] brightness-125" />
-                        <p className="text-(--color-forest-600) dark:text-(--color-forest-400) text-[11px] font-black uppercase tracking-wider">{guru.lulusan}</p>
+                        <GraduationCap className="w-3.5 h-3.5 shrink-0 text-[#33b962] brightness-125" />
+                        <p className="max-w-full truncate text-(--color-forest-600) dark:text-(--color-forest-400) text-[11px] font-black uppercase tracking-wider">{guru.lulusan}</p>
                       </div>
                     )}
                   </div>

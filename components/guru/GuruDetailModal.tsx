@@ -41,7 +41,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
       onClick={onClose}
     >
       <div
-        className="modal-scroll mt-35 relative w-full max-w-3xl bg-white dark:bg-gray-900 rounded-3xl shadow-2xl max-h-[95vh] overflow-y-auto"
+        className="modal-scroll mt-16 relative w-full max-w-3xl bg-white dark:bg-gray-900 rounded-3xl shadow-2xl max-h-[95vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -92,13 +92,13 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                   <div className="flex items-start justify-between gap-4 mb-4">
                     <div className="flex-1">
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 dark:text-white leading-tight">{guruDetail.name}</h2>
-                        <div className="w-fit p-1.5 sm:p-2 bg-[#33b962]/10 rounded-xl">
+                        <h2 className="break-words text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 dark:text-white leading-tight">{guruDetail.name}</h2>
+                        <div className="w-fit shrink-0 p-1.5 sm:p-2 bg-[#33b962]/10 rounded-xl">
                           <Star className="w-5 h-5 sm:w-6 sm:h-6 text-[#33b962] fill-[#33b962]" />
                         </div>
                       </div>
                       {guruDetail.lulusan && (
-                        <p className="text-(--color-forest-600) dark:text-(--color-forest-400) text-sm sm:text-base font-bold mb-3">{guruDetail.lulusan}</p>
+                        <p className="break-words text-(--color-forest-600) dark:text-(--color-forest-400) text-sm sm:text-base font-bold mb-3">{guruDetail.lulusan}</p>
                       )}
                       {guruDetail.description && (
                         <p className="text-xs sm:text-sm leading-relaxed text-gray-600 dark:text-gray-400 line-clamp-2">{guruDetail.description}</p>
@@ -107,6 +107,20 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                   </div>
                 </div>
               </div>
+
+              {(!guruDetail.pelajarans || !Array.isArray(guruDetail.pelajarans) || guruDetail.pelajarans.length === 0) && !guruDetail.karyawan && (
+                <div className="mb-8 flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 p-10 text-center">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#33b962]/10">
+                    <BookOpen className="h-8 w-8 text-[#33b962]" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-gray-800 dark:text-white">Profil Lengkap Belum Tersedia</p>
+                    <p className="mt-1 max-w-sm text-sm text-gray-500 dark:text-gray-400">
+                      Data mata pelajaran dan kontak untuk {guruDetail.name} belum diinput. Silakan hubungi sekolah untuk informasi lebih lanjut.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {guruDetail.pelajarans && Array.isArray(guruDetail.pelajarans) && guruDetail.pelajarans.length > 0 && (
                 <div className="grid grid-cols-1 gap-4 mb-8">
@@ -131,9 +145,11 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                         key={p.slug}
                         className="group flex items-center gap-4 p-4 bg-linear-to-r from-[#33b962]/8 to-transparent rounded-xl border-l-4 border-[#33b962] hover:shadow-lg hover:bg-linear-to-r hover:from-[#33b962]/12 transition-all"
                       >
-                        <div className="shrink-0 w-3 h-3 rounded-full bg-[#33b962] group-hover:scale-150 transition-transform"></div>
-                        <span className="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-(--color-forest-600) dark:group-hover:text-(--color-forest-400) transition-colors">{p.name}</span>
-                        <ChevronRight className="ml-auto w-4 h-4 text-gray-300 dark:text-gray-600 group-hover:text-[#33b962] transition-colors" />
+                        <div className="flex flex-1 min-w-0 items-start gap-4">
+                          <div className="shrink-0 mt-1.5 w-3 h-3 rounded-full bg-[#33b962] group-hover:scale-150 transition-transform"></div>
+                          <span className="break-words font-semibold text-gray-800 dark:text-gray-200 group-hover:text-(--color-forest-600) dark:group-hover:text-(--color-forest-400) transition-colors">{p.name}</span>
+                        </div>
+                        <ChevronRight className="shrink-0 ml-2 w-4 h-4 text-gray-300 dark:text-gray-600 group-hover:text-[#33b962] transition-colors" />
                       </div>
                     ))}
                   </div>

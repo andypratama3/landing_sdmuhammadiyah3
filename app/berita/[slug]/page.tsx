@@ -34,7 +34,7 @@ export async function generateMetadata(
 }
 
 async function fetchBeritaBySlug(slug: string): Promise<Berita | null> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://dashboard.sdmuhammadiyah3smd.com/api/v2";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://app.sdmuhammadiyah3smd.com/api/v2";
   try {
     const token = await getSystemAuthToken();
     const res = await fetch(`${apiUrl}/berita/${slug}`, {
@@ -52,7 +52,7 @@ async function fetchBeritaBySlug(slug: string): Promise<Berita | null> {
 export default async function BeritaDetailPage({ params }: Props) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://dashboard.sdmuhammadiyah3smd.com/api/v2";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://app.sdmuhammadiyah3smd.com/api/v2";
 
   // Double layered Redis caching architecture guaranteeing safety
   const fetchBeritaDetail = async () => {
@@ -110,7 +110,7 @@ export default async function BeritaDetailPage({ params }: Props) {
   
   // Safely intercept Laravel WYSIWYG Editor outputs overriding wrong frontend domains with the correct Storage bucket URL
   const processedDesc = berita.desc
-    ? berita.desc.replace(/https?:\/\/sdmuhammadiyah3smd\.com\/storage/g, process.env.NEXT_PUBLIC_STORAGE_URL || 'https://dashboard.sdmuhammadiyah3smd.com/storage')
+    ? berita.desc.replace(/https?:\/\/sdmuhammadiyah3smd\.com\/storage/g, process.env.NEXT_PUBLIC_STORAGE_URL || 'https://app.sdmuhammadiyah3smd.com/storage')
     : "";
   
   const pageDescription = processedDesc ? processedDesc.replace(/<[^>]*>/g, "").slice(0, 160) : "";

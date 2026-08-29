@@ -3,7 +3,7 @@ import crypto from 'crypto'
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ??
-  'https://dashboard.sdmuhammadiyah3smd.com/api/v2'
+  'https://app.sdmuhammadiyah3smd.com/api/v2'
 
 let cachedSystemToken: string | null = null;
 let tokenExpiresAt: number = 0;

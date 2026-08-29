@@ -14,6 +14,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import Image from "next/image"
 import PageAnimations from "@/components/PageAnimations"
 import { resolveImageUrl } from "@/lib/image-url"
+import { getGalleryPhotos } from "@/lib/gallery-photos"
 
 export default function GaleriPage() {
   const [activeFilter, setActiveFilter] = useState("semua")
@@ -104,7 +105,7 @@ export default function GaleriPage() {
 
   // Improved image handling dengan path yang sesuai
   const getMainImage = (gallery: Gallery) => {
-    const firstFoto = gallery.foto?.split(",")?.[0]?.trim() || null
+    const firstFoto = getGalleryPhotos(gallery)[0] || null
 
     if (gallery.cover) {
       return resolveImageUrl(gallery.cover, "img/gallery/cover")
@@ -359,7 +360,7 @@ export default function GaleriPage() {
                             <div className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-full shadow-lg">
                               <div className="flex items-center gap-1 sm:gap-1.5">
                                 <Camera className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-(--color-forest-700)" />
-                                <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-(--color-forest-700)">{item.foto?.split(',').length || 1}</span>
+                                <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-(--color-forest-700)">{getGalleryPhotos(item).length || 1}</span>
                               </div>
                             </div>
                           </div>
@@ -422,7 +423,7 @@ export default function GaleriPage() {
                               <div className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-full shadow-lg">
                                 <div className="flex items-center gap-1 sm:gap-1.5">
                                   <Camera className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-(--color-forest-700)" />
-                                  <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-(--color-forest-700)">{item.foto?.split(',').length || 1}</span>
+                                  <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-(--color-forest-700)">{getGalleryPhotos(item).length || 1}</span>
                                 </div>
                               </div>
                             </div>

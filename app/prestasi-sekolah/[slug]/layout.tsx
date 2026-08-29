@@ -15,7 +15,7 @@ type Props = {
 async function fetchPrestasi(slug: string): Promise<PrestasiSekolah | null> {
   const apiUrl =
     process.env.NEXT_PUBLIC_API_URL ||
-    'https://dashboard.sdmuhammadiyah3smd.com/api/v2'
+    'https://app.sdmuhammadiyah3smd.com/api/v2'
   try {
     const token = await getSystemAuthToken()
     const res = await fetch(`${apiUrl}/prestasi/sekolah/${slug}`, {

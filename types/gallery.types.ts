@@ -1,7 +1,8 @@
 export interface Gallery {
   id?: string;
   name: string;
-  foto: string;           
+  foto?: string;
+  photos?: string[];
   cover?: string;         
   slug: string;
   link?: string | null;

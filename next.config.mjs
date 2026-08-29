@@ -11,6 +11,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'app.sdmuhammadiyah3smd.com',
+        pathname: '/storage/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'dashboard.sdmuhammadiyah3smd.com',
         pathname: '/storage/**',
       },

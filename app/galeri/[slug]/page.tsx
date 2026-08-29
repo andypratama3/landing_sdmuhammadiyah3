@@ -31,6 +31,7 @@ import { useApi } from "@/hooks/useApi"
 import { Gallery } from "@/types/gallery.types"
 import { PageHeader } from "@/components/page-header"
 import { resolveImageUrl } from "@/lib/image-url"
+import { getGalleryPhotos } from "@/lib/gallery-photos"
 
 export default function GaleriDetailPage() {
   const params = useParams()
@@ -61,11 +62,10 @@ export default function GaleriDetailPage() {
     return galleryResponse as unknown as Gallery
   }, [galleryResponse])
 
-  // Parse comma-separated images
+  // Parse gallery photos (photos array or legacy comma-separated foto)
   const images = useMemo(() => {
-    if (!gallery?.foto) return []
-    return gallery.foto.split(',').map(img => img.trim()).filter(Boolean)
-  }, [gallery?.foto])
+    return getGalleryPhotos(gallery)
+  }, [gallery])
 
   // Use cover as first image if available dengan tracking path
   const allImages = useMemo(() => {
@@ -664,10 +664,11 @@ export default function GaleriDetailPage() {
                     </div>
                     <CardContent className="p-8 space-y-4">
                       {relatedResponse.slice(0, 3).map((item: Gallery) => {
+                        const firstFoto = getGalleryPhotos(item)[0]
                         const relatedMainImage = item.cover
                           ? resolveImageUrl(item.cover, "img/gallery/cover")
-                          : item.foto?.split(',')[0]?.trim()
-                            ? resolveImageUrl(item.foto.split(',')[0].trim(), "img/gallery")
+                          : firstFoto
+                            ? resolveImageUrl(firstFoto, "img/gallery")
                             : "/placeholder.svg"
 
                         return (

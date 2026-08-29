@@ -3,7 +3,7 @@ export const BASE_URL =
 
 export const STORAGE_URL =
   process.env.NEXT_PUBLIC_STORAGE_URL ||
-  'https://dashboard.sdmuhammadiyah3smd.com/storage'
+  'https://app.sdmuhammadiyah3smd.com/storage'
 
 export const SCHOOL = {
   name: 'SD Muhammadiyah 3 Samarinda',

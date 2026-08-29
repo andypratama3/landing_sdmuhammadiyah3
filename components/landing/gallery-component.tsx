@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Gallery } from "@/types/gallery.types"
 import Image from "next/image"
 import { resolveImageUrl } from "@/lib/image-url"
+import { getGalleryPhotos } from "@/lib/gallery-photos"
 
 interface GalleryCardProps {
   gallery: Gallery
@@ -12,9 +13,8 @@ interface GalleryCardProps {
 
 export function GalleryCard({ gallery }: GalleryCardProps) {
 
-  // ambil foto pertama dari string (jika ada)
-  const firstFoto =
-    gallery.foto?.split(",")?.[0]?.trim() || null
+  // ambil foto pertama dari daftar foto (photos array atau legacy foto CSV)
+  const firstFoto = getGalleryPhotos(gallery)[0] || null
 
   // tentukan foto utama
   const mainFoto = gallery.cover

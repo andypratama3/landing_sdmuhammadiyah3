@@ -5,6 +5,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+// Elemen opsional (mis. .ribbon-badge) boleh tidak ada di halaman tertentu
+gsap.config({ nullTargetWarn: false })
 
 export default function GSAPAnimations() {
   useEffect(() => {
@@ -138,7 +140,7 @@ export default function GSAPAnimations() {
       const awardsSection = document.querySelector(".gsap-awards");
       if (awardsSection) {
         const badges = awardsSection.querySelectorAll(".ribbon-badge");
-        gsap.fromTo(
+        if (badges.length) gsap.fromTo(
           badges,
           {
             scale: 0,

@@ -5,7 +5,7 @@ import type { Berita } from '@/types/berita.types'
 import type { PrestasiSiswa, PrestasiSekolah } from '@/types/prestasi.types'
 import type { Gallery } from '@/types/gallery.types'
 
-const STORAGE = process.env.NEXT_PUBLIC_STORAGE_URL || 'https://dashboard.sdmuhammadiyah3smd.com/storage'
+const STORAGE = process.env.NEXT_PUBLIC_STORAGE_URL || 'https://app.sdmuhammadiyah3smd.com/storage'
 
 function stripHtml(html: string, max = 160) {
   return html.replace(/<[^>]*>/g, '').trim().slice(0, max)

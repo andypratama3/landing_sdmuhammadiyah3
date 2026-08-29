@@ -5,6 +5,8 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
+// Elemen opsional (mis. .ribbon-badge) boleh tidak ada di halaman tertentu
+gsap.config({ nullTargetWarn: false })
 
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)'
 const ANIMATED_CHILD_SELECTOR =

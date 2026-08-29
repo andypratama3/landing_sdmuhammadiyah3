@@ -12,12 +12,14 @@ import { GallerySection } from "@/components/landing/gallery-section"
 import { VideoSection } from "@/components/landing/video-section"
 import { AboutPreviewSection } from "@/components/landing/about-preview-section"
 import { AchievementsSection } from "@/components/landing/achievements-section"
+import { CalendarSection } from "@/components/landing/calendar-section"
 import { PartnersSection } from "@/components/landing/partners-section"
 import { AwardsSection } from "@/components/landing/awards-section"
 import { CTASection } from "@/components/landing/cta-section"
 import type { Gallery } from "@/types/gallery.types"
 import type { Dukungan } from "@/types/dukungan.types"
 import type { PrestasiSiswa } from "@/types/prestasi.types"
+import type { KalenderAkademikEvent } from "@/types/kalender.types"
 import { pageMetadata } from "@/lib/metadata-helpers"
 
 export const metadata: Metadata = pageMetadata({
@@ -37,11 +39,12 @@ interface CountData {
 }
 
 export default async function Home() {
-  const [countRes, galleryRes, dukunganRes, prestasiRes] = await Promise.all([
+  const [countRes, galleryRes, dukunganRes, prestasiRes, kalenderRes] = await Promise.all([
     serverGetPublic<CountData>("/count-landing"),
     serverGetPublic<Gallery[]>("/gallery-landing"),
     serverGetPublic<Dukungan[]>("/dukungan-kerja-sama"),
     serverGetPublic<PrestasiSiswa[]>("/prestasi-landing"),
+    serverGetPublic<KalenderAkademikEvent[]>("/kalender-akademik/upcoming?limit=6"),
   ])
 
   return (
@@ -53,6 +56,7 @@ export default async function Home() {
       <AccreditationSection />
       <QuickLinksSection />
       <GallerySection galleries={galleryRes.data ?? []} />
+      <CalendarSection events={kalenderRes.data ?? []} />
       <VideoSection />
       <AboutPreviewSection />
       <AchievementsSection achievements={prestasiRes.data ?? []} />

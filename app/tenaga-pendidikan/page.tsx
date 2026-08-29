@@ -299,7 +299,7 @@ export default function TenagaPendidikanPage() {
                   <div className="min-w-max">
                     {processedHierarchyData.length > 0 ? (
                       processedHierarchyData.map((rootNode, index) => (
-                        <div key={rootNode.id} className={index > 0 ? 'mt-16' : ''}>
+                        <div key={rootNode.id ?? rootNode.slug ?? index} className={index > 0 ? 'mt-16' : ''}>
                           <OrgTreeNode node={rootNode} level={0} isRoot={true} />
                         </div>
                       ))

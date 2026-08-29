@@ -32,25 +32,27 @@ export default function HomeAnimations() {
       // Hero section animations
       const heroTimeline = gsap.timeline()
 
-      // Animate badges
-      heroTimeline.fromTo(
-        '.ribbon-badge',
-        {
-          opacity: 0,
-          y: -30,
-          scale: 0.8,
-          rotation: -10,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          rotation: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'elastic.out(1, 0.5)',
-        }
-      )
+      // Animate badges (hanya bila elemen ada — hindari GSAP warning)
+      if (document.querySelector('.ribbon-badge')) {
+        heroTimeline.fromTo(
+          '.ribbon-badge',
+          {
+            opacity: 0,
+            y: -30,
+            scale: 0.8,
+            rotation: -10,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            rotation: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: 'elastic.out(1, 0.5)',
+          }
+        )
+      }
 
       // Animate logo
       heroTimeline.fromTo(

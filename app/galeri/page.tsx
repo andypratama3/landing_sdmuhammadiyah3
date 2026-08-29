@@ -66,13 +66,17 @@ export default function GaleriPage() {
   // Process categories
   const categories = useMemo(() => {
     const cats = [{ name: "Semua", value: "semua" }]
+    const seen = new Set<string>(["semua"])
 
     if (categoryData && Array.isArray(categoryData)) {
       categoryData.forEach(cat => {
         const name = cat.name ?? ''
+        const value = name.toLowerCase()
+        if (!name || seen.has(value)) return
+        seen.add(value)
         cats.push({
           name: name.charAt(0).toUpperCase() + name.slice(1),
-          value: name.toLowerCase()
+          value
         })
       })
     }

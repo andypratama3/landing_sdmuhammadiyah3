@@ -7,6 +7,7 @@
 import type { Berita } from '@/types/berita.types'
 import type { Gallery, GalleryKategori } from '@/types/gallery.types'
 import type { Fasilitas } from '@/types'
+import type { Dukungan } from '@/types/dukungan.types'
 import { isDummyDataEnabled } from '@/config/dummy-data.config'
 
 /**
@@ -213,6 +214,18 @@ export const dummyFasilitas: Fasilitas[] = [
 ]
 
 /**
+ * Dummy Dukungan/Kerjasama Data
+ */
+export const dummyDukungan: Dukungan[] = [
+  { name: 'Pimpinan Pusat Muhammadiyah', foto: 'muhammadiyah.png' },
+  { name: 'Kementerian Pendidikan dan Kebudayaan', foto: 'kemendikbud.png' },
+  { name: 'Dinas Pendidikan Kota Samarinda', foto: 'disdik.png' },
+  { name: 'Majelis Dikdasmen Muhammadiyah', foto: 'dikdasmen.png' },
+  { name: 'Lazismu', foto: 'lazismu.png' },
+  { name: 'Pimpinan Wilayah Muhammadiyah Kaltim', foto: 'pwm-kaltim.png' },
+]
+
+/**
  * Get dummy data by endpoint
  * Returns null if dummy data is not enabled or endpoint not found
  */
@@ -285,6 +298,12 @@ export function getDummyData<T>(endpoint: string): T | null {
           prev: null,
           next: null
         }
+      } as unknown as T
+    case '/dukungan-kerja-sama':
+      return {
+        success: true,
+        message: 'Dummy data (development only)',
+        data: dummyDukungan,
       } as unknown as T
     default:
       // Try to match specific items

@@ -16,3 +16,4 @@ export * from './rapot.types';
 export * from './spmb.types';
 export * from './tenagaPendidikan.types';
 export * from './signature.types';
+export * from './kalender.types';

@@ -1,5 +1,6 @@
 import type { ApiResponse } from '@/types'
 import crypto from 'crypto'
+import { getDummyData, shouldUseDummyData, logDummyDataUsage } from '@/lib/dummy-data'
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ??
@@ -68,6 +69,15 @@ export async function serverGetPublic<T>(
   endpoint: string,
   options?: { revalidate?: number }
 ): Promise<ApiResponse<T>> {
+  // 🎭 Check for dummy data in development only
+  if (shouldUseDummyData()) {
+    const dummyData = getDummyData<ApiResponse<T>>(endpoint)
+    if (dummyData) {
+      logDummyDataUsage(endpoint)
+      return dummyData
+    }
+  }
+
   const token = await getSystemAuthToken();
   if (!token) return { success: false, data: [] as T, message: 'Server unavailable' };
 

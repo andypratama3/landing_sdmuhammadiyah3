@@ -110,6 +110,7 @@ export default function BeritaPage() {
   // Process categories
   const categories = useMemo(() => {
     const cats = [{ name: "Semua", count: 0, value: "semua" }]
+    const seen = new Set<string>(["semua"])
 
     if (categoryData && Array.isArray(categoryData)) {
       const totalCount = categoryData.reduce((sum, cat) => sum + (cat.total || 0), 0)
@@ -117,10 +118,13 @@ export default function BeritaPage() {
 
       categoryData.forEach(cat => {
         const category = cat.category ?? ''
+        const value = category.toLowerCase()
+        if (!category || seen.has(value)) return
+        seen.add(value)
         cats.push({
           name: category.charAt(0).toUpperCase() + category.slice(1),
           count: cat.total || 0,
-          value: category.toLowerCase()
+          value
         })
       })
     }
@@ -462,39 +466,38 @@ export default function BeritaPage() {
                     ))}
                   </TabsList>
 
-                  <TabsContent value={selectedCategory} className="space-y-6">
+                  <TabsContent value={selectedCategory}>
                     {/* Loading State */}
                     {isSearching ? (
-                      <div className="space-y-6">
+                      <div className="grid gap-6 sm:grid-cols-2">
                         {isTyping && (
-                          <div className="flex items-center justify-center py-4">
+                          <div className="flex items-center justify-center py-4 sm:col-span-2">
                             <Loader2 className="w-6 h-6 mr-2 animate-spin text-(--color-forest-450)" />
                             <span className="text-sm text-gray-600 dark:text-gray-400">Mencari...</span>
                           </div>
                         )}
-                        {Array.from({ length: 3 }).map((_, i) => (
-                          <Card key={i} className="overflow-hidden">
-                            <div className="grid gap-0 md:grid-cols-3">
-                              <Skeleton className="h-48 md:h-auto" />
-                              <div className="p-6 space-y-4 md:col-span-2">
-                                <Skeleton className="w-20 h-6" />
-                                <Skeleton className="w-full h-6" />
-                                <Skeleton className="w-full h-4" />
-                                <Skeleton className="w-32 h-8" />
-                              </div>
+                        {Array.from({ length: 4 }).map((_, i) => (
+                          <Card key={i} className="overflow-hidden py-0">
+                            <Skeleton className="h-[220px] w-full" />
+                            <div className="p-5 space-y-3">
+                              <Skeleton className="w-full h-5" />
+                              <Skeleton className="w-3/4 h-5" />
+                              <Skeleton className="w-28 h-4" />
                             </div>
                           </Card>
                         ))}
                       </div>
                     ) : regularNews.length > 0 ? (
-                      regularNews.map((item) => (
-                        <NewsCard
-                          key={item.slug}
-                          news={item}
-                          formatDate={formatDate}
-                          stripHtml={stripHtml}
-                        />
-                      ))
+                      <div className="gap-6 grid sm:grid-cols-2">
+                        {regularNews.map((item) => (
+                          <NewsCard
+                            key={item.slug}
+                            news={item}
+                            formatDate={formatDate}
+                            stripHtml={stripHtml}
+                          />
+                        ))}
+                      </div>
                     ) : (
                       <Card className="p-12 text-center">
                         <AlertCircle className="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-gray-500" />
@@ -662,50 +665,64 @@ function NewsCard({
 }) {
   return (
     <Link href={`/berita/${news.slug}`} className="block">
-      <Card className="overflow-hidden transition-all duration-500 cursor-pointer hover:shadow-2xl hover:-translate-y-2 group dark:bg-gray-900/40 border-0 shadow-lg rounded-[1.25rem] card-premium glass">
-        <div className="grid gap-0 md:grid-cols-3">
-          <div className="relative h-64 md:h-auto overflow-hidden p-0">
-            <Image
-              src={resolveImageUrl(news.foto, "img/berita")}
-              alt={news.judul}
-              fill
-              sizes="(max-width: 768px) 100vw, 33vw"
-              className="object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
-            <Badge className="absolute top-6 left-6 bg-white/20 backdrop-blur-md text-white border-white/30 font-black uppercase tracking-widest text-[9px]">
-              {news.category}
+      <Card className="py-0 overflow-hidden transition-all duration-500 cursor-pointer hover:shadow-2xl hover:-translate-y-2 group dark:bg-gray-900/40 border-0 shadow-xl rounded-[1rem] sm:rounded-[1.25rem] card-premium glass h-full flex flex-col">
+        {/* Gambar gaya galeri: tinggi tetap, zoom hover, overlay gradient, tombol reveal */}
+        <div className="relative w-full h-[200px] sm:h-[230px] overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-(--color-forest-700)/10 to-(--color-sun-500)/10 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <Image
+            src={resolveImageUrl(news.foto, "img/berita")}
+            alt={news.judul}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-1000 group-hover:scale-110"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement
+              target.src = "/placeholder.svg"
+            }}
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20" />
+
+          {/* Tombol reveal saat hover (pola "Lihat Galeri") */}
+          <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-30">
+            <span className="flex items-center justify-center gap-2 w-full bg-white text-(--color-forest-700) hover:bg-white/90 rounded-lg sm:rounded-xl font-black uppercase tracking-widest text-[9px] sm:text-[10px] h-9 sm:h-10 shadow-2xl">
+              BACA SELENGKAPNYA
+              <ArrowRight className="w-3.5 h-3.5" />
+            </span>
+          </div>
+
+          {/* Pill kategori (pola pill jumlah foto di galeri) */}
+          <div className="absolute top-3 sm:top-4 left-3 sm:left-4 z-20">
+            <Badge className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl text-(--color-forest-700) dark:text-white border-0 rounded-full shadow-lg font-black uppercase tracking-widest text-[8px] sm:text-[9px] px-2.5 sm:px-3 py-1 sm:py-1.5">
+              {news.category || 'Berita'}
             </Badge>
           </div>
 
-          <div className="p-8 md:col-span-2">
-            <h3 className="mb-4 text-2xl font-black text-gray-900 dark:text-white leading-tight line-clamp-2 group-hover:text-(--color-forest-450) transition-colors uppercase tracking-tight">
-              {news.judul}
-            </h3>
-
-            <p className="mb-6 text-gray-600 dark:text-gray-400 font-medium line-clamp-2 leading-relaxed">
-              {stripHtml(news.desc, 180)}
-            </p>
-
-            <div className="flex flex-wrap items-center gap-6 mb-6 text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-(--color-forest-450)" />
-                <span>{formatDate(news.created_at)}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Eye className="w-4 h-4 text-(--color-forest-450)" />
-                <span>{news.views} VIEWS</span>
+          {/* Pill views */}
+          <div className="absolute top-3 sm:top-4 right-3 sm:right-4 z-20">
+            <div className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-full shadow-lg">
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                <Eye className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-(--color-forest-700)" />
+                <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-(--color-forest-700)">{news.views}</span>
               </div>
             </div>
+          </div>
+        </div>
 
-            <Button variant="outline" size="sm" className="rounded-full font-black uppercase tracking-widest text-[10px] px-6 py-5 transition-all h-auto border-(--color-forest-450) text-(--color-forest-450) hover:bg-(--color-forest-450) hover:text-white">
-              BACA SELENGKAPNYA
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
+        <div className="flex flex-col flex-1 p-4 sm:p-6 bg-white dark:bg-gray-900/60">
+          <h3 className="mb-2 sm:mb-3 text-sm sm:text-lg font-black text-gray-900 dark:text-white line-clamp-2 uppercase tracking-tight group-hover:text-(--color-forest-450) transition-colors leading-tight">
+            {news.judul}
+          </h3>
+
+          <p className="mb-3 sm:mb-4 text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
+            {stripHtml(news.desc, 120)}
+          </p>
+
+          <div className="mt-auto flex items-center gap-2 sm:gap-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+            <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-(--color-forest-450)" />
+            {formatDate(news.created_at)}
           </div>
         </div>
       </Card>
     </Link>
-
   )
 }

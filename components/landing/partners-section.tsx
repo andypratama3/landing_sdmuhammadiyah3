@@ -142,7 +142,7 @@ export function PartnersSection({ partners }: PartnersSectionProps) {
                     alt={partner.name}
                     width={160}
                     height={90}
-                    className="max-h-16 w-auto object-contain opacity-60 grayscale transition duration-500 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 dark:brightness-90 dark:contrast-125"
+                    className="max-h-16 w-auto object-contain transition duration-500 group-hover:scale-105 dark:brightness-90 dark:contrast-125"
                   />
                 </div>
               ))
@@ -152,7 +152,7 @@ export function PartnersSection({ partners }: PartnersSectionProps) {
                   key={`${partner.name}-${index}`}
                   className="w-64 h-24 flex-shrink-0 flex items-center justify-center bg-white dark:bg-white/5 backdrop-blur-md rounded-2xl border border-gray-150/80 dark:border-white/10 shadow-xs p-4 hover:shadow-md hover:border-(--color-sun-500) dark:hover:border-(--color-sun-500) dark:hover:shadow-[0_0_20px_rgba(232,163,61,0.15)] hover:-translate-y-1.5 transition-all duration-500 group"
                 >
-                  <div className="opacity-60 grayscale transition duration-500 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105">
+                  <div className="transition duration-500 group-hover:scale-105">
                     {partner.component}
                   </div>
                 </div>

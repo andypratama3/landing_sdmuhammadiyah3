@@ -17,7 +17,7 @@ export function StatsSection({ data }: StatsSectionProps) {
   const stats = [
     { value: formatCount(data?.siswa ?? SCHOOL.stats.students), label: "Siswa", count: true },
     { value: formatCount(data?.guru ?? SCHOOL.stats.teachers), label: "Guru", count: true },
-    { value: "A", label: "Akreditasi", count: false },
+    { value: SCHOOL.accreditation.split(' ')[0], label: "Akreditasi", count: false },
     { value: formatCount(data?.fasilitas), label: "Fasilitas", count: true },
   ]
 
@@ -32,7 +32,7 @@ export function StatsSection({ data }: StatsSectionProps) {
               >
                 {stat.value}
               </p>
-              <p className="mt-1 text-sm font-medium text-(--color-ink-700) dark:text-(--color-cloud-200) font-quicksand">
+              <p className="mt-1 text-sm font-medium text-(--color-ink-700) dark:text-gray-300 font-quicksand">
                 {stat.label}
               </p>
             </div>

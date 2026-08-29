@@ -23,7 +23,7 @@ export function AboutPreviewSection() {
           <h2 className="text-balance font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) sm:text-4xl dark:text-white">
             Sekolah kreatif Islam di Samarinda Seberang
           </h2>
-          <p className="mt-5 max-w-[54ch] text-pretty text-base leading-relaxed text-(--color-ink-700) dark:text-(--color-cloud-200) font-quicksand">
+          <p className="mt-5 max-w-[54ch] text-pretty text-base leading-relaxed text-(--color-ink-700) dark:text-gray-300 font-quicksand">
             Sejak {SCHOOL.stats.founded} kami menggabungkan kurikulum nasional, tahfidz, dan edutainment. Anak belajar sains dan seni, lalu pulang dengan adab yang utuh.
           </p>
           <dl className="mt-8 grid grid-cols-2 gap-6">
@@ -42,7 +42,7 @@ export function AboutPreviewSection() {
             <div>
               <dt className="text-sm text-(--color-ink-600) dark:text-(--color-cloud-300) font-quicksand">Status mutu</dt>
               <dd className="font-outfit text-2xl font-extrabold text-(--color-forest-700) dark:text-(--color-sun-400)">
-                Akreditasi A
+                {SCHOOL.accreditation}
               </dd>
             </div>
             <div>

@@ -1,3 +1,5 @@
+import { SCHOOL } from "@/lib/school-info"
+
 export function AwardsSection() {
   return (
     <section className="py-20 bg-(--color-cloud-100) dark:bg-(--color-forest-900)">

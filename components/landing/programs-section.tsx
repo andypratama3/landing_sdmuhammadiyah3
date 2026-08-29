@@ -70,13 +70,13 @@ export function ProgramsSection() {
           <h2 className="text-balance font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) sm:text-4xl dark:text-white">
             Program yang membentuk kebiasaan
           </h2>
-          <p className="mt-4 max-w-[52ch] text-pretty text-base leading-relaxed text-(--color-ink-700) dark:text-(--color-cloud-200) font-quicksand">
+          <p className="mt-4 max-w-[52ch] text-pretty text-base leading-relaxed text-(--color-ink-700) dark:text-gray-300 font-quicksand">
             Bukan daftar fitur. Ini ritme harian yang membuat anak hafal, sopan, dan senang datang ke sekolah.
           </p>
         </div>
 
         <div className="mt-12 grid gap-4 lg:grid-cols-12 lg:grid-rows-2">
-          <article className="program-card relative overflow-hidden rounded-[1.75rem] lg:col-span-7 lg:row-span-2 min-h-[22rem]">
+          <article className="program-card relative overflow-hidden rounded-[1.75rem] lg:col-span-7 lg:row-span-2 aspect-[4/3] sm:aspect-[16/9] lg:aspect-auto lg:min-h-[22rem]">
             <Image
               src="/foto_sekolah.jpeg"
               alt="Suasana pembelajaran di sekolah"

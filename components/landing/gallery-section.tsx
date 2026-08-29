@@ -17,7 +17,7 @@ export function GallerySection({ galleries }: GallerySectionProps) {
           <h2 className="text-balance font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) sm:text-4xl dark:text-white">
             Aktivitas di sekolah
           </h2>
-          <p className="mt-3 max-w-[48ch] text-pretty text-base text-(--color-ink-700) dark:text-(--color-cloud-200) font-quicksand">
+          <p className="mt-3 max-w-[48ch] text-pretty text-base text-(--color-ink-700) dark:text-gray-300 font-quicksand">
             Cuplikan belajar, ibadah, dan karya siswa. Bukan katalog stok.
           </p>
         </div>

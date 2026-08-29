@@ -6,7 +6,7 @@ import { JENIS_LABEL, type KalenderAkademikEvent } from "@/types/kalender.types"
 const JENIS_STYLE: Record<KalenderAkademikEvent["jenis"], string> = {
   holiday: "bg-(--color-sun-400)/15 text-(--color-sun-600) dark:text-(--color-sun-400)",
   exam: "bg-red-500/10 text-red-600 dark:text-red-400",
-  event: "bg-(--color-forest-700)/10 text-(--color-forest-700) dark:text-(--color-cloud-200)",
+  event: "bg-(--color-forest-700)/10 text-(--color-forest-700) dark:text-gray-300",
   deadline: "bg-orange-500/10 text-orange-600 dark:text-orange-400",
   celebration: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
 }
@@ -41,7 +41,7 @@ export function CalendarSection({ events }: CalendarSectionProps) {
             <h2 className="text-balance font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) sm:text-4xl dark:text-white">
               Agenda sekolah
             </h2>
-            <p className="mt-3 max-w-[48ch] text-pretty text-base font-quicksand text-(--color-ink-700) dark:text-(--color-cloud-200)">
+            <p className="mt-3 max-w-[48ch] text-pretty text-base font-quicksand text-(--color-ink-700) dark:text-gray-300">
               Kalender akademik terdekat — ujian, kegiatan, dan hari libur dari kalender resmi sekolah.
             </p>
           </div>
@@ -83,12 +83,12 @@ export function CalendarSection({ events }: CalendarSectionProps) {
                 <h3 className="mt-1.5 truncate font-outfit text-base font-bold text-(--color-forest-900) dark:text-white">
                   {event.judul}
                 </h3>
-                <p className="mt-1 flex items-center gap-1.5 text-sm font-quicksand text-(--color-ink-700) dark:text-(--color-cloud-200)">
+                <p className="mt-1 flex items-center gap-1.5 text-sm font-quicksand text-(--color-ink-700) dark:text-gray-300">
                   <CalendarDays className="size-3.5 shrink-0" />
                   {formatTanggal(event)}
                 </p>
                 {event.lokasi && (
-                  <p className="mt-0.5 flex items-center gap-1.5 truncate text-sm font-quicksand text-(--color-ink-700) dark:text-(--color-cloud-200)">
+                  <p className="mt-0.5 flex items-center gap-1.5 truncate text-sm font-quicksand text-(--color-ink-700) dark:text-gray-300">
                     <MapPin className="size-3.5 shrink-0" />
                     {event.lokasi}
                   </p>

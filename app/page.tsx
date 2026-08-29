@@ -19,7 +19,9 @@ import { CTASection } from "@/components/landing/cta-section"
 import type { Gallery } from "@/types/gallery.types"
 import type { Dukungan } from "@/types/dukungan.types"
 import type { PrestasiSiswa } from "@/types/prestasi.types"
+import type { PrestasiSekolah } from "@/types/prestasi.types"
 import type { KalenderAkademikEvent } from "@/types/kalender.types"
+import type { Fasilitas } from "@/types/fasilitas.types"
 import { pageMetadata } from "@/lib/metadata-helpers"
 
 export const metadata: Metadata = pageMetadata({
@@ -39,12 +41,14 @@ interface CountData {
 }
 
 export default async function Home() {
-  const [countRes, galleryRes, dukunganRes, prestasiRes, kalenderRes] = await Promise.all([
+  const [countRes, galleryRes, dukunganRes, prestasiRes, kalenderRes, fasilitasRes, prestasiSekolahRes] = await Promise.all([
     serverGetPublic<CountData>("/count-landing"),
     serverGetPublic<Gallery[]>("/gallery-landing"),
     serverGetPublic<Dukungan[]>("/dukungan-kerja-sama"),
     serverGetPublic<PrestasiSiswa[]>("/prestasi-landing"),
     serverGetPublic<KalenderAkademikEvent[]>("/kalender-akademik/upcoming?limit=6"),
+    serverGetPublic<Fasilitas[]>("/list/fasilitas"),
+    serverGetPublic<PrestasiSekolah[]>("/list/prestasi-sekolah"),
   ])
 
   return (
@@ -54,7 +58,7 @@ export default async function Home() {
       <StatsSection data={countRes.data} />
       <ProgramsSection />
       <AccreditationSection />
-      <QuickLinksSection />
+      <QuickLinksSection fasilitas={fasilitasRes.data ?? []} prestasiSekolah={prestasiSekolahRes.data ?? []} />
       <GallerySection galleries={galleryRes.data ?? []} />
       <CalendarSection events={kalenderRes.data ?? []} />
       <VideoSection />

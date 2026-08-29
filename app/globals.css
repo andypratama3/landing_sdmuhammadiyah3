@@ -512,11 +512,15 @@ select:disabled {
   .marquee-container {
     overflow: hidden;
     white-space: nowrap;
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
   }
 
   .marquee-content {
     display: inline-flex;
-    animation: marquee 30s linear infinite;
+    width: max-content;
+    will-change: transform;
+    animation: marquee 32s linear infinite;
   }
 
   .marquee-container:hover .marquee-content {

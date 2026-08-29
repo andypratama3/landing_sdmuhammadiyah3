@@ -117,12 +117,17 @@ export function PartnersSection({ partners }: PartnersSectionProps) {
           </p>
         </div>
 
-        {/* Infinite Scrolling Logo Marquee */}
-        <div className="marquee-container relative w-full py-4 select-none">
+        {/* Centered Infinite Scrolling Logo Carousel */}
+        <div className="marquee-container relative w-full max-w-5xl xl:max-w-6xl mx-auto py-6 select-none">
           
           {/* Glassmorphic Edge Fades */}
-          <div className="absolute top-0 bottom-0 left-0 w-16 sm:w-40 bg-gradient-to-r from-(--color-paper-50) to-transparent dark:from-(--color-forest-950) z-20 pointer-events-none" />
-          <div className="absolute top-0 bottom-0 right-0 w-16 sm:w-40 bg-gradient-to-l from-(--color-paper-50) to-transparent dark:from-(--color-forest-950) z-20 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 left-0 w-12 sm:w-28 bg-gradient-to-r from-(--color-paper-50) to-transparent dark:from-(--color-forest-950) z-20 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 right-0 w-12 sm:w-28 bg-gradient-to-l from-(--color-paper-50) to-transparent dark:from-(--color-forest-950) z-20 pointer-events-none" />
+
+          {/* Logo Pause/Play hint */}
+          <span className="absolute -top-4 right-2 text-[10px] font-semibold uppercase tracking-widest text-(--color-forest-600)/50 dark:text-gray-500 z-20 pointer-events-none">
+            &#9208; scroll otomatis
+          </span>
 
           {/* Scrolling Content Track - Duplicate exactly even times (6 copies) for perfect -50% boundary looping */}
           <div className="marquee-content flex gap-6 items-center whitespace-nowrap">

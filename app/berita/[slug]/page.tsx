@@ -33,6 +33,20 @@ export async function generateMetadata(
   return generateBeritaMetadata(berita);
 }
 
+function unwrapBeritaDetail(json: unknown): Berita | null {
+  const data = (json as { data?: unknown })?.data;
+  // Kontrak lama detail: data dibungkus GANDA -> { data: { data: { judul, ... } } }.
+  if (data && typeof data === "object" && !Array.isArray(data)) {
+    const inner = (data as { data?: unknown }).data;
+    if (inner && typeof inner === "object" && !Array.isArray(inner)) {
+      return inner as Berita;
+    }
+    return data as Berita;
+  }
+  // Not-found & error kontrak mengembalikan data: [] atau tak berisi objek.
+  return null;
+}
+
 async function fetchBeritaBySlug(slug: string): Promise<Berita | null> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://app.sdmuhammadiyah3smd.com/api/v2";
   try {
@@ -43,7 +57,7 @@ async function fetchBeritaBySlug(slug: string): Promise<Berita | null> {
     });
     if (!res.ok) return null;
     const responseData = await res.json();
-    return responseData?.data?.data || responseData?.data || responseData;
+    return unwrapBeritaDetail(responseData);
   } catch {
     return null;
   }
@@ -63,7 +77,7 @@ export default async function BeritaDetailPage({ params }: Props) {
     });
     if (!res.ok) throw new Error("Gagal mengambil berita detail");
     const json = await res.json();
-    return json?.data?.data || json?.data || json;
+    return unwrapBeritaDetail(json);
   };
 
   let berita: Berita | null = null;
@@ -84,7 +98,7 @@ export default async function BeritaDetailPage({ params }: Props) {
     });
     if (!res.ok) return [];
     const json = await res.json();
-    const arr = Array.isArray(json?.data?.data) ? json.data.data : Array.isArray(json?.data) ? json.data : Array.isArray(json) ? json : [];
+    const arr = Array.isArray(json?.data) ? json.data : Array.isArray(json) ? json : [];
     // Filter self off natively
     return arr.filter((b: Berita) => b.id !== berita!.id).slice(0, 3);
   };

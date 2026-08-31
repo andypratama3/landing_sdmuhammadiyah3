@@ -18,8 +18,13 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
   if (gurus.length === 0) {
     return (
       <div className="py-20 text-center">
-        <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-        <p className="text-lg text-gray-500 dark:text-gray-400">Tidak ada guru yang ditemukan.</p>
+        <div className="flex items-center justify-center w-20 h-20 mx-auto mb-6 bg-[#33b962]/10 rounded-3xl">
+          <BookOpen className="w-10 h-10 text-[#33b962]" />
+        </div>
+        <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Data Guru Belum Tersedia</h3>
+        <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
+          Informasi profil guru sedang dalam proses pembaruan. Silakan cembali lagi nanti atau hubungi sekolah untuk informasi lebih lanjut.
+        </p>
       </div>
     );
   }

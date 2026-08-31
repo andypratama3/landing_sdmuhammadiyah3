@@ -17,7 +17,7 @@ export function StatsSection({ data }: StatsSectionProps) {
   const stats = [
     { value: formatCount(data?.siswa ?? SCHOOL.stats.students), label: "Siswa", count: true },
     { value: formatCount(data?.guru ?? SCHOOL.stats.teachers), label: "Guru", count: true },
-    { value: SCHOOL.accreditation.split(' ')[0], label: "Akreditasi", count: false },
+    { value: SCHOOL.accreditation, label: "Akreditasi", count: false },
     { value: formatCount(data?.fasilitas), label: "Fasilitas", count: true },
   ]
 

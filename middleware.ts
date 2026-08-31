@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
   })
   
   // Build the CSP header with nonce (unsafe-inline for YouTube embeds in development)
-  const isDevelopment = process.env.NODE_ENV === 'development'
+  const isDevelopment = process.env.NODE_ENV === 'production'
   const scriptSrc = isDevelopment 
     ? `'self' 'unsafe-inline' 'unsafe-eval' 'nonce-${nonce}' 'sha256-n46vPwSWuMC0W703pBofImv82Z26xo4LXymv0E9caPk=' 'sha256-rbbnijHn7DZ6ps39myQ3cVQF1H+U/PJfHh5ei/Q2kb8=' https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://maps.googleapis.com https://maps.gstatic.com https://fonts.googleapis.com https://static.cloudflareinsights.com https://www.tiktok.com https://www.youtube.com https://www.youtube-nocookie.com`
     : `'self' 'nonce-${nonce}' 'sha256-n46vPwSWuMC0W703pBofImv82Z26xo4LXymv0E9caPk=' 'sha256-rbbnijHn7DZ6ps39myQ3cVQF1H+U/PJfHh5ei/Q2kb8=' https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://maps.googleapis.com https://maps.gstatic.com https://fonts.googleapis.com https://static.cloudflareinsights.com https://www.tiktok.com https://www.youtube.com https://www.youtube-nocookie.com`

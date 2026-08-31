@@ -6,6 +6,7 @@ import HomeAnimations from "@/components/HomeAnimations"
 import { HeroSection } from "@/components/landing/hero-section"
 import { StatsSection } from "@/components/landing/stats-section"
 import { ProgramsSection } from "@/components/landing/programs-section"
+import { KepalaSekolahSection } from "@/components/landing/kepala-sekolah-section"
 import { AccreditationSection } from "@/components/landing/accreditation-section"
 import { QuickLinksSection } from "@/components/landing/quick-links-section"
 import { GallerySection } from "@/components/landing/gallery-section"
@@ -57,6 +58,7 @@ export default async function Home() {
       <HeroSection />
       <StatsSection data={countRes.data} />
       <ProgramsSection />
+      <KepalaSekolahSection />
       <AccreditationSection />
       <QuickLinksSection fasilitas={fasilitasRes.data ?? []} prestasiSekolah={prestasiSekolahRes.data ?? []} />
       <GallerySection galleries={galleryRes.data ?? []} />

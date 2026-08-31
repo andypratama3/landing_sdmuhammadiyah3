@@ -210,6 +210,47 @@ export default function HomeAnimations() {
         }
       )
 
+      // Kepala Sekolah section animation
+      fromTo(
+        '.kepala-sekolah-content',
+        {
+          opacity: 0,
+          x: -50,
+        },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.gsap-kepala-sekolah',
+            start: 'top 75%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      )
+
+      fromTo(
+        '.kepala-sekolah-image',
+        {
+          opacity: 0,
+          scale: 0.8,
+          rotation: -5,
+        },
+        {
+          opacity: 1,
+          scale: 1,
+          rotation: 0,
+          duration: 1,
+          ease: 'elastic.out(1, 0.5)',
+          scrollTrigger: {
+            trigger: '.gsap-kepala-sekolah',
+            start: 'top 75%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      )
+
       // Accreditation section animation
       fromTo(
         '.accreditation-card',

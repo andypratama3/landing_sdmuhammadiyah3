@@ -193,13 +193,20 @@ export async function POST(req: NextRequest) {
     // ============================================
     // 5️⃣ CREATE RESPONSE WITH COOKIES
     // ============================================
-    const setCookies = backendResponse.headers.getSetCookie()
+    const setCookies = backendResponse.headers.getSetCookie?.() || []
+    const tokenData = backendData?.data || backendData
+    const accessToken = tokenData?.access_token || backendData?.access_token
+    const refreshToken = tokenData?.refresh_token || backendData?.refresh_token
+    const expiresIn = Number(tokenData?.expires_in) || 3600
 
     const response = NextResponse.json(
       { 
         success: true,
         message: 'Token generated successfully',
-        data: backendData,
+        data: tokenData,
+        access_token: accessToken,
+        refresh_token: refreshToken,
+        expires_in: expiresIn,
       },
       { 
         status: 200,
@@ -211,9 +218,39 @@ export async function POST(req: NextRequest) {
     )
 
     // Forward Set-Cookie headers from backend
+    const host = req.headers.get('host') || ''
+    const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1')
+
     if (setCookies && setCookies.length > 0) {
-      setCookies.forEach(cookie => {
-        response.headers.append('set-cookie', cookie)
+      setCookies.forEach((cookie: string) => {
+        let modifiedCookie = cookie
+        if (isLocalhost) {
+          // Strip domain=.sdmuhammadiyah3smd.com and secure; for localhost compatibility
+          modifiedCookie = modifiedCookie
+            .replace(/domain=[^;]+;?\s*/gi, '')
+            .replace(/secure;?\s*/gi, '')
+        }
+        response.headers.append('set-cookie', modifiedCookie)
+      })
+    }
+
+    // Explicitly set cookie via Next.js response cookies if access_token exists
+    if (accessToken) {
+      response.cookies.set('access_token', accessToken, {
+        path: '/',
+        httpOnly: false,
+        maxAge: expiresIn,
+        sameSite: 'lax',
+        secure: !isLocalhost && process.env.NODE_ENV === 'production',
+      })
+    }
+    if (refreshToken) {
+      response.cookies.set('refresh_token', refreshToken, {
+        path: '/',
+        httpOnly: false,
+        maxAge: expiresIn * 12,
+        sameSite: 'lax',
+        secure: !isLocalhost && process.env.NODE_ENV === 'production',
       })
     }
 

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
 import { BookOpen, ChevronRight, GraduationCap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
@@ -13,17 +14,48 @@ const GuruDetailModal = dynamic(() => import('@/components/guru/GuruDetailModal'
 });
 
 export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
+  const searchParams = useSearchParams();
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  
+  const currentSearch = searchParams.get("search") || "";
+  const currentFilter = searchParams.get("pelajaran") || "all";
 
-  if (gurus.length === 0) {
+  // Client-side filtering based on URL params
+  const filteredGurus = useMemo(() => {
+    return gurus.filter((guru) => {
+      // Filter by search term
+      if (currentSearch && !guru.name.toLowerCase().includes(currentSearch.toLowerCase())) {
+        return false;
+      }
+      
+      // Filter by pelajaran - check both slug and name for robustness
+      if (currentFilter !== "all") {
+        const hasMatchingPelajaran = guru.pelajarans?.some(
+          (pelajaran) => {
+            const pelajaranSlug = pelajaran.slug?.toLowerCase();
+            const pelajaranName = pelajaran.name?.toLowerCase();
+            const filterValue = currentFilter.toLowerCase();
+            return pelajaranSlug === filterValue || pelajaranName === filterValue;
+          }
+        );
+        if (!hasMatchingPelajaran) {
+          return false;
+        }
+      }
+      
+      return true;
+    });
+  }, [gurus, currentSearch, currentFilter]);
+
+  if (filteredGurus.length === 0) {
     return (
       <div className="py-20 text-center">
         <div className="flex items-center justify-center w-20 h-20 mx-auto mb-6 bg-[#33b962]/10 rounded-3xl">
           <BookOpen className="w-10 h-10 text-[#33b962]" />
         </div>
-        <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Data Guru Belum Tersedia</h3>
+        <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Tidak ada guru yang ditemukan</h3>
         <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
-          Informasi profil guru sedang dalam proses pembaruan. Silakan cembali lagi nanti atau hubungi sekolah untuk informasi lebih lanjut.
+          Coba ubah filter atau kata kunci pencarian Anda untuk melihat hasil yang berbeda.
         </p>
       </div>
     );
@@ -32,7 +64,7 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
   return (
     <>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {gurus.map((guru) => {
+        {filteredGurus.map((guru) => {
           const fotoUrl = guru?.foto 
             ? (guru.foto.startsWith("http") ? guru.foto : `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guru.foto}`)
             : "/placeholder.svg";
@@ -51,7 +83,7 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
                   <div className="absolute inset-0 transition-opacity duration-500 opacity-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:opacity-100"></div>
                   
                   <div className="absolute z-10 top-6 right-6 left-6">
-                    <Badge className="max-w-full truncate bg-[#33b962] backdrop-blur-md text-white border-white/30 shadow-2xl font-black px-4 py-2 text-[10px] uppercase tracking-widest rounded-full">
+                    <Badge className="max-w-[200px] sm:max-w-[250px] truncate bg-[#33b962] backdrop-blur-md text-white border-white/30 shadow-2xl font-black px-4 py-2 text-[10px] uppercase tracking-widest rounded-full">
                       {guru.pelajarans && guru.pelajarans.length > 0 ? guru.pelajarans[0].name : "Guru"}
                     </Badge>
                   </div>

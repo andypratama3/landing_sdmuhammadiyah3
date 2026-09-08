@@ -116,6 +116,17 @@ export class ApiClient {
         throw new Error('Invalid token response')
       }
 
+      // Save token to JWTManager
+      const tokenData = data.data?.data || data.data || data
+      const accessToken = tokenData?.access_token || data.access_token || data.token
+      if (accessToken) {
+        JWTManager.saveTokens({
+          access_token: accessToken,
+          refresh_token: tokenData?.refresh_token || data.refresh_token,
+          expires_in: Number(tokenData?.expires_in) || Number(data.expires_in) || 3600,
+        })
+      }
+
       this.log('✅ Token generated successfully')
       
       // Mark token as ready
@@ -134,18 +145,18 @@ export class ApiClient {
    * Harus dipanggil di ApiInitializer sebelum request apapun
    */
   static async initialize(): Promise<void> {
-    // Cegah double initialization
-    if (this.isInitializing) {
-      this.log('⏳ Already initializing, waiting...')
-      await TokenReadyManager.waitUntilReady()
-      return
-    }
-
     // Check existing token
     const existingToken = JWTManager.getAccessToken()
     if (existingToken && !JWTManager.isAccessTokenExpired()) {
       this.log('✅ Valid token exists, skipping generation')
       TokenReadyManager.markReady()
+      return
+    }
+
+    // Cegah double initialization
+    if (this.isInitializing) {
+      this.log('⏳ Already initializing, waiting...')
+      await TokenReadyManager.waitUntilReady()
       return
     }
 
@@ -206,11 +217,12 @@ export class ApiClient {
       }
     }
 
-    // 🔐 Tunggu token ready (max 30 detik)
-    const tokenReady = await TokenReadyManager.waitUntilReady(30000)
-    
-    if (!tokenReady) {
-      this.warn('⚠️ Token not ready, attempting request anyway...')
+    // 🔐 Pastikan token ready sebelum request
+    const existingToken = JWTManager.getAccessToken()
+    if (!existingToken || JWTManager.isAccessTokenExpired()) {
+      await this.initialize()
+    } else {
+      TokenReadyManager.markReady()
     }
 
     let lastError: any = null
@@ -219,11 +231,19 @@ export class ApiClient {
       try {
         this.log(`🌐 Request (attempt ${attempt + 1}): ${endpoint}`)
 
+        // 🔑 Ambil token terkini dan lampirkan ke header Authorization
+        const currentToken = JWTManager.getAccessToken()
+        const authHeaders: Record<string, string> = {}
+        if (currentToken) {
+          authHeaders['Authorization'] = `Bearer ${currentToken}`
+        }
+
         const response = await fetch(`${this.baseURL}${endpoint}`, {
           ...fetchOptions,
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
+            ...authHeaders,
             ...fetchOptions.headers,
           },
           signal: signal || AbortSignal.timeout(30000),
@@ -233,7 +253,8 @@ export class ApiClient {
         if (response.status === 401) {
           this.warn('🔐 Got 401, refreshing token...')
           
-          // Reset token ready state
+          // Reset token ready state & clear invalid token
+          JWTManager.clearTokens()
           TokenReadyManager.reset()
           
           // Generate new token

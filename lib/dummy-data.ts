@@ -226,6 +226,19 @@ export const dummyDukungan: Dukungan[] = [
 ]
 
 /**
+ * Dummy Visitor Data
+ */
+export const dummyVisitorData = {
+  visitor_by_day: 128,
+  visitor_by_month: 2450,
+  visitor_by_year: 18920,
+  visitor_all_year: 45280,
+  trend: 'up' as const,
+  trend_percentage: 12.5,
+  peak_hour: '10:00 - 11:00',
+}
+
+/**
  * Get dummy data by endpoint
  * Returns null if dummy data is not enabled or endpoint not found
  */
@@ -304,6 +317,12 @@ export function getDummyData<T>(endpoint: string): T | null {
         success: true,
         message: 'Dummy data (development only)',
         data: dummyDukungan,
+      } as unknown as T
+    case '/views':
+      return {
+        success: true,
+        message: 'Dummy data (development only)',
+        data: dummyVisitorData,
       } as unknown as T
     default:
       // Try to match specific items

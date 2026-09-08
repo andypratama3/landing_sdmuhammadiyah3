@@ -1,18 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Loader2, X } from "lucide-react";
-import type { Pelajaran } from "@/types";
+import type { Pelajaran, Guru } from "@/types";
 
 export function GuruFilterClient({ 
   pelajarans, 
-  totalGurus 
+  gurus 
 }: { 
   pelajarans: Pelajaran[], 
-  totalGurus: number 
+  gurus: Guru[] 
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -22,6 +22,36 @@ export function GuruFilterClient({
 
   const [searchInput, setSearchInput] = useState(currentSearch);
   const [isTyping, setIsTyping] = useState(false);
+
+  // Sync search input with URL params when they change externally
+  useEffect(() => {
+    setSearchInput(currentSearch);
+  }, [currentSearch]);
+
+  // Calculate filtered count
+  const filteredCount = useMemo(() => {
+    return gurus.filter((guru) => {
+      if (currentSearch && !guru.name.toLowerCase().includes(currentSearch.toLowerCase())) {
+        return false;
+      }
+      
+      if (currentFilter !== "all") {
+        const hasMatchingPelajaran = guru.pelajarans?.some(
+          (pelajaran) => {
+            const pelajaranSlug = pelajaran.slug?.toLowerCase();
+            const pelajaranName = pelajaran.name?.toLowerCase();
+            const filterValue = currentFilter.toLowerCase();
+            return pelajaranSlug === filterValue || pelajaranName === filterValue;
+          }
+        );
+        if (!hasMatchingPelajaran) {
+          return false;
+        }
+      }
+      
+      return true;
+    }).length;
+  }, [gurus, currentSearch, currentFilter]);
 
   // Debounce search input and sync to URL query params
   useEffect(() => {
@@ -75,7 +105,7 @@ export function GuruFilterClient({
               )}
             </div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#33b962]/10">
-               <span className="font-semibold text-(--color-forest-600) dark:text-(--color-forest-400)">{totalGurus}</span>
+               <span className="font-semibold text-(--color-forest-600) dark:text-(--color-forest-400)">{filteredCount}</span>
                <span className="text-sm text-gray-600">Guru</span>
             </div>
           </div>
@@ -85,12 +115,13 @@ export function GuruFilterClient({
               <Button
                 key={filter.slug}
                 variant={currentFilter === filter.slug ? "default" : "outline"}
-                className={`rounded-full px-6 py-2 h-10 font-black uppercase tracking-widest text-[10px] transition-all duration-300 ${
+                className={`rounded-full px-6 py-2 h-10 font-black uppercase tracking-widest text-[10px] transition-all duration-300 max-w-[200px] sm:max-w-[250px] truncate ${
                   currentFilter === filter.slug
                   ? "bg-(--color-forest-700)! text-white shadow-xl shadow-emerald-500/20 hover:bg-(--color-forest-600)! border-0"
                   : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-gray-100 dark:border-gray-800 hover:border-(--color-forest-600) hover:text-(--color-forest-600) dark:hover:border-(--color-forest-400) dark:hover:text-(--color-forest-400)"
                 }`}
                 onClick={() => handleFilterChange(filter.slug)}
+                title={filter.label}
               >
                 {filter.label}
               </Button>

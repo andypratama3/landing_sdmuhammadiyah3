@@ -32,26 +32,24 @@ export default async function GuruPage({
     });
     if (!res.ok) throw new Error("Gagal mengambil mata pelajaran");
     const json = await res.json();
-    const arr = json?.data?.data || json?.data || json;
-    return Array.isArray(arr) ? arr : [];
+    // Handle both data formats: direct array or wrapped in data property
+    const arr = Array.isArray(json) ? json : Array.isArray(json?.data) ? json.data : [];
+    return arr;
   };
 
   const fetchGurus = async () => {
-    const query = new URLSearchParams();
-    if (search) query.append("search", search);
-    if (pelajaran !== "all") query.append("pelajaran", pelajaran);
-    
-    // Fallback safe mode if NEXT_PUBLIC_API_URL is undefined
+    // Fetch all gurus without server-side filtering since we filter client-side
     const validUrl = apiUrl.startsWith('http') ? apiUrl : `https://${apiUrl}`;
     const token = await getSystemAuthToken();
-    const res = await fetch(`${validUrl}/guru?${query.toString()}`, {
+    const res = await fetch(`${validUrl}/guru`, {
       headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
       next: { revalidate: 60 }, // Micro-cache caching invalidation
     });
     if (!res.ok) throw new Error("Gagal mengambil data guru");
     const json = await res.json();
-    const arr = json?.data?.data || json?.data || json;
-    return Array.isArray(arr) ? arr : [];
+    // Handle both data formats: direct array or wrapped in data property
+    const arr = Array.isArray(json) ? json : Array.isArray(json?.data) ? json.data : [];
+    return arr;
   };
 
   let pelajarans: Pelajaran[] = [];
@@ -63,15 +61,12 @@ export default async function GuruPage({
     
     // Normalize and generate a collision-proof hexadecimal deterministic key
     const cacheKeyPelajaran = 'guru:pelajaran:v1:all'; // Doesn't require deep parametrization 
-    const cacheKeyGurus = buildCacheKey('guru:data', listVersion, { search, pelajaran });
+    const cacheKeyGurus = 'guru:data:v1:all'; // Static cache since we filter client-side
 
     // Await all parallel API requests executing over dual-layer Redis/Next Cache
-    // Mitigating potential memory bloat by skipping cache creation on excessive/rare search terms
-    const skipCache = search.length > 30; // Protect memory from bot querying infinite keys
-
     [pelajarans, gurus] = await Promise.all([
       getCachedData(cacheKeyPelajaran, fetchPelajarans, { ttlSeconds: 3600 }),
-      getCachedData(cacheKeyGurus, fetchGurus, { ttlSeconds: 60, skipCacheWrite: skipCache }),
+      getCachedData(cacheKeyGurus, fetchGurus, { ttlSeconds: 60 }),
     ]);
   } catch (err) {
     errorState = true;
@@ -122,7 +117,7 @@ export default async function GuruPage({
 
       {/* Hydrated Client Components Wrapper */}
       <Suspense fallback={<div className="py-12" />}>
-        <GuruFilterClient pelajarans={pelajarans} totalGurus={gurus.length} />
+        <GuruFilterClient pelajarans={pelajarans} gurus={gurus} />
       </Suspense>
 
       {errorState && (

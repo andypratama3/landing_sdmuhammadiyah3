@@ -8,19 +8,45 @@ import { useMemo, useEffect } from "react";
 import type { Guru, Pelajaran } from "@/types";
 
 export default function GuruDetailModal({ slug, onClose }: { slug: string, onClose: () => void }) {
-  const { data: guruDetailResponse, loading: detailLoading } = useApi(
+  const { data: guruDetailResponse, loading: detailLoading, error: detailError } = useApi(
     `/guru/${slug}`,
     { cache: true, cacheTTL: 300000, immediate: true }
   );
 
+  // Handle keyboard navigation (Escape to close)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   const guruDetail = useMemo<Guru | null>(() => {
     if (!guruDetailResponse) return null;
+    
+    // Handle both response formats: { data: Guru } or direct Guru object
     const data = (guruDetailResponse as any)?.data;
-    if (Array.isArray(data)) return data.length > 0 ? data[0] : null;
-    if (data && typeof data === 'object' && Object.keys(data).length > 0) return data;
-    if (guruDetailResponse && typeof guruDetailResponse === 'object' && Object.keys(guruDetailResponse).length > 0) {
+    if (data && typeof data === 'object' && !Array.isArray(data)) {
+      return data as Guru;
+    }
+    
+    // If response is directly the Guru object
+    if (guruDetailResponse && typeof guruDetailResponse === 'object' && !Array.isArray(guruDetailResponse) && 'name' in guruDetailResponse) {
       return guruDetailResponse as Guru;
     }
+    
     return null;
   }, [guruDetailResponse]);
 
@@ -32,7 +58,11 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
       .modal-scroll { -ms-overflow-style: none; scrollbar-width: none; }
     `;
     document.head.appendChild(style);
-    return () => { document.head.removeChild(style); }
+    return () => { 
+      if (document.head.contains(style)) {
+        document.head.removeChild(style); 
+      }
+    };
   }, []);
 
   return (
@@ -41,7 +71,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
       onClick={onClose}
     >
       <div
-        className="modal-scroll mt-16 relative w-full max-w-3xl bg-white dark:bg-gray-900 rounded-3xl shadow-2xl max-h-[95vh] overflow-y-auto"
+        className="modal-scroll mt-16 relative w-full max-w-3xl bg-white dark:bg-gray-900 rounded-3xl shadow-2xl max-h-[95vh] overflow-y-auto group"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -63,7 +93,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
           </div>
         ) : guruDetail ? (
           <div>
-            <div className="relative h-96 overflow-hidden bg-linear-to-br from-[#33b962] via-[#2a9d52] to-[#1a6d3b] rounded-t-3xl">
+            <div className="relative h-96 overflow-hidden bg-gradient-to-br from-[#33b962] via-[#2a9d52] to-[#1a6d3b] rounded-t-3xl">
               <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute top-0 right-0 rounded-full w-96 h-96 bg-white/20 blur-3xl animate-pulse"></div>
                 <div className="absolute bottom-0 left-0 rounded-full w-80 h-80 bg-white/10 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
@@ -124,7 +154,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
 
               {guruDetail.pelajarans && Array.isArray(guruDetail.pelajarans) && guruDetail.pelajarans.length > 0 && (
                 <div className="grid grid-cols-1 gap-4 mb-8">
-                  <div className="bg-linear-to-br from-[#33b962]/10 to-transparent dark:from-[#33b962]/20 rounded-xl p-4 border border-[#33b962]/20 dark:border-[#33b962]/30">
+                  <div className="bg-gradient-to-br from-[#33b962]/10 to-transparent dark:from-[#33b962]/20 rounded-xl p-4 border border-[#33b962]/20 dark:border-[#33b962]/30">
                     <p className="text-xs font-semibold tracking-wide text-gray-600 dark:text-gray-400 uppercase">Pelajaran</p>
                     <p className="text-2xl sm:text-3xl font-black text-(--color-forest-600) dark:text-(--color-forest-400)">{guruDetail.pelajarans.length} Mata Pelajaran</p>
                   </div>
@@ -143,7 +173,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                     {guruDetail.pelajarans.map((p: Pelajaran) => (
                       <div
                         key={p.slug}
-                        className="group flex items-center gap-4 p-4 bg-linear-to-r from-[#33b962]/8 to-transparent rounded-xl border-l-4 border-[#33b962] hover:shadow-lg hover:bg-linear-to-r hover:from-[#33b962]/12 transition-all"
+                        className="group flex items-center gap-4 p-4 bg-gradient-to-r from-[#33b962]/8 to-transparent rounded-xl border-l-4 border-[#33b962] hover:shadow-lg hover:bg-gradient-to-r hover:from-[#33b962]/12 transition-all"
                       >
                         <div className="flex flex-1 min-w-0 items-start gap-4">
                           <div className="shrink-0 mt-1.5 w-3 h-3 rounded-full bg-[#33b962] group-hover:scale-150 transition-transform"></div>
@@ -166,7 +196,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                   </h3>
                   <div className="space-y-3">
                     {guruDetail.karyawan.email && (
-                      <a href={`mailto:${guruDetail.karyawan.email}`} className="group flex items-center gap-4 p-4 sm:p-5 rounded-xl bg-linear-to-r from-[#33b962]/8 to-transparent dark:from-[#33b962]/10 border-2 border-[#33b962]/20 dark:border-gray-700 hover:border-[#33b962] hover:shadow-lg transition-all">
+                      <a href={`mailto:${guruDetail.karyawan.email}`} className="group flex items-center gap-4 p-4 sm:p-5 rounded-xl bg-gradient-to-r from-[#33b962]/8 to-transparent dark:from-[#33b962]/10 border-2 border-[#33b962]/20 dark:border-gray-700 hover:border-[#33b962] hover:shadow-lg transition-all">
                         <div className="shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-[#33b962]/10 rounded-xl flex items-center justify-center group-hover:bg-[#33b962]/20 transition-colors">
                           <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-[#33b962]" />
                         </div>
@@ -178,7 +208,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                       </a>
                     )}
                     {guruDetail.karyawan.phone && (
-                      <a href={`tel:${guruDetail.karyawan.phone}`} className="group flex items-center gap-4 p-4 sm:p-5 rounded-xl bg-linear-to-r from-[#33b962]/8 to-transparent dark:from-[#33b962]/10 border-2 border-[#33b962]/20 dark:border-gray-700 hover:border-[#33b962] hover:shadow-lg transition-all">
+                      <a href={`tel:${guruDetail.karyawan.phone}`} className="group flex items-center gap-4 p-4 sm:p-5 rounded-xl bg-gradient-to-r from-[#33b962]/8 to-transparent dark:from-[#33b962]/10 border-2 border-[#33b962]/20 dark:border-gray-700 hover:border-[#33b962] hover:shadow-lg transition-all">
                         <div className="shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-[#33b962]/10 rounded-xl flex items-center justify-center group-hover:bg-[#33b962]/20 transition-colors">
                           <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-[#33b962]" />
                         </div>
@@ -193,6 +223,20 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                 </div>
               )}
             </div>
+          </div>
+        ) : detailError ? (
+          <div className="p-8 text-center">
+            <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full">
+              <X className="w-8 h-8 text-red-500" />
+            </div>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Gagal memuat data</h3>
+            <p className="text-gray-500 dark:text-gray-400 mb-4">{detailError}</p>
+            <button
+              onClick={onClose}
+              className="px-6 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            >
+              Tutup
+            </button>
           </div>
         ) : (
           <div className="p-8 text-center text-gray-500 dark:text-gray-400">Guru tidak ditemukan</div>

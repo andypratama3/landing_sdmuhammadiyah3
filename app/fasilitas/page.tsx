@@ -1,52 +1,28 @@
-"use client"
+export const revalidate = 3600
 
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Breadcrumb from "@/components/breadcrumb"
-import { Building, Users, CheckCircle, Ruler, ChevronRight } from "lucide-react"
-import PanoViewerComponent from "@/components/View360Image"
-import { useApi } from "@/hooks/useApi"
+import { Building, Users, CheckCircle, Ruler, ChevronRight, RefreshCw } from "lucide-react"
+import { serverGetPublic } from "@/lib/server-api"
+import { Suspense } from "react"
 import { Fasilitas, KelengkapanFasilitas } from "@/types"
 import Image from "next/image"
 import Link from "next/link"
 import PageAnimations from "@/components/PageAnimations"
 import { resolveImageUrl } from "@/lib/image-url"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
-export default function FasilitasPage() {
-  const { data: facilities, loading, error } = useApi<Fasilitas[]>('/fasilitas')
+interface FasilitasPageProps {
+  searchParams?: Promise<{ [key: string]: string | undefined }>
+}
 
-  if (loading) {
-    return (
-      <div className="pt-24 pb-16">
-        <section className="bg-linear-to-br from-(--color-forest-450) via-(--color-forest-500) to-(--color-forest-800) py-20 text-white">
-          <div className="container px-4 mx-auto">
-            <Breadcrumb items={[{ label: "Sarana & Prasarana" }]} />
-            <div className="max-w-4xl mx-auto mt-8 text-center">
-              <h1 className="mb-6 text-3xl sm:text-5xl md:text-6xl font-black text-balance leading-tight">Sarana & Prasarana</h1>
-              <p className="text-xl leading-relaxed text-white/90 text-balance">Loading...</p>
-            </div>
-          </div>
-        </section>
-      </div>
-    )
-  }
-
-  if (error || !facilities) {
-    return (
-      <div className="pt-24 pb-16">
-        <section className="bg-linear-to-br from-(--color-forest-450) via-(--color-forest-500) to-(--color-forest-800) py-20 text-white">
-          <div className="container px-4 mx-auto">
-            <Breadcrumb items={[{ label: "Sarana & Prasarana" }]} />
-            <div className="max-w-4xl mx-auto mt-8 text-center">
-              <h1 className="mb-6 text-3xl sm:text-5xl md:text-6xl font-black text-balance leading-tight">Sarana & Prasarana</h1>
-              <p className="text-xl leading-relaxed text-white/90 text-balance">Data tidak tersedia</p>
-            </div>
-          </div>
-        </section>
-      </div>
-    )
-  }
+export default async function FasilitasPage({ searchParams }: FasilitasPageProps) {
+  const params = await searchParams || {}
+  
+  const facilitiesRes = await serverGetPublic<Fasilitas[]>('/list/fasilitas')
+  const facilities = facilitiesRes.data || []
 
   return (
     <div className="pt-24 pb-16 min-h-screen bg-(--color-paper-50) dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
@@ -71,6 +47,7 @@ export default function FasilitasPage() {
                 fill
                 sizes="(max-width: 1024px) 100vw, 66vw"
                 className="object-cover opacity-20 z-[-1] transition-transform duration-1000 group-hover:scale-105"
+                priority
               />
 
               <div className="relative z-10">
@@ -104,8 +81,8 @@ export default function FasilitasPage() {
 
               <div className="page-card bg-(--color-sun-500) dark:bg-(--color-sun-400) rounded-[2.5rem] p-8 shadow-md flex flex-col justify-center flex-1 transition-transform relative overflow-hidden group hover:scale-[1.02]">
                 <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-6 text-gray-900 group-hover:rotate-12 transition-transform">
-                    <CheckCircle className="w-8 h-8" />
-                  </div>
+                  <CheckCircle className="w-8 h-8" />
+                </div>
                 <h3 className="text-2xl font-black text-gray-900 leading-tight uppercase tracking-tight">Lengkap</h3>
                 <p className="text-sm font-medium text-gray-800 mt-2">Sarana Penunjang Kreativitas</p>
               </div>
@@ -137,7 +114,7 @@ export default function FasilitasPage() {
                             sizes="(max-width: 768px) 100vw, 50vw"
                             className="object-cover transition-transform duration-1000 group-hover/img:scale-110"
                           />
-                          <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity duration-500" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity duration-500" />
                         </div>
                       ) : (
                         <div className="relative flex items-center justify-center overflow-hidden bg-(--color-forest-450)/10 dark:bg-(--color-forest-450)/20 h-72 sm:h-80 lg:h-96 rounded-[1.25rem]">
@@ -145,11 +122,11 @@ export default function FasilitasPage() {
                         </div>
                       )}
                       <div className="grid grid-cols-2 gap-6">
-                        <div className="relative flex flex-col items-center justify-center h-48 overflow-hidden bg-linear-to-br from-(--color-forest-450)/5 to-transparent rounded-[1.5rem] border border-(--color-forest-450)/10">
+                        <div className="relative flex flex-col items-center justify-center h-48 overflow-hidden bg-gradient-to-br from-(--color-forest-450)/5 to-transparent rounded-[1.5rem] border border-(--color-forest-450)/10">
                           <Users className="w-8 h-8 text-(--color-forest-450) mb-2 opacity-50" />
                           <span className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-450)">Ruang Inovasi</span>
                         </div>
-                        <div className="relative h-48 rounded-[1.5rem] overflow-hidden bg-linear-to-br from-(--color-sun-500)/10 to-transparent flex flex-col items-center justify-center border border-(--color-sun-500)/10">
+                        <div className="relative h-48 rounded-[1.5rem] overflow-hidden bg-gradient-to-br from-(--color-sun-500)/10 to-transparent flex flex-col items-center justify-center border border-(--color-sun-500)/10">
                           <CheckCircle className="w-8 h-8 text-(--color-sun-500) mb-2 opacity-50" />
                           <span className="text-[10px] font-black uppercase tracking-widest text-(--color-sun-500)">360° View Ready</span>
                         </div>
@@ -209,7 +186,13 @@ export default function FasilitasPage() {
               ))
             ) : (
               <div className="py-12 text-center">
-                <p className="text-gray-600 dark:text-gray-400">Tidak ada fasilitas yang tersedia</p>
+                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full">
+                  <Building className="w-8 h-8 text-gray-400" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Tidak ada fasilitas yang tersedia</h3>
+                <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
+                  Informasi fasilitas sedang dalam proses pembaruan. Silakan cembali lagi nanti.
+                </p>
               </div>
             )}
           </div>

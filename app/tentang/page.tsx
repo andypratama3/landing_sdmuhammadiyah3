@@ -1,4 +1,4 @@
-"use client"
+export const revalidate = 3600
 
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -7,11 +7,23 @@ import Link from "next/link"
 import Breadcrumb from "@/components/breadcrumb"
 import { Target, Eye, Heart, Users, Building2, Award, BookOpen, Shield, CheckCircle } from "lucide-react"
 import { Fotosekolah } from '@/types/fotosekolah.types';
-import { useApi } from "@/hooks/useApi"
+import { serverGetPublic } from "@/lib/server-api"
+import { Suspense } from "react"
 import { FotoSekolahCard } from '@/components/tentang/fotoSekolahCard'
 import PageAnimations from "@/components/PageAnimations"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { RefreshCw } from "lucide-react"
 
-export default function TentangPage() {
+interface TentangPageProps {
+  searchParams?: Promise<{ [key: string]: string | undefined }>
+}
+
+export default async function TentangPage({ searchParams }: TentangPageProps) {
+  const params = await searchParams || {}
+  
+  const fotosekolahRes = await serverGetPublic<Fotosekolah[]>('/tentang/foto-sekolah')
+  const fotosekolah = fotosekolahRes.data || []
+
   const timeline = [
     {
       year: "1978",
@@ -42,16 +54,6 @@ export default function TentangPage() {
       event: "Meraih Akreditasi A (Unggul) dengan SK Nomor 1347/BAN-SM/SK/2021"
     }
   ];
-
-
-  const { data: fotosekolah, loading: fotosekolahLoading } = useApi<Fotosekolah[]>(
-    '/tentang/foto-sekolah',
-    {
-      cache: true,
-      cacheTTL: 3600000,
-      immediate: true,
-    }
-  );
 
   const reasons = [
     {
@@ -264,10 +266,18 @@ export default function TentangPage() {
           </div>
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-2 gap-8 md:grid-cols-3">
-              <FotoSekolahCard
-                galleries={fotosekolah}
-                loading={fotosekolahLoading}
-              />
+              <Suspense fallback={
+                <div className="col-span-2 md:col-span-3 space-y-8">
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div key={i} className="aspect-square bg-gray-200 dark:bg-gray-800 rounded-2xl animate-pulse" />
+                  ))}
+                </div>
+              }>
+                <FotoSekolahCard
+                  galleries={fotosekolah}
+                  loading={false}
+                />
+              </Suspense>
             </div>
           </div>
         </div>

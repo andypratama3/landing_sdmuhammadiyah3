@@ -177,6 +177,7 @@ export default function ProfilPage() {
                       fill
                       sizes="(max-width: 640px) 192px, (max-width: 768px) 224px, (max-width: 1024px) 256px, 320px"
                       className="object-contain transition-transform duration-700 group-hover:scale-110 bg-white"
+                      priority
                     />
                   </div>
                 </div>

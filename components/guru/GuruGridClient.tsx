@@ -66,7 +66,9 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {filteredGurus.map((guru) => {
           const fotoUrl = guru?.foto 
-            ? (guru.foto.startsWith("http") ? guru.foto : `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guru.foto}`)
+            ? (guru.foto.startsWith("http") ? guru.foto
+              : guru.foto.includes("/") ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/${guru.foto}`
+              : `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guru.foto}`)
             : "/placeholder.svg";
 
           return (

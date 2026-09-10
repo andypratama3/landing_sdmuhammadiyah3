@@ -103,8 +103,12 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                   <Image
                     src={
                       guruDetail.foto
-                        ? (guruDetail.foto.startsWith("http") ? guruDetail.foto : `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guruDetail.foto}`)
-                        : (guruDetail.karyawan?.foto ? (guruDetail.karyawan.foto.startsWith("http") ? guruDetail.karyawan.foto : `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guruDetail.karyawan.foto}`) : "/placeholder.svg")
+                        ? (guruDetail.foto.startsWith("http") ? guruDetail.foto
+                          : guruDetail.foto.includes("/") ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/${guruDetail.foto}`
+                          : `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guruDetail.foto}`)
+                        : (guruDetail.karyawan?.foto ? (guruDetail.karyawan.foto.startsWith("http") ? guruDetail.karyawan.foto
+                          : guruDetail.karyawan.foto.includes("/") ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/${guruDetail.karyawan.foto}`
+                          : `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guruDetail.karyawan.foto}`) : "/placeholder.svg")
                     }
                     alt={guruDetail.name}
                     fill

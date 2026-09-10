@@ -53,7 +53,11 @@ export default function TenagaPendidikanPage() {
           id: staff.id,
           name: staff.name,
           position: staff.jabatan,
-          image: staff.foto ? `${storageUrl}/img/tenagapendidikan/${staff.foto}` : "/placeholder.svg",
+          image: staff.foto
+            ? (staff.foto.startsWith("http") ? staff.foto
+              : staff.foto.includes("/") ? `${storageUrl}/${staff.foto}`
+              : `${storageUrl}/img/tenagapendidikan/${staff.foto}`)
+            : "/placeholder.svg",
           category: staff.jabatan,
           slug: staff.slug,
           description: staff.description || "",

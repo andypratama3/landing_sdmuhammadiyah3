@@ -78,6 +78,16 @@ export class ApiClient {
   
   private static readonly DEBUG = process.env.NODE_ENV === 'development'
 
+  private static getBaseUrl(): string {
+    const defaultUrl = this.baseURL || 'http://localhost:8000/api/v2'
+    if (typeof window !== 'undefined') {
+      if (defaultUrl.includes('localhost:8000') || defaultUrl.includes('127.0.0.1:8000')) {
+        return '/api-proxy'
+      }
+    }
+    return defaultUrl
+  }
+
   private static log(...args: any[]): void {
     if (this.DEBUG) console.log('[API]', ...args)
   }
@@ -238,7 +248,7 @@ export class ApiClient {
           authHeaders['Authorization'] = `Bearer ${currentToken}`
         }
 
-        const response = await fetch(`${this.baseURL}${endpoint}`, {
+        const response = await fetch(`${this.getBaseUrl()}${endpoint}`, {
           ...fetchOptions,
           credentials: 'include',
           headers: {

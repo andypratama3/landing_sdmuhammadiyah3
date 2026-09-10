@@ -69,48 +69,32 @@ export function OrgTreeNode({ node, level = 0, isRoot = false }: OrgTreeNodeProp
       </div>
 
       {hasChildren && isExpanded && (
-        <div className="relative w-full">
+        <div className="flex flex-col items-center w-full">
           <div
-            className="w-1 mx-auto"
+            className="w-1 mx-auto shrink-0"
             style={{
               height: "24px",
               backgroundColor: colors.line,
             }}
           />
 
-          <div className="flex flex-col items-center gap-6 mt-4">
-            {node.children && node.children.length > 1 && (
-              <div className="relative" style={{ width: "100%", minHeight: "24px" }}>
-                <div
-                  className="absolute h-1"
-                  style={{
-                    backgroundColor: colors.line,
-                    top: "0px",
-                    left: "0",
-                    right: "0",
-                    width: "100%",
-                  }}
-                />
+          <div className="flex flex-row flex-wrap justify-center items-start gap-6 md:gap-10 w-full pt-0">
+            {node.children?.map((child, index) => (
+              <div key={child.slug || child.id || index} className="flex flex-col items-center relative">
+                {node.children && node.children.length > 1 && (
+                  <div
+                    className="absolute h-1"
+                    style={{
+                      backgroundColor: colors.line,
+                      top: "0px",
+                      left: index === 0 ? "50%" : "0px",
+                      right: index === (node.children?.length ?? 1) - 1 ? "50%" : "0px",
+                    }}
+                  />
+                )}
+                <OrgTreeNode node={child} level={level + 1} isRoot={false} />
               </div>
-            )}
-
-            <div className="flex flex-col w-full gap-6">
-              {node.children?.map((child) => (
-                <div key={child.slug} className="flex flex-col items-center">
-                  {node.children && node.children.length > 1 && (
-                    <div
-                      className="w-1"
-                      style={{
-                        height: "24px",
-                        backgroundColor: colors.line,
-                        marginBottom: "0px",
-                      }}
-                    />
-                  )}
-                  <OrgTreeNode node={child} level={level + 1} isRoot={false} />
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
       )}

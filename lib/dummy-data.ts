@@ -239,6 +239,85 @@ export const dummyVisitorData = {
 }
 
 /**
+ * Dummy Tenaga Kependidikan Data
+ */
+export const dummyTenagaKependidikan = [
+  {
+    id: '1',
+    name: 'Kepala Sekolah',
+    slug: 'kepala-sekolah',
+    staff: [
+      {
+        id: 'staff-1',
+        name: 'H. Ahmad Fauzi, M.Pd',
+        jabatan: 'Kepala Sekolah',
+        foto: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=500&fit=crop',
+        slug: 'h-ahmad-fauzi-mpd',
+        description: 'Kepala SD Muhammadiyah 3 Samarinda',
+      },
+    ],
+    children: [
+      {
+        id: '2',
+        name: 'Wakil Kepala Sekolah',
+        slug: 'wakil-kepala-sekolah',
+        staff: [],
+        children: [
+          {
+            id: '3',
+            name: 'Waka Kurikulum',
+            slug: 'waka-kurikulum',
+            staff: [
+              {
+                id: 'staff-2',
+                name: 'Siti Rahmah, S.Pd',
+                jabatan: 'Waka Kurikulum',
+                foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=500&fit=crop',
+                slug: 'siti-rahmah-spd',
+                description: 'Penanggung Jawab Kurikulum dan Pembelajaran',
+              },
+            ],
+            children: [],
+          },
+          {
+            id: '4',
+            name: 'Waka Kesiswaan',
+            slug: 'waka-kesiswaan',
+            staff: [
+              {
+                id: 'staff-3',
+                name: 'Budi Santoso, S.Pd',
+                jabatan: 'Waka Kesiswaan',
+                foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop',
+                slug: 'budi-santoso-spd',
+                description: 'Penanggung Jawab Kesiswaan dan Ekstrakurikuler',
+              },
+            ],
+            children: [],
+          },
+        ],
+      },
+      {
+        id: '5',
+        name: 'Tata Usaha & Administrasi',
+        slug: 'tata-usaha-administrasi',
+        staff: [
+          {
+            id: 'staff-4',
+            name: 'Dewi Lestari, A.Md',
+            jabatan: 'Kepala TU',
+            foto: 'https://images.unsplash.com/photo-1580894732468-9556886e00b8?w=400&h=500&fit=crop',
+            slug: 'dewi-lestari-amd',
+            description: 'Staf Administrasi & Tata Usaha',
+          },
+        ],
+        children: [],
+      },
+    ],
+  },
+]
+
+/**
  * Get dummy data by endpoint
  * Returns null if dummy data is not enabled or endpoint not found
  */
@@ -323,6 +402,12 @@ export function getDummyData<T>(endpoint: string): T | null {
         success: true,
         message: 'Dummy data (development only)',
         data: dummyVisitorData,
+      } as unknown as T
+    case '/tenaga-kependidikan':
+      return {
+        success: true,
+        message: 'Dummy data (development only)',
+        data: dummyTenagaKependidikan,
       } as unknown as T
     default:
       // Try to match specific items

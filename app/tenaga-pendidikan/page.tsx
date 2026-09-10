@@ -36,37 +36,50 @@ export default function TenagaPendidikanPage() {
   const hierarchyData = useMemo(() => {
     if (!tenagaPendidikanResponse) return []
 
-    const dataArray = tenagaPendidikanResponse || tenagaPendidikanResponse
+    const dataArray = (tenagaPendidikanResponse as any)?.data || tenagaPendidikanResponse
     return Array.isArray(dataArray) ? dataArray : []
   }, [tenagaPendidikanResponse])
 
-  // Process hierarchy data to include full image URLs
+  // Process hierarchy data to include full image URLs & filter out categories with 0 staff
   const processedHierarchyData = useMemo(() => {
     const storageUrl = process.env.NEXT_PUBLIC_STORAGE_URL || ''
 
-    const processNode = (node: any): StrukturNode => {
+    const processNode = (node: any): StrukturNode | null => {
+      const processedChildren = (node.children || [])
+        .map(processNode)
+        .filter((child: StrukturNode | null): child is StrukturNode => child !== null)
+
+      const staffList = (node.staff || []).map((staff: any) => ({
+        id: staff.id || staff.slug,
+        name: staff.name,
+        position: staff.jabatan || staff.position || node.name,
+        image: staff.foto || staff.image
+          ? ((staff.foto || staff.image).startsWith("http") ? (staff.foto || staff.image)
+            : (staff.foto || staff.image).includes("/") ? `${storageUrl}/${staff.foto || staff.image}`
+            : `${storageUrl}/img/tenagapendidikan/${staff.foto || staff.image}`)
+          : "/placeholder.svg",
+        category: staff.jabatan || staff.category || node.name,
+        slug: staff.slug,
+        description: staff.description || "",
+      }))
+
+      // Hide category node if it has 0 staff and no children with staff
+      if (staffList.length === 0 && processedChildren.length === 0) {
+        return null
+      }
+
       return {
-        id: node.id,
+        id: node.id || node.slug,
         name: node.name,
         slug: node.slug,
-        staff: (node.staff || []).map((staff: any) => ({
-          id: staff.id,
-          name: staff.name,
-          position: staff.jabatan,
-          image: staff.foto
-            ? (staff.foto.startsWith("http") ? staff.foto
-              : staff.foto.includes("/") ? `${storageUrl}/${staff.foto}`
-              : `${storageUrl}/img/tenagapendidikan/${staff.foto}`)
-            : "/placeholder.svg",
-          category: staff.jabatan,
-          slug: staff.slug,
-          description: staff.description || "",
-        })),
-        children: (node.children || []).map(processNode)
+        staff: staffList,
+        children: processedChildren
       }
     }
 
-    return hierarchyData.map(processNode)
+    return hierarchyData
+      .map(processNode)
+      .filter((node): node is StrukturNode => node !== null)
   }, [hierarchyData])
 
   // Flatten all staff from hierarchy for grid view

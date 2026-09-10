@@ -24,7 +24,7 @@ export const dummyDataConfig = {
    * DEFAULT: false (use real API)
    * Set to true only when API is unavailable for local development
    */
-  USE_DUMMY_DATA: true as boolean,
+  USE_DUMMY_DATA: false as boolean,
   
   /**
    * Add latency to simulate real API response time (in milliseconds)

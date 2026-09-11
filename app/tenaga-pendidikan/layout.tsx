@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { pageMetadata } from '@/lib/metadata-helpers'
+import { BreadcrumbJsonLd } from '@/components/JsonLd'
+import { BASE_URL } from '@/lib/school-info'
 
 export const metadata: Metadata = pageMetadata({
   title: 'Tenaga Pendidikan SD Muhammadiyah 3 Samarinda',
@@ -10,5 +12,15 @@ export const metadata: Metadata = pageMetadata({
 })
 
 export default function TenagaPendidikanLayout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Beranda', url: BASE_URL },
+          { name: 'Tenaga Pendidikan', url: `${BASE_URL}/tenaga-pendidikan` },
+        ]}
+      />
+      {children}
+    </>
+  )
 }

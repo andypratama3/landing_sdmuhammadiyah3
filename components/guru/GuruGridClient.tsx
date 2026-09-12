@@ -22,7 +22,8 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
 
   // Client-side filtering based on URL params
   const filteredGurus = useMemo(() => {
-    return gurus.filter((guru) => {
+    return gurus
+      .filter((guru) => {
       // Filter by search term
       if (currentSearch && !guru.name.toLowerCase().includes(currentSearch.toLowerCase())) {
         return false;
@@ -44,7 +45,20 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
       }
       
       return true;
-    });
+    })
+      // Sort pelajaran so the one matching the active filter shows first in the card
+      .map((guru) => {
+        if (currentFilter === "all" || !guru.pelajarans?.length) return guru;
+
+        const filterValue = currentFilter.toLowerCase();
+        const pelajaransSorted = [...guru.pelajarans].sort((a, b) => {
+          const aMatch = a.slug?.toLowerCase() === filterValue || a.name?.toLowerCase() === filterValue;
+          const bMatch = b.slug?.toLowerCase() === filterValue || b.name?.toLowerCase() === filterValue;
+          return (bMatch ? 1 : 0) - (aMatch ? 1 : 0);
+        });
+
+        return pelajaransSorted === guru.pelajarans ? guru : { ...guru, pelajarans: pelajaransSorted };
+      });
   }, [gurus, currentSearch, currentFilter]);
 
   if (filteredGurus.length === 0) {
@@ -86,7 +100,7 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
                   
                   <div className="absolute z-10 top-4 sm:top-6 right-4 sm:right-6 left-4 sm:left-6">
                     <Badge className="max-w-[150px] sm:max-w-[200px] md:max-w-[250px] truncate bg-[#33b962] backdrop-blur-md text-white border-white/30 shadow-2xl font-black px-3 sm:px-4 py-1.5 sm:py-2 text-[9px] sm:text-[10px] uppercase tracking-widest rounded-full">
-                      {guru.pelajarans && guru.pelajarans.length > 0 ? guru.pelajarans[0].name : "Guru"}
+                      {guru.role === "shadow_teacher" ? "Shadow Teacher" : (guru.pelajarans && guru.pelajarans.length > 0 ? guru.pelajarans[0].name : "Guru")}
                     </Badge>
                   </div>
 

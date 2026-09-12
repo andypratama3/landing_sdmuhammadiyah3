@@ -42,6 +42,7 @@ export interface Guru {
   lulusan: string;
   created_at?: string;
   updated_at: string;
+  role?: string | null;
   pelajarans?: Pelajaran[];
   karyawan?: Karyawan;
 }

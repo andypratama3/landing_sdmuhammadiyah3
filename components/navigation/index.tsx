@@ -7,19 +7,14 @@ import { Button } from "@/components/ui/button";
 export const navLinks = [
   { href: "/", label: "Beranda" },
   {
-    label: "Tentang",
+    label: "Profil",
     dropdown: [
       { href: "/tentang", label: "Tentang Kami" },
       { href: "/profil", label: "Profil Sekolah" },
-    ],
-  },
-  {
-    label: "Profil",
-    dropdown: [
-      { href: "/profil", label: "Profil Sekolah" },
       { href: "/guru", label: "Guru" },
       { href: "/tenaga-pendidikan", label: "Tenaga Pendidikan" },
-      { href: "/galeri", label: "Gallery Aktivitas" },
+      { href: "/alumni", label: "Portal Alumni" },
+      { href: "/galeri", label: "Galeri Aktivitas" },
       { href: "/fasilitas", label: "Sarana & Prasarana" },
       { href: "/ekstrakurikuler", label: "Ekstrakurikuler" },
       { href: "/prestasi-siswa", label: "Prestasi Siswa" },

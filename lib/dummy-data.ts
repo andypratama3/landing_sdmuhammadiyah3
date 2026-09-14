@@ -8,6 +8,7 @@ import type { Berita } from '@/types/berita.types'
 import type { Gallery, GalleryKategori } from '@/types/gallery.types'
 import type { Fasilitas } from '@/types'
 import type { Dukungan } from '@/types/dukungan.types'
+import type { Alumni } from '@/types/alumni.types'
 import { isDummyDataEnabled } from '@/config/dummy-data.config'
 
 /**
@@ -318,6 +319,347 @@ export const dummyTenagaKependidikan = [
 ]
 
 /**
+ * Dummy Alumni Data — 20 entries with realistic Indonesian profiles
+ */
+export const dummyAlumni: Alumni[] = [
+  {
+    id: '1',
+    name: 'Ahmad Fadhilah Rizky',
+    slug: 'ahmad-fadhilah-rizky',
+    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2020,
+    class_name: '6A',
+    current_profession: 'Pelajar SMA',
+    workplace: 'SMA Muhammadiyah 1 Samarinda',
+    achievement: 'Juara 1 Olimpiade Matematika Tingkat Kota Samarinda 2023',
+    description:
+      'Alumni berprestasi yang kini melanjutkan pendidikan di SMA Muhammadiyah 1 Samarinda dengan berbagai prestasi akademik.',
+    social_media: {
+      instagram: 'https://instagram.com',
+    },
+  },
+  {
+    id: '2',
+    name: 'Siti Aisyah Maharani',
+    slug: 'siti-aisyah-maharani',
+    photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2018,
+    class_name: '6B',
+    current_profession: 'Mahasiswi Kedokteran',
+    workplace: 'Universitas Mulawarman',
+    achievement: 'Penerima Beasiswa Bidikmisi & Hafizah 15 Juz',
+    description:
+      'Kini menempuh pendidikan Kedokteran di Universitas Mulawarman. Aktif sebagai relawan kesehatan di berbagai kegiatan sosial.',
+    social_media: {
+      instagram: 'https://instagram.com',
+      linkedin: 'https://linkedin.com',
+    },
+  },
+  {
+    id: '3',
+    name: 'Muhammad Hafizh Pratama',
+    slug: 'muhammad-hafizh-pratama',
+    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2015,
+    class_name: '6C',
+    current_profession: 'Software Engineer',
+    workplace: 'PT Telkom Indonesia',
+    achievement: 'Top 10 Hackathon Nasional Kominfo 2024',
+    description:
+      'Bekerja sebagai Software Engineer di PT Telkom Indonesia. Mengembangkan aplikasi digital untuk transformasi layanan publik.',
+    social_media: {
+      linkedin: 'https://linkedin.com',
+      instagram: 'https://instagram.com',
+    },
+  },
+  {
+    id: '4',
+    name: 'Nur Haliza Putri',
+    slug: 'nur-haliza-putri',
+    photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2016,
+    class_name: '6A',
+    current_profession: 'Guru SD',
+    workplace: 'SD Islam Terpadu Al-Furqan Samarinda',
+    achievement: 'Guru Berprestasi Tingkat Kota Samarinda 2023',
+    description:
+      'Menjadi guru SD dan menginspirasi generasi berikutnya dengan metode pembelajaran kreatif. Peraih penghargaan guru berprestasi.',
+    social_media: {
+      facebook: 'https://facebook.com',
+      instagram: 'https://instagram.com',
+    },
+  },
+  {
+    id: '5',
+    name: 'Rizal Maulana Akbar',
+    slug: 'rizal-maulana-akbar',
+    photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2012,
+    class_name: '6B',
+    current_profession: 'Dokter Umum',
+    workplace: 'RSUD Abdul Wahab Sjahranie Samarinda',
+    achievement: 'Lulusan Terbaik Fakultas Kedokteran UNMUL 2022',
+    description:
+      'Dokter umum yang bertugas di RSUD AWS Samarinda. Aktif dalam program kesehatan masyarakat di Kalimantan Timur.',
+    social_media: {
+      linkedin: 'https://linkedin.com',
+    },
+  },
+  {
+    id: '6',
+    name: 'Farah Nabilah Zahra',
+    slug: 'farah-nabilah-zahra',
+    photo: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2019,
+    class_name: '6A',
+    current_profession: 'Content Creator',
+    workplace: 'Freelance / YouTube',
+    achievement: '100K Subscribers YouTube — Konten Edukasi Islam Anak',
+    description:
+      'Membuat konten edukatif Islam untuk anak-anak di YouTube dengan lebih dari 100 ribu subscriber. Menginspirasi generasi muda.',
+    social_media: {
+      instagram: 'https://instagram.com',
+      facebook: 'https://facebook.com',
+    },
+  },
+  {
+    id: '7',
+    name: 'Bagas Eko Prasetyo',
+    slug: 'bagas-eko-prasetyo',
+    photo: 'https://images.unsplash.com/photo-1463453091185-61582044d556?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2014,
+    class_name: '6C',
+    current_profession: 'Atlet Renang Nasional',
+    workplace: 'PRSI Kalimantan Timur',
+    achievement: 'Medali Perak PON XX Papua 2021 cabang Renang',
+    description:
+      'Atlet renang kebanggaan Kalimantan Timur yang meraih medali perak di PON XX Papua. Kini melatih atlet muda di Samarinda.',
+    social_media: {
+      instagram: 'https://instagram.com',
+    },
+  },
+  {
+    id: '8',
+    name: 'Dina Rahmawati',
+    slug: 'dina-rahmawati',
+    photo: 'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2017,
+    class_name: '6B',
+    current_profession: 'Mahasiswi Hukum',
+    workplace: 'Universitas Brawijaya Malang',
+    achievement: 'Penerima Beasiswa Unggulan Kemendikbud 2022',
+    description:
+      'Menempuh pendidikan Hukum di Universitas Brawijaya dengan beasiswa unggulan. Aktif di organisasi kemahasiswaan.',
+    social_media: {
+      linkedin: 'https://linkedin.com',
+      instagram: 'https://instagram.com',
+    },
+  },
+  {
+    id: '9',
+    name: 'Yusuf Al-Hakim',
+    slug: 'yusuf-al-hakim',
+    photo: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2013,
+    class_name: '6A',
+    current_profession: 'Pengusaha Muda',
+    workplace: 'CV. Berkah Kaltim — Kuliner',
+    achievement: 'Forbes 30 Under 30 Indonesia 2024 — Kategori Bisnis',
+    description:
+      'Mendirikan bisnis kuliner yang kini memiliki 12 cabang di Kalimantan Timur. Terinspirasi nilai kewirausahaan dari sekolah.',
+    social_media: {
+      linkedin: 'https://linkedin.com',
+      instagram: 'https://instagram.com',
+      facebook: 'https://facebook.com',
+    },
+  },
+  {
+    id: '10',
+    name: 'Anisa Dewi Cahyani',
+    slug: 'anisa-dewi-cahyani',
+    photo: 'https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2020,
+    class_name: '6C',
+    current_profession: 'Pelajar SMA',
+    workplace: 'SMAN 1 Samarinda',
+    achievement: 'Juara 1 Lomba Baca Puisi Tingkat Provinsi Kaltim 2024',
+    description:
+      'Siswi SMAN 1 Samarinda yang aktif di bidang sastra dan seni. Membawa nama harum SD Muhammadiyah 3 ke tingkat provinsi.',
+    social_media: {
+      instagram: 'https://instagram.com',
+    },
+  },
+  {
+    id: '11',
+    name: 'Ilham Firdaus Habibi',
+    slug: 'ilham-firdaus-habibi',
+    photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2011,
+    class_name: '6B',
+    current_profession: 'Dosen',
+    workplace: 'Universitas Mulawarman — Fakultas Teknik',
+    achievement: 'Peneliti Muda Terbaik LPPM UNMUL 2023',
+    description:
+      'Dosen Teknik Informatika di Universitas Mulawarman. Aktif melakukan penelitian di bidang kecerdasan buatan dan IoT.',
+    social_media: {
+      linkedin: 'https://linkedin.com',
+    },
+  },
+  {
+    id: '12',
+    name: 'Rahma Aulia Sari',
+    slug: 'rahma-aulia-sari',
+    photo: 'https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2018,
+    class_name: '6A',
+    current_profession: 'Apoteker',
+    workplace: 'Apotek Kimia Farma Samarinda',
+    achievement: 'Lulusan Cum Laude Farmasi UNMUL 2023',
+    description:
+      'Apoteker profesional yang lulus dengan predikat cumlaude dari Fakultas Farmasi Universitas Mulawarman.',
+    social_media: {
+      instagram: 'https://instagram.com',
+      linkedin: 'https://linkedin.com',
+    },
+  },
+  {
+    id: '13',
+    name: 'Daffa Miftahul Ulum',
+    slug: 'daffa-miftahul-ulum',
+    photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2016,
+    class_name: '6C',
+    current_profession: 'ASN / PNS',
+    workplace: 'Dinas Pendidikan Kota Samarinda',
+    achievement: 'ASN Berprestasi Kota Samarinda 2024',
+    description:
+      'Pegawai Negeri Sipil di Dinas Pendidikan Kota Samarinda. Berkontribusi dalam peningkatan mutu pendidikan daerah.',
+    social_media: {
+      facebook: 'https://facebook.com',
+    },
+  },
+  {
+    id: '14',
+    name: 'Safira Nur Indah',
+    slug: 'safira-nur-indah',
+    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2019,
+    class_name: '6B',
+    current_profession: 'Desainer Grafis',
+    workplace: 'Studio Kreatif Borneo Design',
+    achievement: 'Juara 1 Lomba Desain Logo Kaltim Youth Festival 2023',
+    description:
+      'Desainer grafis berbakat yang mendirikan studio kreatif sendiri di usia muda. Karya-karyanya telah digunakan oleh berbagai instansi pemerintah.',
+    social_media: {
+      instagram: 'https://instagram.com',
+      linkedin: 'https://linkedin.com',
+    },
+  },
+  {
+    id: '15',
+    name: 'Hendra Kurniawan',
+    slug: 'hendra-kurniawan',
+    photo: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2010,
+    class_name: '6A',
+    current_profession: 'Notaris',
+    workplace: 'Kantor Notaris & PPAT Samarinda',
+    achievement: 'Notaris Termuda Kalimantan Timur 2020',
+    description:
+      'Notaris & PPAT yang telah melayani ribuan klien di Samarinda. Alumni tertua yang masih aktif berkontribusi di komunitas alumni.',
+    social_media: {
+      linkedin: 'https://linkedin.com',
+      facebook: 'https://facebook.com',
+    },
+  },
+  {
+    id: '16',
+    name: 'Zahra Fauziyah Noor',
+    slug: 'zahra-fauziyah-noor',
+    photo: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2021,
+    class_name: '6B',
+    current_profession: 'Pelajar SMP',
+    workplace: 'SMP Muhammadiyah 1 Samarinda',
+    achievement: 'Hafizah 30 Juz di usia 14 tahun',
+    description:
+      'Alumni termuda yang telah menyelesaikan hafalan 30 Juz Al-Quran di usia 14 tahun. Kebanggaan keluarga besar SD Muhammadiyah 3.',
+    social_media: {
+      instagram: 'https://instagram.com',
+    },
+  },
+  {
+    id: '17',
+    name: 'Farhan Maulana Syah',
+    slug: 'farhan-maulana-syah',
+    photo: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2015,
+    class_name: '6C',
+    current_profession: 'Jurnalis',
+    workplace: 'Kaltim Post — Media Group',
+    achievement: 'Penulis Opini Terbaik AJI Samarinda 2023',
+    description:
+      'Jurnalis profesional di Kaltim Post. Fokus pada liputan pendidikan dan sosial kemasyarakatan di Kalimantan Timur.',
+    social_media: {
+      linkedin: 'https://linkedin.com',
+      instagram: 'https://instagram.com',
+      facebook: 'https://facebook.com',
+    },
+  },
+  {
+    id: '18',
+    name: 'Putri Annisa Ramadhani',
+    slug: 'putri-annisa-ramadhani',
+    photo: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2017,
+    class_name: '6A',
+    current_profession: 'Bidan',
+    workplace: 'Puskesmas Samarinda Seberang',
+    achievement: 'Tenaga Kesehatan Teladan Puskesmas 2024',
+    description:
+      'Bidan profesional yang bertugas di Puskesmas Samarinda Seberang. Memberikan pelayanan kesehatan ibu dan anak di wilayah sekitar sekolah.',
+    social_media: {
+      instagram: 'https://instagram.com',
+    },
+  },
+  {
+    id: '19',
+    name: 'Alif Hidayatullah',
+    slug: 'alif-hidayatullah',
+    photo: 'https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2014,
+    class_name: '6B',
+    current_profession: 'Arsitek',
+    workplace: 'PT. Cipta Karya Nusantara',
+    achievement: 'Juara 2 Kompetisi Desain Arsitektur Hijau Nasional 2023',
+    description:
+      'Arsitek yang menekuni desain bangunan ramah lingkungan. Telah merancang lebih dari 50 bangunan di Kalimantan Timur.',
+    social_media: {
+      linkedin: 'https://linkedin.com',
+      instagram: 'https://instagram.com',
+    },
+  },
+  {
+    id: '20',
+    name: 'Nadia Pertiwi Kusuma',
+    slug: 'nadia-pertiwi-kusuma',
+    photo: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=400&h=500&fit=crop&q=80',
+    graduation_year: 2013,
+    class_name: '6C',
+    current_profession: 'Psikolog Klinis',
+    workplace: 'Klinik Psikologi Harmoni Samarinda',
+    achievement: 'Psikolog Terbaik Kalimantan Timur versi IDI 2024',
+    description:
+      'Psikolog klinis yang mendirikan klinik konseling khusus anak dan remaja. Telah membantu ratusan siswa mengatasi masalah psikologis.',
+    social_media: {
+      linkedin: 'https://linkedin.com',
+      instagram: 'https://instagram.com',
+      facebook: 'https://facebook.com',
+    },
+  },
+]
+
+/**
  * Get dummy data by endpoint
  * Returns null if dummy data is not enabled or endpoint not found
  */
@@ -408,6 +750,17 @@ export function getDummyData<T>(endpoint: string): T | null {
         success: true,
         message: 'Dummy data (development only)',
         data: dummyTenagaKependidikan,
+      } as unknown as T
+    case '/list/alumni':
+      return {
+        success: true,
+        message: 'Dummy data (development only)',
+        data: dummyAlumni,
+        meta: {
+          total: dummyAlumni.length,
+          page: 1,
+          per_page: dummyAlumni.length,
+        },
       } as unknown as T
     default:
       // Try to match specific items

@@ -101,7 +101,8 @@ export default function NavigationClient({
                              idx === 5 ? "Sarana belajar" :
                              idx === 6 ? "Kegiatan ekstrakurikuler" :
                              idx === 7 ? "Prestasi siswa" :
-                             "Penghargaan sekolah"}
+                             idx === 8 ? "Penghargaan sekolah" :
+                             "Informasi lengkap"}
                           </div>
                         </Link>
                       ))}

@@ -243,16 +243,20 @@ export default function PrestasiSekolahDetailPage() {
     : Award
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">
+      {/* Animated Background Blobs */}
+      <div className="absolute top-20 left-10 w-64 h-64 bg-(--color-forest-700)/5 rounded-full blur-[100px] animate-blob pointer-events-none" />
+      <div className="absolute top-40 right-20 w-80 h-80 bg-(--color-sun-500)/5 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none" />
+      <div className="absolute bottom-40 left-1/3 w-96 h-96 bg-(--color-teal-400)/5 rounded-full blur-[150px] animate-blob animation-delay-4000 pointer-events-none" />
 
       {/* Main Content */}
-      <section className="py-12">
-        <PageHeader
-          title={prestasi?.name || "Prestasi Sekolah"}
-          description="Galeri SD Muhammadiyah 3 Samarinda"
-          breadcrumbs={[{ label: "Beranda", href: "/" }, { label: "Galeri", href: "/galeri" }, { label: prestasi?.name }]}
-        />
+      <PageHeader
+        title={prestasi?.name || "Prestasi Sekolah"}
+        description="Pengakuan atas Dedikasi Pendidikan Berkualitas"
+        breadcrumbs={[{ label: "Beranda", href: "/" }, { label: "Prestasi Sekolah", href: "/prestasi-sekolah" }, { label: prestasi?.name }]}
+      />
 
+      <section className="py-12">
         <div className="container px-4 mx-auto">
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Article Content */}
@@ -262,22 +266,20 @@ export default function PrestasiSekolahDetailPage() {
                 <div className="mb-8">
                   <div className="flex flex-wrap gap-2 mb-4">
                     {prestasi.kategori && prestasi.kategori.length > 0 && prestasi.kategori.map((kat) => (
-                      <Badge key={kat.id} className="bg-(--color-forest-700)/10 text-(--color-forest-700) border-(--color-forest-700)/20">
+                      <Badge key={kat.id} className="bg-(--color-forest-700)/10 text-(--color-forest-700) border-(--color-forest-700)/20 font-black uppercase tracking-widest text-[9px] px-3 py-1.5 rounded-lg">
                         {kat.name}
                       </Badge>
                     ))}
                   </div>
 
-                  {/* <h1 className="mb-4 text-4xl font-bold">{prestasi.name}</h1> */}
-
                   <div className="flex flex-wrap items-center gap-4 mb-6 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
+                    <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">
+                      <Calendar className="w-3.5 h-3.5" />
                       <span>{formatDate(prestasi.tanggal)}</span>
                     </div>
                     {prestasi.views !== undefined && (
-                      <div className="flex items-center gap-1">
-                        <Eye className="w-4 h-4" />
+                      <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                        <Eye className="w-3.5 h-3.5" />
                         <span>{prestasi.views} views</span>
                       </div>
                     )}
@@ -286,46 +288,48 @@ export default function PrestasiSekolahDetailPage() {
 
                 {/* Featured Image */}
                 {prestasi.foto && (
-                  <div className="relative w-full mb-8 overflow-hidden rounded-lg aspect-video">
+                  <div className="relative w-full mb-12 overflow-hidden shadow-2xl rounded-[2.5rem] border border-gray-100 dark:border-white/5 group">
                     <Image
                       src={prestasi.foto || "/placeholder.svg"}
                       alt={prestasi.name}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 800px"
-                      className="object-cover"
+                      width={1200}
+                      height={800}
+                      className="w-full h-auto transition-transform duration-1000 group-hover:scale-105"
                       priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-(--color-forest-700)/60 to-transparent flex items-end p-6">
-                      <IconComponent className="w-16 h-16 text-white" />
-                    </div>
+                    <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                   </div>
                 )}
 
                 {/* Achievement Info Card */}
-                <Card className="mb-8 w-full max-w-3xl mx-auto">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Award className="w-6 h-6 text-(--color-forest-700)" />
-                      <h2 className="text-2xl font-bold">Informasi Prestasi</h2>
+                <Card className="mb-12 border-0 shadow-2xl rounded-[2.5rem] overflow-hidden bg-white dark:bg-gray-900/40 card-premium glass">
+                  <div className="bg-(--color-forest-700) p-8 text-white relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
+                    <div className="flex items-center gap-4 relative z-10">
+                      <Award className="w-8 h-8 text-(--color-sun-500) brightness-125" />
+                      <h2 className="text-xl font-black uppercase tracking-tight">Informasi Prestasi</h2>
                     </div>
-
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground">Nama Prestasi</p>
-                        <p className="text-base font-semibold">{prestasi.name}</p>
+                  </div>
+                  <CardContent className="p-8">
+                    <div className="grid gap-8 sm:grid-cols-2">
+                      <div className="space-y-1">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">Nama Prestasi</p>
+                        <p className="text-xl font-bold text-gray-900 dark:text-white">{prestasi.name}</p>
                       </div>
 
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground">Tanggal Prestasi</p>
-                        <p className="text-base font-semibold">{formatDate(prestasi.tanggal)}</p>
+                      <div className="space-y-1">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">Tanggal Prestasi</p>
+                        <p className="text-xl font-bold text-gray-900 dark:text-white">{formatDate(prestasi.tanggal)}</p>
                       </div>
 
                       {prestasi.kategori && prestasi.kategori.length > 0 && (
-                        <div className="md:col-span-2">
-                          <p className="text-sm font-medium text-muted-foreground">Kategori</p>
-                          <div className="flex flex-wrap gap-2 mt-1">
+                        <div className="sm:col-span-2 space-y-2">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-(--color-forest-700)">Kategori</p>
+                          <div className="flex flex-wrap gap-2">
                             {prestasi.kategori.map((kat) => (
-                              <Badge key={kat.id} variant="secondary">{kat.name}</Badge>
+                              <Badge key={kat.id} className="bg-(--color-forest-700)/10 text-(--color-forest-700) border-(--color-forest-700)/10 px-4 py-1.5 font-black uppercase tracking-widest text-[9px] rounded-lg">
+                                {kat.name}
+                              </Badge>
                             ))}
                           </div>
                         </div>
@@ -336,14 +340,14 @@ export default function PrestasiSekolahDetailPage() {
 
                 {/* Description */}
                 {prestasi.description && (
-                  <Card className="mb-8 w-full">
-                    <CardContent className="p-6">
+                  <Card className="mb-8 border-0 shadow-xl rounded-[2rem] overflow-hidden bg-white dark:bg-gray-900/40 glass">
+                    <CardContent className="p-8">
                       <div className="flex items-center gap-2 mb-4">
                         <Star className="w-5 h-5 text-(--color-forest-700)" />
-                        <h3 className="text-xl font-semibold">Deskripsi</h3>
+                        <h3 className="text-xl font-black uppercase tracking-tight">Deskripsi</h3>
                       </div>
                       <div
-                        className="prose prose-lg max-w-none [&_img]:max-w-full [&_img]:h-auto [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto [&_iframe]:max-w-full"
+                        className="prose prose-lg max-w-none dark:prose-invert [&_img]:max-w-full [&_img]:h-auto [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto [&_iframe]:max-w-full"
                         dangerouslySetInnerHTML={{ __html: cleanRichText(prestasi.description) }}
                       />
                     </CardContent>
@@ -354,7 +358,7 @@ export default function PrestasiSekolahDetailPage() {
 
                 {/* Share Buttons */}
                 <div className="flex items-center gap-4">
-                  <span className="text-sm font-medium">Bagikan:</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-600">Bagikan:</span>
                   <div className="flex gap-2">
                     <Button
                       size="icon"
@@ -396,39 +400,42 @@ export default function PrestasiSekolahDetailPage() {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Achievement Badge */}
-              <Card className="overflow-hidden">
-                <div className="bg-gradient-to-br from-(--color-forest-700) to-(--color-forest-500) p-6 text-white">
-                  <div className="flex items-center justify-center mb-4">
-                    <IconComponent className="w-16 h-16 text-white" />
+              <Card className="overflow-hidden border-0 shadow-2xl rounded-[2.5rem] card-premium glass">
+                <div className="bg-linear-to-br from-(--color-forest-700) to-(--color-forest-500) p-10 text-white relative">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
+                  <div className="flex flex-col items-center justify-center relative z-10">
+                    <div className="w-24 h-24 bg-white/20 backdrop-blur-md rounded-[1.25rem] flex items-center justify-center mb-6 shadow-2xl border border-white/30 rotate-6 group-hover:rotate-12 transition-transform duration-500">
+                      <IconComponent className="w-12 h-12 text-(--color-sun-500) brightness-125 drop-shadow-[0_4px_10px_rgba(232,163,61,0.5)]" />
+                    </div>
+                    <h3 className="text-2xl font-black uppercase tracking-tight text-center leading-tight mb-2">{prestasi.name}</h3>
+                    {prestasi.kategori && prestasi.kategori.length > 0 && (
+                      <Badge className="bg-white/20 border-white/30 text-white font-black uppercase tracking-widest text-[10px] px-4 py-1.5">{prestasi.kategori[0].name}</Badge>
+                    )}
                   </div>
-                  <h3 className="text-xl font-bold text-center">{prestasi.name}</h3>
-                  {prestasi.kategori && prestasi.kategori.length > 0 && (
-                    <p className="mt-2 text-sm text-center text-white/90">{prestasi.kategori[0].name}</p>
-                  )}
                 </div>
               </Card>
 
               {/* Quick Stats */}
-              <Card>
+              <Card className="dark:bg-gray-800 dark:border-gray-700">
                 <CardHeader>
-                  <h3 className="text-lg font-bold">Statistik</h3>
+                  <h3 className="text-lg font-bold dark:text-white">Statistik</h3>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Dilihat</span>
-                    <span className="font-semibold">{prestasi.views || 0}x</span>
+                    <span className="font-semibold dark:text-white">{prestasi.views || 0}x</span>
                   </div>
                   <Separator />
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Tanggal</span>
-                    <span className="text-sm font-semibold">{formatDate(prestasi.tanggal)}</span>
+                    <span className="text-sm font-semibold dark:text-white">{formatDate(prestasi.tanggal)}</span>
                   </div>
                 </CardContent>
               </Card>
 
               {/* Related Prestasi */}
               {relatedLoading ? (
-                <Card>
+                <Card className="dark:bg-gray-800 dark:border-gray-700">
                   <CardHeader>
                     <Skeleton className="w-32 h-6" />
                   </CardHeader>
@@ -446,9 +453,9 @@ export default function PrestasiSekolahDetailPage() {
                   </CardContent>
                 </Card>
               ) : relatedPrestasi.length > 0 && (
-                <Card>
+                <Card className="dark:bg-gray-800 dark:border-gray-700">
                   <CardHeader>
-                    <h3 className="text-xl font-bold">Prestasi Terkait</h3>
+                    <h3 className="text-xl font-bold dark:text-white">Prestasi Terkait</h3>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {relatedPrestasi.map((item) => {
@@ -463,7 +470,7 @@ export default function PrestasiSekolahDetailPage() {
                           className="block group"
                         >
                           <div className="flex gap-4">
-                            <div className="relative flex-shrink-0 w-24 h-24 overflow-hidden rounded-lg bg-gradient-to-br from-(--color-forest-700) to-(--color-forest-500)">
+                            <div className="relative flex-shrink-0 w-24 h-24 overflow-hidden rounded-lg bg-linear-to-br from-(--color-forest-700) to-(--color-forest-500)">
                               {item.foto ? (
                                 <Image
                                   src={item.foto}
@@ -480,11 +487,11 @@ export default function PrestasiSekolahDetailPage() {
                             </div>
                             <div className="flex-1 min-w-0">
                               {item.kategori && item.kategori.length > 0 && (
-                                <Badge className="mb-2 text-xs bg-(--color-forest-700)/10 text-(--color-forest-700)">
+                                <Badge className="mb-2 text-[9px] bg-(--color-forest-700)/10 text-(--color-forest-700) font-black uppercase tracking-widest">
                                   {item.kategori[0].name}
                                 </Badge>
                               )}
-                              <h4 className="text-sm font-semibold transition-colors line-clamp-2 group-hover:text-(--color-forest-700)">
+                              <h4 className="text-sm font-semibold transition-colors line-clamp-2 group-hover:text-(--color-forest-700) dark:group-hover:text-(--color-teal-400)">
                                 {item.name}
                               </h4>
                               <p className="mt-1 text-xs text-muted-foreground">

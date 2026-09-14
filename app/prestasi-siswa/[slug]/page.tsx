@@ -384,14 +384,14 @@ export default function PrestasiSiswaDetailPage() {
 
               {/* Description */}
               {prestasi.description && (
-                <Card className="mb-8">
-                  <CardContent className="p-6">
+                <Card className="mb-8 border-0 shadow-xl rounded-[2rem] overflow-hidden bg-white dark:bg-gray-900/40 glass">
+                  <CardContent className="p-8">
                     <div className="flex items-center gap-2 mb-4">
                       <Award className="w-5 h-5 text-(--color-forest-700)" />
-                      <h3 className="text-xl font-semibold">Deskripsi</h3>
+                      <h3 className="text-xl font-black uppercase tracking-tight">Deskripsi</h3>
                     </div>
                     <div
-                      className="prose prose-lg max-w-none [&_img]:max-w-full [&_img]:h-auto [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto [&_iframe]:max-w-full"
+                      className="prose prose-lg max-w-none dark:prose-invert [&_img]:max-w-full [&_img]:h-auto [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto [&_pre]:overflow-x-auto [&_iframe]:max-w-full"
                       dangerouslySetInnerHTML={{ __html: cleanRichText(prestasi.description) }}
                     />
                   </CardContent>
@@ -402,7 +402,7 @@ export default function PrestasiSiswaDetailPage() {
 
               {/* Share Buttons */}
               <div className="flex items-center gap-4">
-                <span className="text-sm font-medium">Bagikan:</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-gray-600">Bagikan:</span>
                 <div className="flex gap-2">
                   <Button
                     size="icon"
@@ -458,26 +458,26 @@ export default function PrestasiSiswaDetailPage() {
             </Card>
 
             {/* Quick Stats */}
-            <Card>
+            <Card className="dark:bg-gray-800 dark:border-gray-700">
               <CardHeader>
-                <h3 className="text-lg font-bold">Statistik</h3>
+                <h3 className="text-lg font-bold dark:text-white">Statistik</h3>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Dilihat</span>
-                  <span className="font-semibold">{prestasi.views || 0}x</span>
+                  <span className="font-semibold dark:text-white">{prestasi.views || 0}x</span>
                 </div>
                 <Separator />
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Tanggal</span>
-                  <span className="text-sm font-semibold">{formatDate(prestasi.tanggal)}</span>
+                  <span className="text-sm font-semibold dark:text-white">{formatDate(prestasi.tanggal)}</span>
                 </div>
               </CardContent>
             </Card>
 
             {/* Related Prestasi */}
             {relatedLoading ? (
-              <Card>
+              <Card className="dark:bg-gray-800 dark:border-gray-700">
                 <CardHeader>
                   <Skeleton className="w-32 h-6" />
                 </CardHeader>
@@ -495,9 +495,9 @@ export default function PrestasiSiswaDetailPage() {
                 </CardContent>
               </Card>
             ) : relatedPrestasi.length > 0 && (
-              <Card>
+              <Card className="dark:bg-gray-800 dark:border-gray-700">
                 <CardHeader>
-                  <h3 className="text-xl font-bold">Prestasi Terkait</h3>
+                  <h3 className="text-xl font-bold dark:text-white">Prestasi Terkait</h3>
                   <p className="text-sm text-muted-foreground">Tingkat {prestasi.tingkat}</p>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -521,11 +521,11 @@ export default function PrestasiSiswaDetailPage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           {item.juara && (
-                            <Badge className={`mb-2 text-xs ${getAwardColor(item.juara)}`}>
+                            <Badge className={`mb-2 text-[9px] ${getAwardColor(item.juara)} font-black uppercase tracking-widest`}>
                               {item.juara}
                             </Badge>
                           )}
-                          <h4 className="text-sm font-semibold transition-colors line-clamp-2 group-hover:text-(--color-forest-700)">
+                          <h4 className="text-sm font-semibold transition-colors line-clamp-2 group-hover:text-(--color-forest-700) dark:group-hover:text-(--color-teal-400)">
                             {item.name}
                           </h4>
                           <p className="mt-1 text-xs text-muted-foreground">

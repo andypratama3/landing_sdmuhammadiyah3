@@ -1,6 +1,5 @@
 // lib/api.ts - FIXED VERSION
 import { CacheManager } from './cache'
-import { JWTManager } from './jwt'
 import type { ApiResponse, RequestOptions } from '@/types'
 import { getDummyData, logDummyDataUsage, shouldUseDummyData } from './dummy-data'
 
@@ -38,13 +37,6 @@ class TokenReadyManager {
   static async waitUntilReady(timeout = 10000): Promise<boolean> {
     // Jika sudah ready, langsung return
     if (this.isReady) return true
-
-    // Jika ada token di cookie, mark as ready
-    const existingToken = JWTManager.getAccessToken()
-    if (existingToken && !JWTManager.isAccessTokenExpired()) {
-      this.markReady()
-      return true
-    }
 
     // Tunggu dengan timeout
     return new Promise((resolve) => {
@@ -102,6 +94,7 @@ export class ApiClient {
 
   /**
    * 🔐 Generate new token via Next.js server route
+   * Token is stored in HttpOnly cookie by server — nothing to save client-side.
    */
   private static async generateNewToken(): Promise<boolean> {
     try {
@@ -113,7 +106,7 @@ export class ApiClient {
         headers: {
           'Content-Type': 'application/json',
         },
-        signal: AbortSignal.timeout(30000), // Diperpanjang menjadi 30 detik
+        signal: AbortSignal.timeout(30000),
       })
 
       if (!response.ok) {
@@ -126,20 +119,9 @@ export class ApiClient {
         throw new Error('Invalid token response')
       }
 
-      // Save token to JWTManager
-      const tokenData = data.data?.data || data.data || data
-      const accessToken = tokenData?.access_token || data.access_token || data.token
-      if (accessToken) {
-        JWTManager.saveTokens({
-          access_token: accessToken,
-          refresh_token: tokenData?.refresh_token || data.refresh_token,
-          expires_in: Number(tokenData?.expires_in) || Number(data.expires_in) || 3600,
-        })
-      }
-
-      this.log('✅ Token generated successfully')
+      this.log('✅ Token generated successfully (cookie set)')
       
-      // Mark token as ready
+      // Mark token as ready — cookie is set by /api/token, no client-side token needed
       TokenReadyManager.markReady()
       
       return true
@@ -152,14 +134,12 @@ export class ApiClient {
 
   /**
    * 🚀 Initialize API Client
-   * Harus dipanggil di ApiInitializer sebelum request apapun
+   * Generates a token via /api/token (sets HttpOnly cookie).
+   * Only runs once per session — subsequent calls skip via TokenReadyManager.
    */
   static async initialize(): Promise<void> {
-    // Check existing token
-    const existingToken = JWTManager.getAccessToken()
-    if (existingToken && !JWTManager.isAccessTokenExpired()) {
-      this.log('✅ Valid token exists, skipping generation')
-      TokenReadyManager.markReady()
+    // Already initialized this session — cookie is valid
+    if (TokenReadyManager.getStatus()) {
       return
     }
 
@@ -227,12 +207,9 @@ export class ApiClient {
       }
     }
 
-    // 🔐 Pastikan token ready sebelum request
-    const existingToken = JWTManager.getAccessToken()
-    if (!existingToken || JWTManager.isAccessTokenExpired()) {
+    // 🔐 Pastikan cookie sudah di-set sebelum request
+    if (!TokenReadyManager.getStatus()) {
       await this.initialize()
-    } else {
-      TokenReadyManager.markReady()
     }
 
     let lastError: any = null
@@ -241,33 +218,22 @@ export class ApiClient {
       try {
         this.log(`🌐 Request (attempt ${attempt + 1}): ${endpoint}`)
 
-        // 🔑 Ambil token terkini dan lampirkan ke header Authorization
-        const currentToken = JWTManager.getAccessToken()
-        const authHeaders: Record<string, string> = {}
-        if (currentToken) {
-          authHeaders['Authorization'] = `Bearer ${currentToken}`
-        }
-
         const response = await fetch(`${this.getBaseUrl()}${endpoint}`, {
           ...fetchOptions,
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
-            ...authHeaders,
             ...fetchOptions.headers,
           },
           signal: signal || AbortSignal.timeout(30000),
         })
 
-        // 🔥 Handle 401 - Token expired atau tidak ada
+        // 🔥 Handle 401 — cookie expired, regenerate
         if (response.status === 401) {
-          this.warn('🔐 Got 401, refreshing token...')
+          this.warn('🔐 Got 401, regenerating cookie...')
           
-          // Reset token ready state & clear invalid token
-          JWTManager.clearTokens()
           TokenReadyManager.reset()
           
-          // Generate new token
           const tokenGenerated = await this.generateNewToken()
           
           if (!tokenGenerated) {
@@ -378,7 +344,6 @@ export class ApiClient {
   }
 
   static logout(): void {
-    JWTManager.clearTokens()
     TokenReadyManager.reset()
     this.clearCache()
     this.log('👋 Logged out')

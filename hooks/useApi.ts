@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { ApiClient } from '@/lib/api';
-import { JWTManager } from '@/lib/jwt';
 import type { ApiResponse, Pagination } from '@/types';
 
 interface UseApiOptions {
@@ -43,17 +42,11 @@ async function ensureAuthenticated(): Promise<void> {
     throw new Error('Authentication failed');
   }
 
+  // Token disimpan sebagai HttpOnly cookie oleh /api/token — tak perlu
+  // diekstrak dari body. Biarkan credential cookie menghandle auth.
   const data = await res.json().catch(() => null);
   if (data?.success) {
-    const tokenData = data.data?.data || data.data || data;
-    const token = tokenData?.access_token || data.access_token || data.token;
-    if (token) {
-      JWTManager.saveTokens({
-        access_token: token,
-        refresh_token: tokenData?.refresh_token || data.refresh_token,
-        expires_in: Number(tokenData?.expires_in) || Number(data.expires_in) || 3600,
-      });
-    }
+    // no-op: cookie sudah di-set server-side
   }
 }
 
@@ -255,17 +248,10 @@ export function useMutation<T, D = any>(
           // Jika data adalah FormData, gunakan fetch langsung
           if (requestData instanceof FormData) {
             const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-            const token = JWTManager.getAccessToken();
             
-            const headers: Record<string, string> = {};
-            if (token) {
-              headers['Authorization'] = `Bearer ${token}`;
-            }
-            // JANGAN set Content-Type untuk FormData - browser akan set otomatis dengan boundary
-            
+            // Auth via HttpOnly cookie (credentials: include) — token tak perlu header
             const fetchResponse = await fetch(`${baseURL}${endpoint}`, {
               method,
-              headers,
               body: requestData,
               credentials: 'include',
             });

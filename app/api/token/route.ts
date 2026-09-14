@@ -208,11 +208,17 @@ export async function POST(req: NextRequest) {
     // ============================================
     // 5️⃣ CREATE RESPONSE WITH COOKIES
     // ============================================
-    const setCookies = backendResponse.headers.getSetCookie?.() || []
     const tokenData = backendData?.data || backendData
     const accessToken = tokenData?.access_token || backendData?.access_token
     const refreshToken = tokenData?.refresh_token || backendData?.refresh_token
     const expiresIn = Number(tokenData?.expires_in) || 3600
+
+    // Cookie domain harus meng-cover BUKAN hanya landing host, tapi juga
+    // subdomain API (app.sdmuhammadiyah3smd.com). Jika tanpa Domain, cookie
+    // jadi host-only → tidak terkirim ke app. → semua request ter-auth 401.
+    const host = req.headers.get('host') || ''
+    const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1')
+    const cookieDomain = process.env.LANDING_COOKIE_DOMAIN || '.sdmuhammadiyah3smd.com'
 
     const response = NextResponse.json(
       { 
@@ -232,32 +238,16 @@ export async function POST(req: NextRequest) {
       }
     )
 
-    // Forward Set-Cookie headers from backend
-    const host = req.headers.get('host') || ''
-    const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1')
-
-    if (setCookies && setCookies.length > 0) {
-      setCookies.forEach((cookie: string) => {
-        let modifiedCookie = cookie
-        if (isLocalhost) {
-          // Strip domain=.sdmuhammadiyah3smd.com and secure; for localhost compatibility
-          modifiedCookie = modifiedCookie
-            .replace(/domain=[^;]+;?\s*/gi, '')
-            .replace(/secure;?\s*/gi, '')
-        }
-        response.headers.append('set-cookie', modifiedCookie)
-      })
-    }
-
-    // Explicitly set cookie via Next.js response cookies if access_token exists
-    // Security: HttpOnly prevents XSS token theft
+    // Explicitly set cookie via Next.js response cookies — HttpOnly melindungi
+    // token dari XSS. Domain diperluas ke subdomain API (bukan host-only).
     if (accessToken) {
       response.cookies.set('access_token', accessToken, {
         path: '/',
         httpOnly: true,
         maxAge: expiresIn,
-        sameSite: 'strict',
-        secure: !isLocalhost || process.env.NODE_ENV === 'production',
+        sameSite: isLocalhost ? 'lax' : 'none',
+        secure: !isLocalhost,
+        ...(isLocalhost ? {} : { domain: cookieDomain }),
       })
     }
     if (refreshToken) {
@@ -265,8 +255,9 @@ export async function POST(req: NextRequest) {
         path: '/',
         httpOnly: true,
         maxAge: expiresIn * 12,
-        sameSite: 'strict',
-        secure: !isLocalhost || process.env.NODE_ENV === 'production',
+        sameSite: isLocalhost ? 'lax' : 'none',
+        secure: !isLocalhost,
+        ...(isLocalhost ? {} : { domain: cookieDomain }),
       })
     }
 

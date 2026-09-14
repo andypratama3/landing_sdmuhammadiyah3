@@ -50,7 +50,8 @@ export class JWTManager {
   }
 
   /**
-   * Simpan token ke in-memory, localStorage, dan cookie
+   * Simpan token ke in-memory saja (Security: Removed localStorage/document.cookie to prevent XSS token theft)
+   * Tokens should only be stored in HttpOnly cookies by the server
    */
   static saveTokens(tokenData: {
     access_token: string
@@ -60,106 +61,41 @@ export class JWTManager {
     const expiresInSec = tokenData.expires_in || 3600
     const expiresAtMs = Date.now() + expiresInSec * 1000
 
+    // Security: Only store in memory - no localStorage or document.cookie
+    // Tokens are stored in HttpOnly cookies by the server (/api/token route)
     this.inMemoryToken = tokenData.access_token
     this.inMemoryExpiresAt = expiresAtMs
     if (tokenData.refresh_token) {
       this.inMemoryRefreshToken = tokenData.refresh_token
     }
-
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem(this.AUTH_TOKEN_KEY, tokenData.access_token)
-        localStorage.setItem(this.ACCESS_TOKEN_KEY, tokenData.access_token)
-        localStorage.setItem(this.EXPIRES_KEY, expiresAtMs.toString())
-
-        if (tokenData.refresh_token) {
-          localStorage.setItem(this.REFRESH_TOKEN_KEY, tokenData.refresh_token)
-        }
-
-        // Set non-HttpOnly cookie for client fallback
-        document.cookie = `${this.ACCESS_TOKEN_KEY}=${tokenData.access_token}; max-age=${expiresInSec}; path=/; SameSite=Lax`
-        if (tokenData.refresh_token) {
-          document.cookie = `${this.REFRESH_TOKEN_KEY}=${tokenData.refresh_token}; max-age=${expiresInSec * 12}; path=/; SameSite=Lax`
-        }
-      } catch (err) {
-        console.warn('⚠️ Could not persist tokens to localStorage/cookie:', err)
-      }
-    }
   }
 
   /**
-   * Get access token dari in-memory, localStorage, atau cookie
+   * Get access token dari in-memory (Security: Removed localStorage/document.cookie access)
+   * Tokens are now only accessible via HttpOnly cookies (server-side) or in-memory cache
    */
   static getAccessToken(): string | null {
-    // 1. In-memory check
+    // In-memory check only - tokens should be in HttpOnly cookies
     if (this.inMemoryToken && !this.isAccessTokenExpired()) {
       return this.inMemoryToken
-    }
-
-    // 2. Client-side storage check
-    if (typeof window !== 'undefined') {
-      try {
-        const localToken =
-          localStorage.getItem(this.AUTH_TOKEN_KEY) ||
-          localStorage.getItem(this.ACCESS_TOKEN_KEY)
-
-        if (localToken) {
-          this.inMemoryToken = localToken
-          const expiresAt = localStorage.getItem(this.EXPIRES_KEY)
-          if (expiresAt) {
-            this.inMemoryExpiresAt = parseInt(expiresAt, 10)
-          }
-          return localToken
-        }
-
-        // Fallback to cookie
-        const cookieToken = document.cookie
-          .split('; ')
-          .find(row => row.startsWith(`${this.ACCESS_TOKEN_KEY}=`))
-          ?.split('=')[1]
-
-        if (cookieToken) {
-          this.inMemoryToken = cookieToken
-          return cookieToken
-        }
-      } catch {
-        // Storage access error (e.g. sandbox/private mode)
-      }
     }
 
     return this.inMemoryToken || null
   }
 
   /**
-   * Get refresh token dari in-memory, localStorage, atau cookie
+   * Get refresh token dari in-memory (Security: Removed localStorage/document.cookie access)
+   * Tokens are now only accessible via HttpOnly cookies (server-side) or in-memory cache
    */
   static getRefreshToken(): string | null {
-    if (this.inMemoryRefreshToken) return this.inMemoryRefreshToken
-
-    if (typeof window !== 'undefined') {
-      try {
-        const localRefresh = localStorage.getItem(this.REFRESH_TOKEN_KEY)
-        if (localRefresh) return localRefresh
-
-        const cookie = document.cookie
-          .split('; ')
-          .find(row => row.startsWith(`${this.REFRESH_TOKEN_KEY}=`))
-          ?.split('=')[1]
-
-        return cookie || null
-      } catch {
-        return null
-      }
-    }
-
-    return null
+    return this.inMemoryRefreshToken || null
   }
 
   /**
-   * Check apakah access token sudah expired
+   * Check apakah access token sudah expired (Security: Removed localStorage access)
    */
   static isAccessTokenExpired(): boolean {
-    const token = this.inMemoryToken || (typeof window !== 'undefined' ? localStorage.getItem(this.AUTH_TOKEN_KEY) : null)
+    const token = this.inMemoryToken
     if (!token) return true
 
     const buffer = 5 * 60 * 1000 // 5 menit buffer
@@ -167,21 +103,6 @@ export class JWTManager {
     // Check in-memory expiry
     if (this.inMemoryExpiresAt > 0) {
       return Date.now() + buffer >= this.inMemoryExpiresAt
-    }
-
-    // Check localStorage expiry
-    if (typeof window !== 'undefined') {
-      try {
-        const storedExpiresAt = localStorage.getItem(this.EXPIRES_KEY)
-        if (storedExpiresAt) {
-          const expMs = parseInt(storedExpiresAt, 10)
-          if (!isNaN(expMs) && expMs > 0) {
-            return Date.now() + buffer >= expMs
-          }
-        }
-      } catch {
-        // Ignore storage read error
-      }
     }
 
     // Check if token is a standard JWT with exp claim
@@ -196,7 +117,7 @@ export class JWTManager {
   }
 
   /**
-   * Get waktu sisa token (dalam seconds)
+   * Get waktu sisa token (dalam seconds) (Security: Removed localStorage access)
    */
   static getTokenRemainingTime(): number {
     const token = this.getAccessToken()
@@ -204,18 +125,6 @@ export class JWTManager {
 
     if (this.inMemoryExpiresAt > 0) {
       return Math.max(0, Math.floor((this.inMemoryExpiresAt - Date.now()) / 1000))
-    }
-
-    if (typeof window !== 'undefined') {
-      try {
-        const stored = localStorage.getItem(this.EXPIRES_KEY)
-        if (stored) {
-          const exp = parseInt(stored, 10)
-          return Math.max(0, Math.floor((exp - Date.now()) / 1000))
-        }
-      } catch {
-        // Ignore
-      }
     }
 
     const payload = this.decodeToken(token)
@@ -227,28 +136,13 @@ export class JWTManager {
   }
 
   /**
-   * Clear semua token
+   * Clear semua token (Security: Removed localStorage/document.cookie cleanup)
+   * Note: HttpOnly cookies must be cleared server-side via /api/logout endpoint
    */
   static clearTokens(): void {
     this.inMemoryToken = null
     this.inMemoryRefreshToken = null
     this.inMemoryExpiresAt = 0
-
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.removeItem(this.AUTH_TOKEN_KEY)
-        localStorage.removeItem(this.ACCESS_TOKEN_KEY)
-        localStorage.removeItem(this.REFRESH_TOKEN_KEY)
-        localStorage.removeItem(this.EXPIRES_KEY)
-      } catch {
-        // Ignore
-      }
-
-      if (typeof document !== 'undefined') {
-        document.cookie = `${this.ACCESS_TOKEN_KEY}=; max-age=0; path=/`
-        document.cookie = `${this.REFRESH_TOKEN_KEY}=; max-age=0; path=/`
-      }
-    }
   }
 
   /**

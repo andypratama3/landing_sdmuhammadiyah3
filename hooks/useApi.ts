@@ -255,7 +255,7 @@ export function useMutation<T, D = any>(
           // Jika data adalah FormData, gunakan fetch langsung
           if (requestData instanceof FormData) {
             const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-            const token = JWTManager.getAccessToken() || (typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null);
+            const token = JWTManager.getAccessToken();
             
             const headers: Record<string, string> = {};
             if (token) {

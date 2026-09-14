@@ -50,10 +50,25 @@ class TokenRetryCache {
 export async function POST(req: NextRequest) {
   try {
     // ============================================
-    // 0️⃣ CHECK RETRY COOLDOWN
+    // 0️⃣ CHECK RETRY COOLDOWN (Rate Limiting)
     // ============================================
-    // (Disabled to help debug the actual error string)
-    // if (!TokenRetryCache.shouldAttempt()) { ... }
+    if (!TokenRetryCache.shouldAttempt()) {
+      const retryAfter = TokenRetryCache.getTimeUntilNextRetry()
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Too many token generation attempts. Please try again later.',
+          error: 'RATE_LIMIT_EXCEEDED',
+          retryAfter: Math.ceil(retryAfter / 1000),
+        },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': Math.ceil(retryAfter / 1000).toString(),
+          },
+        }
+      )
+    }
 
     // ============================================
     // 1️⃣ GENERATE SIGNATURE
@@ -203,9 +218,9 @@ export async function POST(req: NextRequest) {
       { 
         success: true,
         message: 'Token generated successfully',
-        data: tokenData,
-        access_token: accessToken,
-        refresh_token: refreshToken,
+        // Security: Tokens are now only in HttpOnly cookies, not in response body
+        // access_token: accessToken,
+        // refresh_token: refreshToken,
         expires_in: expiresIn,
       },
       { 
@@ -235,22 +250,23 @@ export async function POST(req: NextRequest) {
     }
 
     // Explicitly set cookie via Next.js response cookies if access_token exists
+    // Security: HttpOnly prevents XSS token theft
     if (accessToken) {
       response.cookies.set('access_token', accessToken, {
         path: '/',
-        httpOnly: false,
+        httpOnly: true,
         maxAge: expiresIn,
-        sameSite: 'lax',
-        secure: !isLocalhost && process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        secure: !isLocalhost || process.env.NODE_ENV === 'production',
       })
     }
     if (refreshToken) {
       response.cookies.set('refresh_token', refreshToken, {
         path: '/',
-        httpOnly: false,
+        httpOnly: true,
         maxAge: expiresIn * 12,
-        sameSite: 'lax',
-        secure: !isLocalhost && process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        secure: !isLocalhost || process.env.NODE_ENV === 'production',
       })
     }
 

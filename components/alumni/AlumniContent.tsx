@@ -36,8 +36,10 @@ const STORAGE_URL =
 /** Resolve photo: absolute URLs pass through, relative paths get STORAGE_URL prefix */
 function resolvePhoto(photo: string | undefined): string | null {
   if (!photo) return null
-  if (photo.startsWith('http://') || photo.startsWith('https://')) return photo
-  return `${STORAGE_URL}/${photo}`
+  const clean = photo.trim().replace(/\/+$/, '')
+  if (!clean || clean === '/') return null
+  if (clean.startsWith('http://') || clean.startsWith('https://')) return clean
+  return `${STORAGE_URL.replace(/\/+$/, '')}/${clean.replace(/^\/+/, '')}`.replace(/\/{2,}/g, '/')
 }
 
 // ─── Animated Counter ───────────────────────────────────────────────

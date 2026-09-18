@@ -14,6 +14,7 @@ import Link from "next/link"
 import { PrestasiSiswa } from "@/types"
 import { useDebounce } from "@/hooks/useDebounce"
 import PageAnimations from "@/components/PageAnimations"
+import { resolveImageUrl } from "@/lib/image-url"
 
 function timeAgo(dateString: string) {
   const date = new Date(dateString)
@@ -601,9 +602,7 @@ function PrestasiCard({
       <Card className="overflow-hidden transition-all duration-500 border-0 shadow-lg cursor-pointer rounded-[2.5rem] hover:shadow-2xl hover:-translate-y-2 group dark:bg-gray-900/40 glass h-full flex flex-col">
         <div className="relative overflow-hidden h-72 sm:h-80 md:h-96">
           <Image
-            src={achievement.foto
-              ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${achievement.foto}`
-              : "/placeholder.svg"}
+            src={resolveImageUrl(achievement.foto, "img/prestasi")}
             alt={achievement.name}
             fill
             className="object-cover"

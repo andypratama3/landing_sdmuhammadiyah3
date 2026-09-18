@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { GalleryCardSkeleton } from '../gallery/skeletons/GalleryCardSkeleton';
 import { Fotosekolah } from '@/types/fotosekolah.types';
+import { resolveImageUrl } from '@/lib/image-url';
 
 interface FotoSekolahCardProps {
   galleries?: Fotosekolah[] | null;
@@ -29,12 +30,7 @@ export const FotoSekolahCard: React.FC<FotoSekolahCardProps> = ({
           >
             <div className="relative overflow-hidden aspect-[4/3] sm:aspect-square">
               <Image
-                src={gallery.foto
-                  ? (gallery.foto.startsWith("http")
-                    ? gallery.foto
-                    : `${process.env.NEXT_PUBLIC_STORAGE_URL}/${gallery.foto}`)
-                  : "/placeholder.svg"
-                }
+                src={resolveImageUrl(gallery.foto, "img/gallery/cover")}
                 alt={gallery.name}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

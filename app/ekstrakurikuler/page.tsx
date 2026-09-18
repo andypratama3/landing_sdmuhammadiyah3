@@ -16,6 +16,7 @@ import { useState, useMemo } from "react"
 import { useApi } from "@/hooks/useApi"
 import { Ekstrakurikuler } from "@/types/ekstrakurikuler.types"
 import PageAnimations from "@/components/PageAnimations"
+import { resolveImageUrl } from "@/lib/image-url"
 
 // Extended type with parsed foto array
 interface EkstrakurikulerWithPhotos extends Ekstrakurikuler {
@@ -81,16 +82,10 @@ export default function EkstrakurikulerPage() {
 
   // Process ekstrakurikuler data - parse foto array
   const ekstrakurikuler = useMemo((): EkstrakurikulerWithPhotos[] => {
-    const storageUrl = process.env.NEXT_PUBLIC_STORAGE_URL || ''
-
     return (ekstrakurikulerData || []).map(item => {
       // Parse foto array and prepend storage URL
       const fotoArray = item.foto
-        ? item.foto.split(',').map(f => {
-          const trimmed = f.trim()
-          // Check if already has http/https, if not prepend storage URL
-          return trimmed.startsWith('http') ? trimmed : `${storageUrl}/img/ekstrakurikuler/${trimmed}`
-        })
+        ? item.foto.split(',').map(f => resolveImageUrl(f, 'img/ekstrakurikuler'))
         : []
 
       return {

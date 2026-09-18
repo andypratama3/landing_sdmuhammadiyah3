@@ -19,6 +19,7 @@ import { useApi } from "@/hooks/useApi"
 import type { PembayaranResponse, PembayaranItem, GroupedPembayaran } from "@/types/pembayaran.types"
 
 import { useDebounce } from "@/hooks/useDebounce"
+import { resolveImageUrl } from "@/lib/image-url"
 
 export default function PembayaranPage() {
   const [nisnInput, setNisnInput] = useState("")
@@ -374,7 +375,7 @@ export default function PembayaranPage() {
                       <div className="w-full md:w-1/3 relative h-80 md:h-auto overflow-hidden group">
                         {siswa.foto ? (
                           <Image
-                            src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/siswa/${siswa.foto}`}
+                            src={resolveImageUrl(siswa.foto, "img/siswa")}
                             alt={siswa.name}
                             fill
                             sizes="(max-width: 768px) 100vw, 33vw"

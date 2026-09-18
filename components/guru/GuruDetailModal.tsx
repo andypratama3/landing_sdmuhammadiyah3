@@ -2,6 +2,7 @@
 
 import { X, Star, BookOpen, Award, Mail, Phone, GraduationCap, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { resolveImageUrl } from "@/lib/image-url";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useApi } from "@/hooks/useApi";
 import { useMemo, useEffect } from "react";
@@ -103,12 +104,10 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                   <Image
                     src={
                       guruDetail.foto
-                        ? (guruDetail.foto.startsWith("http") ? guruDetail.foto
-                          : guruDetail.foto.includes("/") ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/${guruDetail.foto}`
-                          : `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guruDetail.foto}`)
-                        : (guruDetail.karyawan?.foto ? (guruDetail.karyawan.foto.startsWith("http") ? guruDetail.karyawan.foto
-                          : guruDetail.karyawan.foto.includes("/") ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/${guruDetail.karyawan.foto}`
-                          : `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guruDetail.karyawan.foto}`) : "/placeholder.svg")
+                        ? resolveImageUrl(guruDetail.foto, guruDetail.foto.trim().startsWith("T_Pendidikan_") ? "img/tenagapendidikan" : "img/guru")
+                        : guruDetail.karyawan?.foto
+                          ? resolveImageUrl(guruDetail.karyawan.foto, guruDetail.karyawan.foto.trim().startsWith("T_Pendidikan_") ? "img/tenagapendidikan" : "img/guru")
+                          : "/placeholder.svg"
                     }
                     alt={guruDetail.name}
                     fill

@@ -12,6 +12,7 @@ import { PageHeader } from "@/components/page-header";
 import { BeritaShareClient } from "@/components/berita/BeritaShareClient";
 import { getCachedData } from "@/lib/redis-cache";
 import { getSystemAuthToken } from "@/lib/server-api";
+import { resolveImageUrl } from "@/lib/image-url";
 import { generateBeritaMetadata, generateArticleJsonLd } from "@/lib/metadata-helpers";
 import { JsonLd } from "@/components/JsonLd";
 import type { Berita } from "@/types/berita.types";
@@ -183,7 +184,7 @@ export default async function BeritaDetailPage({ params }: Props) {
                 <div className="relative w-full mb-12 overflow-hidden rounded-[1.5rem] shadow-2xl border-0 group">
                   <div className="absolute inset-0 bg-gradient-to-br from-(--color-forest-700)/20 to-(--color-sun-500)/20 z-10 pointer-events-none"></div>
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${berita.foto}`}
+                    src={resolveImageUrl(berita.foto, "img/berita")}
                     alt={berita.judul}
                     width={1200}
                     height={675}
@@ -249,7 +250,7 @@ export default async function BeritaDetailPage({ params }: Props) {
                         <div className="flex gap-4 p-4 rounded-2xl bg-gray-50 dark:bg-gray-800/50 hover:bg-(--color-forest-700)/5 dark:hover:bg-(--color-forest-700)/10 transition-all duration-300">
                           <div className="relative flex-shrink-0 w-24 h-24 overflow-hidden rounded-xl shadow-lg">
                             <Image
-                              src={item.foto ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/berita/${item.foto}` : "/placeholder.svg"}
+                              src={resolveImageUrl(item.foto, "img/berita")}
                               alt={item.judul}
                               fill
                               sizes="96px"

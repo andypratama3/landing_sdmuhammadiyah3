@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import { cleanRichText } from "@/lib/html-sanitizer"
+import { resolveImageUrl } from "@/lib/image-url"
 import { PageHeader } from "@/components/page-header"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -311,9 +312,7 @@ export default function PrestasiSiswaDetailPage() {
               {prestasi.foto && (
                 <div className="relative w-full mb-12 overflow-hidden shadow-2xl rounded-[2.5rem] border border-gray-100 dark:border-white/5 group">
                   <Image
-                    src={prestasi.foto
-                      ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${prestasi.foto}`
-                      : "/placeholder.svg"}
+                    src={resolveImageUrl(prestasi.foto, "img/prestasi")}
                     alt={prestasi.name}
                     width={1200}
                     height={800}
@@ -510,9 +509,7 @@ export default function PrestasiSiswaDetailPage() {
                       <div className="flex gap-4">
                         <div className="relative flex-shrink-0 w-24 h-24 overflow-hidden rounded-lg">
                           <Image
-                            src={item.foto
-                              ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/prestasi/${item.foto}`
-                              : "/placeholder.svg"}
+                            src={resolveImageUrl(item.foto, "img/prestasi")}
                             alt={item.name}
                             width={1200}
                             height={800}

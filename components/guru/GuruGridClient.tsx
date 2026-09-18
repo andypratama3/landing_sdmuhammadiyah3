@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { BookOpen, ChevronRight, GraduationCap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { resolveImageUrl } from "@/lib/image-url";
 import type { Guru } from "@/types";
 
 // Lazy load the detailed Modal with its heavy markup and fetching logic
@@ -79,11 +80,10 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
     <>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {filteredGurus.map((guru) => {
-          const fotoUrl = guru?.foto 
-            ? (guru.foto.startsWith("http") ? guru.foto
-              : guru.foto.includes("/") ? `${process.env.NEXT_PUBLIC_STORAGE_URL}/${guru.foto}`
-              : `${process.env.NEXT_PUBLIC_STORAGE_URL}/img/guru/${guru.foto}`)
-            : "/placeholder.svg";
+          const fotoFolder = guru?.foto?.trim().startsWith("T_Pendidikan_")
+            ? "img/tenagapendidikan"
+            : "img/guru";
+          const fotoUrl = resolveImageUrl(guru?.foto, fotoFolder);
 
           return (
             <div key={guru.slug} className="h-full cursor-pointer group" onClick={() => setSelectedSlug(guru.slug)}>

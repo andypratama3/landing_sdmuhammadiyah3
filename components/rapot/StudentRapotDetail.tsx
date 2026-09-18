@@ -42,11 +42,14 @@ export const StudentRapotDetail = ({
   const getFileUrl = (filePath: string | null) => {
     if (!filePath) return null;
 
-    if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
-      return filePath;
+    const clean = filePath.trim().replace(/\/+$/, '');
+    if (!clean || clean === '/') return null;
+
+    if (clean.startsWith('http://') || clean.startsWith('https://')) {
+      return clean;
     }
 
-    return `${STORAGE_URL}/${filePath}`;
+    return `${(STORAGE_URL || '').replace(/\/+$/, '')}/${clean.replace(/^\/+/, '')}`.replace(/\/{2,}/g, '/');
   };
 
   // Helper untuk open file di tab baru

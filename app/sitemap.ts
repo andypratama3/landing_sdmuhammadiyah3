@@ -23,6 +23,11 @@ type PrestasiSekolah = {
   updated_at: string
 }
 
+type Alumni = {
+  slug: string
+  updated_at: string
+}
+
 const BASE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || 'https://sdmuhammadiyah3smd.com'
 
@@ -109,6 +114,26 @@ async function getAllPrestasiSekolah(): Promise<PrestasiSekolah[]> {
     return []
   } catch (error) {
     console.error('[SITEMAP] Error fetching prestasi sekolah:', error)
+    return []
+  }
+}
+
+// ================= FETCH ALUMNI =================
+async function getAllAlumni(): Promise<Alumni[]> {
+  try {
+    const result = await serverGetPublic<any>('/list/alumni')
+
+    if (result?.success && Array.isArray(result.data)) {
+      return result.data
+        .filter((item: any) => item?.slug)
+        .map((item: any) => ({
+          slug: item.slug,
+          updated_at: item.updated_at ?? new Date().toISOString(),
+        }))
+    }
+    return []
+  } catch (error) {
+    console.error('[SITEMAP] Error fetching alumni:', error)
     return []
   }
 }
@@ -204,6 +229,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/alumni`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
       url: `${BASE_URL}/privacy-policy`,
       lastModified: now,
       changeFrequency: 'yearly',
@@ -220,11 +251,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   // ===== FETCH DYNAMIC DATA =====
-  const [berita, gallery, prestasiSiswa, prestasiSekolah] = await Promise.allSettled([
+  const [berita, gallery, prestasiSiswa, prestasiSekolah, alumni] = await Promise.allSettled([
     getAllBerita(),
     getAllGallery(),
     getAllPrestasiSiswa(),
     getAllPrestasiSekolah(),
+    getAllAlumni(),
   ])
 
   // ===== BERITA PAGES =====
@@ -271,6 +303,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         }))
       : []
 
+  // ===== ALUMNI PAGES =====
+  const alumniPages: MetadataRoute.Sitemap =
+    alumni.status === 'fulfilled'
+      ? alumni.value.map((item) => ({
+          url: `${BASE_URL}/alumni/${item.slug}`,
+          lastModified: safeParseDate(item.updated_at),
+          changeFrequency: 'monthly' as const,
+          priority: 0.8,
+        }))
+      : []
+
   // ===== LOG STATISTICS (dev only) =====
   if (process.env.NODE_ENV === 'development') {
     console.log('[SITEMAP] Generated:', {
@@ -279,12 +322,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     gallery: galleryPages.length,
     prestasiSiswa: prestasiSiswaPages.length,
     prestasiSekolah: prestasiSekolahPages.length,
+    alumni: alumniPages.length,
     total:
       staticPages.length +
       beritaPages.length +
       galleryPages.length +
       prestasiSiswaPages.length +
-      prestasiSekolahPages.length,
+      prestasiSekolahPages.length +
+      alumniPages.length,
   })
   }
 
@@ -296,5 +341,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...galleryPages,
     ...prestasiSiswaPages,
     ...prestasiSekolahPages,
+    ...alumniPages,
   ]
 }

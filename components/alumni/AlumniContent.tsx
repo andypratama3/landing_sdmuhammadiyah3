@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import type { Alumni } from '@/types/alumni.types'
 import {
   GraduationCap,
@@ -71,7 +72,7 @@ function AlumniGridCard({ alumni }: { alumni: Alumni }) {
     alumni.social_media?.facebook
 
   return (
-    <div className="group relative bg-white dark:bg-gray-900/60 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-lg hover:shadow-2xl hover:shadow-(--color-forest-450)/10 hover:-translate-y-2 transition-all duration-500 flex flex-col">
+    <Link href={`/alumni/${alumni.slug}`} className="group relative bg-white dark:bg-gray-900/60 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-lg hover:shadow-2xl hover:shadow-(--color-forest-450)/10 hover:-translate-y-2 transition-all duration-500 flex flex-col">
       {/* Top accent bar — tournament-card style */}
       <div className="h-1.5 w-full bg-linear-to-r from-(--color-forest-450) via-(--color-teal-400) to-(--color-sun-500)" />
 
@@ -113,6 +114,7 @@ function AlumniGridCard({ alumni }: { alumni: Alumni }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`LinkedIn ${alumni.name}`}
+                onClick={(e) => e.stopPropagation()}
                 className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-[#0A66C2] transition-colors border border-white/30"
               >
                 <Linkedin className="w-4 h-4" />
@@ -124,6 +126,7 @@ function AlumniGridCard({ alumni }: { alumni: Alumni }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Instagram ${alumni.name}`}
+                onClick={(e) => e.stopPropagation()}
                 className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-[#E1306C] transition-colors border border-white/30"
               >
                 <Instagram className="w-4 h-4" />
@@ -135,6 +138,7 @@ function AlumniGridCard({ alumni }: { alumni: Alumni }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Facebook ${alumni.name}`}
+                onClick={(e) => e.stopPropagation()}
                 className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-[#1877F2] transition-colors border border-white/30"
               >
                 <Facebook className="w-4 h-4" />
@@ -188,7 +192,7 @@ function AlumniGridCard({ alumni }: { alumni: Alumni }) {
           </div>
         )}
       </div>
-    </div>
+    </Link>
   )
 }
 
@@ -197,7 +201,7 @@ function AlumniListCard({ alumni, index }: { alumni: Alumni; index: number }) {
   const photoUrl = resolveImageUrl(alumni.photo, "img/alumni")
 
   return (
-    <div className="group relative bg-white dark:bg-gray-900/60 rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-md hover:shadow-xl hover:shadow-(--color-forest-450)/10 hover:-translate-y-1 transition-all duration-300 flex gap-0">
+    <Link href={`/alumni/${alumni.slug}`} className="group relative bg-white dark:bg-gray-900/60 rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-md hover:shadow-xl hover:shadow-(--color-forest-450)/10 hover:-translate-y-1 transition-all duration-300 flex gap-0">
       {/* Left accent */}
       <div className="w-1 shrink-0 bg-linear-to-b from-(--color-forest-450) via-(--color-teal-400) to-(--color-sun-500)" />
 
@@ -267,18 +271,20 @@ function AlumniListCard({ alumni, index }: { alumni: Alumni; index: number }) {
       <div className="hidden sm:flex flex-col items-center justify-center gap-2 px-4 shrink-0">
         {alumni.social_media?.linkedin && (
           <a href={alumni.social_media.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+            onClick={(e) => e.stopPropagation()}
             className="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-400 hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all">
             <Linkedin className="w-3.5 h-3.5" />
           </a>
         )}
         {alumni.social_media?.instagram && (
           <a href={alumni.social_media.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+            onClick={(e) => e.stopPropagation()}
             className="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-400 hover:bg-[#E1306C] hover:text-white hover:border-[#E1306C] transition-all">
             <Instagram className="w-3.5 h-3.5" />
           </a>
         )}
       </div>
-    </div>
+    </Link>
   )
 }
 
@@ -293,7 +299,7 @@ function SpotlightCard({ alumni, rank }: { alumni: Alumni; rank: number }) {
   ][rank] ?? { color: 'from-(--color-forest-450) to-(--color-forest-500)', badge: 'bg-(--color-forest-450)', icon: '⭐', label: 'ALUMNI' }
 
   return (
-    <div className="group relative bg-white dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col">
+    <Link href={`/alumni/${alumni.slug}`} className="group relative bg-white dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col">
       {/* Top rank stripe */}
       <div className={`h-2 w-full bg-linear-to-r ${rankConfig.color}`} />
 
@@ -379,18 +385,21 @@ function SpotlightCard({ alumni, rank }: { alumni: Alumni; rank: number }) {
             <span className="text-[9px] font-black uppercase tracking-widest text-gray-400 mr-1">Terhubung</span>
             {alumni.social_media?.linkedin && (
               <a href={alumni.social_media.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+                onClick={(e) => e.stopPropagation()}
                 className="w-9 h-9 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-400 hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all">
                 <Linkedin className="w-3.5 h-3.5" />
               </a>
             )}
             {alumni.social_media?.instagram && (
               <a href={alumni.social_media.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                onClick={(e) => e.stopPropagation()}
                 className="w-9 h-9 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-400 hover:bg-[#E1306C] hover:text-white hover:border-[#E1306C] transition-all">
                 <Instagram className="w-3.5 h-3.5" />
               </a>
             )}
             {alumni.social_media?.facebook && (
               <a href={alumni.social_media.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                onClick={(e) => e.stopPropagation()}
                 className="w-9 h-9 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-400 hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all">
                 <Facebook className="w-3.5 h-3.5" />
               </a>
@@ -398,7 +407,7 @@ function SpotlightCard({ alumni, rank }: { alumni: Alumni; rank: number }) {
           </div>
         )}
       </div>
-    </div>
+    </Link>
   )
 }
 

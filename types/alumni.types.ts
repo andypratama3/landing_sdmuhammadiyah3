@@ -13,6 +13,7 @@ export interface Alumni {
   photo?: string;
   graduation_year: number;
   class_name: string;
+  nisn?: string; // Added NISN for SEO and identification
   current_profession?: string;
   workplace?: string;
   achievement?: string;

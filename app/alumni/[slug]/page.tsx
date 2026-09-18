@@ -1,7 +1,8 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { serverGetPublic } from '@/lib/server-api'
-import type { AlumniResponse, Alumni } from '@/types/alumni.types'
+import type { Alumni } from '@/types/alumni.types'
+import { resolveImageUrl } from '@/lib/image-url'
 import BreadcrumbJsonLd from '@/components/breadcrumb-json-ld'
 import { pageMetadata } from '@/lib/metadata-helpers'
 
@@ -13,8 +14,8 @@ export async function generateMetadata({ params }: AlumniDetailPageProps): Promi
   const { slug } = await params
   
   try {
-    const response = await serverGetPublic<AlumniResponse>(`/alumni/${slug}`)
-    const alumni = response?.data as Alumni | undefined
+    const response = await serverGetPublic<Alumni>(`/alumni/${slug}`)
+    const alumni = response?.data
     
     if (!alumni) {
       return pageMetadata({
@@ -53,9 +54,9 @@ export async function generateMetadata({ params }: AlumniDetailPageProps): Promi
 
 async function getAlumniBySlug(slug: string): Promise<Alumni | null> {
   try {
-    const response = await serverGetPublic<AlumniResponse>(`/alumni/${slug}`)
+    const response = await serverGetPublic<Alumni>(`/alumni/${slug}`)
     if (response?.success && response.data) {
-      return response.data as Alumni
+      return response.data
     }
     return null
   } catch (error) {
@@ -92,7 +93,7 @@ export default async function AlumniDetailPage({ params }: AlumniDetailPageProps
                 {alumni.photo && (
                   <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white shadow-xl">
                     <img
-                      src={alumni.photo}
+                      src={resolveImageUrl(alumni.photo, 'img/alumni')}
                       alt={alumni.name}
                       className="w-full h-full object-cover"
                     />

@@ -5,10 +5,12 @@ import Image from "next/image";
 import { resolveImageUrl } from "@/lib/image-url";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useApi } from "@/hooks/useApi";
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useRef } from "react";
 import type { Guru, Pelajaran } from "@/types";
 
 export default function GuruDetailModal({ slug, onClose }: { slug: string, onClose: () => void }) {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const previousActiveElement = useRef<HTMLElement | null>(null);
   const { data: guruDetailResponse, loading: detailLoading, error: detailError } = useApi(
     `/guru/${slug}`,
     { cache: true, cacheTTL: 300000, immediate: true }
@@ -18,6 +20,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        e.preventDefault();
         onClose();
       }
     };
@@ -29,10 +32,56 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
   // Prevent body scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+    // Store the currently focused element
+    previousActiveElement.current = document.activeElement as HTMLElement;
+    
     return () => {
       document.body.style.overflow = '';
+      // Restore focus to the previously focused element
+      if (previousActiveElement.current) {
+        previousActiveElement.current.focus();
+      }
     };
   }, []);
+
+  // Focus trap within modal
+  useEffect(() => {
+    const modal = modalRef.current;
+    if (!modal) return;
+
+    const focusableElements = modal.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstFocusable = focusableElements[0] as HTMLElement;
+    const lastFocusable = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusable) {
+          e.preventDefault();
+          lastFocusable.focus();
+        }
+      } else {
+        if (document.activeElement === lastFocusable) {
+          e.preventDefault();
+          firstFocusable.focus();
+        }
+      }
+    };
+
+    modal.addEventListener('keydown', handleTab);
+    
+    // Focus the first focusable element when modal opens
+    if (firstFocusable) {
+      firstFocusable.focus();
+    }
+
+    return () => {
+      modal.removeEventListener('keydown', handleTab);
+    };
+  }, [guruDetail]);
 
   const guruDetail = useMemo<Guru | null>(() => {
     if (!guruDetailResponse) return null;
@@ -46,6 +95,14 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
     // If response is directly the Guru object
     if (guruDetailResponse && typeof guruDetailResponse === 'object' && !Array.isArray(guruDetailResponse) && 'name' in guruDetailResponse) {
       return guruDetailResponse as Guru;
+    }
+    
+    // Handle case where response might be wrapped in other properties
+    if (typeof guruDetailResponse === 'object' && guruDetailResponse !== null) {
+      const possibleData = (guruDetailResponse as any).guru || (guruDetailResponse as any).item;
+      if (possibleData && typeof possibleData === 'object' && !Array.isArray(possibleData) && 'name' in possibleData) {
+        return possibleData as Guru;
+      }
     }
     
     return null;
@@ -70,14 +127,19 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-md"
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={`guru-modal-title-${slug}`}
     >
       <div
+        ref={modalRef}
         className="modal-scroll mt-8 sm:mt-16 relative w-full max-w-full sm:max-w-3xl bg-white dark:bg-gray-900 rounded-2xl sm:rounded-3xl shadow-2xl max-h-[95vh] overflow-y-auto group"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
           className="absolute z-20 p-1.5 sm:p-2 text-gray-400 dark:text-gray-500 transition-all bg-white dark:bg-gray-800 rounded-full top-4 right-4 sm:top-6 sm:right-6 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-110 shadow-lg"
+          aria-label="Tutup modal"
         >
           <X className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
@@ -103,17 +165,20 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                 <div className="relative overflow-hidden border-3 sm:border-4 shadow-2xl w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-2xl sm:rounded-3xl border-white/30 backdrop-blur-sm group-hover:scale-105 transition-transform duration-500">
                   <Image
                     src={
-                      guruDetail.foto
+                      guruDetail.foto && guruDetail.foto.trim() !== ''
                         ? resolveImageUrl(guruDetail.foto, guruDetail.foto.trim().startsWith("T_Pendidikan_") ? "img/tenagapendidikan" : "img/guru")
-                        : guruDetail.karyawan?.foto
+                        : guruDetail.karyawan?.foto && guruDetail.karyawan.foto.trim() !== ''
                           ? resolveImageUrl(guruDetail.karyawan.foto, guruDetail.karyawan.foto.trim().startsWith("T_Pendidikan_") ? "img/tenagapendidikan" : "img/guru")
                           : "/placeholder.svg"
                     }
-                    alt={guruDetail.name}
+                    alt={guruDetail.name || 'Foto guru'}
                     fill
                     sizes="(max-width: 640px) 192px, (max-width: 768px) 256px, (max-width: 1024px) 288px, 320px"
                     className="object-cover w-full h-full"
                     priority
+                    onError={(e) => {
+                      e.currentTarget.src = "/placeholder.svg";
+                    }}
                   />
                 </div>
               </div>
@@ -125,7 +190,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                   <div className="flex items-start justify-between gap-3 sm:gap-4 mb-3 sm:mb-4">
                     <div className="flex-1">
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
-                        <h2 className="break-words text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white leading-tight">{guruDetail.name}</h2>
+                        <h2 id={`guru-modal-title-${slug}`} className="break-words text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white leading-tight">{guruDetail.name}</h2>
                         <div className="w-fit shrink-0 p-1 sm:p-1.5 sm:p-2 bg-[#33b962]/10 rounded-xl">
                           <Star className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#33b962] fill-[#33b962]" />
                         </div>
@@ -173,14 +238,14 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                     Mengajar {guruDetail.pelajarans.length} Pelajaran
                   </h3>
                   <div className="grid gap-2 sm:gap-3">
-                    {guruDetail.pelajarans.map((p: Pelajaran) => (
+                    {guruDetail.pelajarans.map((p: Pelajaran, index: number) => (
                       <div
-                        key={p.slug}
+                        key={p.slug || `pelajaran-${index}`}
                         className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-[#33b962]/8 to-transparent rounded-xl border-l-4 border-[#33b962] hover:shadow-lg hover:bg-gradient-to-r hover:from-[#33b962]/12 transition-all"
                       >
                         <div className="flex flex-1 min-w-0 items-start gap-3 sm:gap-4">
                           <div className="shrink-0 mt-1 sm:mt-1.5 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#33b962] group-hover:scale-150 transition-transform"></div>
-                          <span className="break-words text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-200 group-hover:text-(--color-forest-600) dark:group-hover:text-(--color-forest-400) transition-colors">{p.name}</span>
+                          <span className="break-words text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-200 group-hover:text-(--color-forest-600) dark:group-hover:text-(--color-forest-400) transition-colors">{p.name || 'Pelajaran tanpa nama'}</span>
                         </div>
                         <ChevronRight className="shrink-0 ml-1 sm:ml-2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-300 dark:text-gray-600 group-hover:text-[#33b962] transition-colors" />
                       </div>
@@ -198,8 +263,8 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                     Informasi Kontak
                   </h3>
                   <div className="space-y-2 sm:space-y-3">
-                    {guruDetail.karyawan.email && (
-                      <a href={`mailto:${guruDetail.karyawan.email}`} className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 rounded-xl bg-gradient-to-r from-[#33b962]/8 to-transparent dark:from-[#33b962]/10 border-2 border-[#33b962]/20 dark:border-gray-700 hover:border-[#33b962] hover:shadow-lg transition-all">
+                    {guruDetail.karyawan.email && guruDetail.karyawan.email.trim() !== '' && (
+                      <a href={`mailto:${guruDetail.karyawan.email.trim()}`} className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 rounded-xl bg-gradient-to-r from-[#33b962]/8 to-transparent dark:from-[#33b962]/10 border-2 border-[#33b962]/20 dark:border-gray-700 hover:border-[#33b962] hover:shadow-lg transition-all">
                         <div className="shrink-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-[#33b962]/10 rounded-xl flex items-center justify-center group-hover:bg-[#33b962]/20 transition-colors">
                           <Mail className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#33b962]" />
                         </div>
@@ -210,8 +275,8 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                         <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-hover:text-[#33b962] transition-colors" />
                       </a>
                     )}
-                    {guruDetail.karyawan.phone && (
-                      <a href={`tel:${guruDetail.karyawan.phone}`} className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 rounded-xl bg-gradient-to-r from-[#33b962]/8 to-transparent dark:from-[#33b962]/10 border-2 border-[#33b962]/20 dark:border-gray-700 hover:border-[#33b962] hover:shadow-lg transition-all">
+                    {guruDetail.karyawan.phone && guruDetail.karyawan.phone.trim() !== '' && (
+                      <a href={`tel:${guruDetail.karyawan.phone.trim()}`} className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 rounded-xl bg-gradient-to-r from-[#33b962]/8 to-transparent dark:from-[#33b962]/10 border-2 border-[#33b962]/20 dark:border-gray-700 hover:border-[#33b962] hover:shadow-lg transition-all">
                         <div className="shrink-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-[#33b962]/10 rounded-xl flex items-center justify-center group-hover:bg-[#33b962]/20 transition-colors">
                           <Phone className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#33b962]" />
                         </div>

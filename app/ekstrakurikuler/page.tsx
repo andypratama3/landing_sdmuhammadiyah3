@@ -12,7 +12,7 @@ import {
   X, AlertCircle, RefreshCw
 } from "lucide-react"
 import Image from "next/image"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect, useRef } from "react"
 import { useApi } from "@/hooks/useApi"
 import { Ekstrakurikuler } from "@/types/ekstrakurikuler.types"
 import PageAnimations from "@/components/PageAnimations"
@@ -64,9 +64,72 @@ const categoryMap: { [key: string]: string } = {
   lainnya: "Lainnya",
 }
 
+// Safe category name getter
+function getCategoryName(kategori: string | undefined | null): string {
+  if (!kategori || kategori.trim() === '') return 'Kategori'
+  const key = kategori.toLowerCase().trim()
+  return categoryMap[key] || kategori
+}
+
 export default function EkstrakurikulerPage() {
   const [selectedActivity, setSelectedActivity] = useState<EkstrakurikulerWithPhotos | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const previousActiveElement = useRef<HTMLElement | null>(null)
+
+  // Handle keyboard navigation for dialog
+  useEffect(() => {
+    if (!selectedActivity) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        setSelectedActivity(null)
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [selectedActivity])
+
+  // Focus trap within dialog
+  useEffect(() => {
+    if (!selectedActivity || !dialogRef.current) return
+
+    const dialog = dialogRef.current
+    const focusableElements = dialog.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )
+    const firstFocusable = focusableElements[0] as HTMLElement
+    const lastFocusable = focusableElements[focusableElements.length - 1] as HTMLElement
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusable) {
+          e.preventDefault()
+          lastFocusable.focus()
+        }
+      } else {
+        if (document.activeElement === lastFocusable) {
+          e.preventDefault()
+          firstFocusable.focus()
+        }
+      }
+    }
+
+    dialog.addEventListener('keydown', handleTab)
+    
+    // Focus the first focusable element when dialog opens
+    if (firstFocusable) {
+      firstFocusable.focus()
+    }
+
+    return () => {
+      dialog.removeEventListener('keydown', handleTab)
+    }
+  }, [selectedActivity])
 
   // Fetch ekstrakurikuler data
   const {
@@ -84,8 +147,11 @@ export default function EkstrakurikulerPage() {
   const ekstrakurikuler = useMemo((): EkstrakurikulerWithPhotos[] => {
     return (ekstrakurikulerData || []).map(item => {
       // Parse foto array and prepend storage URL
-      const fotoArray = item.foto
-        ? item.foto.split(',').map(f => resolveImageUrl(f, 'img/ekstrakurikuler'))
+      const fotoArray = item.foto && item.foto.trim() !== ''
+        ? item.foto.split(',').map(f => {
+            const trimmed = f.trim()
+            return trimmed ? resolveImageUrl(trimmed, 'img/ekstrakurikuler') : '/placeholder.svg'
+          }).filter(url => url !== '/placeholder.svg')
         : []
 
       return {
@@ -98,8 +164,14 @@ export default function EkstrakurikulerPage() {
 
   // Get unique categories
   const categories = useMemo(() => {
-    const cats = new Set(ekstrakurikuler.map(item => (item.kategori ?? '').toLowerCase()))
-    return Array.from(cats).sort((a, b) => a === 'Lainnya' ? -1 : b === 'Lainnya' ? 1 : a.localeCompare(b))
+    const cats = new Set(ekstrakurikuler.map(item => (item.kategori ?? '').toLowerCase()).filter(cat => cat.trim() !== ''))
+    return Array.from(cats).sort((a, b) => {
+      const aLower = a.toLowerCase()
+      const bLower = b.toLowerCase()
+      if (aLower === 'lainnya') return -1
+      if (bLower === 'lainnya') return 1
+      return aLower.localeCompare(bLower)
+    })
   }, [ekstrakurikuler])
 
   // Filter ekstrakurikuler by category
@@ -268,7 +340,7 @@ export default function EkstrakurikulerPage() {
                 <TabsTrigger value="all" className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-md">Semua</TabsTrigger>
                 {categories.map((cat) => (
                   <TabsTrigger key={cat} value={cat} className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-md">
-                    {categoryMap[cat] || cat}
+                    {getCategoryName(cat)}
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -332,17 +404,20 @@ export default function EkstrakurikulerPage() {
 
       {/* Detail Modal */}
       <Dialog open={!!selectedActivity} onOpenChange={() => setSelectedActivity(null)}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white/90 dark:bg-gray-950/80 backdrop-blur-2xl border-white/20 dark:border-white/10 shadow-2xl rounded-[2.5rem]">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
-              {selectedActivity?.name}
-            </DialogTitle>
-            <DialogDescription>
-              <Badge className="mt-2 bg-(--color-forest-450) text-white border-0">
-                {selectedActivity?.kategori && (categoryMap[selectedActivity.kategori.toLowerCase()] || selectedActivity.kategori)}
-              </Badge>
-            </DialogDescription>
-          </DialogHeader>
+        <DialogContent 
+          className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white/90 dark:bg-gray-950/80 backdrop-blur-2xl border-white/20 dark:border-white/10 shadow-2xl rounded-[2.5rem]"
+        >
+          <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="activity-dialog-title">
+            <DialogHeader>
+              <DialogTitle id="activity-dialog-title" className="text-2xl font-bold text-gray-900 dark:text-white">
+                {selectedActivity?.name || 'Kegiatan Ekstrakurikuler'}
+              </DialogTitle>
+              <DialogDescription>
+                <Badge className="mt-2 bg-(--color-forest-450) text-white border-0">
+                  {getCategoryName(selectedActivity?.kategori)}
+                </Badge>
+              </DialogDescription>
+            </DialogHeader>
 
           {selectedActivity && (
             <div className="space-y-6">
@@ -353,10 +428,13 @@ export default function EkstrakurikulerPage() {
                   <div className="relative h-56 overflow-hidden rounded-lg sm:h-80">
                     <Image
                       src={selectedActivity.fotoArray[0]}
-                      alt={selectedActivity.name}
+                      alt={selectedActivity.name || 'Foto kegiatan'}
                       fill
                       sizes="(max-width: 640px) 100vw, 600px"
                       className="object-cover w-full h-full"
+                      onError={(e) => {
+                        e.currentTarget.src = "/placeholder.svg";
+                      }}
                     />
                   </div>
 
@@ -364,13 +442,16 @@ export default function EkstrakurikulerPage() {
                   {selectedActivity.fotoArray.length > 1 && (
                     <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                       {selectedActivity.fotoArray.slice(1, 5).map((foto, index) => (
-                        <div key={index} className="relative aspect-square overflow-hidden rounded-lg">
+                        <div key={`thumb-${index}`} className="relative aspect-square overflow-hidden rounded-lg">
                           <Image
                             src={foto}
-                            alt={`${selectedActivity.name} ${index + 2}`}
+                            alt={`${selectedActivity.name || 'Kegiatan'} ${index + 2}`}
                             fill
                             sizes="(max-width: 640px) 25vw, 150px"
                             className="object-cover"
+                            onError={(e) => {
+                              e.currentTarget.src = "/placeholder.svg";
+                            }}
                           />
                         </div>
                       ))}
@@ -387,16 +468,18 @@ export default function EkstrakurikulerPage() {
               )}
 
               {/* Description */}
-              <div>
-                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Deskripsi</h3>
-                <p className="text-sm leading-relaxed text-gray-600 sm:text-base dark:text-gray-400">
-                  {selectedActivity.desc}
-                </p>
-              </div>
+              {selectedActivity.desc && selectedActivity.desc.trim() !== '' && (
+                <div>
+                  <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Deskripsi</h3>
+                  <p className="text-sm leading-relaxed text-gray-600 sm:text-base dark:text-gray-400">
+                    {selectedActivity.desc}
+                  </p>
+                </div>
+              )}
 
               {/* Details */}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {selectedActivity.kelas && (
+                {selectedActivity.kelas && selectedActivity.kelas.trim() !== '' && (
                   <div className="flex items-start gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-700">
                     <Users className="w-5 h-5 text-(--color-forest-450) shrink-0 mt-0.5" />
                     <div>
@@ -406,7 +489,7 @@ export default function EkstrakurikulerPage() {
                   </div>
                 )}
 
-                {selectedActivity.jam && (
+                {selectedActivity.jam && selectedActivity.jam.trim() !== '' && (
                   <div className="flex items-start gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-700">
                     <Clock className="w-5 h-5 text-(--color-forest-450) shrink-0 mt-0.5" />
                     <div>
@@ -416,7 +499,7 @@ export default function EkstrakurikulerPage() {
                   </div>
                 )}
 
-                {selectedActivity.guru && (
+                {selectedActivity.guru && selectedActivity.guru.trim() !== '' && (
                   <div className="flex items-start gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 sm:col-span-2">
                     <UserCircle className="w-5 h-5 text-(--color-forest-450) shrink-0 mt-0.5" />
                     <div>
@@ -428,6 +511,7 @@ export default function EkstrakurikulerPage() {
               </div>
             </div>
           )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>
@@ -442,15 +526,29 @@ function ActivityCard({
   onClick: () => void
 }) {
   return (
-    <Card className="card-premium h-full dark:bg-gray-900/40 dark:backdrop-blur-xl border-0 shadow-lg group flex flex-col overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 rounded-[2.5rem] glass" onClick={onClick}>
+    <Card 
+      className="card-premium h-full dark:bg-gray-900/40 dark:backdrop-blur-xl border-0 shadow-lg group flex flex-col overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 rounded-[2.5rem] glass cursor-pointer" 
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick()
+        }
+      }}
+    >
       <div className="relative overflow-hidden h-72 w-full bg-linear-to-br from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-900">
         {activity.fotoFirst ? (
           <Image
             src={activity.fotoFirst}
-            alt={activity.name}
+            alt={activity.name || 'Foto kegiatan'}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-contain p-6 transition-transform duration-700 group-hover:scale-110"
+            onError={(e) => {
+              e.currentTarget.src = "/placeholder.svg";
+            }}
           />
         ) : (
           <div className="flex items-center justify-center w-full h-full">
@@ -459,7 +557,7 @@ function ActivityCard({
         )}
         <div className="absolute top-6 left-6 z-20">
           <Badge className="bg-white/20 backdrop-blur-md text-white border-white/30 font-black uppercase tracking-widest text-[10px] rounded-full px-4 py-1.5 shadow-xl">
-            {categoryMap[activity.kategori.toLowerCase()] || activity.kategori}
+            {getCategoryName(activity.kategori)}
           </Badge>
         </div>
         {/* Photo count badge if multiple photos */}
@@ -473,14 +571,16 @@ function ActivityCard({
       </div>
       <div className="flex flex-col flex-1 p-8">
         <h3 className="text-2xl font-black text-gray-900 sm:text-2xl dark:text-white line-clamp-1 group-hover:text-(--color-forest-450) transition-colors uppercase tracking-tight mb-3">
-          {activity.name}
+          {activity.name || 'Kegiatan'}
         </h3>
-        <p className="text-sm font-medium text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed mb-6">
-          {activity.desc}
-        </p>
+        {activity.desc && activity.desc.trim() !== '' && (
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed mb-6">
+            {activity.desc}
+          </p>
+        )}
 
         <div className="mt-auto space-y-4 pt-6 border-t border-gray-100 dark:border-white/5">
-          {activity.jam && (
+          {activity.jam && activity.jam.trim() !== '' && (
             <div className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
               <div className="w-8 h-8 bg-(--color-forest-450)/10 rounded-xl flex items-center justify-center shadow-inner">
                 <Clock className="w-4 h-4 text-(--color-forest-450)" />
@@ -488,7 +588,7 @@ function ActivityCard({
               <span className="truncate">{activity.jam} - Selesai </span>
             </div>
           )}
-          {activity.guru && (
+          {activity.guru && activity.guru.trim() !== '' && (
             <div className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
               <div className="w-8 h-8 bg-blue-500/10 rounded-xl flex items-center justify-center shadow-inner">
                 <UserCircle className="w-4 h-4 text-blue-500" />

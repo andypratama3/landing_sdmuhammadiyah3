@@ -88,7 +88,7 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
           return (
             <div key={guru.slug} className="h-full cursor-pointer group" onClick={() => setSelectedSlug(guru.slug)}>
               <div className="relative flex flex-col h-full overflow-hidden transition-all duration-500 bg-white dark:bg-gray-900/40 border-0 shadow-xl rounded-[2.5rem] hover:shadow-2xl hover:-translate-y-3 glass group card-premium">
-                <div className="relative h-56 sm:h-72 md:h-80 lg:h-96 overflow-hidden bg-gradient-to-br from-[#33b962]/5 to-[#ffd166]/5">
+                <div className="relative h-100 overflow-hidden bg-gradient-to-br from-[#33b962]/5 to-[#ffd166]/5">
                   <Image
                     src={fotoUrl}
                     alt={guru?.name || "Guru"}

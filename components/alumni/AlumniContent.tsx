@@ -77,7 +77,7 @@ function AlumniGridCard({ alumni }: { alumni: Alumni }) {
       <div className="h-1.5 w-full bg-linear-to-r from-(--color-forest-450) via-(--color-teal-400) to-(--color-sun-500)" />
 
       {/* Photo area */}
-      <div className="relative h-60 overflow-hidden bg-(--color-cloud-100) dark:bg-gray-800">
+      <div className="relative h-100 overflow-hidden bg-(--color-cloud-100) dark:bg-gray-800">
         {photoUrl ? (
           <Image
             src={photoUrl}

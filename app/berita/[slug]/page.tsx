@@ -123,9 +123,16 @@ export default async function BeritaDetailPage({ params }: Props) {
 
   const readingTime = Math.max(1, Math.ceil((berita.desc?.length || 0) / 500));
   
-  // Safely intercept Laravel WYSIWYG Editor outputs overriding wrong frontend domains with the correct Storage bucket URL
+  // Safely intercept Laravel WYSIWYG Editor outputs overriding wrong frontend/old-backend
+  // domains (sdmuhammadiyah3smd.com/storage, dead sdmuhammadiyah3smd.cloud) with the correct
+  // ProductSchool storage bucket URL
+  const storageFallback =
+    process.env.NEXT_PUBLIC_STORAGE_URL || 'https://app.sdmuhammadiyah3smd.com/storage'
   const processedDesc = berita.desc
-    ? berita.desc.replace(/https?:\/\/sdmuhammadiyah3smd\.com\/storage/g, process.env.NEXT_PUBLIC_STORAGE_URL || 'https://app.sdmuhammadiyah3smd.com/storage')
+    ? berita.desc.replace(
+        /https?:\/\/(?:sdmuhammadiyah3smd\.com|sdmuhammadiyah3smd\.cloud)\/storage/g,
+        storageFallback
+      )
     : "";
   
   const pageDescription = processedDesc ? processedDesc.replace(/<[^>]*>/g, "").slice(0, 160) : "";

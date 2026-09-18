@@ -2,7 +2,8 @@ const STORAGE_BASE =
   process.env.NEXT_PUBLIC_STORAGE_URL || 'https://app.sdmuhammadiyah3smd.com/storage'
 
 function normalizeUrl(url: string): string {
-  return url.replace(/\/{2,}/g, '/')
+  // Collapse duplicated slashes without breaking the URL scheme (https:// )
+  return url.replace(/([^:])\/{2,}/g, '$1/')
 }
 
 /**
@@ -13,8 +14,8 @@ function normalizeUrl(url: string): string {
  * Safety rules:
  * - empty / whitespace / slash-only names fall back to `/placeholder.svg`
  * - trailing slashes are stripped so no URL ever ends with a bare `/` (-> 404)
- * - leading slashes and already-prefixed paths (img/** , storage/**, employees/**)
- *   are never double-prefixed
+ * - leading slashes and already-foldered paths (img/**, storage/**, posts/<uuid>/**)
+ *   are never double-prefixed with the feature folder
  * - duplicated slashes are collapsed
  */
 export function resolveImageUrl(
@@ -35,7 +36,10 @@ export function resolveImageUrl(
     return normalizeUrl(`${base}${clean}`)
   }
 
-  if (/^(img|storage|employees|public|uploads)\//.test(clean)) {
+  // Relative path that already contains a folder segment
+  // (e.g. img/berita/x.png, posts/<uuid>/file.png from the CMS)
+  // is returned as-is under the storage base — never double-prefixed.
+  if (clean.includes('/')) {
     return normalizeUrl(`${base}/${clean}`)
   }
 

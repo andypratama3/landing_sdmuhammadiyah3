@@ -93,7 +93,7 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
                     src={fotoUrl}
                     alt={guru?.name || "Guru"}
                     fill
-                    className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+                    className="object-cover object-center w-full h-full transition-transform duration-700 group-hover:scale-110"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                   />
                   <div className="absolute inset-0 transition-opacity duration-500 opacity-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:opacity-100"></div>

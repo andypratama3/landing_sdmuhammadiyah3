@@ -545,7 +545,7 @@ function ActivityCard({
             alt={activity.name || 'Foto kegiatan'}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-contain p-6 transition-transform duration-700 group-hover:scale-110"
+            className="object-cover object-center p-6 transition-transform duration-700 group-hover:scale-110"
             onError={(e) => {
               e.currentTarget.src = "/placeholder.svg";
             }}

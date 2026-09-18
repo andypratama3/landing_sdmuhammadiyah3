@@ -84,7 +84,7 @@ function AlumniGridCard({ alumni }: { alumni: Alumni }) {
             alt={alumni.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover object-top transition-transform duration-700 group-hover:scale-110"
+            className="object-cover object-center transition-transform duration-700 group-hover:scale-110"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
@@ -218,7 +218,7 @@ function AlumniListCard({ alumni, index }: { alumni: Alumni; index: number }) {
             alt={alumni.name}
             fill
             sizes="80px"
-            className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
+            className="object-cover object-center transition-transform duration-500 group-hover:scale-110"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
@@ -319,7 +319,7 @@ function SpotlightCard({ alumni, rank }: { alumni: Alumni; rank: number }) {
             alt={alumni.name}
             fill
             sizes="(max-width: 1024px) 100vw, 33vw"
-            className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+            className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">

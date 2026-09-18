@@ -605,7 +605,7 @@ function PrestasiCard({
             src={resolveImageUrl(achievement.foto, "img/prestasi")}
             alt={achievement.name}
             fill
-            className="object-cover"
+            className="object-cover object-center"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent" />

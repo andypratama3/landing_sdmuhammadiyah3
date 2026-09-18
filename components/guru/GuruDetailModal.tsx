@@ -174,7 +174,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                     alt={guruDetail.name || 'Foto guru'}
                     fill
                     sizes="(max-width: 640px) 192px, (max-width: 768px) 256px, (max-width: 1024px) 288px, 320px"
-                    className="object-cover w-full h-full"
+                    className="object-cover object-center w-full h-full"
                     priority
                     onError={(e) => {
                       e.currentTarget.src = "/placeholder.svg";

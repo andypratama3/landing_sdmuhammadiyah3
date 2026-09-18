@@ -489,7 +489,7 @@ export default function GaleriDetailPage() {
                               alt={`${gallery.name} - ${index + 1}`}
                               fill
                               sizes="(max-width: 640px) 33vw, 150px"
-                              className="object-cover transition-transform duration-300 group-hover:scale-110"
+                              className="object-cover object-center transition-transform duration-300 group-hover:scale-110"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement
                                 target.src = "/placeholder.svg"
@@ -680,7 +680,7 @@ export default function GaleriDetailPage() {
                                   alt={item.name}
                                   fill
                                   sizes="80px"
-                                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                  className="object-cover object-center transition-transform duration-500 group-hover:scale-110"
                                   onError={(e) => {
                                     const target = e.target as HTMLImageElement
                                     target.src = "/placeholder.svg"

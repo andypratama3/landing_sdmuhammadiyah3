@@ -188,7 +188,7 @@ export default async function BeritaDetailPage({ params }: Props) {
                     alt={berita.judul}
                     width={1200}
                     height={675}
-                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-auto object-cover object-center transition-transform duration-700 group-hover:scale-105"
                     priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-20" />
@@ -254,7 +254,7 @@ export default async function BeritaDetailPage({ params }: Props) {
                               alt={item.judul}
                               fill
                               sizes="96px"
-                              className="object-cover transition-transform duration-500 group-hover:scale-110"
+                              className="object-cover object-center transition-transform duration-500 group-hover:scale-110"
                             />
                           </div>
                           <div className="flex-1 min-w-0 flex flex-col justify-center">

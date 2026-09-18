@@ -477,7 +477,7 @@ export default function PrestasiSekolahDetailPage() {
                                   alt={item.name}
                                   fill
                                   sizes="96px"
-                                  className="object-cover transition-transform group-hover:scale-110"
+                                  className="object-cover object-center transition-transform group-hover:scale-110"
                                 />
                               ) : (
                                 <div className="flex items-center justify-center w-full h-full">

@@ -405,7 +405,7 @@ export default function BeritaPage() {
                       alt={featuredNews.judul}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
                   </div>
@@ -674,7 +674,7 @@ function NewsCard({
             alt={news.judul}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-1000 group-hover:scale-110"
+            className="object-cover object-center transition-transform duration-1000 group-hover:scale-110"
             onError={(e) => {
               const target = e.target as HTMLImageElement
               target.src = "/placeholder.svg"

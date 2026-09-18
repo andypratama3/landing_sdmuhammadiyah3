@@ -342,7 +342,7 @@ export default function GaleriPage() {
                             alt={item.name}
                             fill
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                            className="object-cover object-center transition-transform duration-1000 group-hover:scale-110"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement
                               target.src = "/placeholder.svg"
@@ -416,7 +416,7 @@ export default function GaleriPage() {
                               alt={item.name}
                               fill
                               sizes="(max-width: 640px) 100vw, (max-width: 768px) 288px, 320px"
-                              className="object-cover transition-transform duration-1000 group-hover/img:scale-110"
+                              className="object-cover object-center transition-transform duration-1000 group-hover:scale-110"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement
                                 target.src = "/placeholder.svg"

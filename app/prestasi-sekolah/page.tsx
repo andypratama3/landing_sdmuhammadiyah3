@@ -492,7 +492,7 @@ function PrestasiSekolahCard({
               alt={achievement.name}
               fill
               sizes="(max-width: 768px) 100vw, 40vw"
-              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              className="object-cover object-center transition-transform duration-700 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
             <div className="absolute bottom-6 left-6 flex items-center gap-4">

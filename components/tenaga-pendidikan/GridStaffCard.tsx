@@ -21,7 +21,7 @@ export function GridStaffCard({ person }: GridStaffCardProps) {
             alt={person.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-contain transition-transform duration-700 group-hover:scale-110"
+            className="object-cover object-center transition-transform duration-700 group-hover:scale-110"
           />
         </div>
       </div>

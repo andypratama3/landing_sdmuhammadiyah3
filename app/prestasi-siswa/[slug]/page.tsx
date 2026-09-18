@@ -513,7 +513,7 @@ export default function PrestasiSiswaDetailPage() {
                             alt={item.name}
                             width={1200}
                             height={800}
-                            className="object-cover transition-transform group-hover:scale-110"
+                            className="object-cover object-center transition-transform group-hover:scale-110"
                           />
                         </div>
                         <div className="flex-1 min-w-0">

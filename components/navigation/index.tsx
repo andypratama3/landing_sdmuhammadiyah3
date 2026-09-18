@@ -13,7 +13,6 @@ export const navLinks = [
       { href: "/profil", label: "Profil Sekolah" },
       { href: "/guru", label: "Guru" },
       { href: "/tenaga-pendidikan", label: "Tenaga Pendidikan" },
-      { href: "/alumni", label: "Portal Alumni" },
       { href: "/galeri", label: "Galeri Aktivitas" },
       { href: "/fasilitas", label: "Sarana & Prasarana" },
       { href: "/ekstrakurikuler", label: "Ekstrakurikuler" },
@@ -23,6 +22,7 @@ export const navLinks = [
   },
   { href: "/jadwal", label: "Jadwal" },
   { href: "/berita", label: "Berita" },
+  { href: "/alumni", label: "Alumni" },
   { href: "/rapot", label: "Rapot" },
   { href: "/kontak", label: "Kontak" },
 ];

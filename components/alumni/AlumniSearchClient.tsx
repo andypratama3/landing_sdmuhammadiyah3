@@ -104,7 +104,7 @@ export default function AlumniSearchClient({
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari alumni — nama, profesi, tempat kerja, angkatan..."
+            placeholder="Cari alumni — nama, angkatan..."
             className="flex-1 bg-transparent border-none outline-none text-base font-medium text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600 py-3"
           />
           {searchQuery && (

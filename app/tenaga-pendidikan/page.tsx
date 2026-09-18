@@ -14,6 +14,7 @@ import PageAnimations from "@/components/PageAnimations"
 import { Suspense } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { resolveImageUrl } from "@/lib/image-url"
 
 interface TenagaPendidikanPageProps {
   searchParams?: Promise<{ [key: string]: string | undefined }>
@@ -34,8 +35,6 @@ async function TenagaPendidikanContent({ searchParams }: { searchParams: { [key:
 
   // Process hierarchy data to include full image URLs & filter out categories with 0 staff
   const processedHierarchyData = (() => {
-    const storageUrl = process.env.NEXT_PUBLIC_STORAGE_URL || ''
-
     const processNode = (node: any): StrukturNode | null => {
       const processedChildren = (node.children || [])
         .map(processNode)
@@ -45,11 +44,7 @@ async function TenagaPendidikanContent({ searchParams }: { searchParams: { [key:
         id: staff.id || staff.slug,
         name: staff.name,
         position: staff.jabatan || staff.position || node.name,
-        image: staff.foto || staff.image
-          ? ((staff.foto || staff.image).startsWith("http") ? (staff.foto || staff.image)
-            : (staff.foto || staff.image).includes("/") ? `${storageUrl}/${staff.foto || staff.image}`
-            : `${storageUrl}/img/tenagapendidikan/${staff.foto || staff.image}`)
-          : "/placeholder.svg",
+        image: resolveImageUrl(staff.foto || staff.image, "img/tenagapendidikan"),
         category: staff.jabatan || staff.category || node.name,
         slug: staff.slug,
         description: staff.description || "",

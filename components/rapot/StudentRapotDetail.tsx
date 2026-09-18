@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { Loader, AlertCircle, FileText, Eye, Download } from 'lucide-react';
 import { useApi } from '@/hooks/useApi';
 import type { RapotDetail } from '@/types/rapot.types';
-
-const STORAGE_URL = process.env.NEXT_PUBLIC_STORAGE_URL;
+import { resolveImageUrl } from '@/lib/image-url';
 
 interface StudentRapotDetailProps {
   studentId: string;
@@ -41,15 +40,7 @@ export const StudentRapotDetail = ({
   // Helper untuk mendapatkan full URL file dari Laravel storage
   const getFileUrl = (filePath: string | null) => {
     if (!filePath) return null;
-
-    const clean = filePath.trim().replace(/\/+$/, '');
-    if (!clean || clean === '/') return null;
-
-    if (clean.startsWith('http://') || clean.startsWith('https://')) {
-      return clean;
-    }
-
-    return `${(STORAGE_URL || '').replace(/\/+$/, '')}/${clean.replace(/^\/+/, '')}`.replace(/\/{2,}/g, '/');
+    return resolveImageUrl(filePath, "");
   };
 
   // Helper untuk open file di tab baru

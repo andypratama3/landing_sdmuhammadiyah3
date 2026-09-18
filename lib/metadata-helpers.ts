@@ -4,25 +4,24 @@ import { articleSchema, achievementSchema } from './structured-data'
 import type { Berita } from '@/types/berita.types'
 import type { PrestasiSiswa, PrestasiSekolah } from '@/types/prestasi.types'
 import type { Gallery } from '@/types/gallery.types'
-
-const STORAGE = process.env.NEXT_PUBLIC_STORAGE_URL || 'https://app.sdmuhammadiyah3smd.com/storage'
+import { resolveImageUrl } from './image-url'
 
 function stripHtml(html: string, max = 160) {
   return html.replace(/<[^>]*>/g, '').trim().slice(0, max)
 }
 
 function beritaImage(foto?: string) {
-  return foto ? `${STORAGE}/img/berita/${foto}` : `${BASE_URL}/SD3_logo1.png`
+  return foto ? resolveImageUrl(foto, "img/berita") : `${BASE_URL}/SD3_logo1.png`
 }
 
 function galleryImage(gallery: Gallery) {
-  if (gallery.cover) return `${STORAGE}/img/gallery/cover/${gallery.cover}`
-  if (gallery.foto) return `${STORAGE}/img/gallery/${gallery.foto.split(',')[0].trim()}`
+  if (gallery.cover) return resolveImageUrl(gallery.cover, "img/gallery/cover")
+  if (gallery.foto) return resolveImageUrl(gallery.foto.split(',')[0].trim(), "img/gallery")
   return `${BASE_URL}/SD3_logo1.png`
 }
 
 function prestasiImage(foto?: string | null) {
-  return foto ? `${STORAGE}/img/prestasi/${foto}` : `${BASE_URL}/SD3_logo1.png`
+  return foto ? resolveImageUrl(foto, "img/prestasi") : `${BASE_URL}/SD3_logo1.png`
 }
 
 export function pageMetadata({

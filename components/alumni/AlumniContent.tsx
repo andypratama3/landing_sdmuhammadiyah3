@@ -23,23 +23,10 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import AlumniSearchClient, { type ViewMode, type SortMode } from './AlumniSearchClient'
+import { resolveImageUrl } from '@/lib/image-url'
 
 interface AlumniContentProps {
   initialAlumni: Alumni[]
-}
-
-const STORAGE_URL =
-  typeof process !== 'undefined'
-    ? process.env.NEXT_PUBLIC_STORAGE_URL || 'https://app.sdmuhammadiyah3smd.com/storage'
-    : 'https://app.sdmuhammadiyah3smd.com/storage'
-
-/** Resolve photo: absolute URLs pass through, relative paths get STORAGE_URL prefix */
-function resolvePhoto(photo: string | undefined): string | null {
-  if (!photo) return null
-  const clean = photo.trim().replace(/\/+$/, '')
-  if (!clean || clean === '/') return null
-  if (clean.startsWith('http://') || clean.startsWith('https://')) return clean
-  return `${STORAGE_URL.replace(/\/+$/, '')}/${clean.replace(/^\/+/, '')}`.replace(/\/{2,}/g, '/')
 }
 
 // ─── Animated Counter ───────────────────────────────────────────────
@@ -76,7 +63,7 @@ function AnimatedCounter({ target, duration = 1200 }: { target: number; duration
 
 // ─── Alumni Card — Grid Mode ─────────────────────────────────────────
 function AlumniGridCard({ alumni }: { alumni: Alumni }) {
-  const photoUrl = resolvePhoto(alumni.photo)
+  const photoUrl = resolveImageUrl(alumni.photo, "img/alumni")
 
   const hasSocial =
     alumni.social_media?.linkedin ||
@@ -207,7 +194,7 @@ function AlumniGridCard({ alumni }: { alumni: Alumni }) {
 
 // ─── Alumni Card — List Mode ──────────────────────────────────────────
 function AlumniListCard({ alumni, index }: { alumni: Alumni; index: number }) {
-  const photoUrl = resolvePhoto(alumni.photo)
+  const photoUrl = resolveImageUrl(alumni.photo, "img/alumni")
 
   return (
     <div className="group relative bg-white dark:bg-gray-900/60 rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-md hover:shadow-xl hover:shadow-(--color-forest-450)/10 hover:-translate-y-1 transition-all duration-300 flex gap-0">
@@ -297,7 +284,7 @@ function AlumniListCard({ alumni, index }: { alumni: Alumni; index: number }) {
 
 // ─── Featured Alumni Spotlight Card ──────────────────────────────────
 function SpotlightCard({ alumni, rank }: { alumni: Alumni; rank: number }) {
-  const photoUrl = resolvePhoto(alumni.photo)
+  const photoUrl = resolveImageUrl(alumni.photo, "img/alumni")
 
   const rankConfig = [
     { color: 'from-(--color-sun-500) to-(--color-sun-400)', badge: 'bg-(--color-sun-500)', icon: '🥇', label: 'ALUMNI TERBAIK' },

@@ -2,6 +2,13 @@ import type { ApiResponse } from '@/types'
 import crypto from 'crypto'
 import { getDummyData, shouldUseDummyData, logDummyDataUsage } from '@/lib/dummy-data'
 
+/**
+ * Tag global untuk semua data publik landing. Backend mengirim on-demand
+ * revalidation (POST /api/revalidate) setiap data berubah, sehingga ISR cache
+ * langsung ter-bypass dan halaman selalu realtime tanpa menunggu 1 jam.
+ */
+export const LANDING_TAG = 'landing'
+
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ??
   'https://app.sdmuhammadiyah3smd.com/api/v2'
@@ -89,6 +96,7 @@ export async function serverGetPublic<T>(
       },
       next: {
         revalidate: options?.revalidate ?? 3600,
+        tags: [LANDING_TAG],
       },
     });
 

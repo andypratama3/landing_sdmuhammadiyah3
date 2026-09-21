@@ -126,7 +126,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-md"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-md"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -134,7 +134,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
     >
       <div
         ref={modalRef}
-        className="modal-scroll mt-8 sm:mt-16 relative w-full max-w-full sm:max-w-3xl bg-white dark:bg-gray-900 rounded-2xl sm:rounded-3xl shadow-2xl max-h-[95vh] overflow-y-auto group"
+        className="modal-scroll relative w-full max-w-xl sm:max-w-2xl md:max-w-3xl bg-white dark:bg-gray-900 rounded-2xl sm:rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto group"
         onClick={(e) => e.stopPropagation()}
       >
         <button

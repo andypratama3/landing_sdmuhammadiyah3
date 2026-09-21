@@ -16,6 +16,32 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
     { cache: true, cacheTTL: 300000, immediate: true }
   );
 
+  // Derive guruDetail BEFORE any useEffect that references it to avoid TDZ
+  const guruDetail = useMemo<Guru | null>(() => {
+    if (!guruDetailResponse) return null;
+    
+    // Handle both response formats: { data: Guru } or direct Guru object
+    const data = (guruDetailResponse as any)?.data;
+    if (data && typeof data === 'object' && !Array.isArray(data)) {
+      return data as Guru;
+    }
+    
+    // If response is directly the Guru object
+    if (guruDetailResponse && typeof guruDetailResponse === 'object' && !Array.isArray(guruDetailResponse) && 'name' in guruDetailResponse) {
+      return guruDetailResponse as Guru;
+    }
+    
+    // Handle case where response might be wrapped in other properties
+    if (typeof guruDetailResponse === 'object' && guruDetailResponse !== null) {
+      const possibleData = (guruDetailResponse as any).guru || (guruDetailResponse as any).item;
+      if (possibleData && typeof possibleData === 'object' && !Array.isArray(possibleData) && 'name' in possibleData) {
+        return possibleData as Guru;
+      }
+    }
+    
+    return null;
+  }, [guruDetailResponse]);
+
   // Handle keyboard navigation (Escape to close)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -44,7 +70,7 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
     };
   }, []);
 
-  // Focus trap within modal
+  // Focus trap within modal — re-runs when guruDetail loads so new focusable elements are captured
   useEffect(() => {
     const modal = modalRef.current;
     if (!modal) return;
@@ -82,31 +108,6 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
       modal.removeEventListener('keydown', handleTab);
     };
   }, [guruDetail]);
-
-  const guruDetail = useMemo<Guru | null>(() => {
-    if (!guruDetailResponse) return null;
-    
-    // Handle both response formats: { data: Guru } or direct Guru object
-    const data = (guruDetailResponse as any)?.data;
-    if (data && typeof data === 'object' && !Array.isArray(data)) {
-      return data as Guru;
-    }
-    
-    // If response is directly the Guru object
-    if (guruDetailResponse && typeof guruDetailResponse === 'object' && !Array.isArray(guruDetailResponse) && 'name' in guruDetailResponse) {
-      return guruDetailResponse as Guru;
-    }
-    
-    // Handle case where response might be wrapped in other properties
-    if (typeof guruDetailResponse === 'object' && guruDetailResponse !== null) {
-      const possibleData = (guruDetailResponse as any).guru || (guruDetailResponse as any).item;
-      if (possibleData && typeof possibleData === 'object' && !Array.isArray(possibleData) && 'name' in possibleData) {
-        return possibleData as Guru;
-      }
-    }
-    
-    return null;
-  }, [guruDetailResponse]);
 
   // Handle modal scroll css inject (From original code)
   useEffect(() => {

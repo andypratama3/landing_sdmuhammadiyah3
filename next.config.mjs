@@ -35,6 +35,12 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
+      {
+        // Thumbnail facade YouTube (components/landing/video-section.tsx)
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+        pathname: '/vi/**',
+      },
     ],
     unoptimized: process.env.NODE_ENV === 'development',
   },

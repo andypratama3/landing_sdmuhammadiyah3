@@ -135,26 +135,24 @@ export default function Footer() {
             <ul className="space-y-6">
               {contactInfo.map((contact, i) => {
                 const Icon = contact.icon;
-                const content = (
+                return (
                   <li key={i} className="flex items-start gap-4 group">
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border shadow-inner transition-all duration-300 dark:bg-white/5 dark:border-white/10 dark:group-hover:bg-(--color-forest-700)/20 bg-gray-100 border-gray-200 group-hover:bg-(--color-forest-700)/20">
-                      <Icon className="w-5 h-5 text-(--color-forest-700)" />
+                      <Icon className="w-5 h-5 text-(--color-forest-700)" aria-hidden="true" />
                     </div>
                     <div className="flex-1 font-quicksand">
                       <p className="text-[10px] font-bold uppercase text-(--color-forest-700) mb-1">{contact.label}</p>
-                      <p className={`text-sm font-medium leading-relaxed dark:group-hover:text-white group-hover:text-gray-900`}>
-                        {contact.value}
-                      </p>
+                      {contact.href ? (
+                        <a href={contact.href} className="block text-sm font-medium leading-relaxed dark:group-hover:text-white group-hover:text-gray-900">
+                          {contact.value}
+                        </a>
+                      ) : (
+                        <p className="text-sm font-medium leading-relaxed">
+                          {contact.value}
+                        </p>
+                      )}
                     </div>
                   </li>
-                );
-
-                return contact.href ? (
-                  <a key={i} href={contact.href} className="block">
-                    {content}
-                  </a>
-                ) : (
-                  content
                 );
               })}
             </ul>

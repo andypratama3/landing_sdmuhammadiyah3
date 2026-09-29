@@ -123,6 +123,12 @@ const nextConfig = {
             key: 'Permissions-Policy',
             value: 'geolocation=(self), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()'
           },
+          // Isolasi origin (temuan Lighthouse Praktik Terbaik: COOP)
+          // Aman dengan iframe youtube-nocookie & GTM/GA.
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin'
+          },
 
         ]
       }

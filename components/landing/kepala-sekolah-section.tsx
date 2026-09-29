@@ -26,7 +26,7 @@ export function KepalaSekolahSection() {
                 <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border-4 sm:border-8 border-white dark:border-gray-800 shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
                   <Image
                     src="/kepala-sekolah.jpeg"
-                    alt="Ansar HS. S.Pd.,M.M. Gr."
+                    alt="Potret Kepala Sekolah SD Muhammadiyah 3 Samarinda"
                     fill
                     sizes="(max-width: 640px) 192px, (max-width: 768px) 224px, (max-width: 1024px) 256px, 320px"
                     className="object-contain transition-transform duration-700 group-hover:scale-110 bg-white"

@@ -125,7 +125,7 @@ export function PartnersSection({ partners }: PartnersSectionProps) {
           <div className="absolute top-0 bottom-0 right-0 w-12 sm:w-28 bg-gradient-to-l from-(--color-paper-50) to-transparent dark:from-(--color-forest-950) z-20 pointer-events-none" />
 
           {/* Logo Pause/Play hint */}
-          <span className="absolute -top-4 right-2 text-[10px] font-semibold uppercase tracking-widest text-(--color-forest-600)/50 dark:text-gray-500 z-20 pointer-events-none">
+          <span className="absolute -top-4 right-2 text-[10px] font-semibold uppercase tracking-widest text-(--color-forest-700) dark:text-gray-400 z-20 pointer-events-none">
             &#9208; scroll otomatis
           </span>
 

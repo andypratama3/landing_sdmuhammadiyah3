@@ -11,8 +11,8 @@ export function HeroSection() {
     <section className="gsap-hero relative min-h-[100dvh] overflow-hidden bg-(--color-paper-50) dark:bg-(--color-forest-950)">
       <div className="absolute inset-0 z-0">
         <HeroSekolahVideo
-          src="/video/SEKOTIF_BND.mp4"
-          poster="/foto_sekolah.jpeg"
+          src="/video/SEKOTIF_BND-720p.mp4"
+          poster="/foto_sekolah-828.webp"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-(--color-paper-50)/95 via-(--color-paper-50)/80 to-transparent dark:from-black/95 dark:via-black/85" />
       </div>

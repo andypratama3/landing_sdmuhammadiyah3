@@ -1,8 +1,8 @@
 export const revalidate = 300
 
 import type { Metadata } from "next"
+import dynamic from "next/dynamic"
 import { serverGetPublic } from "@/lib/server-api"
-import HomeAnimations from "@/components/HomeAnimations"
 import { HeroSection } from "@/components/landing/hero-section"
 import { StatsSection } from "@/components/landing/stats-section"
 import { ProgramsSection } from "@/components/landing/programs-section"
@@ -24,6 +24,13 @@ import type { PrestasiSekolah } from "@/types/prestasi.types"
 import type { KalenderAkademikEvent } from "@/types/kalender.types"
 import type { Fasilitas } from "@/types/fasilitas.types"
 import { pageMetadata } from "@/lib/metadata-helpers"
+
+// GSAP hanya untuk animasi non-kritis di bawah fold: muat malas di klien
+// agar tidak memblokir FCP/LCP dan TBT (temuan Lighthouse: forced reflow,
+// JS execution 2,1 dtk, main thread 4,3 dtk).
+const HomeAnimations = dynamic(() => import("@/components/HomeAnimations"), {
+  ssr: false,
+})
 
 export const metadata: Metadata = pageMetadata({
   title: "SD Terbaik di Samarinda | SD Muhammadiyah 3 Samarinda - Sekolah Kreatif Islam",

@@ -28,25 +28,25 @@ export function AboutPreviewSection() {
           </p>
           <dl className="mt-8 grid grid-cols-2 gap-6">
             <div>
-              <dt className="text-sm text-(--color-ink-600) dark:text-(--color-cloud-300) font-quicksand">Siswa aktif</dt>
+              <dt className="text-sm text-(--color-ink-700) dark:text-gray-300 font-quicksand">Siswa aktif</dt>
               <dd className="font-outfit text-2xl font-extrabold tabular-nums text-(--color-forest-700) dark:text-(--color-sun-400)">
                 {SCHOOL.stats.students}+
               </dd>
             </div>
             <div>
-              <dt className="text-sm text-(--color-ink-600) dark:text-(--color-cloud-300) font-quicksand">Ijazah lulusan</dt>
+              <dt className="text-sm text-(--color-ink-700) dark:text-gray-300 font-quicksand">Ijazah lulusan</dt>
               <dd className="font-outfit text-2xl font-extrabold text-(--color-forest-700) dark:text-(--color-sun-400)">
                 3 jalur
               </dd>
             </div>
             <div>
-              <dt className="text-sm text-(--color-ink-600) dark:text-(--color-cloud-300) font-quicksand">Status mutu</dt>
+              <dt className="text-sm text-(--color-ink-700) dark:text-gray-300 font-quicksand">Status mutu</dt>
               <dd className="font-outfit text-2xl font-extrabold text-(--color-forest-700) dark:text-(--color-sun-400)">
                 {SCHOOL.accreditation}
               </dd>
             </div>
             <div>
-              <dt className="text-sm text-(--color-ink-600) dark:text-(--color-cloud-300) font-quicksand">Mandat</dt>
+              <dt className="text-sm text-(--color-ink-700) dark:text-gray-300 font-quicksand">Mandat</dt>
               <dd className="font-outfit text-2xl font-extrabold text-(--color-forest-700) dark:text-(--color-sun-400)">
                 Penggerak
               </dd>

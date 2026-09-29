@@ -274,27 +274,37 @@ export default function HomeAnimations() {
         }
       )
 
-      // Quick links 3D tilt effect
+      // Quick links 3D tilt effect (rAF-throttled agar tidak forced reflow
+      // tiap mousemove — temuan Lighthouse "Ubah posisi/geometri yang dipaksa")
       toArray('.quick-link-card').forEach((link) => {
+        let raf = 0
         const onMove = (e: MouseEvent) => {
-          const rect = link.getBoundingClientRect()
-          const x = e.clientX - rect.left
-          const y = e.clientY - rect.top
-          const centerX = rect.width / 2
-          const centerY = rect.height / 2
-          const rotateX = ((y - centerY) / centerY) * -10
-          const rotateY = ((x - centerX) / centerX) * 10
+          if (raf) return
+          raf = requestAnimationFrame(() => {
+            raf = 0
+            const rect = link.getBoundingClientRect()
+            const x = e.clientX - rect.left
+            const y = e.clientY - rect.top
+            const centerX = rect.width / 2
+            const centerY = rect.height / 2
+            const rotateX = ((y - centerY) / centerY) * -10
+            const rotateY = ((x - centerX) / centerX) * 10
 
-          gsap.to(link, {
-            rotateX,
-            rotateY,
-            duration: 0.3,
-            ease: 'power2.out',
-            transformPerspective: 1000,
+            gsap.to(link, {
+              rotateX,
+              rotateY,
+              duration: 0.3,
+              ease: 'power2.out',
+              transformPerspective: 1000,
+            })
           })
         }
 
         const onLeave = () => {
+          if (raf) {
+            cancelAnimationFrame(raf)
+            raf = 0
+          }
           gsap.to(link, {
             rotateX: 0,
             rotateY: 0,

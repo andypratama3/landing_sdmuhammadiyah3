@@ -31,9 +31,13 @@ export function HeroSekolahVideo({ src, poster }: HeroSekolahVideoProps) {
     if (conn?.effectiveType === "slow-2g" || conn?.effectiveType === "2g") return
 
     const start = () => setLoadVideo(true)
-    if ("requestIdleCallback" in window) {
-      const id = (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(start, { timeout: 2500 })
-      return () => (window as Window & { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback?.(id)
+    const w = window as unknown as {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number
+      cancelIdleCallback?: (id: number) => void
+    }
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(start, { timeout: 2500 })
+      return () => w.cancelIdleCallback?.(id)
     }
     const t = window.setTimeout(start, 1500)
     return () => window.clearTimeout(t)

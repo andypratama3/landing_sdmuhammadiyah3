@@ -4,7 +4,15 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { SCHOOL } from "@/lib/school-info"
 
-export function AboutPreviewSection() {
+const formatCount = (num: number) => `${num.toLocaleString("id-ID")}+`
+
+interface AboutPreviewSectionProps {
+  data?: {
+    siswa?: number
+  }
+}
+
+export function AboutPreviewSection({ data }: AboutPreviewSectionProps) {
   return (
     <section className="gsap-about py-24 sm:py-28 bg-(--color-paper-50) dark:bg-(--color-forest-950)">
       <div className="container mx-auto grid items-center gap-12 px-4 lg:grid-cols-2 lg:gap-20">
@@ -30,13 +38,13 @@ export function AboutPreviewSection() {
             <div>
               <dt className="text-sm text-(--color-ink-700) dark:text-gray-300 font-quicksand">Siswa aktif</dt>
               <dd className="font-outfit text-2xl font-extrabold tabular-nums text-(--color-forest-700) dark:text-(--color-sun-400)">
-                {SCHOOL.stats.students}+
+                {formatCount(data?.siswa ?? SCHOOL.stats.students)}
               </dd>
             </div>
             <div>
               <dt className="text-sm text-(--color-ink-700) dark:text-gray-300 font-quicksand">Ijazah lulusan</dt>
               <dd className="font-outfit text-2xl font-extrabold text-(--color-forest-700) dark:text-(--color-sun-400)">
-                3 jalur
+                {SCHOOL.stats.graduateTracks} jalur
               </dd>
             </div>
             <div>
@@ -48,7 +56,7 @@ export function AboutPreviewSection() {
             <div>
               <dt className="text-sm text-(--color-ink-700) dark:text-gray-300 font-quicksand">Mandat</dt>
               <dd className="font-outfit text-2xl font-extrabold text-(--color-forest-700) dark:text-(--color-sun-400)">
-                Penggerak
+                {SCHOOL.mandate}
               </dd>
             </div>
           </dl>

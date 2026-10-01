@@ -54,11 +54,13 @@ export const SCHOOL = {
     youtube: 'https://www.youtube.com/@sekolahkreatifsdmuhammadiy2812',
     tiktok: 'https://www.tiktok.com/@sekolahkreatifsamarinda',
   },
+  mandate: 'Penggerak',
   stats: {
     students: 400,
     teachers: 30,
     achievements: 15,
     founded: 1985,
+    graduateTracks: 3,
   },
 } as const
 

@@ -74,7 +74,7 @@ export default async function Home() {
       <GallerySection galleries={galleryRes ?? []} />
       <CalendarSection events={kalenderRes ?? []} />
       <VideoSection />
-      <AboutPreviewSection />
+      <AboutPreviewSection data={countRes ?? undefined} />
       <AchievementsSection achievements={prestasiRes ?? []} />
       <PartnersSection partners={dukunganRes ?? []} />
       <AwardsSection />

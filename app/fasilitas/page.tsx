@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import Breadcrumb from "@/components/breadcrumb"
 import { Building, Users, CheckCircle, Ruler, ChevronRight, RefreshCw } from "lucide-react"
 import { serverGetPublic } from "@/lib/server-api"
+import { getCachedData } from "@/lib/redis-cache"
 import { Suspense } from "react"
 import { Fasilitas, KelengkapanFasilitas } from "@/types"
 import Image from "next/image"
@@ -20,9 +21,9 @@ interface FasilitasPageProps {
 
 export default async function FasilitasPage({ searchParams }: FasilitasPageProps) {
   const params = await searchParams || {}
-  
-  const facilitiesRes = await serverGetPublic<Fasilitas[]>('/list/fasilitas')
-  const facilities = facilitiesRes.data || []
+
+  const fetchFasilitas = async () => (await serverGetPublic<Fasilitas[]>('/list/fasilitas')).data ?? []
+  const facilities = await getCachedData('fasilitas:list', fetchFasilitas, { ttlSeconds: 300 })
 
   return (
     <div className="pt-24 pb-16 min-h-screen bg-(--color-paper-50) dark:bg-gray-950 transition-colors duration-500 overflow-hidden relative">

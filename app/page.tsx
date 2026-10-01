@@ -2,6 +2,7 @@ export const revalidate = 300
 
 import type { Metadata } from "next"
 import { serverGetPublic } from "@/lib/server-api"
+import { getCachedData, buildCacheKey, getCacheVersion } from "@/lib/redis-cache"
 import HomeAnimationsLazy from "@/components/HomeAnimationsLazy"
 import { HeroSection } from "@/components/landing/hero-section"
 import { StatsSection } from "@/components/landing/stats-section"
@@ -42,31 +43,40 @@ interface CountData {
 }
 
 export default async function Home() {
+  // Realtime Redis cache dengan TTL pendek (60-300 detik) agar data tetap segar
+  const fetchCount = async () => (await serverGetPublic<CountData>("/count-landing")).data ?? { siswa: 0, guru: 0, fasilitas: 0, prestasis_siswa: 0, prestasis_sekolah: 0 };
+  const fetchGallery = async () => (await serverGetPublic<Gallery[]>("/gallery-landing")).data ?? [];
+  const fetchDukungan = async () => (await serverGetPublic<Dukungan[]>("/dukungan-kerja-sama")).data ?? [];
+  const fetchPrestasiSiswa = async () => (await serverGetPublic<PrestasiSiswa[]>("/prestasi-landing")).data ?? [];
+  const fetchKalender = async () => (await serverGetPublic<KalenderAkademikEvent[]>("/kalender-akademik/upcoming?limit=6")).data ?? [];
+  const fetchFasilitas = async () => (await serverGetPublic<Fasilitas[]>("/list/fasilitas")).data ?? [];
+  const fetchPrestasiSekolah = async () => (await serverGetPublic<PrestasiSekolah[]>("/list/prestasi-sekolah")).data ?? [];
+
   const [countRes, galleryRes, dukunganRes, prestasiRes, kalenderRes, fasilitasRes, prestasiSekolahRes] = await Promise.all([
-    serverGetPublic<CountData>("/count-landing"),
-    serverGetPublic<Gallery[]>("/gallery-landing"),
-    serverGetPublic<Dukungan[]>("/dukungan-kerja-sama"),
-    serverGetPublic<PrestasiSiswa[]>("/prestasi-landing"),
-    serverGetPublic<KalenderAkademikEvent[]>("/kalender-akademik/upcoming?limit=6"),
-    serverGetPublic<Fasilitas[]>("/list/fasilitas"),
-    serverGetPublic<PrestasiSekolah[]>("/list/prestasi-sekolah"),
+    getCachedData('landing:count', fetchCount, { ttlSeconds: 60 }),
+    getCachedData('landing:gallery', fetchGallery, { ttlSeconds: 120 }),
+    getCachedData('landing:dukungan', fetchDukungan, { ttlSeconds: 300 }),
+    getCachedData('landing:prestasi-siswa', fetchPrestasiSiswa, { ttlSeconds: 120 }),
+    getCachedData('landing:kalender', fetchKalender, { ttlSeconds: 60 }),
+    getCachedData('landing:fasilitas', fetchFasilitas, { ttlSeconds: 300 }),
+    getCachedData('landing:prestasi-sekolah', fetchPrestasiSekolah, { ttlSeconds: 300 }),
   ])
 
   return (
     <>
       <HomeAnimationsLazy />
       <HeroSection />
-      <StatsSection data={countRes.data} />
+      <StatsSection data={countRes ?? { siswa: 0, guru: 0, fasilitas: 0, prestasis_siswa: 0, prestasis_sekolah: 0 }} />
       <ProgramsSection />
       <KepalaSekolahSection />
       <AccreditationSection />
-      <QuickLinksSection fasilitas={fasilitasRes.data ?? []} prestasiSekolah={prestasiSekolahRes.data ?? []} />
-      <GallerySection galleries={galleryRes.data ?? []} />
-      <CalendarSection events={kalenderRes.data ?? []} />
+      <QuickLinksSection fasilitas={fasilitasRes ?? []} prestasiSekolah={prestasiSekolahRes ?? []} />
+      <GallerySection galleries={galleryRes ?? []} />
+      <CalendarSection events={kalenderRes ?? []} />
       <VideoSection />
       <AboutPreviewSection />
-      <AchievementsSection achievements={prestasiRes.data ?? []} />
-      <PartnersSection partners={dukunganRes.data ?? []} />
+      <AchievementsSection achievements={prestasiRes ?? []} />
+      <PartnersSection partners={dukunganRes ?? []} />
       <AwardsSection />
       <CTASection />
     </>

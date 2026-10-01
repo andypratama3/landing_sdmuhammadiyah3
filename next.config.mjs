@@ -2,6 +2,7 @@
 const nextConfig = {
   compress: true,
   poweredByHeader: false,
+  swcMinify: true,
 
   images: {
     minimumCacheTTL: 2592000,

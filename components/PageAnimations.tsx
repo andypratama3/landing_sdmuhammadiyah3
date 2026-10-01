@@ -223,11 +223,13 @@ export default function PageAnimations() {
         })
       })
 
-      // 3D tilt effect on cards
+      // 3D tilt effect on cards (cached rect to avoid forced layout)
       toArray('.page-tilt-card').forEach((card) => {
         const el = card as HTMLElement
+        let rectCache: DOMRect | null = null
         const onMove = (e: MouseEvent) => {
-          const rect = el.getBoundingClientRect()
+          if (!rectCache) rectCache = el.getBoundingClientRect()
+          const rect = rectCache
           const x = e.clientX - rect.left
           const y = e.clientY - rect.top
           gsap.to(el, {
@@ -252,15 +254,13 @@ export default function PageAnimations() {
       })
     })
 
-    // Refresh trigger positions once assets finish loading so reveal start
-    // points stay accurate after images/layout settle.
-    const onLoad = () => ScrollTrigger.refresh()
-    const refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 500)
-    window.addEventListener('load', onLoad)
+    // Refresh trigger positions once after assets load (deferred, not blocking)
+    const refreshTimer = window.setTimeout(() => {
+      try { ScrollTrigger.refresh() } catch (e) { /* ignore */ }
+    }, 800)
 
     // Cleanup
     return () => {
-      window.removeEventListener('load', onLoad)
       window.clearTimeout(refreshTimer)
       tiltListeners.forEach(({ el, onMove, onLeave }) => {
         el.removeEventListener('mousemove', onMove)

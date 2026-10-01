@@ -1,0 +1,8 @@
+defaults
+not dead
+not op_mini all
+not chrome < 90
+not firefox < 90
+not safari < 14
+not edge < 90
+not ie 11

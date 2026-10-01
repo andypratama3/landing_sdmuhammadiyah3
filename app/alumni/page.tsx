@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { serverGetPublic } from '@/lib/server-api'
+import { getCachedData } from '@/lib/redis-cache'
 import type { AlumniResponse, Alumni } from '@/types/alumni.types'
 import AlumniContent from '@/components/alumni/AlumniContent'
 import { pageMetadata } from '@/lib/metadata-helpers'
@@ -24,11 +25,14 @@ export const revalidate = 3600
 
 async function getAlumniData(): Promise<Alumni[]> {
   try {
-    const response = await serverGetPublic<AlumniResponse>('/list/alumni')
-    if (response.success && response.data) {
-      return Array.isArray(response.data) ? response.data : []
+    const fetchAlumni = async () => {
+      const response = await serverGetPublic<AlumniResponse>('/list/alumni')
+      if (response.success && response.data) {
+        return Array.isArray(response.data) ? response.data : []
+      }
+      return []
     }
-    return []
+    return await getCachedData('alumni:list', fetchAlumni, { ttlSeconds: 300 })
   } catch (error) {
     console.error('Error fetching alumni:', error)
     return []

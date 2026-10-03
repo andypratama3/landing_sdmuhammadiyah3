@@ -1,6 +1,16 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
+const MAINTENANCE_PATH = '/maintenance'
+
+// Routes that must stay reachable while maintenance mode is active
+const MAINTENANCE_ALLOWED_PATHS = new Set([MAINTENANCE_PATH])
+
+function isMaintenanceMode() {
+  const flag = process.env.MAINTENANCE_MODE
+  return flag === 'true' || flag === '1'
+}
+
 export function middleware(request: NextRequest) {
   // Generate a random nonce
   const nonce = crypto.randomUUID().replace(/-/g, '')
@@ -9,13 +19,23 @@ export function middleware(request: NextRequest) {
   
   // Store nonce in request headers for server components to access
   requestHeaders.set('x-nonce', nonce)
-  
+
+  const { pathname } = request.nextUrl
+  const isMaintenance = isMaintenanceMode() && !MAINTENANCE_ALLOWED_PATHS.has(pathname)
+
   // Create response and pass headers through
-  const response = NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  })
+  const response = isMaintenance
+    ? NextResponse.rewrite(new URL(MAINTENANCE_PATH, request.url), {
+        status: 503,
+        request: {
+          headers: requestHeaders,
+        },
+      })
+    : NextResponse.next({
+        request: {
+          headers: requestHeaders,
+        },
+      })
   
   // Build the CSP header with nonce (unsafe-inline for YouTube embeds in development)
   const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -37,7 +57,12 @@ export function middleware(request: NextRequest) {
     ? 'geolocation=(), microphone=(), camera=(), execution-while-not-rendered=(), execution-while-out-of-viewport=()'
     : 'geolocation=(), microphone=(), camera=()'
   response.headers.set('Permissions-Policy', permissionsPolicy)
-  
+
+  if (isMaintenance) {
+    response.headers.set('Retry-After', '3600')
+    response.headers.set('X-Maintenance-Mode', 'on')
+  }
+
   return response
 }
 

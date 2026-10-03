@@ -55,9 +55,14 @@ export async function generateMetadata({ params }: AlumniDetailPageProps): Promi
 
 async function getAlumniBySlug(slug: string): Promise<Alumni | null> {
   try {
-    const response = await serverGetPublic<Alumni>(`/alumni/${slug}`)
+    const response = await serverGetPublic<any>(`/alumni/${slug}`)
+    // Handle different response formats
     if (response?.success && response.data) {
-      return response.data
+      return response.data as Alumni
+    }
+    // Handle direct object response
+    if (response && typeof response === 'object' && 'name' in response) {
+      return response as Alumni
     }
     return null
   } catch (error) {
@@ -91,15 +96,27 @@ export default async function AlumniDetailPage({ params }: AlumniDetailPageProps
             {/* Header Section */}
             <div className="bg-gradient-to-r from-(--color-forest-450) to-(--color-teal-400) p-8 md:p-12">
               <div className="flex flex-col md:flex-row items-center gap-6">
-                <div className="relative w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-full overflow-hidden border-4 border-white shadow-xl">
-                  <Image
-                    src={resolveImageUrl(alumni.photo, 'img/alumni')}
-                    alt={alumni.name}
-                    fill
-                    sizes="(max-width: 768px) 128px, 160px"
-                    className="object-cover object-center"
-                    priority
-                  />
+                <div className="relative w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-full overflow-hidden border-4 border-white shadow-xl bg-white/20">
+                  {alumni.photo && alumni.photo.trim() !== '' ? (
+                    <Image
+                      src={resolveImageUrl(alumni.photo, 'img/alumni')}
+                      alt={alumni.name}
+                      fill
+                      sizes="(max-width: 768px) 128px, 160px"
+                      className="object-cover object-center"
+                      priority
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement
+                        target.style.display = 'none'
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="w-16 h-16 bg-white/30 rounded-full flex items-center justify-center">
+                        <span className="text-2xl font-bold text-white">{alumni.name.charAt(0)}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="text-center md:text-left">
                   <h1 className="text-3xl md:text-4xl font-black text-white mb-2">

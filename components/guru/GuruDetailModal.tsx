@@ -197,7 +197,9 @@ export default function GuruDetailModal({ slug, onClose }: { slug: string, onClo
                         </div>
                       </div>
                       {guruDetail.lulusan && (
-                        <p className="break-words text-(--color-forest-600) dark:text-(--color-forest-400) text-xs sm:text-sm md:text-base font-bold mb-2 sm:mb-3">{guruDetail.lulusan}</p>
+                        <p className="break-words text-(--color-forest-600) dark:text-(--color-forest-400) text-xs sm:text-sm md:text-base font-bold mb-2 sm:mb-3">
+                          {guruDetail.lulusan.replace(/PT\.?\s*/gi, '').trim()}
+                        </p>
                       )}
                       {guruDetail.description && (
                         <p className="text-xs sm:text-sm leading-relaxed text-gray-600 dark:text-gray-400 line-clamp-2">{guruDetail.description}</p>

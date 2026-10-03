@@ -117,7 +117,9 @@ export function GuruGridClient({ gurus }: { gurus: Guru[] }) {
                     {guru.lulusan && (
                       <div className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg">
                         <GraduationCap className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 text-[#33b962] brightness-125" />
-                        <p className="max-w-full truncate text-(--color-forest-600) dark:text-(--color-forest-400) text-[10px] sm:text-[11px] font-black uppercase tracking-wider">{guru.lulusan}</p>
+                        <p className="max-w-full truncate text-(--color-forest-600) dark:text-(--color-forest-400) text-[10px] sm:text-[11px] font-black uppercase tracking-wider">
+                          {guru.lulusan.replace(/PT\.?\s*/gi, '').trim()}
+                        </p>
                       </div>
                     )}
                   </div>

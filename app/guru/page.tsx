@@ -130,7 +130,7 @@ export default async function GuruPage({
       )}
 
       {/* Passed statically evaluated data downward blindly into Client View Wrapper */}
-      <section className="py-20 bg-(--color-cloud-100)/50 dark:bg-gray-950">
+      <section className="bg-(--color-cloud-100)/50 dark:bg-gray-950">
         <div className="container px-4 mx-auto max-w-7xl">
            <GuruGridClient gurus={gurus} />
         </div>

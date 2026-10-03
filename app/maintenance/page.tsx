@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { Mail, MapPin, MessageCircle, Phone, Sparkles } from 'lucide-react'
+import { Mail, MapPin, Phone, Sparkles } from 'lucide-react'
 import { SCHOOL } from '@/lib/school-info'
 import AutoRefresh from './auto-refresh'
 
@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 
 const CONTACTS = [
   { icon: Phone, label: SCHOOL.phone, href: `tel:${SCHOOL.phoneTel}` },
-  { icon: MessageCircle, label: `WhatsApp ${SCHOOL.whatsapp}`, href: `https://wa.me/${SCHOOL.whatsapp}`, external: true },
   { icon: Mail, label: SCHOOL.email, href: `mailto:${SCHOOL.email}` },
 ]
 
@@ -127,11 +126,10 @@ export default function MaintenancePage() {
               Butuh informasi segera?
             </p>
             <ul className="space-y-0.5">
-              {CONTACTS.map(({ icon: Icon, label, href, external }) => (
+              {CONTACTS.map(({ icon: Icon, label, href }) => (
                 <li key={href}>
                   <a
                     href={href}
-                    {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     className="group flex items-center gap-3 py-1 text-[0.8125rem] text-white/90 hover:text-(--color-sun-300) transition-colors"
                   >
                     <span className="w-7 h-7 shrink-0 rounded-lg bg-white/5 group-hover:bg-(--color-sun-500)/15 flex items-center justify-center transition-colors">

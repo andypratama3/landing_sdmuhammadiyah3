@@ -46,13 +46,17 @@ const contactInfo = [
     action: "Kirim Email",
     link: `mailto:${SCHOOL.email}`,
   },
-  {
-    icon: MessageCircle,
-    title: "WhatsApp",
-    content: `+62 ${SCHOOL.whatsapp.slice(2, 5)}-${SCHOOL.whatsapp.slice(5, 9)}-${SCHOOL.whatsapp.slice(9)}`,
-    action: "Chat WhatsApp",
-    link: `https://wa.me/${SCHOOL.whatsapp}?text=${encodeURIComponent(SCHOOL.whatsappMessage)}`,
-  },
+  ...(SCHOOL.whatsapp
+    ? [
+        {
+          icon: MessageCircle,
+          title: "WhatsApp",
+          content: `+62 ${SCHOOL.whatsapp.slice(2, 5)}-${SCHOOL.whatsapp.slice(5, 9)}-${SCHOOL.whatsapp.slice(9)}`,
+          action: "Chat WhatsApp",
+          link: `https://wa.me/${SCHOOL.whatsapp}?text=${encodeURIComponent(SCHOOL.whatsappMessage)}`,
+        },
+      ]
+    : []),
 ]
 
 const departments = [
@@ -141,11 +145,13 @@ export default function KontakClient() {
                 <p className="page-hero-description text-white/95 text-xl font-medium max-w-2xl mb-10 leading-relaxed drop-shadow-sm">
                   Tim kami siap membantu informasi pendaftaran SPMB, jadwal, dan biaya sekolah. Lokasi strategis di Samarinda Seberang.
                 </p>
+                {SCHOOL.whatsapp && (
                 <div className="flex flex-wrap gap-4">
                   <Button asChild className="page-button bg-white text-(--color-forest-450) hover:bg-white/90 rounded-full px-8 h-12 font-black uppercase tracking-widest text-xs shadow-xl">
                     <a href={`https://wa.me/${SCHOOL.whatsapp}?text=${encodeURIComponent(SCHOOL.whatsappMessage)}`} target="_blank" rel="noopener noreferrer">Chat via WhatsApp</a>
                   </Button>
                 </div>
+                )}
               </div>
             </div>
 

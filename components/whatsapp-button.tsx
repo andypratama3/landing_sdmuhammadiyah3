@@ -6,6 +6,11 @@ import { useGoogleAnalytics } from "@/components/google-analytics"
 
 export default function WhatsAppButton() {
   const { trackEvent } = useGoogleAnalytics()
+
+  if (!SCHOOL.whatsapp) {
+    return null
+  }
+
   const waUrl = `https://wa.me/${SCHOOL.whatsapp}?text=${encodeURIComponent(SCHOOL.whatsappMessage)}`
 
   return (

@@ -178,6 +178,7 @@ export function PartnersSection({ partners }: PartnersSectionProps) {
           </div>
           
           <div className="flex-shrink-0 flex flex-col sm:flex-row gap-4 w-full md:w-auto relative z-10">
+            {SCHOOL.whatsapp && (
             <Button 
               asChild
               className="bg-(--color-sun-500) hover:bg-(--color-sun-400) text-(--color-ink-950) dark:text-(--color-ink-950) font-black uppercase tracking-widest text-[10px] px-8 h-12 rounded-2xl shadow-lg shadow-(--color-sun-500)/15 hover:shadow-(--color-sun-500)/25 hover:scale-[1.03] active:scale-[0.97] transition-all w-full sm:w-auto cursor-pointer"
@@ -186,6 +187,7 @@ export function PartnersSection({ partners }: PartnersSectionProps) {
                 Hubungi Humas
               </a>
             </Button>
+            )}
             <Button 
               asChild
               variant="outline"

@@ -130,6 +130,11 @@ export default async function RootLayout({
   const headersList = await headers()
   const nonce = headersList.get('x-nonce') || ''
 
+  // Saat maintenance mode aktif, jangan termukan app shell (Navigation,
+  // Footer, modals, dsb.) agar halaman maintenance benar-benar terisolasi.
+  const isMaintenance =
+    process.env.MAINTENANCE_MODE === 'true' || process.env.MAINTENANCE_MODE === '1'
+
   return (
     <html lang="id" suppressHydrationWarning>
       <head>
@@ -144,24 +149,22 @@ export default async function RootLayout({
         />
       </head>
       <body className={`${outfit.variable} ${quicksand.variable} ${baloo2.variable} font-quicksand antialiased`}>
-        {/* GTM NoScript - must be immediately after opening body tag */}
-        <GTMNoScript />
+        {!isMaintenance && <GTMNoScript />}
 
         {/* Google Analytics & GTM Scripts with Nonce */}
         <GoogleAnalytics nonce={nonce} />
 
-        {/* Structured Data for SEO with Nonce */}
-        <StructuredData nonce={nonce} />
+        {!isMaintenance && <StructuredData nonce={nonce} />}
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ApiInitializer />
+          {!isMaintenance && <ApiInitializer />}
 
-          <Navigation />
+          {!isMaintenance && <Navigation />}
           <main className="min-h-screen">{children}</main>
-          <Footer />
+          {!isMaintenance && <Footer />}
 
           {/* Deferred Interactive Modals */}
-          <InteractiveUI />
+          {!isMaintenance && <InteractiveUI />}
           <WebVitalsReporter />
         </ThemeProvider>
       </body>

@@ -9,6 +9,7 @@ import { Search, Users, AlertCircle, Loader2, X, Network, Briefcase, Award, Shie
 import { serverGetPublic } from "@/lib/server-api"
 import { Staff, StrukturNode, TenagaPendidikanResponse, TenagaPendidikan } from "@/types/tenagaPendidikan.types"
 import { OrgTreeNode } from "@/components/tenaga-pendidikan/OrgTreeNode"
+import { OrgChartScaler } from "@/components/tenaga-pendidikan/OrgChartScaler"
 import { GridStaffCard } from "@/components/tenaga-pendidikan/GridStaffCard"
 import PageAnimations from "@/components/PageAnimations"
 import { Suspense } from "react"
@@ -211,21 +212,23 @@ async function TenagaPendidikanContent({ searchParams }: { searchParams: { [key:
           <>
             {/* Hierarchy View */}
             {viewMode === "hierarchy" && !searchQuery && (
-              <div className="w-full overflow-x-auto">
-                <div className="min-w-max">
-                  {processedHierarchyData.length > 0 ? (
-                    processedHierarchyData.map((rootNode, index) => (
-                      <div key={rootNode.id ?? rootNode.slug ?? index} className={index > 0 ? 'mt-16' : ''}>
-                        <OrgTreeNode node={rootNode} level={0} isRoot={true} />
+              <div className="w-full">
+                <OrgChartScaler>
+                  <div className="min-w-max">
+                    {processedHierarchyData.length > 0 ? (
+                      processedHierarchyData.map((rootNode, index) => (
+                        <div key={rootNode.id ?? rootNode.slug ?? index} className={index > 0 ? 'mt-16' : ''}>
+                          <OrgTreeNode node={rootNode} level={0} isRoot={true} />
+                        </div>
+                      ))
+                    ) : (
+                      <div className="py-20 text-center">
+                        <Network className="w-16 h-16 mx-auto mb-4 text-muted-foreground/50" />
+                        <p className="text-lg text-muted-foreground">Tidak ada struktur organisasi yang tersedia</p>
                       </div>
-                    ))
-                  ) : (
-                    <div className="py-20 text-center">
-                      <Network className="w-16 h-16 mx-auto mb-4 text-muted-foreground/50" />
-                      <p className="text-lg text-muted-foreground">Tidak ada struktur organisasi yang tersedia</p>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
+                </OrgChartScaler>
               </div>
             )}
 

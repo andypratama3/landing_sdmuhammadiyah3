@@ -22,6 +22,7 @@ import {
   BookOpen,
 } from "lucide-react"
 import { TikTok } from "@/components/icons/tiktok-icon"
+import { WhatsAppIcon } from "@/components/icons/whatsapp-icon"
 import PageAnimations from "@/components/PageAnimations"
 
 const contactInfo = [
@@ -49,7 +50,7 @@ const contactInfo = [
   ...(SCHOOL.whatsapp
     ? [
         {
-          icon: MessageCircle,
+          icon: WhatsAppIcon,
           title: "WhatsApp",
           content: `+62 ${SCHOOL.whatsapp.slice(2, 5)}-${SCHOOL.whatsapp.slice(5, 9)}-${SCHOOL.whatsapp.slice(9)}`,
           action: "Chat WhatsApp",
@@ -63,17 +64,20 @@ const departments = [
   {
     name: "Kepala TU",
     pic: "Rusmini S.Pd",
-    phone: "85250443151",
+    phone: "0852-5044-3151",
+    wa: "6285250443151",
   },
   {
     name: "Bagian Keuangan",
     pic: "Admin Keuangan",
     phone: "0822-2524-9993",
+    wa: "6282225249993",
   },
   {
     name: "Operator Sekolah",
     pic: "Fadhilaturrahman, S.Pd",
     phone: "0853-9390-2907",
+    wa: "6285393902907",
   },
 ]
 
@@ -220,11 +224,11 @@ export default function KontakClient() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 rounded-lg bg-(--color-forest-450)/10 dark:bg-gray-800">
                   <span className="font-medium text-gray-900 dark:text-white">Senin - Jumat</span>
-                  <span className="font-semibold text-gray-700 dark:text-white">07:00 - 15:00 WIB</span>
+                  <span className="font-semibold text-gray-700 dark:text-white">07:00 - 15:00 WITA</span>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-(--color-forest-450)/10 dark:bg-gray-800">
                   <span className="font-medium text-gray-900 dark:text-white">Sabtu</span>
-                  <span className="font-semibold text-gray-700 dark:text-white">07:00 - 12:00 WIB</span>
+                  <span className="font-semibold text-gray-700 dark:text-white">07:00 - 12:00 WITA</span>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-red-50 dark:bg-gray-800">
                   <span className="font-medium text-gray-900 dark:text-white">Minggu & Hari Libur</span>
@@ -385,19 +389,19 @@ export default function KontakClient() {
                     </div>
                     <h3 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-tight mb-2">{dept.name}</h3>
                     <p className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-6 uppercase tracking-widest text-[10px]">PIC: {dept.pic}</p>
-                    <a
-                      href={`https://wa.me/+62${dept.phone.replace(/^0/, '')}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full"
+                    <Button
+                      asChild
+                      size="lg"
+                      className="w-full rounded-2xl font-black bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white shadow-xl hover:scale-[1.05] transition-all uppercase tracking-widest text-xs h-12"
                     >
-                      <Button
-                        size="lg"
-                        className="w-full rounded-2xl font-black bg-(--color-forest-450) hover:bg-(--color-forest-500) text-white shadow-xl hover:scale-[1.05] transition-all uppercase tracking-widest text-xs h-12"
+                      <a
+                        href={`https://wa.me/${dept.wa}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        {dept.phone}
-                      </Button>
-                    </a>
+                        Hubungi: {dept.phone}
+                      </a>
+                    </Button>
                   </div>
                 </Card>
               ))}
@@ -415,14 +419,13 @@ export default function KontakClient() {
               <p className="text-gray-600 dark:text-gray-400">Dapatkan update terkini tentang kegiatan sekolah</p>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {socialMedia.map((social, index) => {
                 const Icon = social.icon
                 return (
                   <Card
                     key={index}
-                    className="card-premium p-8 text-center transition-all cursor-pointer hover:scale-[1.05] group dark:bg-gray-900/60 border-0 glass overflow-hidden relative"
-                    onClick={() => window.open(social.link, "_blank")}
+                    className="card-premium p-8 text-center transition-all hover:scale-[1.05] group dark:bg-gray-900/60 border-0 glass overflow-hidden relative"
                   >
                     <div className="flex flex-col h-full items-center">
                       <div
@@ -432,8 +435,15 @@ export default function KontakClient() {
                       </div>
                       <h3 className="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight mb-2">{social.name}</h3>
                       <p className="mb-8 text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-widest">{social.handle}</p>
-                      <Button variant="outline-brand" size="lg" className="mt-auto w-full rounded-2xl font-black transition-all uppercase tracking-widest text-[10px] h-11">
-                        Kunjungi Profile
+                      <Button
+                        asChild
+                        variant="outline-brand"
+                        size="lg"
+                        className="mt-auto w-full rounded-2xl font-black transition-all uppercase tracking-widest text-[10px] h-11"
+                      >
+                        <a href={social.link} target="_blank" rel="noopener noreferrer">
+                          Kunjungi Profile
+                        </a>
                       </Button>
                     </div>
                   </Card>

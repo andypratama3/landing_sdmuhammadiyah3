@@ -167,9 +167,15 @@ export default function Footer() {
           <p className="text-center md:text-left font-bold dark:text-gray-400 text-gray-600">
             &copy; {new Date().getFullYear()} Sekolah Kreatif SD Muhammadiyah 3 Samarinda
           </p>
-          <div className="flex gap-8">
+          <div className="flex flex-wrap justify-center gap-6 md:gap-8">
             <Link href="/privacy-policy" className="transition-colors dark:hover:text-white hover:text-gray-900">
               Privacy Policy
+            </Link>
+            <Link href="/terms-of-service" className="transition-colors dark:hover:text-white hover:text-gray-900">
+              Terms of Service
+            </Link>
+            <Link href="/data-deletion" className="transition-colors dark:hover:text-white hover:text-gray-900">
+              Data Deletion
             </Link>
           </div>
         </div>

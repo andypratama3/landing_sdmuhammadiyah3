@@ -22,17 +22,17 @@ export function StatsSection({ data }: StatsSectionProps) {
   ]
 
   return (
-    <section className="gsap-stats gsap-stats relative z-20 -mt-6 px-4 pb-8 sm:-mt-10">
+    <section className="gsap-stats relative z-20 -mt-6 bg-(--tpl-cream) px-4 pb-8 sm:-mt-10">
       <div className="container mx-auto">
-        <div className="grid grid-cols-2 divide-y divide-(--color-forest-700)/10 overflow-hidden rounded-[1.5rem] border border-(--color-forest-700)/10 bg-(--color-paper-50) sm:grid-cols-4 sm:divide-x sm:divide-y-0 dark:border-white/10 dark:bg-(--color-forest-900)">
+        <div className="grid grid-cols-2 divide-y divide-[#191717]/15 overflow-hidden rounded-[24px] border-2 border-[#191717] bg-white shadow-[4px_5px_0_0_#191717] sm:grid-cols-4 sm:divide-x sm:divide-y-0">
           {stats.map((stat) => (
-            <div key={stat.label} className="stat-card stat-card px-5 py-6 text-center sm:py-8">
+            <div key={stat.label} className="stat-card px-5 py-6 text-center sm:py-8">
               <p
-                className={`${stat.count ? "stat-number stat-number" : ""} font-outfit text-2xl font-extrabold tabular-nums text-(--color-forest-700) sm:text-3xl dark:text-(--color-sun-400)`}
+                className={`${stat.count ? "stat-number" : ""} font-baloo2 text-2xl tabular-nums text-(--tpl-green) sm:text-3xl`}
               >
                 {stat.value}
               </p>
-              <p className="mt-1 text-sm font-medium text-(--color-ink-700) dark:text-gray-300 font-quicksand">
+              <p className="mt-1 font-quicksand text-sm font-medium text-(--tpl-ink)">
                 {stat.label}
               </p>
             </div>

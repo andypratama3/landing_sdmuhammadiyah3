@@ -4,6 +4,17 @@ import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Book, PenTool, Star, School, Sparkles, GraduationCap, Globe } from "lucide-react"
 
+/**
+ * Angka acak deterministik dari index. Math.random() dipanggil saat render
+ * membuat nilai berubah tiap render: animasi melompat dan server/client
+ * menghasilkan markup beda (mismatch hidrasi). Fungsi ini murni — index
+ * sama, hasil selalu sama.
+ */
+function seeded(seed: number): number {
+    const x = Math.sin(seed * 127.1) * 43758.5453
+    return x - Math.floor(x)
+}
+
 export default function Preloader() {
     const [isVisible, setIsVisible] = useState(true)
     const [radius, setRadius] = useState(130)
@@ -59,15 +70,15 @@ export default function Preloader() {
                                     scale: 0
                                 }}
                                 animate={{
-                                    x: `${Math.random() * 100}%`,
-                                    y: `${Math.random() * 100}%`,
+                                    x: `${seeded(i) * 100}%`,
+                                    y: `${seeded(i + 100) * 100}%`,
                                     opacity: [0, 0.8, 0],
-                                    scale: [0, Math.random() * 2 + 1, 0],
+                                    scale: [0, seeded(i + 200) * 2 + 1, 0],
                                 }}
                                 transition={{
-                                    duration: 4 + Math.random() * 2,
+                                    duration: 4 + seeded(i + 300) * 2,
                                     repeat: Infinity,
-                                    delay: Math.random() * 2,
+                                    delay: seeded(i + 400) * 2,
                                     ease: "easeInOut"
                                 }}
                             />

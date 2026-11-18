@@ -2,9 +2,16 @@ export const revalidate = 300
 
 import type { Metadata } from "next"
 import { serverGetPublic } from "@/lib/server-api"
-import { getCachedData, buildCacheKey, getCacheVersion } from "@/lib/redis-cache"
+import { HeroPlayful } from "@/components/landing/playful/hero-playful"
+import { StoryAbout } from "@/components/landing/playful/story-about"
+import { LearningCards } from "@/components/landing/playful/learning-cards"
+import { StepsSection } from "@/components/landing/playful/steps-section"
+import { TrustCards } from "@/components/landing/playful/trust-cards"
+import { TestimonialCards } from "@/components/landing/playful/testimonial-cards"
+import { FaqAccordion } from "@/components/landing/playful/faq-accordion"
+import { CtaPlayful } from "@/components/landing/playful/cta-playful"
+import { getCachedData } from "@/lib/redis-cache"
 import HomeAnimationsLazy from "@/components/HomeAnimationsLazy"
-import { HeroSection } from "@/components/landing/hero-section"
 import { StatsSection } from "@/components/landing/stats-section"
 import { ProgramsSection } from "@/components/landing/programs-section"
 import { KepalaSekolahSection } from "@/components/landing/kepala-sekolah-section"
@@ -17,7 +24,6 @@ import { AchievementsSection } from "@/components/landing/achievements-section"
 import { CalendarSection } from "@/components/landing/calendar-section"
 import { PartnersSection } from "@/components/landing/partners-section"
 import { AwardsSection } from "@/components/landing/awards-section"
-import { CTASection } from "@/components/landing/cta-section"
 import type { Gallery } from "@/types/gallery.types"
 import type { Dukungan } from "@/types/dukungan.types"
 import type { PrestasiSiswa } from "@/types/prestasi.types"
@@ -27,9 +33,9 @@ import type { Fasilitas } from "@/types/fasilitas.types"
 import { pageMetadata } from "@/lib/metadata-helpers"
 
 export const metadata: Metadata = pageMetadata({
-  title: "SD Terbaik di Samarinda | SD Muhammadiyah 3 Samarinda - Sekolah Kreatif Islam",
+  title: "SD Terbaik di Samarinda | SD Muhammadiyah 3 Samarinda",
   description:
-    "SD Muhammadiyah 3 Samarinda - SD Islam terbaik di Samarinda Seberang dengan akreditasi A, program tahfidz, dan prestasi siswa. Sekolah kreatif berbasis nilai Islami di Jl. Dato Iba. Daftar SPMB 2025/2026.",
+    "SD Islam terbaik di Samarinda Seberang — akreditasi A, program tahfidz, dan prestasi siswa. Sekolah kreatif di Jl. Dato Iba. Daftar SPMB sekarang.",
   path: "/",
   keywords: ["sd terbaik di samarinda", "sd islam terbaik di samarinda", "sd samarinda", "sd di samarinda", "sd swasta samarinda", "sekolah penggerak", "tahfidz samarinda"],
 })
@@ -65,20 +71,28 @@ export default async function Home() {
   return (
     <>
       <HomeAnimationsLazy />
-      <HeroSection />
+      {/* Section template (bahasa visual Playora) — Hero, About/Story, Learning,
+          HowItWorks, Why, Testimonial, FAQ, CTA, berurutan seperti aslinya. */}
+      <HeroPlayful />
       <StatsSection data={countRes ?? { siswa: 0, guru: 0, fasilitas: 0, prestasis_siswa: 0, prestasis_sekolah: 0 }} />
+      <StoryAbout />
       <ProgramsSection />
+      <LearningCards />
+      <StepsSection />
       <KepalaSekolahSection />
       <AccreditationSection />
-      <QuickLinksSection fasilitas={fasilitasRes ?? []} prestasiSekolah={prestasiSekolahRes ?? []} />
-      <GallerySection galleries={galleryRes ?? []} />
-      <CalendarSection events={kalenderRes ?? []} />
-      <VideoSection />
+      <TrustCards />
+      <TestimonialCards />
       <AboutPreviewSection data={countRes ?? undefined} />
+      <GallerySection galleries={galleryRes ?? []} />
+      <QuickLinksSection fasilitas={fasilitasRes ?? []} prestasiSekolah={prestasiSekolahRes ?? []} />
       <AchievementsSection achievements={prestasiRes ?? []} />
-      <PartnersSection partners={dukunganRes ?? []} />
+      <VideoSection />
+      <CalendarSection events={kalenderRes ?? []} />
       <AwardsSection />
-      <CTASection />
+      <PartnersSection partners={dukunganRes ?? []} />
+      <FaqAccordion />
+      <CtaPlayful />
     </>
   )
 }

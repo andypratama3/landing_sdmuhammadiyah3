@@ -217,11 +217,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/spmb`,
+      // /pembayaran & /kalender-akademik sebelumnya tidak ada di sitemap
+      // padahal sudah terindeks organik (1.515 dan 1.066 tayangan).
+      url: `${BASE_URL}/pembayaran`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/kalender-akademik`,
       lastModified: now,
       changeFrequency: 'weekly',
-      priority: 0.95,
+      priority: 0.7,
     },
+    // /spmb sengaja TIDAK didaftarkan: route ini 308 -> "/" (PPDB eksternal).
+    // Sitemap hanya boleh berisi URL 200 final.
     {
       url: `${BASE_URL}/kontak`,
       lastModified: now,

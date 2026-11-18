@@ -2,7 +2,6 @@ import NavigationClient from "@/components/navigation/NavigationClient";
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
 
 export const navLinks = [
   { href: "/", label: "Beranda" },
@@ -57,13 +56,6 @@ export default function Navigation() {
         <div className="p-0.5 rounded-full bg-gray-100 dark:bg-gray-800">
           <ThemeToggle />
         </div>
-          <Button
-            asChild
-            size="sm"
-            className="bg-(--color-forest-700) hover:bg-(--color-forest-500) text-white rounded-full px-4 shadow-xl hover:scale-105 transition-all font-black uppercase tracking-widest text-[10px] h-8 whitespace-nowrap cursor-pointer"
-          >
-            <Link href="/spmb">SPMB {new Date().getFullYear()}</Link>
-          </Button>
       </div>
     </NavigationClient>
   );

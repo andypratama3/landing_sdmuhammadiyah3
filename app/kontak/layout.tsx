@@ -5,7 +5,7 @@ import { BASE_URL } from '@/lib/school-info'
 import { organizationSchema } from '@/lib/structured-data'
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Hubungi SD Muhammadiyah 3 Samarinda | Daftar SPMB & Informasi Sekolah',
+  title: 'Kontak SD Muhammadiyah 3 Samarinda | Alamat & Telepon',
   description:
     'Kontak SD Muhammadiyah 3 Samarinda sekarang! Alamat Jl. Dato Iba Seberang, telepon (0541) 260066, WhatsApp 24/7. Hubungi kami untuk pendaftaran SPMB, pertanyaan, atau kunjungan sekolah.',
   path: '/kontak',

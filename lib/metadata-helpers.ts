@@ -6,8 +6,16 @@ import type { PrestasiSiswa, PrestasiSekolah } from '@/types/prestasi.types'
 import type { Gallery } from '@/types/gallery.types'
 import { resolveImageUrl } from './image-url'
 
-function stripHtml(html: string, max = 160) {
-  return html.replace(/<[^>]*>/g, '').trim().slice(0, max)
+/** Potong di batas kata — jangan pernah memotong di tengah kata untuk meta. */
+function clip(text: string, max: number) {
+  if (text.length <= max) return text
+  const cut = text.slice(0, max - 1)
+  const space = cut.lastIndexOf(' ')
+  return `${(space > max * 0.6 ? cut.slice(0, space) : cut).replace(/[\s,;:·|-]+$/, '')}…`
+}
+
+function stripHtml(html: string, max = 158) {
+  return clip(html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim(), max)
 }
 
 function beritaImage(foto?: string) {
@@ -42,9 +50,12 @@ export function pageMetadata({
   const url = `${BASE_URL}${path}`
   const image = ogImage || `${BASE_URL}/SD3_logo1.png`
 
+  // `absolute` menonaktifkan template `%s | <sekolah>` milik layout. Tanpa ini
+  // setiap halaman mengulang nama sekolah 2x (title 77-105 karakter, dipotong
+  // Google di ~60) dan berhenti tampil di SERP.
   return {
-    title,
-    description,
+    title: { absolute: title },
+    description: clip(description, 158),
     keywords: [...SEO_KEYWORDS, ...keywords],
     alternates: { canonical: url },
     openGraph: {
@@ -52,14 +63,14 @@ export function pageMetadata({
       locale: 'id_ID',
       url,
       title,
-      description,
+      description: clip(description, 158),
       siteName: SCHOOL.name,
       images: [{ url: image, width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
-      description,
+      description: clip(description, 158),
       images: [image],
     },
   }

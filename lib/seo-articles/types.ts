@@ -14,6 +14,8 @@ export type SeoArticleFaq = {
 export type SeoArticle = {
   slug: string
   title: string
+  /** Judul SERP (<=60 char). `title` tetap dipakai sebagai H1 di halaman. */
+  metaTitle?: string
   description: string
   keywords: string[]
   category: string

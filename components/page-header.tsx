@@ -12,8 +12,14 @@ interface PageHeaderProps {
   title: string
   description?: string
   breadcrumbs: { label?: string; href?: string }[]
+  /**
+   * Halaman yang sudah punya <h1> sendiri (mis. artikel SEO) mengirim 2 supaya
+   * tidak lahir dua H1 — Google memakai H1 pertama, isinya cuma nama section.
+   */
+  headingLevel?: 1 | 2
 }
-export function PageHeader({ title, description, breadcrumbs }: PageHeaderProps) {
+export function PageHeader({ title, description, breadcrumbs, headingLevel = 1 }: PageHeaderProps) {
+  const Heading = (headingLevel === 2 ? "h2" : "h1") as "h1" | "h2"
   return (
     <div className="relative pt-24 pb-12 sm:pt-32 sm:pb-20 overflow-hidden">
       {/* Background Pattern */}
@@ -60,9 +66,9 @@ export function PageHeader({ title, description, breadcrumbs }: PageHeaderProps)
 
           {/* Title & Description */}
           <div className="space-y-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 dark:text-white leading-[1.1] uppercase">
+            <Heading className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 dark:text-white leading-[1.1] uppercase">
               {title}
-            </h1>
+            </Heading>
 
             {description && (
               <p className="max-w-2xl mx-auto text-base sm:text-lg lg:text-xl text-gray-500 dark:text-gray-400 font-medium leading-relaxed text-balance">

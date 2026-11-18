@@ -4,7 +4,7 @@ import { BreadcrumbJsonLd } from '@/components/JsonLd'
 import { BASE_URL } from '@/lib/school-info'
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Profil SD Muhammadiyah 3 Samarinda | SD Islam Terbaik di Samarinda Seberang',
+  title: 'Profil SD Muhammadiyah 3 Samarinda | SD Islam Terbaik',
   description:
     'Kenali SD Muhammadiyah 3 Samarinda — sekolah Islam kreatif dengan akreditasi A, program tahfidz, dan prestasi siswa. Lokasi strategis di Jl. Dato Iba, Samarinda Seberang. Lihat visi misi dan nilai sekolah kami.',
   path: '/profil',

@@ -1,19 +1,18 @@
 import Image from "next/image"
 import { Shield } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
 
 export function KepalaSekolahSection() {
   return (
-    <section className="gsap-kepala-sekolah py-24 sm:py-28 bg-white dark:bg-gray-950">
+    <section className="gsap-kepala-sekolah bg-white py-24 sm:py-28">
       <div className="container mx-auto px-4">
         <div className="max-w-xl mb-12">
-          <Badge className="mb-4 bg-(--color-forest-700)/10 text-(--color-forest-700) dark:bg-(--color-forest-700)/20 dark:text-(--color-forest-400) border-(--color-forest-700)/20 px-4 py-2 font-bold uppercase tracking-widest text-[10px]">
+          <span className="mb-4 inline-flex rounded-full border-2 border-[#191717] bg-(--tpl-paper) px-4 py-2 font-baloo2 text-xs uppercase tracking-widest text-(--tpl-ink) shadow-[3px_4px_0_0_#191717]">
             Pesan Kepemimpinan
-          </Badge>
-          <h2 className="text-balance font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) sm:text-4xl dark:text-white">
+          </span>
+          <h2 className="text-balance font-baloo2 uppercase tracking-tight text-(--tpl-green-text) text-[clamp(1.9rem,4.4vw,3.1rem)]">
             Sambutan Kepala Sekolah
           </h2>
-          <p className="mt-4 max-w-[52ch] text-pretty text-base leading-relaxed text-(--color-ink-700) dark:text-gray-300 font-quicksand">
+          <p className="mt-4 max-w-[52ch] text-pretty text-base leading-relaxed text-(--tpl-ink)/80 font-quicksand">
             Visi dan harapan untuk masa depan pendidikan di SD Muhammadiyah 3 Samarinda
           </p>
         </div>
@@ -22,8 +21,8 @@ export function KepalaSekolahSection() {
           <div className="grid items-center gap-8 md:gap-12 lg:grid-cols-5">
             <div className="lg:col-span-2 flex flex-col items-center kepala-sekolah-image">
               <div className="relative group">
-                <div className="absolute -inset-3 sm:-inset-4 bg-linear-to-r from-(--color-forest-700) to-(--color-sun-500) rounded-[1.5rem] sm:rounded-[1.75rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
-                <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border-4 sm:border-8 border-white dark:border-gray-800 shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
+                <div className="absolute -inset-3 sm:-inset-4 rounded-[1.5rem] bg-(--tpl-green) sm:rounded-[1.75rem]" aria-hidden />
+                <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border-4 sm:border-8 border-white shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
                   <Image
                     src="/kepala-sekolah.jpeg"
                     alt="Potret Kepala Sekolah SD Muhammadiyah 3 Samarinda"
@@ -34,23 +33,23 @@ export function KepalaSekolahSection() {
                 </div>
               </div>
               <div className="mt-6 sm:mt-8 text-center">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-black text-(--color-forest-900) dark:text-white uppercase tracking-tight">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-baloo2 text-(--tpl-ink) uppercase tracking-tight">
                   Ansar HS. S.Pd.,M.M. Gr.
                 </h3>
-                <div className="inline-flex items-center gap-2 mt-2 px-4 sm:px-6 py-2 bg-(--color-forest-700)/10 dark:bg-(--color-forest-700)/30 text-(--color-forest-700) dark:text-(--color-forest-400) font-black rounded-full text-[10px] sm:text-xs uppercase tracking-widest">
-                  <Shield className="w-3 h-3" />
+                <div className="inline-flex items-center gap-2 mt-2 px-4 sm:px-6 py-2 rounded-full border-2 border-[#191717] bg-(--tpl-paper) text-(--tpl-ink) font-baloo2 text-[10px] sm:text-xs uppercase tracking-widest shadow-[3px_4px_0_0_#191717]">
+                  <Shield className="w-3 h-3" aria-hidden />
                   Kepala Sekolah
                 </div>
               </div>
             </div>
 
             <div className="lg:col-span-3 space-y-4 sm:space-y-6 kepala-sekolah-content">
-              <div className="p-4 sm:p-6 bg-(--color-forest-700)/10 dark:bg-(--color-forest-700)/10 rounded-2xl sm:rounded-3xl border border-(--color-forest-700)/10 dark:border-(--color-forest-700)/20">
-                <p className="text-base sm:text-lg md:text-xl font-bold italic text-(--color-forest-800) dark:text-(--color-forest-300) leading-relaxed">
+              <div className="rounded-[24px] border-2 border-[#191717] bg-(--tpl-mint) p-4 text-(--tpl-ink) shadow-[4px_5px_0_0_#191717] sm:p-6">
+                <p className="text-base sm:text-lg md:text-xl font-bold italic leading-relaxed">
                   "Assalamu'alaikum Warahmatullahi Wabarakatuh,"
                 </p>
               </div>
-              <div className="space-y-4 sm:space-y-6 text-base sm:text-lg font-medium text-(--color-ink-700) dark:text-gray-300 leading-relaxed font-quicksand">
+              <div className="space-y-4 sm:space-y-6 text-base sm:text-lg font-medium text-(--tpl-ink)/80 leading-relaxed font-quicksand">
                 <p>
                   Puji syukur kehadirat Allah SWT atas segala limpahan rahmat dan karunia-Nya. SD Muhammadiyah 3
                   Samarinda berkomitmen untuk memberikan pendidikan terbaik bagi putra-putri Anda. Kami tidak hanya
@@ -62,8 +61,8 @@ export function KepalaSekolahSection() {
                   profesional, kami yakin dapat menghasilkan generasi yang cerdas, berakhlak mulia, dan siap menghadapi
                   masa depan dengan penuh percaya diri.
                 </p>
-                <div className="pt-4 sm:pt-6 border-t border-gray-100 dark:border-gray-800">
-                  <p className="font-bold text-(--color-forest-700) dark:text-(--color-forest-400)">
+                <div className="pt-4 sm:pt-6 border-t-2 border-[#191717]/15">
+                  <p className="font-baloo2 text-(--tpl-green-text)">
                     Wassalamu'alaikum Warahmatullahi Wabarakatuh
                   </p>
                 </div>

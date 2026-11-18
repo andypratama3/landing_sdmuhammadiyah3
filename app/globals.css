@@ -3,6 +3,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Navigasi global bersifat fixed (±98px). Tanpa offset ini, lompat ke sebuah
+   section akan menaruh judulnya tepat di bawah nav. */
+:where(h1, h2, h3, section[id]) {
+  scroll-margin-top: 112px;
+}
+
 :root {
   --background: oklch(0.99 0 0);
   --foreground: oklch(0.145 0 0);
@@ -71,6 +77,28 @@
   --brand-ink-900: #10241A;
   --brand-ink-800: #1a3d30;
   --brand-ink-700: #245645;
+
+  /* Template aksen — hijau terang (hijau cerah, tetap lolos kontras AA ≥3:1
+     pada krem cyan coral putih sehingga aman dipakai judul besar) */
+  --tpl-green: #279B57;
+  /* Hijau teks biasa — AA 4.5:1 di putih, krem, dan abu-abu baris FAQ */
+  --tpl-green-text: #147A3A;
+  --tpl-green-hi: #34B368;
+  --tpl-green-ink: #0B3D22;
+  --tpl-ink: #191717;
+  --tpl-cream: #F8F5EE;
+  --tpl-coral: #F6EDE4;
+  --tpl-cyan: #AEFBFF;
+  --tpl-yellow: #FCC222;
+  --tpl-mint: #21FE9F;
+  --tpl-pink: #F043B0;
+  --tpl-purple: #4C06DD;
+  --tpl-lavender: #C284FB;
+  --tpl-terracotta: #FF6C4D;
+  --tpl-red: #FF4349;
+  --tpl-paper: #FFF6DC;
+  /* Cincin fokus aksen layout playful (terlihat di atas krem/cyan/coral) */
+  --tpl-ring: #FF4349;
 }
 
 .dark {
@@ -209,6 +237,86 @@
   --color-ink-900: var(--brand-ink-900);
   --color-ink-800: var(--brand-ink-800);
   --color-ink-700: var(--brand-ink-700);
+  --color-tpl-green: var(--tpl-green);
+  --color-tpl-green-hi: var(--tpl-green-hi);
+  --color-tpl-green-ink: var(--tpl-green-ink);
+  --color-tpl-ink: var(--tpl-ink);
+  --color-tpl-cream: var(--tpl-cream);
+  --color-tpl-coral: var(--tpl-coral);
+  --color-tpl-cyan: var(--tpl-cyan);
+  --color-tpl-green-text: var(--tpl-green-text);
+  --color-tpl-yellow: var(--tpl-yellow);
+  --color-tpl-mint: var(--tpl-mint);
+  --color-tpl-pink: var(--tpl-pink);
+  --color-tpl-purple: var(--tpl-purple);
+  --color-tpl-lavender: var(--tpl-lavender);
+  --color-tpl-terracotta: var(--tpl-terracotta);
+  --color-tpl-red: var(--tpl-red);
+  --color-tpl-paper: var(--tpl-paper);
+  --color-tpl-ring: var(--tpl-ring);
+}
+
+/* Gaya stiker "Playora" — dipakai seluruh section landing index.
+   Bayangan keras + outline hitam = bahasa visual template. */
+@layer components {
+  .tpl-sticker {
+    border: 2px solid #191717;
+    box-shadow: 4px 5px 0 0 #191717;
+  }
+  .tpl-sticker-sm {
+    border: 2px solid #191717;
+    box-shadow: 3px 4px 0 0 #191717;
+  }
+  .tpl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    border: 2px solid #191717;
+    box-shadow: 3px 4px 0 0 #191717;
+    border-radius: 9999px;
+    background: var(--tpl-green);
+    color: #191717;
+    font-family: var(--font-baloo2), var(--font-sans);
+    text-transform: uppercase;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .tpl-btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 6px 0 0 #191717;
+  }
+  .tpl-btn:active {
+    transform: translate(3px, 4px);
+    box-shadow: 0 0 0 0 #191717;
+  }
+  .tpl-btn:focus-visible,
+  .tpl-sticker:focus-visible {
+    outline: 3px solid var(--tpl-ring);
+    outline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tpl-btn,
+  .tpl-sticker {
+    transition: none;
+  }
+  .tpl-btn:hover {
+    transform: none;
+    box-shadow: 3px 4px 0 0 #191717;
+  }
+}
+
+/* Judul raksasa hero. Besar di layar normal; pada tinggi layar sempit
+   (HP landscape) diperkecil agar tombol CTA tetap terlihat tanpa scroll. */
+.tpl-hero-word {
+  font-size: clamp(56px, 15vw, 150px);
+}
+
+@media (max-height: 560px) {
+  .tpl-hero-word {
+    font-size: clamp(38px, 11vh, 96px);
+  }
 }
 
 select {

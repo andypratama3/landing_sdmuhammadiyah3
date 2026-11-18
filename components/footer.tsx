@@ -9,7 +9,7 @@ export default function Footer() {
   const navLinks = [
     { href: "/", label: "Beranda" },
     { href: "/profil", label: "Profil SD Muhammadiyah 3" },
-    { href: "/spmb", label: "Pendaftaran SPMB" },
+    { href: "/tentang", label: "Tentang Kami" },
     { href: "/pembayaran", label: "Sistem Pembayaran SPP" },
     { href: "/kontak", label: "Kontak & Lokasi" }
   ];

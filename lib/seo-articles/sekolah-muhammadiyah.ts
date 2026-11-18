@@ -4,6 +4,7 @@ export const sekolahMuhammadiyahArticle: SeoArticle = {
   slug: 'sekolah-muhammadiyah-samarinda',
   title:
     'Sekolah Muhammadiyah di Samarinda: Mengenal SD Muhammadiyah 3 yang Kreatif dan Berprestasi',
+  metaTitle: 'Sekolah Muhammadiyah di Samarinda | SD Muh 3',
   description:
     'Kenali sekolah Muhammadiyah di Samarinda — sejarah, nilai, dan keunggulan SD Muhammadiyah 3 sebagai sekolah kreatif Islam berprestasi di Samarinda Seberang.',
   keywords: [

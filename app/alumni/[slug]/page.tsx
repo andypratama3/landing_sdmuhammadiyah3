@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import Image from 'next/image'
 import { serverGetPublic } from '@/lib/server-api'
 import type { Alumni } from '@/types/alumni.types'
@@ -62,7 +63,7 @@ async function getAlumniBySlug(slug: string): Promise<Alumni | null> {
     }
     // Handle direct object response
     if (response && typeof response === 'object' && 'name' in response) {
-      return response as Alumni
+      return response as unknown as Alumni
     }
     return null
   } catch (error) {
@@ -229,12 +230,12 @@ export default async function AlumniDetailPage({ params }: AlumniDetailPageProps
 
           {/* Back Button */}
           <div className="mt-8">
-            <a
+            <Link
               href="/alumni"
               className="inline-flex items-center gap-2 text-(--color-forest-450) hover:text-(--color-forest-600) font-semibold"
             >
               ← Kembali ke Portal Alumni
-            </a>
+            </Link>
           </div>
         </div>
       </div>

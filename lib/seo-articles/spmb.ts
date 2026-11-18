@@ -3,6 +3,7 @@ import type { SeoArticle } from './types'
 export const spmbArticle: SeoArticle = {
   slug: 'spmb-sd-samarinda-2025-2026',
   title: 'SPMB SD Muhammadiyah 3 Samarinda 2025/2026: Syarat, Jadwal, dan Cara Daftar',
+  metaTitle: 'SPMB 2025/2026 | SD Muhammadiyah 3 Samarinda',
   description:
     'Panduan lengkap SPMB SD Samarinda di SD Muhammadiyah 3 — syarat pendaftaran, jadwal gelombang 2025/2026, biaya, dan cara daftar online untuk calon siswa baru.',
   keywords: [

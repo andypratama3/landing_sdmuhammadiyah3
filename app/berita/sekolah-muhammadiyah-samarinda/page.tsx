@@ -4,7 +4,7 @@ import { pageMetadata } from '@/lib/metadata-helpers'
 import { sekolahMuhammadiyahArticle } from '@/lib/seo-articles/sekolah-muhammadiyah'
 
 export const metadata: Metadata = pageMetadata({
-  title: sekolahMuhammadiyahArticle.title,
+  title: sekolahMuhammadiyahArticle.metaTitle ?? sekolahMuhammadiyahArticle.title,
   description: sekolahMuhammadiyahArticle.description,
   path: `/berita/${sekolahMuhammadiyahArticle.slug}`,
   keywords: sekolahMuhammadiyahArticle.keywords,

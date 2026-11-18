@@ -1,6 +1,5 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
 import { resolveImageUrl } from "@/lib/image-url"
 import type { PrestasiSiswa } from "@/types/prestasi.types"
 
@@ -19,13 +18,20 @@ export function AchievementsSection({ achievements }: AchievementsSectionProps) 
   if (!achievements?.length) return null
 
   return (
-    <section className="gsap-achievements py-24 bg-(--color-paper-50) dark:bg-(--color-forest-950)">
+    <section
+      id="prestasi"
+      aria-labelledby="prestasi-heading"
+      className="gsap-achievements bg-(--tpl-cyan) py-24"
+    >
       <div className="container mx-auto px-4">
         <div className="max-w-xl">
-          <h2 className="text-balance font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) sm:text-4xl dark:text-white">
+          <h2
+            id="prestasi-heading"
+            className="text-balance font-baloo2 text-[clamp(1.9rem,4.4vw,3.1rem)] font-medium uppercase tracking-tight text-(--tpl-green-text)"
+          >
             Prestasi terbaru
           </h2>
-          <p className="mt-3 max-w-[48ch] text-pretty text-base text-(--color-ink-700) dark:text-gray-300 font-quicksand">
+          <p className="mt-3 max-w-[48ch] text-pretty font-quicksand text-base text-(--tpl-ink)/80">
             Jejak lomba yang baru diraih siswa. Nama dan juara dari data sekolah.
           </p>
         </div>
@@ -34,20 +40,23 @@ export function AchievementsSection({ achievements }: AchievementsSectionProps) 
           {achievements.map((achievement) => (
             <article
               key={achievement.slug}
-              className="achievement-card group relative h-80 overflow-hidden rounded-[1.5rem]"
+              className="achievement-card tpl-sticker group flex h-80 flex-col overflow-hidden rounded-[24px] bg-white"
             >
-              <Image
-                src={resolveImageUrl(achievement.foto, "img/prestasi")}
-                alt={achievement.name}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                quality={75}
-                className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/20 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-5">
-                <p className="text-sm font-semibold text-(--color-sun-400)">{achievement.juara}</p>
-                <h3 className="mt-1 font-outfit text-lg font-bold leading-snug text-white">
+              <div className="relative h-44 shrink-0 overflow-hidden">
+                <Image
+                  src={resolveImageUrl(achievement.foto, "img/prestasi")}
+                  alt={achievement.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  quality={75}
+                  className="object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-[1.04]"
+                />
+              </div>
+              <div className="flex flex-1 flex-col gap-2 p-5">
+                <span className="tpl-sticker-sm inline-block w-fit rounded-full bg-(--tpl-green-text) px-3 py-1 font-quicksand text-[11px] font-bold uppercase tracking-wide text-white">
+                  {achievement.juara}
+                </span>
+                <h3 className="font-baloo2 text-base uppercase leading-snug tracking-tight text-(--tpl-ink)">
                   {truncateWords(achievement.name, 10)}
                 </h3>
               </div>
@@ -56,19 +65,15 @@ export function AchievementsSection({ achievements }: AchievementsSectionProps) 
         </div>
 
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <Button
-            asChild
-            variant="outline-brand"
-            className="h-12 rounded-full px-7 font-semibold text-(--color-forest-900) dark:text-white dark:border-white/30 dark:hover:bg-white/10"
+          <Link
+            href="/prestasi-sekolah"
+            className="tpl-btn bg-(--tpl-paper) px-6 py-3 text-base text-(--tpl-ink)"
           >
-            <Link href="/prestasi-sekolah">Prestasi sekolah</Link>
-          </Button>
-          <Button
-            asChild
-            className="h-12 rounded-full bg-(--color-forest-700) px-7 font-semibold text-white hover:bg-(--color-forest-600) dark:bg-(--color-sun-500) dark:text-(--color-ink-950) dark:hover:bg-(--color-sun-400)"
-          >
-            <Link href="/prestasi-siswa">Prestasi siswa</Link>
-          </Button>
+            Prestasi sekolah
+          </Link>
+          <Link href="/prestasi-siswa" className="tpl-btn px-6 py-3 text-base">
+            Prestasi siswa
+          </Link>
         </div>
       </div>
     </section>

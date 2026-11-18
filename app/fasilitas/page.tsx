@@ -43,7 +43,7 @@ export default async function FasilitasPage({ searchParams }: FasilitasPageProps
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
               <div className="absolute inset-0 bg-gradient-to-r from-(--color-forest-450) via-(--color-forest-450)/80 to-transparent z-0" />
               <Image
-                src="/GedungSekolah.jpeg"
+                src="/GedungSekolah.webp"
                 alt="Gedung Harapan SD Muhammadiyah 3"
                 fill
                 sizes="(max-width: 1024px) 100vw, 66vw"

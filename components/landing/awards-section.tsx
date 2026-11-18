@@ -1,19 +1,28 @@
-import { SCHOOL } from "@/lib/school-info"
-
 export function AwardsSection() {
   return (
-    <section className="py-20 bg-(--color-cloud-100) dark:bg-(--color-forest-900)">
+    <section
+      id="penghargaan"
+      aria-labelledby="penghargaan-heading"
+      className="bg-(--tpl-cyan) py-20"
+    >
       <div className="container mx-auto px-4">
-        <h2 className="font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) dark:text-white">
+        <h2
+          id="penghargaan-heading"
+          className="font-baloo2 text-[clamp(1.9rem,4.4vw,3.1rem)] font-medium uppercase tracking-tight text-(--tpl-green-text)"
+        >
           Penghargaan nasional
         </h2>
-        <div className="mt-10 grid gap-8 sm:grid-cols-2">
-          <p className="max-w-sm font-outfit text-2xl font-bold text-(--color-forest-800) dark:text-white">
-            Sekolah Ramah Anak
-          </p>
-          <p className="max-w-sm font-outfit text-2xl font-bold text-(--color-forest-800) dark:text-white">
-            Sekolah Adiwiyata
-          </p>
+        <div className="mt-10 grid gap-6 sm:grid-cols-2">
+          <article className="ribbon-badge tpl-sticker flex h-full flex-col justify-center gap-2 rounded-[24px] bg-(--tpl-paper) p-6 sm:p-8">
+            <p className="font-baloo2 text-2xl uppercase leading-tight tracking-tight text-(--tpl-ink)">
+              Sekolah Ramah Anak
+            </p>
+          </article>
+          <article className="ribbon-badge tpl-sticker flex h-full flex-col justify-center gap-2 rounded-[24px] bg-(--tpl-mint) p-6 sm:p-8">
+            <p className="font-baloo2 text-2xl uppercase leading-tight tracking-tight text-(--tpl-ink)">
+              Sekolah Adiwiyata
+            </p>
+          </article>
         </div>
       </div>
     </section>

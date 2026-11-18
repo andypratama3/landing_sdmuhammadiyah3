@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Calendar, Clock, ArrowRight } from 'lucide-react'
+import { Calendar, Clock } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -36,10 +36,6 @@ function formatDate(iso: string) {
 function enrichParagraph(text: string) {
   return text
     .replace(
-      /halaman SPMB/gi,
-      '<a href="/spmb" class="text-(--color-forest-600) dark:text-(--color-forest-400) font-semibold hover:underline">halaman SPMB</a>'
-    )
-    .replace(
       /halaman prestasi siswa/gi,
       '<a href="/prestasi-siswa" class="text-(--color-forest-600) dark:text-(--color-forest-400) font-semibold hover:underline">halaman prestasi siswa</a>'
     )
@@ -54,10 +50,6 @@ function enrichParagraph(text: string) {
     .replace(
       /profil lengkap sekolah/gi,
       '<a href="/profil" class="text-(--color-forest-600) dark:text-(--color-forest-400) font-semibold hover:underline">profil lengkap sekolah</a>'
-    )
-    .replace(
-      /SPMB 2025\/2026/g,
-      '<a href="/spmb" class="text-(--color-forest-600) dark:text-(--color-forest-400) font-semibold hover:underline">SPMB 2025/2026</a>'
     )
 }
 
@@ -137,6 +129,7 @@ export function SeoArticlePage({ article }: { article: SeoArticle }) {
 
       <section className="py-12">
         <PageHeader
+          headingLevel={2}
           title="Berita & Artikel"
           description="Informasi pendidikan dan panduan untuk orang tua calon siswa SD Muhammadiyah 3 Samarinda"
           breadcrumbs={[
@@ -183,12 +176,6 @@ export function SeoArticlePage({ article }: { article: SeoArticle }) {
                 <Separator className="my-10" />
 
                 <div className="flex flex-wrap gap-4 mb-8">
-                  <Button asChild className="bg-[#33b962] hover:bg-[#2a9d52] rounded-full px-8">
-                    <Link href="/spmb">
-                      Daftar SPMB Sekarang
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Link>
-                  </Button>
                   <Button asChild variant="outline-brand" className="rounded-full px-8">
                     <Link href="/kontak">Hubungi Kami</Link>
                   </Button>
@@ -239,16 +226,6 @@ export function SeoArticlePage({ article }: { article: SeoArticle }) {
                 </Card>
               )}
 
-              <Card className="bg-[#33b962]/5 border-[#33b962]/20">
-                <CardContent className="pt-6">
-                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
-                    Tertarik mendaftarkan putra/putri Anda?
-                  </p>
-                  <Button asChild className="w-full bg-[#33b962] hover:bg-[#2a9d52]">
-                    <Link href="/spmb">Info Pendaftaran</Link>
-                  </Button>
-                </CardContent>
-              </Card>
             </aside>
           </div>
         </div>

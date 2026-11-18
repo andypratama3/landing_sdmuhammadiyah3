@@ -2,7 +2,6 @@
 const nextConfig = {
   compress: true,
   poweredByHeader: false,
-  swcMinify: true,
 
   images: {
     minimumCacheTTL: 2592000,
@@ -47,8 +46,11 @@ const nextConfig = {
   },
 
 
-  typescript: {
-    ignoreBuildErrors: true,
+  // Next menebak workspace root dari lockfile terdekat; ada stub kosong
+  // di /Users/andypratama3/package-lock.json sehingga root jadi salah dan
+  // memicu peringatan tiap build. Pin eksplisit ke direktori project.
+  turbopack: {
+    root: import.meta.dirname,
   },
 
   async rewrites() {
@@ -63,8 +65,11 @@ const nextConfig = {
   async redirects() {
     return [
        // Matikan /spmb dan seluruh turunannya
+      // /spmb sengaja dimatikan (dipakai PPDB eksternal). Harus :path* — path
+      // telanjang hanya mencocokkan /spmb persis dan menyisakan /spmb/<x> 404
+      // padahal Google sudah mengindeksnya.
       {
-        source: '/spmb',
+        source: '/spmb/:path*',
         destination: '/',
         permanent: true,
       },
@@ -78,9 +83,21 @@ const nextConfig = {
         destination: '/tenaga-pendidikan',
         permanent: true,
       },
+      // Sama: /gallery/<slug> sudah terindeks (5 klik) dan dulu 404 karena
+      // redirect lama hanya mencocokkan /gallery persis.
       {
-        source: '/gallery',
-        destination: '/galeri',
+        source: '/gallery/:path*',
+        destination: '/galeri/:path*',
+        permanent: true,
+      },
+      // Route /jadwal hanya punya page.tsx tunggal, tanpa [slug] — jadi
+      // /jadwal/Kelas 6 selalu 404 padahal sudah terindeks (41 tayangan).
+      // Pakai :path+ (bukan :path*) supaya /jadwal itu sendiri TIDAK ikut
+      // tertangkap — :path* menangkap 0 segmen dan membuat /jadwal
+      // me-redirect ke dirinya sendiri (loop 308).
+      {
+        source: '/jadwal/:path+',
+        destination: '/jadwal',
         permanent: true,
       },
       {

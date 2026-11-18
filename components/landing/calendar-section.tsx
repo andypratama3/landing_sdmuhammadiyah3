@@ -1,14 +1,13 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { CalendarDays, MapPin } from "lucide-react"
 import { JENIS_LABEL, type KalenderAkademikEvent } from "@/types/kalender.types"
 
 const JENIS_STYLE: Record<KalenderAkademikEvent["jenis"], string> = {
-  holiday: "bg-(--color-sun-400)/15 text-(--color-sun-600) dark:text-(--color-sun-400)",
-  exam: "bg-red-500/10 text-red-600 dark:text-red-400",
-  event: "bg-(--color-forest-700)/10 text-(--color-forest-700) dark:text-gray-300",
-  deadline: "bg-orange-500/10 text-orange-600 dark:text-orange-400",
-  celebration: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+  holiday: "bg-(--tpl-yellow) text-(--tpl-ink)",
+  exam: "bg-(--tpl-red) text-(--tpl-ink)",
+  event: "bg-(--tpl-cyan) text-(--tpl-ink)",
+  deadline: "bg-(--tpl-terracotta) text-(--tpl-ink)",
+  celebration: "bg-(--tpl-mint) text-(--tpl-ink)",
 }
 
 function formatTanggal(event: KalenderAkademikEvent): string {
@@ -34,40 +33,48 @@ export function CalendarSection({ events }: CalendarSectionProps) {
   if (!events?.length) return null
 
   return (
-    <section className="py-24 bg-white dark:bg-(--color-forest-900)">
+    <section
+      id="agenda"
+      aria-labelledby="agenda-heading"
+      className="bg-(--tpl-cream) py-24"
+    >
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-xl">
-            <h2 className="text-balance font-outfit text-3xl font-extrabold tracking-tight text-(--color-forest-900) sm:text-4xl dark:text-white">
+            <h2
+              id="agenda-heading"
+              className="text-balance font-baloo2 text-[clamp(1.9rem,4.4vw,3.1rem)] font-medium uppercase tracking-tight text-(--tpl-green-text)"
+            >
               Agenda sekolah
             </h2>
-            <p className="mt-3 max-w-[48ch] text-pretty text-base font-quicksand text-(--color-ink-700) dark:text-gray-300">
+            <p className="mt-3 max-w-[48ch] text-pretty font-quicksand text-base text-(--tpl-ink)/80">
               Kalender akademik terdekat — ujian, kegiatan, dan hari libur dari kalender resmi sekolah.
             </p>
           </div>
-          <Button
-            asChild
-            variant="outline-brand"
-            className="h-12 rounded-full px-7 font-semibold text-(--color-forest-900) dark:text-white dark:border-white/30 dark:hover:bg-white/10"
+          <Link
+            href="/kalender-akademik"
+            className="tpl-btn bg-(--tpl-paper) px-6 py-3 text-base text-(--tpl-ink)"
           >
-            <Link href="/kalender-akademik">Kalender lengkap</Link>
-          </Button>
+            Kalender lengkap
+          </Link>
         </div>
 
         <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {events.map((event) => (
             <article
               key={event.id}
-              className="group flex gap-4 rounded-[1.5rem] border border-black/5 bg-(--color-paper-50) p-5 transition-shadow duration-300 hover:shadow-lg hover:shadow-(--color-forest-900)/5 dark:border-white/10 dark:bg-(--color-forest-950)"
+              className="tpl-sticker flex gap-4 rounded-[24px] bg-white p-5"
             >
-              <div
-                className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl text-white"
-                style={{ backgroundColor: event.warna || "#3454d1" }}
-              >
-                <span className="font-outfit text-2xl font-extrabold leading-none">
+              <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl border-2 border-[#191717] bg-white">
+                <span
+                  className="mb-1 size-2.5 rounded-full border border-[#191717]"
+                  style={{ backgroundColor: event.warna || "#3454d1" }}
+                  aria-hidden="true"
+                />
+                <span className="font-baloo2 text-2xl font-medium leading-none text-(--tpl-ink)">
                   {event.tanggal_mulai ? new Date(event.tanggal_mulai + "T00:00:00").getDate() : "•"}
                 </span>
-                <span className="text-[0.65rem] font-bold uppercase tracking-wide">
+                <span className="font-quicksand text-[0.6rem] font-bold uppercase tracking-wide text-(--tpl-ink)/70">
                   {event.tanggal_mulai
                     ? new Date(event.tanggal_mulai + "T00:00:00").toLocaleDateString("id-ID", { month: "short" })
                     : ""}
@@ -76,20 +83,20 @@ export function CalendarSection({ events }: CalendarSectionProps) {
 
               <div className="min-w-0">
                 <span
-                  className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${JENIS_STYLE[event.jenis] ?? JENIS_STYLE.event}`}
+                  className={`inline-block rounded-full border-2 border-[#191717] px-2.5 py-0.5 font-quicksand text-xs font-bold ${JENIS_STYLE[event.jenis] ?? JENIS_STYLE.event}`}
                 >
                   {JENIS_LABEL[event.jenis] ?? event.jenis}
                 </span>
-                <h3 className="mt-1.5 truncate font-outfit text-base font-bold text-(--color-forest-900) dark:text-white">
+                <h3 className="mt-1.5 truncate font-baloo2 text-base uppercase tracking-tight text-(--tpl-ink)">
                   {event.judul}
                 </h3>
-                <p className="mt-1 flex items-center gap-1.5 text-sm font-quicksand text-(--color-ink-700) dark:text-gray-300">
-                  <CalendarDays className="size-3.5 shrink-0" />
+                <p className="mt-1 flex items-center gap-1.5 font-quicksand text-sm text-(--tpl-ink)/80">
+                  <CalendarDays className="size-3.5 shrink-0" aria-hidden />
                   {formatTanggal(event)}
                 </p>
                 {event.lokasi && (
-                  <p className="mt-0.5 flex items-center gap-1.5 truncate text-sm font-quicksand text-(--color-ink-700) dark:text-gray-300">
-                    <MapPin className="size-3.5 shrink-0" />
+                  <p className="mt-0.5 flex items-center gap-1.5 truncate font-quicksand text-sm text-(--tpl-ink)/80">
+                    <MapPin className="size-3.5 shrink-0" aria-hidden />
                     {event.lokasi}
                   </p>
                 )}

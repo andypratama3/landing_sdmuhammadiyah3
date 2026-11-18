@@ -4,6 +4,7 @@ export const sdTerbaikArticle: SeoArticle = {
   slug: 'sd-terbaik-di-samarinda',
   title:
     'SD Muhammadiyah 3 Samarinda: Pilihan SD Terbaik di Samarinda dengan Kurikulum Kreatif Islam',
+  metaTitle: 'SD Terbaik di Samarinda | SD Muhammadiyah 3',
   description:
     'Mengapa SD Muhammadiyah 3 jadi SD terbaik di Samarinda? Kurikulum kreatif Islam, prestasi juara, guru profesional, fasilitas modern — pilihan tepat orang tua Samarinda.',
   keywords: [

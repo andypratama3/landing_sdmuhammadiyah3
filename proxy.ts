@@ -11,7 +11,7 @@ function isMaintenanceMode() {
   return flag === 'true' || flag === '1'
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // Generate a random nonce
   const nonce = crypto.randomUUID().replace(/-/g, '')
   

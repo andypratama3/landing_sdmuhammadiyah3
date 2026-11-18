@@ -92,11 +92,6 @@ const fees = [
 
 const faqs = [
   {
-    question: "Berapa biaya pendaftaran PPDB?",
-    answer:
-      "Biaya pendaftaran adalah Rp 200.000. Biaya ini non-refundable dan digunakan untuk proses administrasi pendaftaran.",
-  },
-  {
     question: "Apakah ada tes masuk?",
     answer:
       "Ya, ada tes kemampuan dasar yang meliputi membaca, menulis, berhitung sederhana, dan wawancara untuk mengetahui kesiapan anak masuk sekolah dasar.",

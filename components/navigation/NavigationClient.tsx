@@ -198,15 +198,6 @@ export default function NavigationClient({
               </div>
             </div>
 
-            <div className="p-6 mt-auto">
-              <Button
-                asChild
-                className="w-full bg-(--color-forest-700) hover:bg-(--color-forest-500) text-white rounded-2xl py-6 text-lg font-black shadow-xl"
-                onClick={() => setIsOpen(false)}
-              >
-                <Link href="/spmb">SPMB {new Date().getFullYear()}</Link>
-              </Button>
-            </div>
           </div>
         </div>
       </div>

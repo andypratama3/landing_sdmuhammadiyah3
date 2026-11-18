@@ -4,7 +4,7 @@ import { BreadcrumbJsonLd } from '@/components/JsonLd'
 import { BASE_URL } from '@/lib/school-info'
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Guru SD Muhammadiyah 3 Samarinda | Tenaga Pendidik Profesional Islam',
+  title: 'Guru SD Muhammadiyah 3 Samarinda | Tenaga Pendidik',
   description:
     'Temukan guru profesional SD Muhammadiyah 3 Samarinda — tenaga pendidik berpengalaman dengan metode kreatif Islam. Lihat profil guru per mata pelajaran dan hubungi kami untuk informasi lebih lanjut.',
   path: '/guru',

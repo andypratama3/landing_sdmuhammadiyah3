@@ -4,9 +4,9 @@ import { BreadcrumbJsonLd } from '@/components/JsonLd'
 import { BASE_URL } from '@/lib/school-info'
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Jadwal Pelajaran SD Muhammadiyah 3 Samarinda | Cek Jadwal Kelas 1-6',
+  title: 'Jadwal Kelas 1-6 | SD Muhammadiyah 3 Samarinda',
   description:
-    'Lihat jadwal pelajaran lengkap SD Muhammadiyah 3 Samarinda untuk semua kelas. Jadwal terbaru tahun ajaran 2025/2026 — interaktif, bisa dicetak, dan tersedia PDF. Cek jadwal anak Anda sekarang!',
+    'Jadwal pelajaran SD Muhammadiyah 3 Samarinda untuk kelas 1-6, tahun ajaran berjalan. Interaktif dan bisa dicetak — cek jadwal anak Anda.',
   path: '/jadwal',
   keywords: ['jadwal pelajaran sd', 'jadwal kelas', 'download jadwal pdf', 'jadwal sd samarinda'],
 })

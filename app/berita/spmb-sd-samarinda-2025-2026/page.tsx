@@ -4,7 +4,7 @@ import { pageMetadata } from '@/lib/metadata-helpers'
 import { spmbArticle } from '@/lib/seo-articles/spmb'
 
 export const metadata: Metadata = pageMetadata({
-  title: spmbArticle.title,
+  title: spmbArticle.metaTitle ?? spmbArticle.title,
   description: spmbArticle.description,
   path: `/berita/${spmbArticle.slug}`,
   keywords: spmbArticle.keywords,

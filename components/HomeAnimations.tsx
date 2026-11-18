@@ -29,118 +29,29 @@ export default function HomeAnimations() {
     }> = []
 
     const ctx = gsap.context(() => {
-      // Hero section animations
-      const heroTimeline = gsap.timeline()
-
-      // Animate badges (hanya bila elemen ada — hindari GSAP warning)
-      if (document.querySelector('.ribbon-badge')) {
-        heroTimeline.fromTo(
-          '.ribbon-badge',
-          {
-            opacity: 0,
-            y: -30,
-            scale: 0.8,
-            rotation: -10,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            rotation: 0,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: 'elastic.out(1, 0.5)',
-          }
-        )
-      }
-
-      // Animate logo
-      heroTimeline.fromTo(
-        '.hero-logo',
+      // Pita penghargaan (opsional — hanya section awards yang punya .ribbon-badge)
+      fromTo(
+        '.ribbon-badge',
         {
           opacity: 0,
-          scale: 0.5,
-          rotation: -180,
+          y: -30,
+          scale: 0.8,
+          rotation: -10,
         },
         {
           opacity: 1,
+          y: 0,
           scale: 1,
           rotation: 0,
-          duration: 1,
-          ease: 'elastic.out(1, 0.3)',
-        },
-        '-=0.4'
-      )
-
-      // Animate badge
-      heroTimeline.fromTo(
-        '.hero-badge',
-        {
-          opacity: 0,
-          scale: 0.8,
-          y: -20,
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration: 0.6,
-          ease: 'back.out(1.7)',
-        },
-        '-=0.6'
-      )
-
-      // Animate heading with text reveal
-      heroTimeline.fromTo(
-        '.hero-title',
-        {
-          opacity: 0,
-          y: 50,
-          skewY: 5,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          skewY: 0,
           duration: 0.8,
-          ease: 'power3.out',
-        },
-        '-=0.4'
-      )
-
-      // Animate description
-      heroTimeline.fromTo(
-        '.hero-description',
-        {
-          opacity: 0,
-          y: 30,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: 'power2.out',
-        },
-        '-=0.5'
-      )
-
-      // Animate buttons with stagger
-      heroTimeline.fromTo(
-        '.hero-button',
-        {
-          opacity: 0,
-          y: 30,
-          scale: 0.9,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.5,
-          stagger: 0.1,
-          ease: 'back.out(1.7)',
-        },
-        '-=0.4'
+          stagger: 0.15,
+          ease: 'elastic.out(1, 0.5)',
+          scrollTrigger: {
+            trigger: '.ribbon-badge',
+            start: 'top 90%',
+            toggleActions: 'play none none reverse',
+          },
+        }
       )
 
       // Stats section scroll animation
@@ -446,31 +357,6 @@ export default function HomeAnimations() {
           },
         }
       )
-
-      // Parallax effect on background blobs
-      if (toArray('.hero-blob-1').length) {
-        gsap.to('.hero-blob-1', {
-          y: -100,
-          scrollTrigger: {
-            trigger: '.gsap-hero',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        })
-      }
-
-      if (toArray('.hero-blob-2').length) {
-        gsap.to('.hero-blob-2', {
-          y: 100,
-          scrollTrigger: {
-            trigger: '.gsap-hero',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        })
-      }
     })
 
     // Refresh trigger positions once assets finish loading so reveal start

@@ -64,6 +64,9 @@ function PageView() {
 export default function GoogleAnalytics({ nonce }: GoogleAnalyticsProps) {
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+  // ID proyek Clarity (publik, tertanam di sumber halaman mana pun).
+  // Hardcode agar pasti ikut ter-deploy; env-nya bisa menimpa kapan saja.
+  const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID || "zfj6a0234g";
 
   return (
     <>
@@ -121,6 +124,27 @@ export default function GoogleAnalytics({ nonce }: GoogleAnalyticsProps) {
       {/* Pageview untuk semua halaman — termasuk yang pertama, karena
           config memakai send_page_view: false */}
       {GA_MEASUREMENT_ID && <PageView />}
+
+      {/* Microsoft Clarity — rekaman sesi + heatmap. Dimuat paling akhir dan
+          tanpa cookie banner tambahan; Clarity sudah menangani consent sendiri
+          lewat cookie consent yang ada. */}
+      {CLARITY_ID && (
+        <Script
+          id="clarity-script"
+          strategy="afterInteractive"
+          nonce={nonce}
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+              })(window, document, "clarity", "script", "${CLARITY_ID}");
+            `,
+          }}
+        />
+      )}
     </>
   );
 }

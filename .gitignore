@@ -33,3 +33,9 @@ ecosystem.config.js
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# artefak lokal (bukan bagian proyek)
+.DS_Store
+.codebase-memory/
+# ekspor GSC mentah — simpan di luar repo, bukan di sini
+https___sdmuhammadiyah3smd.com_-Performance-on-Search-*/

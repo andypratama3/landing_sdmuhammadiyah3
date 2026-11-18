@@ -1,7 +1,9 @@
 import { ImageResponse } from 'next/og'
 import { SCHOOL } from '@/lib/school-info'
 
-export const runtime = 'edge'
+// Edge Runtime deprecated di Next 16 dan mematikan static generation untuk
+// route ini. ImageResponse berjalan sama baiknya di Node.
+export const runtime = 'nodejs'
 export const alt = SCHOOL.name
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'

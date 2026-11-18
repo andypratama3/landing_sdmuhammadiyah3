@@ -99,13 +99,17 @@ export const metadata: Metadata = {
     canonical: BASE_URL,
   },
 
+  // Favicon lama menunjuk SD3_logo1.png (284x406, potret) sehingga di tab dan
+  // hasil pencarian tampil gepeng/tak terbaca. Diganti kotak 512 yang sudah
+  // dipotong ke lambangnya saja; .ico berisi 16/32/48 untuk tab dan bookmark.
   icons: {
     icon: [
-      { url: '/SD3_logo1.png', media: '(prefers-color-scheme: light)' },
-      { url: '/SD3_logo1.png', media: '(prefers-color-scheme: dark)' },
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
     ],
-    apple: '/SD3_logo1.png',
-    shortcut: '/SD3_logo1.png',
+    apple: '/apple-touch-icon.png',
+    shortcut: '/favicon.ico',
   },
 
   manifest: '/manifest.json',

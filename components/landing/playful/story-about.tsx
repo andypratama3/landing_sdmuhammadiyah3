@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useLayoutEffect, useRef } from "react"
 import Link from "next/link"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -12,6 +12,17 @@ gsap.registerPlugin(ScrollTrigger)
 
 const MASK_ID = "story-mask"
 
+/**
+ * ScrollTrigger dengan `pin: true` membungkus <section> ke dalam .pin-spacer,
+ * sehingga parent DOM-nya berubah. Saat router meroute navigasi, React menghapus
+ * node dari parent yang tersimpan di virtual tree — dan karena itu dijalankan
+ * setelah DOM dihapus, efek unmount biasa datang terlalu lambat (NotFoundError:
+ * "Failed to execute 'removeChild' on 'Node'"). useLayoutEffect dijalankan
+ * saat commit sebelum node dihapus, jadi `ctx.revert()` mengembalikan
+ * <section> ke parent aslinya tepat waktu.
+ */
+const usePinnedEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect
+
 export function StoryAbout() {
   const reduce = useReducedMotion()
   const sectionRef = useRef<HTMLElement>(null)
@@ -22,7 +33,7 @@ export function StoryAbout() {
   const ctaRef = useRef<HTMLDivElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
+  usePinnedEffect(() => {
     if (reduce) return
     const section = sectionRef.current
     if (!section) return

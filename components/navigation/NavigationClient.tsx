@@ -59,6 +59,14 @@ export default function NavigationClient({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Drawer mobile: tutup dengan Escape agar tetap keyboard-friendly (A11y).
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setIsOpen(false) };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen]);
+
   return (
     <nav ref={navRef} className="fixed top-0 left-0 right-0 z-[60] transition-all duration-300 py-4">
       <div className="container px-2 mx-auto">
@@ -143,7 +151,14 @@ export default function NavigationClient({
         </div>
 
         {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 z-[55] xl:hidden transition-all duration-300 ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+        {/* `inert` + `aria-hidden` saat tertutup: tanpa itu seluruh link di
+            dalam drawer tetap terjangkau keyboard/screen reader walau sudah
+            dipindah keluar layar (WCAG 2.4.3 / 1.3.2). */}
+        <div
+          inert={!isOpen}
+          aria-hidden={!isOpen}
+          className={`fixed inset-0 z-[55] xl:hidden transition-all duration-300 ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        >
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsOpen(false)} />
           <div className={`absolute top-0 right-0 w-[85%] max-w-sm h-full bg-white dark:bg-gray-950 shadow-2xl transition-transform duration-300 ease-out flex flex-col ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
             <div className="p-6 border-b border-gray-100 dark:border-gray-900 flex items-center justify-between">

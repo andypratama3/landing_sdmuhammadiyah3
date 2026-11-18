@@ -1,15 +1,65 @@
 'use client';
 
 import Script from 'next/script';
+import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 
 interface GoogleAnalyticsProps {
   nonce?: string;
 }
 
-// Valid GTM container ID format: GTM- diikuti tepat 7 karakter alfanumerik
-// (mis. GTM-ABC1234). ID yang tidak valid (mis. GTM-T28Z28V9) akan gagal
-// dimuat dan memicu error net::ERR_CONNECTION_REFUSED di console browser.
-const isValidGtmId = (id?: string) => !!id && /^GTM-[A-Z0-9]{7}$/.test(id);
+// Format container GTM: "GTM-" diikuti 4+ karakter alfanumerik.
+// Pemeriksaan lama menuntut TEPAT 7 karakter, padahal container asli
+// GTM-T28Z28V9 punya 8 — akibatnya gtm.js tidak pernah dirender sama
+// sekali. Lolos-tidak-valid lebih murah daripada gagal-terima: container
+// salah hanya memuat wadah kosong, tidak merusak halaman.
+const isValidGtmId = (id?: string) => !!id && /^GTM-[A-Z0-9]{4,}$/.test(id);
+
+// gtag disuntik runtime oleh script GA, jadi tidak ada di tipe Window.
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+/**
+ * Pageview untuk SEMUA halaman (config memakai send_page_view: false).
+ *
+ * App Router berpindah halaman tanpa reload, jadi gtag('config') saja tidak
+ * cukup — tanpa komponen ini seluruh traffic antar halaman hilang dari GA4.
+ *
+ * - gtag baru ada setelah Script afterInteractive jalan, jadi ditunggu
+ *   sebentar (maks ~10 detik) alih-alih langsung menyerah.
+ * - React StrictMode (dev) menjalankan effect dua kali; `sent` mencegah
+ *   pageview yang sama terkirim dua kali.
+ */
+function PageView() {
+  const pathname = usePathname();
+  const sent = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (sent.current === pathname) return;
+
+    let tries = 0;
+    const timer = window.setInterval(() => {
+      if (typeof window.gtag !== "function") {
+        if (++tries > 40) window.clearInterval(timer);
+        return;
+      }
+      window.gtag("event", "page_view", {
+        page_path: pathname,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+      sent.current = pathname;
+      window.clearInterval(timer);
+    }, 250);
+
+    return () => window.clearInterval(timer);
+  }, [pathname]);
+
+  return null;
+}
 
 export default function GoogleAnalytics({ nonce }: GoogleAnalyticsProps) {
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
@@ -58,13 +108,19 @@ export default function GoogleAnalytics({ nonce }: GoogleAnalyticsProps) {
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
                 gtag('config', '${GA_MEASUREMENT_ID}', {
-                  page_path: window.location.pathname,
+                  // Matikan pageview otomatis: <PageView /> mengirimnya untuk
+                  // SEMUA halaman, termasuk yang pertama. Tanpa ini beranda
+                  // terhitung dua kali (config + PageView).
+                  send_page_view: false,
                 });
               `,
             }}
           />
         </>
       )}
+      {/* Pageview untuk semua halaman — termasuk yang pertama, karena
+          config memakai send_page_view: false */}
+      {GA_MEASUREMENT_ID && <PageView />}
     </>
   );
 }
@@ -89,9 +145,9 @@ export function GTMNoScript() {
 
 // Hook untuk tracking custom events
 export function useGoogleAnalytics() {
-  const trackEvent = (eventName: string, eventParams?: Record<string, any>) => {
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', eventName, eventParams);
+  const trackEvent = (eventName: string, eventParams?: Record<string, unknown>) => {
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', eventName, eventParams);
     }
   };
 

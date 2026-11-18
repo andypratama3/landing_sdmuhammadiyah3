@@ -35,8 +35,9 @@ npm start
 | --- | --- | --- |
 | `NEXT_PUBLIC_API_URL` | ya | Base URL API Laravel, mis. `https://app.sdmuhammadiyah3smd.com/api/v2` |
 | `NEXT_PUBLIC_STORAGE_URL` | ya | Base URL file storage, mis. `https://app.sdmuhammadiyah3smd.com/storage` |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | tidak | ID GA4, mis. `G-XXXXXXX`. Kosongkan untuk mematikan analitik |
-| `NEXT_PUBLIC_GTM_ID` | tidak | ID GTM format `GTM-XXXXXXX` (7 karakter). ID tidak valid diabaikan |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | tidak | ID GA4, mis. `G-XXXXXXX`. Kosongkan untuk mematikan GA4; `page_view` per navigasi SPA dikirim `components/google-analytics.tsx` (`send_page_view: false` di `config` supaya tidak dobel) |
+| `NEXT_PUBLIC_GTM_ID` | tidak | ID GTM, mis. `GTM-T28Z28V9` (minimal 4 karakter setelah `GTM-`). ID tidak valid diabaikan |
+| `NEXT_PUBLIC_CLARITY_ID` | tidak | ID proyek Microsoft Clarity. Default menunjuk proyek landing; kosongkan untuk mematikan rekaman sesi |
 | `API_SECRET_KEY` | tidak | Kunci untuk auth server-side |
 
 File `.env*` tidak di-commit. Untuk build di CI, `NEXT_PUBLIC_API_URL` dan `NEXT_PUBLIC_STORAGE_URL` di-set sebagai dummy env di `.github/workflows/ci.yml` agar prerender tidak memanggil backend.

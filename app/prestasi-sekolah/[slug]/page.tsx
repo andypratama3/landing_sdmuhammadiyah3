@@ -258,9 +258,9 @@ export default function PrestasiSekolahDetailPage() {
 
       <section className="py-12">
         <div className="container px-4 mx-auto">
-          <div className="grid gap-8 lg:grid-cols-3">
+          <div className="grid gap-8 grid-cols-1 lg:grid-cols-3">
             {/* Article Content */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 min-w-0">
               <article>
                 {/* Article Header */}
                 <div className="mb-8">

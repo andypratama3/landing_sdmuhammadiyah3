@@ -385,9 +385,9 @@ export default function GaleriDetailPage() {
         {/* Main Content */}
         <section className="container px-4 py-8 mx-auto sm:px-6 sm:py-10 lg:px-8">
           <div className="container px-4 mx-auto">
-            <div className="grid gap-8 lg:grid-cols-3">
+            <div className="grid gap-8 grid-cols-1 lg:grid-cols-3">
               {/* Gallery Content */}
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-2 min-w-0">
                 <article className="bg-white dark:bg-gray-900/40 rounded-[1.5rem] p-8 md:p-12 shadow-2xl border border-gray-100 dark:border-white/5 card-premium glass">
                   {/* Gallery Header */}
                   <div className="mb-8">
@@ -488,7 +488,7 @@ export default function GaleriDetailPage() {
                               src={getImagePath(img)}
                               alt={`${gallery.name} - ${index + 1}`}
                               fill
-                              sizes="(max-width: 640px) 33vw, 150px"
+                              sizes="(max-width: 640px) 100vw, (max-width: 768px) 25vw, 150px"
                               className="object-cover object-center transition-transform duration-300 group-hover:scale-110"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement

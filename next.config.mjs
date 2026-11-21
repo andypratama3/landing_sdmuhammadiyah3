@@ -36,6 +36,11 @@ const nextConfig = {
         hostname: 'images.unsplash.com',
       },
       {
+        // Fallback foto ekstrakurikuler dari API (placehold.co)
+        protocol: 'https',
+        hostname: 'placehold.co',
+      },
+      {
         // Thumbnail facade YouTube (components/landing/video-section.tsx)
         protocol: 'https',
         hostname: 'i.ytimg.com',

@@ -10,6 +10,7 @@ import { Calendar, Clock, User } from "lucide-react";
 import { HtmlContent } from "@/components/html-content";
 import { PageHeader } from "@/components/page-header";
 import { BeritaShareClient } from "@/components/berita/BeritaShareClient";
+import { BeritaImageZoom } from "@/components/berita/BeritaImageZoom";
 import { getCachedData } from "@/lib/redis-cache";
 import { getSystemAuthToken } from "@/lib/server-api";
 import { resolveImageUrl } from "@/lib/image-url";
@@ -155,9 +156,9 @@ export default async function BeritaDetailPage({ params }: Props) {
         />
 
         <div className="container px-4 mx-auto">
-          <div className="grid gap-8 lg:grid-cols-3">
+          <div className="grid gap-8 grid-cols-1 lg:grid-cols-3">
             {/* Core Server Managed Article Content */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 min-w-0">
               <article className="bg-white dark:bg-gray-900/40 rounded-[1.5rem] p-8 md:p-12 shadow-2xl border border-gray-100 dark:border-white/5 card-premium glass">
                 <div className="mb-10">
                   <div className="flex items-center gap-3 mb-6">
@@ -188,22 +189,13 @@ export default async function BeritaDetailPage({ params }: Props) {
                   </div>
                 </div>
 
-                <div className="relative w-full mb-12 overflow-hidden rounded-[1.5rem] shadow-2xl border-0 group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-(--color-forest-700)/20 to-(--color-sun-500)/20 z-10 pointer-events-none"></div>
-                  <Image
+                <div className="group relative mb-12 w-full overflow-hidden rounded-[1.5rem] shadow-2xl border-0">
+                  <BeritaImageZoom
                     src={resolveImageUrl(berita.foto, "img/berita")}
                     alt={berita.judul}
                     width={1200}
                     height={675}
-                    className="w-full h-auto object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                    priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-20" />
-                  <div className="absolute bottom-6 left-6 right-6 z-30 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                    <div className="px-6 py-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl">
-                      <p className="text-xs font-black uppercase tracking-widest text-(--color-forest-700)">Klik untuk zoom</p>
-                    </div>
-                  </div>
                 </div>
 
                 {processedDesc && (

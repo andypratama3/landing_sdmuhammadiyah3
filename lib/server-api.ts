@@ -17,8 +17,16 @@ let cachedSystemToken: string | null = null;
 let tokenExpiresAt: number = 0;
 let backoffUntil: number = 0;
 
-export async function getSystemAuthToken(): Promise<string | null> {
+type FetchInit = NonNullable<Parameters<typeof fetch>[1]>;
+
+export async function getSystemAuthToken(forceRefresh = false): Promise<string | null> {
   if (!process.env.API_SECRET_KEY) return null;
+
+  if (forceRefresh) {
+    cachedSystemToken = null;
+    tokenExpiresAt = 0;
+    backoffUntil = 0;
+  }
 
   if (Date.now() < backoffUntil) return null;
 
@@ -42,34 +50,72 @@ export async function getSystemAuthToken(): Promise<string | null> {
         'X-SIGNATURE': signature,
         'User-Agent': 'NextJS-SSR-Internal/1.0',
       },
-      next: { revalidate: 3000 },
+      cache: 'no-store',
     });
 
     if (!res.ok) throw new Error(`Token API Failed: ${res.status}`);
 
-    const setCookies = res.headers.getSetCookie();
-    let authToken = null;
+    const body = await res.json().catch(() => null) as {
+      data?: { access_token?: string };
+      access_token?: string;
+    } | null;
+    let authToken = body?.data?.access_token ?? body?.access_token ?? null;
 
-    if (setCookies && setCookies.length > 0) {
-      for (const cookie of setCookies) {
+    if (!authToken) {
+      for (const cookie of res.headers.getSetCookie() ?? []) {
         if (cookie.startsWith('access_token=')) {
-          authToken = cookie.split(';')[0].split('=')[1];
+          authToken = cookie.split(';')[0].split('=')[1] ?? null;
           break;
         }
       }
     }
 
-    if (authToken) {
-      cachedSystemToken = authToken;
-      tokenExpiresAt = Date.now() + 50 * 60 * 1000;
-      return authToken;
+    if (!authToken) {
+      throw new Error('Token response missing access_token');
     }
 
-    return null;
+    cachedSystemToken = authToken;
+    tokenExpiresAt = Date.now() + 50 * 60 * 1000;
+    return authToken;
   } catch {
+    cachedSystemToken = null;
+    tokenExpiresAt = 0;
     backoffUntil = Date.now() + 30_000;
     return null;
   }
+}
+
+/**
+ * Fetch data API v2 dengan Bearer token. Bila token di memori ternyata sudah
+ * ditolak backend (mis. cache backend terhapus), ulangi sekali dengan token
+ * baru sebelum halaman mengambil keputusan "server error".
+ */
+export async function authenticatedFetch(endpoint: string, init: FetchInit = {}): Promise<Response> {
+  const url = `${BASE_URL}${endpoint}`;
+
+  const withToken = (token: string | null): FetchInit => {
+    const headers = new Headers(init.headers);
+    if (!headers.has('Content-Type')) {
+      headers.set('Content-Type', 'application/json');
+    }
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return { ...init, headers };
+  };
+
+  let token = await getSystemAuthToken();
+  let res = await fetch(url, withToken(token));
+
+  if (res.status === 401) {
+    token = await getSystemAuthToken(true);
+    if (token) {
+      res = await fetch(url, withToken(token));
+    }
+  }
+
+  return res;
 }
 
 export async function serverGetPublic<T>(
@@ -85,15 +131,8 @@ export async function serverGetPublic<T>(
     }
   }
 
-  const token = await getSystemAuthToken();
-  if (!token) return { success: false, data: [] as T, message: 'Server unavailable' };
-
   try {
-    const res = await fetch(`${BASE_URL}${endpoint}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
+    const res = await authenticatedFetch(endpoint, {
       next: {
         revalidate: options?.revalidate ?? 3600,
         tags: [LANDING_TAG],

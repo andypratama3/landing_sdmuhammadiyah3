@@ -55,7 +55,7 @@ export default async function Home() {
   const fetchDukungan = async () => (await serverGetPublic<Dukungan[]>("/dukungan-kerja-sama")).data ?? [];
   const fetchPrestasiSiswa = async () => (await serverGetPublic<PrestasiSiswa[]>("/prestasi-landing")).data ?? [];
   const fetchKalender = async () => (await serverGetPublic<KalenderAkademikEvent[]>("/kalender-akademik/upcoming?limit=6")).data ?? [];
-  const fetchFasilitas = async () => (await serverGetPublic<Fasilitas[]>("/list/fasilitas")).data ?? [];
+  const fetchFasilitas = async () => (await serverGetPublic<Fasilitas[]>("/fasilitas")).data ?? [];
   const fetchPrestasiSekolah = async () => (await serverGetPublic<PrestasiSekolah[]>("/list/prestasi-sekolah")).data ?? [];
 
   const [countRes, galleryRes, dukunganRes, prestasiRes, kalenderRes, fasilitasRes, prestasiSekolahRes] = await Promise.all([

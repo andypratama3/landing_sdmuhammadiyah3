@@ -22,7 +22,7 @@ interface FasilitasPageProps {
 export default async function FasilitasPage({ searchParams }: FasilitasPageProps) {
   const params = await searchParams || {}
 
-  const fetchFasilitas = async () => (await serverGetPublic<Fasilitas[]>('/list/fasilitas')).data ?? []
+  const fetchFasilitas = async () => (await serverGetPublic<Fasilitas[]>('/fasilitas')).data ?? []
   const facilities = await getCachedData('fasilitas:list', fetchFasilitas, { ttlSeconds: 300 })
 
   return (
